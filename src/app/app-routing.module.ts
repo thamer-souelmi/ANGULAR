@@ -4,13 +4,23 @@ import {AllTemplateFrontComponent} from "./FrontOffice/all-template-front/all-te
 import {HomeFrontComponent} from "./FrontOffice/home-front/home-front.component";
 import {SidebarBackComponent} from "./BackOffice/sidebar-back/sidebar-back.component";
 import { AllTemplatBackComponent } from './BackOffice/all-templat-back/all-templat-back.component';
+import { LoginComponent } from './BackOffice/Pages/login/login.component';
+import {FindAllUsersComponent} from "./BackOffice/Pages/find-all-users/find-all-users.component";
 
 const routes: Routes = [
   {
     path: "",
-    component: AllTemplatBackComponent,
+    component: LoginComponent,
 
-  }, {
+  },
+  {
+    path: "back",
+    component: AllTemplatBackComponent,
+    children:[
+      {path:"findall", component:FindAllUsersComponent},
+    ]},
+
+  {
     path: "home",
     component: AllTemplateFrontComponent,
     children:[

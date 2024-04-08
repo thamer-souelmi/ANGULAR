@@ -21,6 +21,11 @@ import {MatButtonModule} from "@angular/material/button";
 import { FeatherModule } from 'angular-feather';
 import { allIcons } from 'angular-feather/icons';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { httpInterceptorProviders } from './Helpers/http-request-interceptor';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { LoginComponent } from './BackOffice/Pages/login/login.component';
+import { FindAllUsersComponent } from './BackOffice/Pages/find-all-users/find-all-users.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +37,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     SidebarBackComponent,
     NavbarBackComponent,
     FooterBackComponent,
-    AllTemplatBackComponent
+    AllTemplatBackComponent,
+    LoginComponent,
+    FindAllUsersComponent
   ],
   imports: [
     BrowserModule,
@@ -44,9 +51,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatMenuModule,
     MatButtonModule,
     FeatherModule.pick(allIcons),
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    FormsModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [httpInterceptorProviders],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
