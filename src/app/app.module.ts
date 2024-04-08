@@ -4,9 +4,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AllTemplateFrontComponent } from './FrontOffice/all-template-front/all-template-front.component';
-import { FooterFrontComponent } from './FrontOffice/footer-front/footer-front.component';
-import { HeaderFrontComponent } from './FrontOffice/header-front/header-front.component';
+import { FooterFrontComponent} from "./FrontOffice/footer-front/footer-front.component";
+import { HeaderFrontComponent} from "./FrontOffice/header-front/header-front.component";
 import { HomeFrontComponent } from './FrontOffice/home-front/home-front.component';
+
 import { FindAllJobOffersComponent } from './FrontOffice/pages/JobOffer/find-all-job-offers/find-all-job-offers.component';
 import { WishlistComponent } from './FrontOffice/pages/JobOffer/wishlist/wishlist.component';
 import { FilterJobPipe } from './FrontOffice/pages/JobOffer/filter-job.pipe';
@@ -27,6 +28,22 @@ import {
   NgbModule
 } from '@ng-bootstrap/ng-bootstrap';
 
+import { SidebarBackComponent } from './BackOffice/sidebar-back/sidebar-back.component';
+import { NavbarBackComponent } from './BackOffice/navbar-back/navbar-back.component';
+import { FooterBackComponent } from './BackOffice/footer-back/footer-back.component';
+import { AllTemplatBackComponent } from './BackOffice/all-templat-back/all-templat-back.component';
+import {MatSidenavModule} from "@angular/material/sidenav";
+import {MatToolbarModule} from "@angular/material/toolbar";
+import {MatInputModule} from "@angular/material/input";
+import {MatRippleModule} from "@angular/material/core";
+import {MatMenuModule} from "@angular/material/menu";
+import {MatButtonModule} from "@angular/material/button";
+
+import { FeatherModule } from 'angular-feather';
+import { allIcons } from 'angular-feather/icons';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -34,9 +51,16 @@ import {
     FooterFrontComponent,
     HeaderFrontComponent,
     HomeFrontComponent,
+
     FindAllJobOffersComponent,
     WishlistComponent,
     FilterJobPipe
+
+    SidebarBackComponent,
+    NavbarBackComponent,
+    FooterBackComponent,
+    AllTemplatBackComponent
+
   ],
   imports: [
     BrowserModule,
@@ -59,6 +83,16 @@ import {
   ],
   providers: [
     DatePipe
+
+    MatSidenavModule,
+    MatToolbarModule,
+    MatInputModule,
+    MatRippleModule,
+    MatMenuModule,
+    MatButtonModule,
+    FeatherModule.pick(allIcons),
+    BrowserAnimationsModule
+
   ],
   bootstrap: [AppComponent]
 })
