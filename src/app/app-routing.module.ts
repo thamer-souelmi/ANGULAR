@@ -33,7 +33,7 @@ const routes: Routes = [
     ]
   },
 
-
+  {
     path: "JobOffer",
     component: AllTemplateFrontComponent,children:[
       { path: 'findAllJobOffersfront', component: FindAllJobOffersComponent },

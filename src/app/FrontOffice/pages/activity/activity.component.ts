@@ -61,6 +61,12 @@ export class ActivityComponentF implements OnInit {
   private modalRef!: NgbModalRef;
   readonly maxLength = 100;
   expandedDescriptions: { [key: number]: boolean } = {};
+  @ViewChild('searchResultsModal') searchResultsModal!: TemplateRef<any>;
+
+  searchKeywords: string = '';
+  searchStartDate: string = '';
+  searchEndDate: string = '';
+
   constructor(
     private activityServiceF: ActivityService,
     private router: Router ,
@@ -114,6 +120,24 @@ export class ActivityComponentF implements OnInit {
     const modalInstance = new bootstrap.Modal(this.warningSuccessModal.nativeElement);
     modalInstance.show();
   }
+  searchActivities() {
+    this.activityServiceF.searchActivities(this.searchKeywords, this.searchStartDate, this.searchEndDate)
+      .subscribe({
+        next: (activities) => {
+          this.activities = activities;
+          console.log('Activités trouvées:', activities);
+          this.openModal();
+        },
+        error: (error) => console.error('Erreur lors de la recherche d\'activités:', error)
+      });
+  }
+  openAdvancedSearchModal(content: any) {
+    this.modalService.open(content, { centered: true });
+  }
+  openModal() {
+    const modalRef = this.modalService.open(this.searchResultsModal, { size: 'lg' });
+  }
+
   openUpdateModal(activity: Activity): void {
     this.selectedActivity = activity;
     this.updateActivityForm.patchValue(activity);
