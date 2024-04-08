@@ -77,13 +77,13 @@
             <hr>
 
             <div class="p-16">
-              <button mat-flat-button color="accent" class="w-100 text-white">Logout</button>
+              <button mat-flat-button color="accent" class="w-100 text-white" (click)="logout()">Logout</button>
             </div>
 
           </mat-menu>
         </div>
       </mat-toolbar>
-
+      <router-outlet></router-outlet>
       <!-- Content -->
       <div class="body-wrapper">
         <div class="page-wrapper">
