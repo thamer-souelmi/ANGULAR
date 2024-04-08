@@ -47,7 +47,7 @@ import {AllTemplatBackComponent} from "./BackOffice/all-templat-back/all-templat
     SidebarBackComponent,
     NavbarBackComponent,
     FooterBackComponent,
-    AllTemplatBackComponent
+    AllTemplatBackComponent,
   ],
   imports: [
     BrowserModule,
