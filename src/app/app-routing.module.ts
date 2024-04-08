@@ -4,9 +4,22 @@ import {AllTemplateFrontComponent} from "./FrontOffice/all-template-front/all-te
 import {HomeFrontComponent} from "./FrontOffice/home-front/home-front.component";
 import {ActivityComponentF} from "./FrontOffice/pages/activity/activity.component";
 
+import {
+  FindAllJobOffersComponent
+} from "./FrontOffice/pages/JobOffer/find-all-job-offers/find-all-job-offers.component";
+import {WishlistComponent} from "./FrontOffice/pages/JobOffer/wishlist/wishlist.component";
+
+import {SidebarBackComponent} from "./BackOffice/sidebar-back/sidebar-back.component";
+import { AllTemplatBackComponent } from './BackOffice/all-templat-back/all-templat-back.component';
+
+
 const routes: Routes = [
   {
     path: "",
+    component: AllTemplatBackComponent,
+
+  }, {
+    path: "home",
     component: AllTemplateFrontComponent,
     children:[
       {path:"home", component:HomeFrontComponent },
@@ -21,6 +34,12 @@ const routes: Routes = [
   },
 
 
+    path: "JobOffer",
+    component: AllTemplateFrontComponent,children:[
+      { path: 'findAllJobOffersfront', component: FindAllJobOffersComponent },
+      { path: 'wishlist', component: WishlistComponent },
+
+    ]},
 ];
 
 @NgModule({
