@@ -1,0 +1,115 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha384-..." crossorigin="anonymous">
+<link rel="stylesheet" href="/src/assets/FrontOffice/JobOffer/css/owl.carousel.min.css">
+<link rel="stylesheet" href="/src/assets/FrontOffice/JobOffer/css/magnific-popup.css">
+<link rel="stylesheet" href="/src/assets/FrontOffice/JobOffer/css/font-awesome.min.css">
+<link rel="stylesheet" href="/src/assets/FrontOffice/JobOffer/css/themify-icons.css">
+<link rel="stylesheet" href="/src/assets/FrontOffice/JobOffer/css/nice-select.css">
+<link rel="stylesheet" href="/src/assets/FrontOffice/JobOffer/css/flaticon.css">
+<link rel="stylesheet" href="/src/assets/FrontOffice/JobOffer/css/gijgo.css">
+<link rel="stylesheet" href="/src/assets/FrontOffice/JobOffer/css/animate.min.css">
+<link rel="stylesheet" href="/src/assets/FrontOffice/JobOffer/css/slicknav.css">
+<link rel="stylesheet" href="/src/assets/FrontOffice/JobOffer/css/style.css">
+
+
+<div class="container">
+  <div class="wishlist-container">
+    <h2>Your Wishlist</h2>
+
+    <div *ngIf="wishlist.length === 0; else wishlistItems" class="empty-wishlist">
+      Your wishlist is empty.
+    </div>
+
+    <ng-template #wishlistItems>
+
+      <div class="job_listing_area plus_padding" style="background-color: white;">
+        <div *ngIf="wishlist.length > 0" class="wishlist-actions d-flex justify-content-end">
+          <button (click)="clearWishlist()" class="btn btn-danger clear-wishlist-btn buttons-wrapper">
+            <i class="fa fa-trash"></i>
+          </button>
+        </div>
+
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-12">
+              <div *ngFor="let jobOffer of getPaginatedItems()" class="job_lists m-0">
+                <div class="single_jobs white-bg d-flex justify-content-between" style="border: 1px solid #049565;">
+                  <div class="jobs_left d-flex align-items-center">
+                    <div class="thumb">
+                      <!-- Use the actual image source if available -->
+                      <img src="/src/assets/FrontOffice/JobOffer/img/svg_icon/1.svg" alt="">
+                    </div>
+                    <div class="jobs_conetent">
+                      <h4>{{ jobOffer.titleJobOffer }}</h4>
+                      <div class="links_locat d-flex align-items-center">
+                        <div class="location">
+                          <p> <i class="fa fa-map-marker"></i> {{ jobOffer.jobLocation }}</p>
+                        </div>
+                        <div class="location">
+                          <p> <i class="fa fa-clock-o"></i> {{ jobOffer.jobNature }}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="jobs_right">
+                    <div class="apply_now">
+                      <button (click)="removeFromWishlist(jobOffer)" class="btn heart_mark remove-from-wishlist btn-danger"> <i class="fa fa-trash"></i> </button>
+                      <!-- Add a button/link to view the job offer details -->
+                      <a [routerLink]="['/JobOffer/job-offer-details', jobOffer.jobOffer_id]" class="boxed-btn3">Apply Now</a>
+                    </div>
+                    <div class="date">
+                      <p>Date line: {{ jobOffer.applicationDeadLine }}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </ng-template>
+
+
+    <div class="d-flex justify-content-center">
+      <div class="pagination-container">
+        <button class="btn btn-primary" (click)="onPageChange(currentPage - 1)" [disabled]="currentPage === 1">
+          <i class="fas fa-chevron-left"></i> <!-- Icon for "Previous" -->
+        </button>
+        <button class="btn btn-primary" *ngFor="let page of getPaginationNumbers()" (click)="onPageChange(page)" [class.active]="currentPage === page">{{ page }}</button>
+        <button class="btn btn-primary" (click)="onPageChange(currentPage + 1)" [disabled]="currentPage === Math.ceil(wishlist.length / itemsPerPage)">
+          <i class="fas fa-chevron-right"></i> <!-- Icon for "Next" -->
+        </button>
+      </div>
+    </div>
+
+    <br>
+
+  </div>
+</div>
+
+
+<!-- link that opens popup -->
+<!-- JS here -->
+<script src="/src/assets/FrontOffice/JobOffer/js/owl.carousel.min.js"></script>
+<script src="/src/assets/FrontOffice/JobOffer/js/isotope.pkgd.min.js"></script>
+<script src="/src/assets/FrontOffice/JobOffer/js/ajax-form.js"></script>
+<script src="/src/assets/FrontOffice/JobOffer/js/waypoints.min.js"></script>
+<script src="/src/assets/FrontOffice/JobOffer/js/imagesloaded.pkgd.min.js"></script>
+<script src="/src/assets/FrontOffice/JobOffer/js/scrollIt.js"></script>
+<script src="/src/assets/FrontOffice/JobOffer/js/wow.min.js"></script>
+<script src="/src/assets/FrontOffice/JobOffer/js/nice-select.min.js"></script>
+<script src="/src/assets/FrontOffice/JobOffer/js/plugins.js"></script>
+<script src="/src/assets/FrontOffice/JobOffer/js/range.js"></script>
+<script src="/src/assets/FrontOffice/JobOffer/js/contact.js"></script>
+<script src="/src/assets/FrontOffice/JobOffer/js/mail-script.js"></script>
+<script src="/src/assets/FrontOffice/JobOffer/js/main.js"></script>
+<style>
+
+  .clear-wishlist-btn:hover {
+    background-color: #d9534f; /* Darker red on hover */
+  }
+  .job_listing_area.plus_padding {
+    background-color: white;
+  }
+
+</style>
