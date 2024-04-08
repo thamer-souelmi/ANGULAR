@@ -7,6 +7,27 @@ import { AllTemplateFrontComponent } from './FrontOffice/all-template-front/all-
 import { FooterFrontComponent} from "./FrontOffice/footer-front/footer-front.component";
 import { HeaderFrontComponent} from "./FrontOffice/header-front/header-front.component";
 import { HomeFrontComponent } from './FrontOffice/home-front/home-front.component';
+
+import { FindAllJobOffersComponent } from './FrontOffice/pages/JobOffer/find-all-job-offers/find-all-job-offers.component';
+import { WishlistComponent } from './FrontOffice/pages/JobOffer/wishlist/wishlist.component';
+import { FilterJobPipe } from './FrontOffice/pages/JobOffer/filter-job.pipe';
+import {CommonModule, DatePipe} from "@angular/common";
+import {HttpClientModule} from "@angular/common/http";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import { MatIconModule } from '@angular/material/icon';
+import {MatButtonModule} from "@angular/material/button";
+import {MatInputModule} from "@angular/material/input";
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { FullCalendarModule } from '@fullcalendar/angular';
+import { MatTableModule } from '@angular/material/table';
+import { MatDialogModule } from '@angular/material/dialog';
+import {
+  NgbDatepickerModule,
+  NgbModalModule,
+  NgbModule
+} from '@ng-bootstrap/ng-bootstrap';
+
 import { SidebarBackComponent } from './BackOffice/sidebar-back/sidebar-back.component';
 import { NavbarBackComponent } from './BackOffice/navbar-back/navbar-back.component';
 import { FooterBackComponent } from './BackOffice/footer-back/footer-back.component';
@@ -22,6 +43,7 @@ import { FeatherModule } from 'angular-feather';
 import { allIcons } from 'angular-feather/icons';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,14 +51,39 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     FooterFrontComponent,
     HeaderFrontComponent,
     HomeFrontComponent,
+
+    FindAllJobOffersComponent,
+    WishlistComponent,
+    FilterJobPipe
+
     SidebarBackComponent,
     NavbarBackComponent,
     FooterBackComponent,
     AllTemplatBackComponent
+
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
+    ReactiveFormsModule,
+    FormsModule,
+    MatIconModule,
+    MatDialogModule,
+    BrowserAnimationsModule,
+    MatTableModule,
+    FullCalendarModule,
+    CommonModule,
+    MatPaginatorModule,
+    NgbModule,
+    NgbModalModule,
+    NgbDatepickerModule,
+    MatButtonModule,
+    MatInputModule,
+  ],
+  providers: [
+    DatePipe
+
     MatSidenavModule,
     MatToolbarModule,
     MatInputModule,
@@ -45,8 +92,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatButtonModule,
     FeatherModule.pick(allIcons),
     BrowserAnimationsModule
+
   ],
-  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
