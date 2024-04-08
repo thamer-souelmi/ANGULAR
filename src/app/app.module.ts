@@ -11,38 +11,28 @@ import { HomeFrontComponent } from './FrontOffice/home-front/home-front.componen
 import { FindAllJobOffersComponent } from './FrontOffice/pages/JobOffer/find-all-job-offers/find-all-job-offers.component';
 import { WishlistComponent } from './FrontOffice/pages/JobOffer/wishlist/wishlist.component';
 import { FilterJobPipe } from './FrontOffice/pages/JobOffer/filter-job.pipe';
-import {CommonModule, DatePipe} from "@angular/common";
-import {HttpClientModule} from "@angular/common/http";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import { CommonModule, DatePipe } from "@angular/common";
+import { HttpClientModule } from "@angular/common/http";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MatIconModule } from '@angular/material/icon';
-import {MatButtonModule} from "@angular/material/button";
-import {MatInputModule} from "@angular/material/input";
+import { MatButtonModule } from "@angular/material/button";
+import { MatInputModule } from "@angular/material/input";
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { MatTableModule } from '@angular/material/table';
 import { MatDialogModule } from '@angular/material/dialog';
-import {
-  NgbDatepickerModule,
-  NgbModalModule,
-  NgbModule
-} from '@ng-bootstrap/ng-bootstrap';
-
-import { SidebarBackComponent } from './BackOffice/sidebar-back/sidebar-back.component';
-import { NavbarBackComponent } from './BackOffice/navbar-back/navbar-back.component';
-import { FooterBackComponent } from './BackOffice/footer-back/footer-back.component';
-import { AllTemplatBackComponent } from './BackOffice/all-templat-back/all-templat-back.component';
-import {MatSidenavModule} from "@angular/material/sidenav";
-import {MatToolbarModule} from "@angular/material/toolbar";
-import {MatInputModule} from "@angular/material/input";
-import {MatRippleModule} from "@angular/material/core";
-import {MatMenuModule} from "@angular/material/menu";
-import {MatButtonModule} from "@angular/material/button";
-
+import { NgbDatepickerModule, NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { MatSidenavModule } from "@angular/material/sidenav";
+import { MatToolbarModule } from "@angular/material/toolbar";
+import { MatRippleModule } from "@angular/material/core";
+import { MatMenuModule } from "@angular/material/menu";
 import { FeatherModule } from 'angular-feather';
 import { allIcons } from 'angular-feather/icons';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import {SidebarBackComponent} from "./BackOffice/sidebar-back/sidebar-back.component";
+import {NavbarBackComponent} from "./BackOffice/navbar-back/navbar-back.component";
+import {FooterBackComponent} from "./BackOffice/footer-back/footer-back.component";
+import {AllTemplatBackComponent} from "./BackOffice/all-templat-back/all-templat-back.component";
 
 @NgModule({
   declarations: [
@@ -51,16 +41,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     FooterFrontComponent,
     HeaderFrontComponent,
     HomeFrontComponent,
-
     FindAllJobOffersComponent,
     WishlistComponent,
-    FilterJobPipe
-
+    FilterJobPipe,
     SidebarBackComponent,
     NavbarBackComponent,
     FooterBackComponent,
     AllTemplatBackComponent
-
   ],
   imports: [
     BrowserModule,
@@ -80,20 +67,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     NgbDatepickerModule,
     MatButtonModule,
     MatInputModule,
-  ],
-  providers: [
-    DatePipe
-
     MatSidenavModule,
     MatToolbarModule,
-    MatInputModule,
     MatRippleModule,
     MatMenuModule,
-    MatButtonModule,
     FeatherModule.pick(allIcons),
     BrowserAnimationsModule
-
   ],
+  providers: [DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
