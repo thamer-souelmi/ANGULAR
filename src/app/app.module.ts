@@ -30,10 +30,19 @@ import { MatRippleModule } from "@angular/material/core";
 import { MatMenuModule } from "@angular/material/menu";
 import { FeatherModule } from 'angular-feather';
 import { allIcons } from 'angular-feather/icons';
+
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { httpInterceptorProviders } from './Helpers/http-request-interceptor';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { LoginComponent } from './BackOffice/Pages/login/login.component';
+import { FindAllUsersComponent } from './BackOffice/Pages/find-all-users/find-all-users.component';
+
 import {SidebarBackComponent} from "./BackOffice/sidebar-back/sidebar-back.component";
 import {NavbarBackComponent} from "./BackOffice/navbar-back/navbar-back.component";
 import {FooterBackComponent} from "./BackOffice/footer-back/footer-back.component";
 import {AllTemplatBackComponent} from "./BackOffice/all-templat-back/all-templat-back.component";
+
 
 @NgModule({
   declarations: [
@@ -50,7 +59,12 @@ import {AllTemplatBackComponent} from "./BackOffice/all-templat-back/all-templat
     NavbarBackComponent,
     FooterBackComponent,
     AllTemplatBackComponent,
+
+    LoginComponent,
+    FindAllUsersComponent
+
     FilterJobPipe // Ensure pipes are also declared
+
   ],
   imports: [
     BrowserModule,
@@ -74,10 +88,15 @@ import {AllTemplatBackComponent} from "./BackOffice/all-templat-back/all-templat
     MatToolbarModule,
     MatRippleModule,
     MatMenuModule,
-    FeatherModule.pick(allIcons)
+    MatButtonModule,
+    FeatherModule.pick(allIcons),
+    BrowserAnimationsModule,
+    FormsModule,
+    HttpClientModule
   ],
-  providers: [DatePipe],
-  bootstrap: [AppComponent],
+  providers: [httpInterceptorProviders,DatePipe],
+  bootstrap: [AppComponent]
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
+
 })
 export class AppModule { }
