@@ -1,0 +1,37 @@
+
+<div class="card-body px-3 px-md-5">
+  <div class="row">
+    <div class="col-lg-6 col-xl-4" *ngFor="let user of users">
+      <div class="card card-default p-4">
+        <a href="javascript:0" class="media text-secondary" data-toggle="modal" data-target="#modal-contact">
+          <!-- Assuming you have a profile picture for each user -->
+          <img src="images/user/u-xl-1.jpg" class="mr-3 img-fluid rounded" alt="Avatar Image">
+
+          <div class="media-body">
+            <h5 class="mt-0 mb-2 text-dark">{{ user.firstname }} {{ user.lastname }}</h5>
+            <ul class="list-unstyled text-smoke text-smoke">
+              <li class="d-flex">
+                <i class="mdi mdi-map mr-1"></i>
+                <span>{{ user.adresse }}</span>
+              </li>
+              <li class="d-flex">
+                <i class="mdi mdi-email mr-1"></i>
+                <span>{{ user.email }}</span>
+              </li>
+              <!-- Assuming you have a phone property in the user object -->
+              <li class="d-flex" *ngIf="user.phonenumber">
+                <i class="mdi mdi-phone mr-1"></i>
+                <span>{{ user.phonenumber }}</span>
+              </li>
+            </ul>
+            <button class="mb-1 btn btn-sm btn-primary" (click)="editUser(user.userId)">Edit</button>
+            <button class="mb-1 btn btn-sm btn-info" (click)="details(user.userId)">Details</button>
+            <button class="mb-1 btn btn-sm btn-info" (click)="delete(user.userId)">delete</button>
+
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
