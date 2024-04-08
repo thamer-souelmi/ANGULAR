@@ -1,4 +1,4 @@
-import {User} from "./User";
+// import {User} from "./User";
 import {RegistrationEvent} from "./RegistrationEvent";
 import {Activity} from "./Activity";
 import {FeedBack} from "./FeedBack";
@@ -11,7 +11,7 @@ export class Event{
   event_description!: string ;
   place !:string;
   event_date!: Date;
-  users!: User [];
+  // users!: User [];
   RegistationEvents!:RegistrationEvent[];
   Activitys!: Activity[];
   feedbacks!: FeedBack[];
