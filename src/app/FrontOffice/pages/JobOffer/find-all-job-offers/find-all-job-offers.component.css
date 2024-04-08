@@ -1,0 +1,50 @@
+h2 {
+  animation: fadeInDown 1s ease-out forwards;
+  text-align: center;
+  font-size: 2.5rem;
+  color: #08718e;
+  font-weight: 500; /* Adjust weight as necessary */
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 2px; /* Slightly more spaced */
+  position: relative;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1); /* Subtle text-shadow for depth */
+  transition: text-shadow 0.3s ease; /* Smooth transition for shadow */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Example font */
+}
+h2::after {
+  content: '';
+  display: block;
+  margin: 0 auto;
+  height: 3px;
+  width: 100px;
+  background: #08718e;
+  border-radius: 2px;
+  margin-top: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transition: width 0.3s ease; /* Transition for hover effect */
+}
+
+/* Hover effect for the underline */
+h2:hover::after {
+  width: 150px; /* Underline grows on hover */
+}
+.buttons-wrapper {
+  position: fixed;
+  top: 50%;
+  right: 20px; /* Adjust the distance from the right side as needed */
+  display: flex;
+  flex-direction: column;
+  z-index: 1000; /* Ensure the buttons appear on top of other content */
+}
+
+.buttons-wrapper button {
+  padding: 10px 20px; /* Adjust the padding to increase the button size */
+  font-size: 18px; /* Adjust the font size to increase the button text size */
+  border-radius: 10px; /* Adjust the border-radius for rounded corners */
+  margin-bottom: 10px; /* Adjust the spacing between buttons as needed */
+}
+
+
+
+
