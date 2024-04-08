@@ -47,7 +47,26 @@
     <mat-form-field appearance="outline" class="w-100 mb-4">
       <mat-label>Search activities</mat-label>
       <input matInput [(ngModel)]="searchTerm" (ngModelChange)="filterActivities()">
+      <button matSuffix mat-icon-button (click)="openAdvancedSearchModal(advancedSearchModal)">
+        <mat-icon>search</mat-icon>
+      </button>
     </mat-form-field>
+    <ng-template #advancedSearchModal let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title">Search</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+
+      </div>
+      <div class="modal-body">
+        <!-- Advanced search form -->
+        <div class="search-form">
+          <input type="text" class="form-control mb-2" [(ngModel)]="searchKeywords" placeholder="Keywords">
+          <input type="date" class="form-control mb-2" [(ngModel)]="searchStartDate">
+          <input type="date" class="form-control mb-2" [(ngModel)]="searchEndDate">
+          <button class="btn btn-primary" (click)="searchActivities()">Search</button>
+        </div>
+      </div>
+    </ng-template>
     <!-- Cartes d'activité -->
 
     <div class="row">
@@ -63,8 +82,8 @@
               </button>
             </p>
             <div class="event-meta mb-2">
-              <p class="card-text"><small>Start Time: {{ activity.startTime | date:'short' }}</small></p>
-              <p class="card-text"><small>End Time: {{ activity.finishTime | date:'short' }}</small></p>
+              <p class="card-text"><small>Start Time: {{ activity.startTime | date:'long' }}</small></p>
+              <p class="card-text"><small>End Time: {{ activity.finishTime | date:'long' }}</small></p>
             </div>
             <p class="card-text">
               <i class="fas fa-tag"></i>
@@ -93,7 +112,7 @@
       </div>
     </div>
   </div>
-
+</div>
   <!-- Pagination controls -->
   <div class="paginator-container">
     <button class="paginator-button"
@@ -187,6 +206,7 @@
 
       </div>
     </div>
+  </div>
     <!-- Update Activity Modal -->
     <ng-template #updateModal let-modal>
       <div class="modal-header">
@@ -229,3 +249,31 @@
         </form>
       </div>
     </ng-template>
+
+
+
+<ng-template #searchResultsModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Advanced Search</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+
+  </div>
+  <div class="modal-body">
+    <div *ngIf="activities.length > 0; else noResultsTemplate">
+      <div *ngFor="let activity of activities">
+        <h5>{{ activity.activity_name }}</h5>
+        <p>{{ activity.description }}</p>
+        <p>Date de début: {{ activity.startTime | date:'medium' }}</p>
+        <p>Date de fin: {{ activity.finishTime | date:'medium' }}</p>
+        <p>Nom de l'événement: {{ activity.event?.event_name }}</p>
+        <hr>
+      </div>
+    </div>
+    <ng-template #noResultsTemplate>
+      <p>No Activities Found  </p>
+    </ng-template>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Close click')">Close</button>
+  </div>
+</ng-template>

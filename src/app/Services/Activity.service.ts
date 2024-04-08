@@ -92,6 +92,6 @@ export class ActivityService {
     if (startDate) params = params.append('startDate', startDate);
     if (endDate) params = params.append('endDate', endDate);
 
-    return this.http.get<Activity[]>(`${this.ActivityUrl}/search`, { params });
+    return this.http.get<Activity[]>(`${this.ActivityUrl}api/activities/search`, { params });
   }
 }
