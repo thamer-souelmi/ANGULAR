@@ -1,3 +1,9 @@
+
+<div *ngIf="isExporting" class="notification">
+  Téléchargement en cours...
+</div>
+<button (click)="exportAllActivitiesToExcel()">Exporter en Excel</button>
+
 <!--warning add -->
 <div class="modal fade" #warningSuccessModal tabindex="-1" aria-labelledby="warningSuccessModalLabel" aria-hidden="true">
   <div class="modal-dialog">
