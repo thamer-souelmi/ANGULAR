@@ -13,6 +13,7 @@ import { DatePipe } from '@angular/common';
 import {Candidacy} from "../../../../Models/candidacy";
 import {Observable} from "rxjs"; // Import the pipe
 import { forkJoin } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-find-all-job-offers',
@@ -53,7 +54,7 @@ export class FindAllJobOffersComponent implements OnInit, AfterViewInit {
   private candidacies!: Candidacy[];
   constructor(private js: JobOfferService, private router: Router,private formBuilder: FormBuilder,
               private cdr: ChangeDetectorRef,
-              private ngZone: NgZone,private route: ActivatedRoute,private candidacyService: CandidacyService) {
+              private ngZone: NgZone,private route: ActivatedRoute,private candidacyService: CandidacyService,private toastr: ToastrService) {
     this.jobOfferForm = this.formBuilder.group({
       titleJobOffer: ['', Validators.required],
       description: ['', Validators.required],
@@ -145,8 +146,12 @@ export class FindAllJobOffersComponent implements OnInit, AfterViewInit {
     if (!this.isInWishlist(jobOffer)) {
       this.wishlist.push(jobOffer);
       this.saveWishlist();
+      this.toastr.success('Job offer added to wishlist!', 'Success');
+    } else {
+      this.toastr.info('Job offer is already in the wishlist!', 'Info');
     }
   }
+
 
   isInWishlist(jobOffer: JobOffer): boolean {
     return this.wishlist.some(item => item.jobOffer_id === jobOffer.jobOffer_id);

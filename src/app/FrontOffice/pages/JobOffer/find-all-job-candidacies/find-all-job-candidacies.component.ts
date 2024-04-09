@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 declare var createGoogleEvent: any;
 import * as bootstrap from 'bootstrap';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-find-all-job-candidacies',
@@ -21,7 +22,7 @@ export class FindAllJobCandidaciesComponent implements OnInit{
   candidacies: Candidacy[] = [];
   appointmentForm!: FormGroup;
 
-  constructor(private c: CandidacyService, private fb: FormBuilder, private route: ActivatedRoute, private router: Router) {
+  constructor(private c: CandidacyService, private fb: FormBuilder, private route: ActivatedRoute, private router: Router, private toastr: ToastrService) {
     this.appointmentForm = this.fb.group({
       appointmentTime: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -128,11 +129,20 @@ export class FindAllJobCandidaciesComponent implements OnInit{
     // Call the service method to update the candidacy status in the database
     this.c.updateCandidacyStatus(candidacy).subscribe(updatedCandidacy => {
       console.log('Candidacy status updated successfully:', updatedCandidacy);
+
+      // Display toastr notification based on the candidacy status
+      if (status === -1) {
+        this.toastr.error('Candidate Rejected !', 'Oops');
+      } else if (status === 2) {
+        this.toastr.success('Candidate Hired !', 'Success');
+      }
+
       // Optionally, you can update the local candidacies array or handle other UI updates
     }, error => {
       console.error('Error updating candidacy status:', error);
       // Handle error appropriately, e.g., show error message to user
     });
   }
+
 
 }

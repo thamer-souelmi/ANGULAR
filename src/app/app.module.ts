@@ -34,6 +34,7 @@ import {NavbarBackComponent} from "./BackOffice/navbar-back/navbar-back.componen
 import {FooterBackComponent} from "./BackOffice/footer-back/footer-back.component";
 import {AllTemplatBackComponent} from "./BackOffice/all-templat-back/all-templat-back.component";
 import { FindAllJobCandidaciesComponent } from './FrontOffice/pages/JobOffer/find-all-job-candidacies/find-all-job-candidacies.component';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -74,7 +75,13 @@ import { FindAllJobCandidaciesComponent } from './FrontOffice/pages/JobOffer/fin
     MatRippleModule,
     MatMenuModule,
     FeatherModule.pick(allIcons),
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    ToastrModule.forRoot({
+      timeOut:2000,
+      progressBar:true,
+      progressAnimation:"increasing",
+      preventDuplicates:true
+    }), // ToastrModule added
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent]
