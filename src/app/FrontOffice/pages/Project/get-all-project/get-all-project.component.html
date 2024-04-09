@@ -1,0 +1,56 @@
+
+
+<div class="container">
+  
+    <h2>Project Catalog</h2>
+    <div class="col-md-6 offset-md-3">
+    <div class="input-group mb-3">
+      <input type="text" class="form-control" placeholder="Search for projects..." [(ngModel)]="searchQuery" (ngModelChange)="onSearchChange()">
+      <button class="btn btn-outline-secondary" type="button" (click)="getAllProjects()">
+        <i class="bi bi-search"></i>
+      </button>
+  </div>
+  </div>
+    
+  
+    <div class="d-flex justify-content-end mb-3">
+      <button class="btn btn-primary me-3" (click)="createNewProject()">
+        <i class="bi bi-plus"></i> 
+      </button>
+      
+      <i class="material-icons" style="font-size: 40px; cursor: pointer;" (click)="openCalendarModal()">
+        event
+      </i>
+    </div>  
+   
+    <div class="col-md-6 wow slideInUp" class="project-list">
+      <div class="project-item" *ngFor="let project of getDisplayedProjects()">
+        <mat-icon>push_pin</mat-icon>
+        <h3>{{ project.projectName }}</h3>
+        <p>{{ project.projectDescription.substring(0, 50) }}...</p>
+        <button type="button" class="btn btn-sm btn-info ms-auto me-1" (click)="viewProjectDetails(project)">
+          View Details
+        </button>
+        <button type="button" class="btn btn-sm btn-danger ms-auto me-1" (click)="deleteProject(project.projectId)">
+            <i class="bi bi-trash"></i> 
+          </button>
+      </div>
+      
+      </div>
+      <div class="container">
+        <mat-paginator [length]="projects.length" [pageSize]="pageSize" [pageIndex]="pageIndex" (page)="getAllProjects()">
+        </mat-paginator>
+      </div>
+    </div>
+    
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
