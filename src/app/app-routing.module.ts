@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {AllTemplateFrontComponent} from "./FrontOffice/all-template-front/all-template-front.component";
 import {HomeFrontComponent} from "./FrontOffice/home-front/home-front.component";
+import {ActivityComponentF} from "./FrontOffice/pages/activity/activity.component";
 
 import {
   FindAllJobOffersComponent
@@ -17,20 +18,38 @@ import { TasksByprojectComponent } from './FrontOffice/pages/Task/tasks-byprojec
 import { AddTaskComponent } from './FrontOffice/pages/Task/add-task/add-task.component';
 import { UpdateTaskComponent } from './FrontOffice/pages/Task/update-task/update-task.component';
 import { KanbanBoardComponent } from './FrontOffice/pages/Task/kanban-board/kanban-board.component';
+import { LoginComponent } from './BackOffice/Pages/login/login.component';
+import {FindAllUsersComponent} from "./BackOffice/Pages/find-all-users/find-all-users.component";
 
 
 const routes: Routes = [
   {
     path: "",
-    component: AllTemplatBackComponent,
+    component: LoginComponent,
 
-  }, {
+  },
+  {
+    path: "back",
+    component: AllTemplatBackComponent,
+    children:[
+      {path:"findall", component:FindAllUsersComponent},
+    ]},
+
+  {
     path: "home",
     component: AllTemplateFrontComponent,
     children:[
-      {path:"home", component:HomeFrontComponent }
+      {path:"home", component:HomeFrontComponent },
     ]
   },
+  {
+
+    path: "ActivityF",
+    component: AllTemplateFrontComponent,children:[
+      { path: 'getActivityF', component:ActivityComponentF },
+    ]
+  },
+
   {
     path: "JobOffer",
     component: AllTemplateFrontComponent,children:[
