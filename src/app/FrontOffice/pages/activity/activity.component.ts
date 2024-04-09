@@ -19,6 +19,7 @@ import * as bootstrap from 'bootstrap';
 import {NgbModal, NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
 import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { ExportExcelService } from 'src/app/Services/ExportExcel.service';
 
 export const dateRangeValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
   const group = control as FormGroup;
@@ -62,6 +63,7 @@ export class ActivityComponentF implements OnInit {
   readonly maxLength = 100;
   expandedDescriptions: { [key: number]: boolean } = {};
   @ViewChild('searchResultsModal') searchResultsModal!: TemplateRef<any>;
+  isExporting = false;
 
   searchKeywords: string = '';
   searchStartDate: string = '';
@@ -76,6 +78,8 @@ export class ActivityComponentF implements OnInit {
     private ngZone: NgZone,
     private modalService: NgbModal,
     private renderer: Renderer2,
+    private exportExcelService: ExportExcelService,
+
   )
   {
     this.activityForm = this.formBuilder.group({
@@ -107,6 +111,26 @@ export class ActivityComponentF implements OnInit {
 
     return startTimeFilled && finishTimeFilled && hasDateRangeError;
   }
+  exportAllActivitiesToExcel(): void {
+    this.isExporting = true; // Commencer l'exportation
+    this.activityServiceF.findAllActivitiesWithoutPagination().subscribe(activities => {
+      if (activities && activities.length > 0) {
+        this.exportExcelService.exportToExcel(activities, 'ToutesLesActivites');
+        this.showModalWithMessage('Le téléchargement est en cours.....');
+      } else {
+        console.log("Aucune activité à exporter.");
+        // Afficher une notification à l'utilisateur si nécessaire
+      }
+      this.isExporting = false; // Terminer l'exportation
+    }, error => {
+      console.error('Erreur lors de la récupération des activités :', error);
+      // Gérer l'erreur, peut-être afficher une notification à l'utilisateur
+      this.isExporting = false; // Assurez-vous de réinitialiser l'état même en cas d'erreur
+    });
+  }
+
+
+
   toggleDescription(activityId: number): void {
     this.expandedDescriptions[activityId] = !this.expandedDescriptions[activityId];
   }
