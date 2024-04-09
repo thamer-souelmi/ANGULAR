@@ -1,0 +1,111 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha384-..." crossorigin="anonymous">
+<div #myModal class="modal fade" id="addInterviewModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalLabel">Add Interview</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Job Offer Form -->
+        <form [formGroup]="appointmentForm" (ngSubmit)="scheduleMeeting()">
+          <div class="form-group">
+            <label for="appointmentTime">Interview Time </label>
+            <input
+              type="datetime-local"
+              id="appointmentTime"
+              formControlName="appointmentTime"
+              [class.is-invalid]="appointmentForm.get('appointmentTime')?.touched && appointmentForm.get('appointmentTime')?.hasError('required')"
+            />
+            <div *ngIf="appointmentForm.get('appointmentTime')?.touched && appointmentForm.get('appointmentTime')?.hasError('required')"
+                 class="invalid-feedback">
+              Appointment time is required.
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="email">Email </label><input
+            type="email"
+            id="email"
+            class="form-control"
+            formControlName="email"
+            [class.is-invalid]="appointmentForm.get('email')?.touched && appointmentForm.get('email')?.hasError('required')"
+          />
+            <div *ngIf="appointmentForm.get('email')?.touched && appointmentForm.get('email')?.hasError('required')"
+                 class="invalid-feedback">
+              Email required.
+            </div>
+          </div>
+          <br>
+          <button type="submit" class="btn btn-primary" id="schedule-button"[disabled]="!appointmentForm.valid">Schedule Interview</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <br>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div #myModal class="modal fade" id="moreModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalLabel">Cover Letter</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h2 class="text-center">Candidacies</h2>
+<br>
+<br>
+<br>
+<br>
+<div class="container">
+  <div class="row">
+    <div class="col-md-4 mb-4" *ngFor="let candidacy of candidacies">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title d-flex justify-content-between align-items-center">
+            <span>{{ candidacy.candidateName }}</span>
+            <span class="text-end">{{ candidacy.submissionDate | date }}</span>
+          </h4>
+          <p class="card-text">Email: <a href="mailto:{{ candidacy.email }}">{{ candidacy.email }}</a></p>
+          <p class="card-text">Portfolio link: <a href="{{ candidacy.link }}" target="_blank"><i class="fas fa-external-link-alt"></i></a></p>
+          <p class="card-text">LinkeIn Account: <a href="{{ candidacy.linkedin }}" target="_blank" class="fab fa-linkedin fa-lg"></a></p>
+          <p class="card-text">GitHub Account: <a href="{{ candidacy.github }}" target="_blank"><i class="fab fa-github fa-lg"></i></a></p>
+          <p class="card-text">Attachments: <a href="#" (click)="downloadAttachment($event, candidacy.cv)">
+            <i class="fas fa-paperclip"></i>
+          </a>
+          <div class="container bg-light p-3">
+            <div class="d-flex justify-content-between">
+              <div class="btn-group">
+                <button class="btn btn-icon" (click)="updateCandidacyStatus(candidacy, -1)">
+                  <i class="fas fa-times"></i>
+                </button>
+                <button class="btn btn-icon" (click)="updateCandidacyStatus(candidacy, 2)">
+                  <i class="fas fa-check"></i>
+                </button>
+                <button class="btn btn-icon" (click)="updateCandidacyStatus(candidacy, 1)">
+                  <i class="fas fa-user-tie"></i>
+                </button>
+              </div>
+              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addInterviewModal">Interview</button>
+            </div>
+          </div>
+
+
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Add modals here if needed -->

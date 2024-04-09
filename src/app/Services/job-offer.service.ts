@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { JobOffer } from '../Models/job-offer';
 import { Candidacy } from '../Models/candidacy';
 import { Observable } from 'rxjs';
+
+
 @Injectable({
   providedIn: 'root'
 })
@@ -48,4 +50,6 @@ export class JobOfferService {
   getCandidaciesByJobOfferId(jobOfferId: number): Observable<Candidacy[]> {
     return this.myHttp.get<Candidacy[]>(`${this.urlJobOffer}/${jobOfferId}/candidacies`);
   }
+
+
 }

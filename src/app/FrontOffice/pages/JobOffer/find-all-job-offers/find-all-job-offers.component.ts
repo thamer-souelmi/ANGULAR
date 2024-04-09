@@ -2,13 +2,17 @@ import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef, NgZone, Af
 import { JobOffer } from 'src/app/Models/job-offer';
 import { JobCategory } from 'src/app/Models/job-category';
 import { JobNature } from 'src/app/Models/job-nature';
+import { WishlistComponent } from 'src/app/FrontOffice/pages/JobOffer/wishlist/wishlist.component';
 import { JobOfferService } from 'src/app/Services/job-offer.service';
+import { CandidacyService } from 'src/app/Services/candidacy.service';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import * as bootstrap from 'bootstrap';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import { DatePipe } from '@angular/common';
-
+import {Candidacy} from "../../../../Models/candidacy";
+import {Observable} from "rxjs"; // Import the pipe
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-find-all-job-offers',
@@ -46,9 +50,10 @@ export class FindAllJobOffersComponent implements OnInit, AfterViewInit {
 
   jobOffer_id!: number;
   jobOffer1!: JobOffer;
+  private candidacies!: Candidacy[];
   constructor(private js: JobOfferService, private router: Router,private formBuilder: FormBuilder,
               private cdr: ChangeDetectorRef,
-              private ngZone: NgZone,private route: ActivatedRoute) {
+              private ngZone: NgZone,private route: ActivatedRoute,private candidacyService: CandidacyService) {
     this.jobOfferForm = this.formBuilder.group({
       titleJobOffer: ['', Validators.required],
       description: ['', Validators.required],
@@ -89,15 +94,15 @@ export class FindAllJobOffersComponent implements OnInit, AfterViewInit {
   loadJobOffers() {
     this.js.findAllJobOffers().subscribe(jobOffers => {
       this.jobOffers = jobOffers;
-
+      this.filteredJobOffers = [...this.jobOffers];
       // Extract unique values for each field
       this.jobOffersLocations = Array.from(new Set(jobOffers.map(jobOffer => jobOffer.jobLocation)));
       this.jobOffersVacancies = Array.from(new Set(jobOffers.map(jobOffer => jobOffer.vacancy)));
       // Convert enum values to strings before assigning
       this.jobOffersCategories = Array.from(new Set(jobOffers.map(jobOffer => JobCategory[jobOffer.jobCategory])));
       this.jobOffersJobTypes = Array.from(new Set(jobOffers.map(jobOffer => JobNature[jobOffer.jobNature])));
-
     });
+    this.sortByMostApplied();
   }
   onJobOfferSubmit() {
     if (this.jobOfferForm.valid) {
@@ -141,11 +146,6 @@ export class FindAllJobOffersComponent implements OnInit, AfterViewInit {
       this.wishlist.push(jobOffer);
       this.saveWishlist();
     }
-  }
-
-  removeFromWishlist(jobOffer: JobOffer) {
-    this.wishlist = this.wishlist.filter(item => item.jobOffer_id !== jobOffer.jobOffer_id);
-    this.saveWishlist();
   }
 
   isInWishlist(jobOffer: JobOffer): boolean {
@@ -307,10 +307,7 @@ export class FindAllJobOffersComponent implements OnInit, AfterViewInit {
       }
     );
   }
-  navigateToCandidacies(jobOfferId: number) {
-    // Navigate to the FindAllCandidaciesComponent with the jobOfferId as a query parameter
-    this.router.navigate(['/Candidacy/findAllCandidaciesfront'], { queryParams: { jobOfferId: jobOfferId } });
-  }
+
   sortByMostRecent() {
     // Sort the jobOffers array by descending postedDate
     this.jobOffers.sort((a, b) => new Date(b.postedDate).getTime() - new Date(a.postedDate).getTime());
@@ -342,13 +339,47 @@ export class FindAllJobOffersComponent implements OnInit, AfterViewInit {
       return match;
     });
   }
+  getCandidacies(jobOfferId: number): void {
+    this.js.getCandidaciesByJobOfferId(jobOfferId)
+      .subscribe(candidacies => {
+        this.candidacies = candidacies;
+        // Handle displaying the candidacies, e.g., update UI, show in a modal, etc.
+      }, error => {
+        // Handle error, e.g., show error message to the user
+      });
+  }
+  sortByMostApplied(): void {
+    console.log('Sorting by most applied...');
 
-  onApplyButtonMouseOver(event: MouseEvent): void {
-    (event.target as HTMLElement).style.color = '#049565';
+    // Create an array to hold all observables for counting candidacies
+    const observables: Observable<number>[] = [];
+
+    // Iterate through jobOffers to create an array of observables
+    this.jobOffers.forEach(jobOffer => {
+      observables.push(this.countCandidacies(jobOffer));
+    });
+
+    // Use forkJoin to wait for all observables to complete
+    forkJoin(observables).subscribe(counts => {
+      // Assign the candidacy counts to job offers
+      counts.forEach((count, index) => {
+        this.jobOffers[index].candidacyCount = count;
+      });
+
+      // Sort job offers based on the count of candidacies
+      this.jobOffers = this.jobOffers.sort((a, b) => {
+        // Handle possible undefined values of candidacyCount
+        const countA = a.candidacyCount ?? 0; // Use 0 if candidacyCount is undefined
+        const countB = b.candidacyCount ?? 0; // Use 0 if candidacyCount is undefined
+        return countB - countA; // Sort in descending order
+      });
+
+      console.log('Sorted job offers by most applied:', this.jobOffers);
+    });
   }
 
-  onApplyButtonMouseLeave(event: MouseEvent): void {
-    (event.target as HTMLElement).style.color = '#fff';
-  }
 
+  countCandidacies(jobOffer: JobOffer): Observable<number> {
+    return this.candidacyService.countCandidaciesByJobOfferId(jobOffer.jobOffer_id);
+  }
 }

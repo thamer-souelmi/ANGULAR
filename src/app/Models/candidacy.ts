@@ -1,3 +1,4 @@
+
 export class Candidacy {
   candidacy_id!: number;
   candidateName!: string;
@@ -10,5 +11,6 @@ export class Candidacy {
   submissionDate!:Date;
   candidacystatus!:number;
   jobOfferId!: number; // Add jobOfferId property if it exists
+
 
 }

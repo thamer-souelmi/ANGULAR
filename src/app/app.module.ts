@@ -33,6 +33,7 @@ import {SidebarBackComponent} from "./BackOffice/sidebar-back/sidebar-back.compo
 import {NavbarBackComponent} from "./BackOffice/navbar-back/navbar-back.component";
 import {FooterBackComponent} from "./BackOffice/footer-back/footer-back.component";
 import {AllTemplatBackComponent} from "./BackOffice/all-templat-back/all-templat-back.component";
+import { FindAllJobCandidaciesComponent } from './FrontOffice/pages/JobOffer/find-all-job-candidacies/find-all-job-candidacies.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import {AllTemplatBackComponent} from "./BackOffice/all-templat-back/all-templat
     NavbarBackComponent,
     FooterBackComponent,
     AllTemplatBackComponent,
+    FindAllJobCandidaciesComponent,
   ],
   imports: [
     BrowserModule,
