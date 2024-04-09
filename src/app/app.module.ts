@@ -30,11 +30,7 @@ import { MatRippleModule } from "@angular/material/core";
 import { MatMenuModule } from "@angular/material/menu";
 import { FeatherModule } from 'angular-feather';
 import { allIcons } from 'angular-feather/icons';
-
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { httpInterceptorProviders } from './Helpers/http-request-interceptor';
-import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './BackOffice/Pages/login/login.component';
 import { FindAllUsersComponent } from './BackOffice/Pages/find-all-users/find-all-users.component';
 
@@ -42,7 +38,18 @@ import {SidebarBackComponent} from "./BackOffice/sidebar-back/sidebar-back.compo
 import {NavbarBackComponent} from "./BackOffice/navbar-back/navbar-back.component";
 import {FooterBackComponent} from "./BackOffice/footer-back/footer-back.component";
 import {AllTemplatBackComponent} from "./BackOffice/all-templat-back/all-templat-back.component";
-
+import { UpdateprojectComponent } from './FrontOffice/pages/Project/updateproject/updateproject.component';
+import { ProjectDetailsComponent } from './FrontOffice/pages/Project/project-details/project-details.component';
+import { ProjectCalendarModalComponent } from './FrontOffice/pages/Project/project-calendar-modal/project-calendar-modal.component';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { ProjectFormComponent } from './FrontOffice/pages/Project/project-form/project-form.component';
+import { GetAllProjectComponent } from './FrontOffice/pages/Project/get-all-project/get-all-project.component';
+import { TasksByprojectComponent } from './FrontOffice/pages/Task/tasks-byproject/tasks-byproject.component';
+import { UpdateTaskComponent } from './FrontOffice/pages/Task/update-task/update-task.component';
+import { AddTaskComponent } from './FrontOffice/pages/Task/add-task/add-task.component';
+import { KanbanBoardComponent } from './FrontOffice/pages/Task/kanban-board/kanban-board.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
   declarations: [
@@ -59,10 +66,17 @@ import {AllTemplatBackComponent} from "./BackOffice/all-templat-back/all-templat
     NavbarBackComponent,
     FooterBackComponent,
     AllTemplatBackComponent,
-
+    UpdateprojectComponent,
+    ProjectDetailsComponent,
+    ProjectCalendarModalComponent,
+    ProjectFormComponent,
+    GetAllProjectComponent,
+    TasksByprojectComponent,
+    UpdateTaskComponent,
+    AddTaskComponent,
+    KanbanBoardComponent,
     LoginComponent,
-    FindAllUsersComponent
-
+    FindAllUsersComponent ,
     FilterJobPipe // Ensure pipes are also declared
 
   ],
@@ -90,12 +104,16 @@ import {AllTemplatBackComponent} from "./BackOffice/all-templat-back/all-templat
     MatMenuModule,
     MatButtonModule,
     FeatherModule.pick(allIcons),
-    BrowserAnimationsModule,
-    FormsModule,
-    HttpClientModule
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+      
+    }),
+    DragDropModule,
   ],
-  providers: [httpInterceptorProviders,DatePipe],
-  bootstrap: [AppComponent]
+
+  providers: [DatePipe],
+  bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 
 })

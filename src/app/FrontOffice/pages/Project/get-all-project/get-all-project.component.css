@@ -1,0 +1,59 @@
+.container {
+    text-align: center;
+  }
+  
+  .btn-primary {
+    background-color: #049565;
+    color: white;
+  }
+  
+  .project-list {
+    margin: 20px auto;
+    display: flex; /* Use flexbox for layout */
+    flex-wrap: wrap; /* Wrap items onto multiple lines */
+    width: 80%;
+  }
+  
+  .project-item {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin: 10px; /* Add space between items */
+    width: calc(33% - 20px); /* Calculate width based on 3 columns */
+    text-align: center; /* Center content within each block */
+    position: relative; /* Allow positioning of overlay title */
+    
+    
+
+  }
+  .project-item mat-icon {
+    display: flex; /* Activer la disposition flex pour l'élément */
+    justify-content: space-between;
+    margin-left: auto; /* Pousser l'icône à droite */
+    opacity: 0.2;
+  }
+  
+  .project-item h3 {
+    font-size: 18px;
+    margin-bottom: 5px; /* Add some space below the title */
+  }
+  
+  .project-item p {
+    font-size: 14px;
+    margin-bottom: 10px; /* Add some space below the description */
+  }
+  
+  .btn-info {
+    background-color: #17a2b8;
+    color: white;
+  }
+  
+  img {
+    width: 20px;
+    margin-right: 10px;
+  }
+  .mat-paginator {
+    display: block;
+  }
+  
+  
+  
