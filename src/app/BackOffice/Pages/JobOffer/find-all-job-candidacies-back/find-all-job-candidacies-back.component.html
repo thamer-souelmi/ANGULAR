@@ -18,6 +18,14 @@
           <p class="card-text">Attachments: <a href="#" (click)="downloadAttachment($event, candidacy.cv)">
             <i class="fas fa-paperclip"></i>
           </a></p>
+          <p class="card-text">Interview details: <a href="{{ candidacy.github }}" target="_blank"> <i class="far fa-calendar-alt"></i></a></p>
+          <p class="card-text">
+            Status Candidacy:
+            <span *ngIf="candidacy.candidacystatus === -1" class="badge badge-pill badge-danger rounded-pill">Rejected</span>
+            <span *ngIf="candidacy.candidacystatus === 0 || candidacy.candidacystatus === null" class="badge badge-dark rounded-pill" style="background-color: #ffc107 !important;">Pending</span>
+            <span *ngIf="candidacy.candidacystatus === 1" class="badge badge-pill badge-info rounded-pill">Selected for Interview</span>
+            <span *ngIf="candidacy.candidacystatus === 2" class="badge badge-pill badge-success rounded-pill">Hired</span>
+          </p>
         </div>
 <!--        <div class="d-flex justify-content-end mt-3">-->
 <!--          <button class="btn btn-calender btn-lg custom-btn" data-bs-toggle="modal" data-bs-target="#calendarModal">-->

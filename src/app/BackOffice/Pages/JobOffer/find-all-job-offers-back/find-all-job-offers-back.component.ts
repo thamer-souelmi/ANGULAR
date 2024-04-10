@@ -6,6 +6,8 @@ import { JobNature } from 'src/app/Models/job-nature';
 import { JobOfferService } from 'src/app/Services/job-offer.service';
 import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import {NgbModal, NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
+import {forkJoin, Observable} from "rxjs";
+import {CandidacyService} from "../../../../Services/candidacy.service";
 
 @Component({
   selector: 'app-find-all-job-offers-back',
@@ -14,6 +16,7 @@ import {NgbModal, NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
 })
 export class FindAllJobOffersBackComponent implements OnInit, AfterViewInit{
   jobOffers: JobOffer[] = [];
+  searchtext:any;
   displayedColumns: string[] = [ 'titleJobOffer', 'postedDate', 'applicationDeadLine',  'vacancy'];
   pageSizeOptions: number[] = [4, 8, 16];
   pageSize: number = 16;
@@ -21,7 +24,7 @@ export class FindAllJobOffersBackComponent implements OnInit, AfterViewInit{
   private jobOfferDetailsModalRef: NgbModalRef | undefined;
   @ViewChild('jobOfferDetailsModal', { static: false }) jobOfferDetailsModal!: TemplateRef<any>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  constructor(private js: JobOfferService, private modalService: NgbModal){}
+  constructor(private js: JobOfferService, private modalService: NgbModal,private candidacyService: CandidacyService){}
   loadJobOffers() {
     this.js.findAllJobOffers().subscribe(jobOffers => {
       this.jobOffers = jobOffers;
@@ -62,4 +65,41 @@ export class FindAllJobOffersBackComponent implements OnInit, AfterViewInit{
       this.jobOfferDetailsModalRef.close();
     }
   }
+  sortByMostRecent() {
+    // Sort the jobOffers array by descending postedDate
+    this.jobOffers.sort((a, b) => new Date(b.postedDate).getTime() - new Date(a.postedDate).getTime());
+  }
+  sortByMostApplied(): void {
+    console.log('Sorting by most applied...');
+
+    // Create an array to hold all observables for counting candidacies
+    const observables: Observable<number>[] = [];
+
+    // Iterate through jobOffers to create an array of observables
+    this.jobOffers.forEach(jobOffer => {
+      observables.push(this.countCandidacies(jobOffer));
+    });
+
+    // Use forkJoin to wait for all observables to complete
+    forkJoin(observables).subscribe(counts => {
+      // Assign the candidacy counts to job offers
+      counts.forEach((count, index) => {
+        this.jobOffers[index].candidacyCount = count;
+      });
+
+      // Sort job offers based on the count of candidacies
+      this.jobOffers = this.jobOffers.sort((a, b) => {
+        // Handle possible undefined values of candidacyCount
+        const countA = a.candidacyCount ?? 0; // Use 0 if candidacyCount is undefined
+        const countB = b.candidacyCount ?? 0; // Use 0 if candidacyCount is undefined
+        return countB - countA; // Sort in descending order
+      });
+
+      console.log('Sorted job offers by most applied:', this.jobOffers);
+    });
+  }
+  countCandidacies(jobOffer: JobOffer): Observable<number> {
+    return this.candidacyService.countCandidaciesByJobOfferId(jobOffer.jobOffer_id);
+  }
+
 }

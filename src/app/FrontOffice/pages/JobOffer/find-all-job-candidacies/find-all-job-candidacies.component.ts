@@ -16,6 +16,7 @@ import dayGridPlugin from "@fullcalendar/daygrid";
   styleUrls: ['./find-all-job-candidacies.component.css']
 })
 export class FindAllJobCandidaciesComponent implements OnInit{
+  candidacystatus: number = 0;
   @ViewChild('myModal') myModal!: ElementRef;
   selectedCandidacy: Candidacy | null = null; // Variable to store selected candidacy
   calendarPlugins = [dayGridPlugin];

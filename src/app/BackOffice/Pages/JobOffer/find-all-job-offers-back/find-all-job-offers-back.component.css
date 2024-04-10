@@ -1,23 +1,15 @@
 .job-offer-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Adjust the min-width and max-width as needed */
+  grid-template-columns: repeat(3, minmax(250px, 1fr)); /* Display 3 cards in a line */
   gap: 20px; /* Adjust the gap between cards */
 }
 
-.job-offer-card {
-  width: 100%; /* Ensure each card takes up full width */
-}
-.custom-card-actions {
-  display: flex;
-  justify-content: space-between; /* Align buttons at the start and end of the container */
-}
-
-
 .btn-icon {
   font-size: 1.3rem; /* Adjust the font size as needed */
-  padding: 0.3rem; /* Adjust the padding as needed */
-  border-radius: 10px; /* Make the buttons oval */
+  padding: 0.5rem 1rem; /* Adjust the padding to increase button size */
+  border-radius: 30px; /* Make the buttons oval with larger borders */
 }
+
 
 h2 {
   animation: fadeInDown 1s ease-out forwards;
