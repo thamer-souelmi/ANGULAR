@@ -54,9 +54,9 @@
       </button>
     </div>
   </div>
-    <div class="container mt-3">
-      <input type="text" class="form-control mb-3" placeholder="Search events..." [(ngModel)]="searchTerm" (ngModelChange)="filterEvents()">
-    </div>
+  <!--  <div class="container mt-3">-->
+  <!--    <input type="text" class="form-control mb-3" placeholder="Search events..." [(ngModel)]="searchTerm" (ngModelChange)="filterEvents()">-->
+  <!--  </div>-->
   <mat-form-field appearance="outline" class="w-100 mb-4">
     <mat-label>Search activities</mat-label>
     <input matInput [(ngModel)]="searchTerm" (ngModelChange)="filterEvents()">
@@ -178,11 +178,13 @@
             <label for="place" class="form-label">Place</label>
             <input type="text" class="form-control" id="place" formControlName="place">
             <br>
-                        <input type="text" [(ngModel)]="searchQuery" (input)="onSearchChange(event)" placeholder="Search for a location...">
-<!--                        <button (click)="searchLocation()">Search</button>-->
+            <!--            <input type="text" [(ngModel)]="searchQuery" (input)="onSearchChange($event)" placeholder="Search for a location...">-->
+            <!--            <button (click)="searchLocation()">Search</button>-->
 
-<!--                        <input type="text" [(ngModel)]="locationQuery" placeholder="Search for a location" (change)="searchLocation()">-->
-            <div id="map" #mapContainer style="height: 400px;"></div>
+            <div>
+              <input type="text" [(ngModel)]="searchQuery" placeholder="Search for a location">
+              <button (click)="searchLocation(searchQuery)">Search</button>
+            </div>            <div id="map" #mapContainer style="height: 400px;"></div>
             <div *ngIf="errorMessage" class="alert alert-danger">
               {{ errorMessage }}
             </div>
