@@ -90,7 +90,7 @@
                 <button class="btn btn-icon" (click)="updateCandidacyStatus(candidacy, 2)">
                   <i class="fas fa-check"></i>
                 </button>
-                <button class="btn btn-icon" (click)="updateCandidacyStatus(candidacy, 1)">
+                <button  class="btn btn-calender" data-bs-toggle="modal" data-bs-target="#calendarModal">
                   <i class="fas fa-calendar-alt"></i>
                 </button>
               </div>
@@ -105,3 +105,20 @@
 
 
 <!-- Add modals here if needed -->
+<div class="modal fade" id="calendarModal" tabindex="-1" aria-labelledby="calendarModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="calendarModalLabel" >Interviews Calendar</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Ici, nous insérerons le calendrier -->
+        <full-calendar #calendar [options]="calendarOptions"></full-calendar>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+      </div>
+    </div>
+  </div>
+</div>

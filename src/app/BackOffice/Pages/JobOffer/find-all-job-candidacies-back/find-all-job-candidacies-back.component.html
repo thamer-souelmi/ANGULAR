@@ -1,0 +1,30 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha384-..." crossorigin="anonymous">
+<h2>CANDIDACIES</h2>
+<br>
+<br>
+<div class="container">
+  <div class="row">
+    <div class="col-md-4 mb-4" *ngFor="let candidacy of candidacies">
+      <div class="card" style="background-color: white;">
+        <div class="card-body">
+          <h3 class="card-title d-flex justify-content-between align-items-center" style="margin-bottom: 20px;">
+            <span style="margin-right: 20px;">{{ candidacy.candidateName }}</span>
+            <span class="text-end">{{ candidacy.submissionDate | date }}</span>
+          </h3>
+          <p class="card-text">Email: <a href="mailto:{{ candidacy.email }}" style="text-decoration: underline;">{{ candidacy.email }}</a></p>
+          <p class="card-text">Portfolio link: <a href="{{ candidacy.link }}" target="_blank"><i class="fas fa-external-link-alt"></i></a></p>
+          <p class="card-text">LinkeIn Account: <a href="{{ candidacy.linkedin }}" target="_blank" class="fab fa-linkedin fa-lg"></a></p>
+          <p class="card-text">GitHub Account: <a href="{{ candidacy.github }}" target="_blank"><i class="fab fa-github fa-lg"></i></a></p>
+          <p class="card-text">Attachments: <a href="#" (click)="downloadAttachment($event, candidacy.cv)">
+            <i class="fas fa-paperclip"></i>
+          </a></p>
+        </div>
+<!--        <div class="d-flex justify-content-end mt-3">-->
+<!--          <button class="btn btn-calender btn-lg custom-btn" data-bs-toggle="modal" data-bs-target="#calendarModal">-->
+<!--            <i class="fas fa-calendar-alt"></i>-->
+<!--          </button>-->
+<!--        </div>-->
+      </div>
+    </div>
+  </div>
+</div>

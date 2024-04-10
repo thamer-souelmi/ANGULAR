@@ -35,6 +35,9 @@ import {FooterBackComponent} from "./BackOffice/footer-back/footer-back.componen
 import {AllTemplatBackComponent} from "./BackOffice/all-templat-back/all-templat-back.component";
 import { FindAllJobCandidaciesComponent } from './FrontOffice/pages/JobOffer/find-all-job-candidacies/find-all-job-candidacies.component';
 import { ToastrModule } from 'ngx-toastr';
+import { FindAllJobOffersBackComponent } from './BackOffice/Pages/JobOffer/find-all-job-offers-back/find-all-job-offers-back.component';
+import { MatCardModule } from '@angular/material/card';
+import { FindAllJobCandidaciesBackComponent } from './BackOffice/Pages/JobOffer/find-all-job-candidacies-back/find-all-job-candidacies-back.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +54,8 @@ import { ToastrModule } from 'ngx-toastr';
     FooterBackComponent,
     AllTemplatBackComponent,
     FindAllJobCandidaciesComponent,
+    FindAllJobOffersBackComponent,
+    FindAllJobCandidaciesBackComponent,
   ],
   imports: [
     BrowserModule,
@@ -82,6 +87,7 @@ import { ToastrModule } from 'ngx-toastr';
       progressAnimation:"increasing",
       preventDuplicates:true
     }), // ToastrModule added
+    MatCardModule
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent]

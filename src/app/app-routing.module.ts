@@ -14,12 +14,22 @@ import {JobOfferDetailsComponent} from "./FrontOffice/pages/JobOffer/job-offer-d
 import {
   FindAllJobCandidaciesComponent
 } from "./FrontOffice/pages/JobOffer/find-all-job-candidacies/find-all-job-candidacies.component";
+import {
+  FindAllJobOffersBackComponent
+} from "./BackOffice/Pages/JobOffer/find-all-job-offers-back/find-all-job-offers-back.component";
+import {
+  FindAllJobCandidaciesBackComponent
+} from "./BackOffice/Pages/JobOffer/find-all-job-candidacies-back/find-all-job-candidacies-back.component";
 
 
 const routes: Routes = [
   {
     path: "",
     component: AllTemplatBackComponent,
+    children:[
+      {path:"findAllJobOffersback", component:FindAllJobOffersBackComponent },
+      { path: 'findAllJobCandidaciesBack/:id', component: FindAllJobCandidaciesBackComponent }
+    ]
 
   }, {
     path: "home",

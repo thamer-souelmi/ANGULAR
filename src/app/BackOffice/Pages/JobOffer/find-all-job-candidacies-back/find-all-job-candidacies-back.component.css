@@ -29,9 +29,8 @@ h2::after {
 h2:hover::after {
   width: 150px; /* Underline grows on hover */
 }
-.custom-calendar {
-  width: 1000px;
-  /* Adjust the width as needed */
-  height: 1000px;
-  /* Adjust the height as needed */
+
+.custom-btn {
+  font-size: 2rem; /* Adjust the font size as needed */
+  padding: 3px 8px; /* Adjust the padding as needed */
 }

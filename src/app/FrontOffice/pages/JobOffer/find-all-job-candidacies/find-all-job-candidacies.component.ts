@@ -6,6 +6,9 @@ declare var createGoogleEvent: any;
 import * as bootstrap from 'bootstrap';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import {FullCalendarComponent} from "@fullcalendar/angular";
+import interactionPlugin from "@fullcalendar/interaction";
+import dayGridPlugin from "@fullcalendar/daygrid";
 
 @Component({
   selector: 'app-find-all-job-candidacies',
@@ -15,7 +18,15 @@ import { ToastrService } from 'ngx-toastr';
 export class FindAllJobCandidaciesComponent implements OnInit{
   @ViewChild('myModal') myModal!: ElementRef;
   selectedCandidacy: Candidacy | null = null; // Variable to store selected candidacy
-
+  calendarPlugins = [dayGridPlugin];
+  calendarEvents: any[] = [];
+  @ViewChild('calendar') calendarComponent!: FullCalendarComponent;
+  calendarOptions: any = {
+    plugins: [dayGridPlugin, interactionPlugin],
+    initialView: 'dayGridMonth',
+    events: [],
+    dateClick: this.handleDateClick.bind(this),
+  };
   modalBodyContent: string = '';
   jobOfferId: number = 0;
 
@@ -54,9 +65,7 @@ export class FindAllJobCandidaciesComponent implements OnInit{
     console.log('Conducting interview for:', candidacy);
   }
 
-  viewAttachment(cv: string) {
-    window.open(cv, '_blank');
-  }
+
 
   scheduleMeeting() {
     let appointmentTime = new Date(this.appointmentForm.value.appointmentTime);
@@ -77,14 +86,13 @@ export class FindAllJobCandidaciesComponent implements OnInit{
     return endTime;
   }
 
-  openModal(coverLetter: string) {
-    this.modalBodyContent = coverLetter;
-    const myModal = new bootstrap.Modal(this.myModal.nativeElement);
-    myModal.show();
-  }
 
   ngOnInit(): void {
     // No need to subscribe to route params here, as it's already done in the constructor
+    this.calendarOptions = {
+      plugins: [dayGridPlugin, interactionPlugin],
+      initialView: 'dayGridMonth',
+    };
   }
 
   loadCandidacies(jobOfferId: number) {
@@ -143,6 +151,10 @@ export class FindAllJobCandidaciesComponent implements OnInit{
       // Handle error appropriately, e.g., show error message to user
     });
   }
-
+  handleDateClick(arg: any): void {
+    // arg.dateStr contient la date sélectionnée
+    console.log('date click! ', arg.dateStr);
+    // Ici, vous pouvez ouvrir une modal affichant les événements de cette date
+  }
 
 }

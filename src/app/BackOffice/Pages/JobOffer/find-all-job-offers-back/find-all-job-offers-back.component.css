@@ -1,3 +1,24 @@
+.job-offer-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Adjust the min-width and max-width as needed */
+  gap: 20px; /* Adjust the gap between cards */
+}
+
+.job-offer-card {
+  width: 100%; /* Ensure each card takes up full width */
+}
+.custom-card-actions {
+  display: flex;
+  justify-content: space-between; /* Align buttons at the start and end of the container */
+}
+
+
+.btn-icon {
+  font-size: 1.3rem; /* Adjust the font size as needed */
+  padding: 0.3rem; /* Adjust the padding as needed */
+  border-radius: 10px; /* Make the buttons oval */
+}
+
 h2 {
   animation: fadeInDown 1s ease-out forwards;
   text-align: center;
@@ -28,10 +49,4 @@ h2::after {
 /* Hover effect for the underline */
 h2:hover::after {
   width: 150px; /* Underline grows on hover */
-}
-.custom-calendar {
-  width: 1000px;
-  /* Adjust the width as needed */
-  height: 1000px;
-  /* Adjust the height as needed */
 }
