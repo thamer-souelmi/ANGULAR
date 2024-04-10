@@ -1,4 +1,4 @@
-// import {User} from "./User";
+import {User} from "./User";
 import {Event} from "./Event";
 import {TrainingSession} from "./TrainingSession";
 export class FeedBack {
@@ -7,7 +7,7 @@ export class FeedBack {
   FeedBack_date!: Date;
   note!: number;
 
-  // user!: User;
+  user!: User;
   event!: Event;
   trainingsession!: TrainingSession;
 
