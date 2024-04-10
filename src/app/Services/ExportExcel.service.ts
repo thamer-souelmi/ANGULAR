@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
-import * as XLSX from 'xlsx';
+import { Workbook, Worksheet } from 'exceljs';
+import * as FileSaver from 'file-saver';
 import { Activity } from 'src/app/Models/Activity';
+import { FillPattern } from 'exceljs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,63 +11,103 @@ export class ExportExcelService {
 
   constructor() { }
 
+  private formatDate(date: Date): string {
+    // Format date as per your requirements
+    return new Date(date).toLocaleDateString("en-US", {
+      day: "2-digit",
+      month: "long",
+      year: "numeric",
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true
+    });
+  }
+
   public exportToExcel(activities: Activity[], excelFileName: string): void {
-    // Génération des données
-    const data = activities.map(activity => ({
-      'ID': activity.activity_id,
-      'Nom': activity.activity_name,
-      'Description': activity.description,
-      'Heure de début': activity.startTime.toLocaleString(),
-      'Heure de fin': activity.finishTime.toLocaleString(),
-      'Événement': activity.event?.event_name || 'Aucun'
-    }));
+    const workbook = new Workbook();
+    const worksheet = workbook.addWorksheet('Activities');
 
-    // Création de la feuille
-    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(data);
-
-    // Appliquer une largeur de colonne spécifique
-    worksheet['!cols'] = [
-      { wch: 10 },
-      { wch: 20 },
-      { wch: 30 },
-      { wch: 20 },
-      { wch: 20 },
-      { wch: 15 },
+    // Define headers and set columns with widths and styles
+    worksheet.columns = [
+      { header: 'ID', key: 'id', width: 10 },
+      { header: 'Activity Name', key: 'name', width: 25 },
+      { header: 'Description', key: 'description', width: 40 },
+      { header: 'Start Time', key: 'startTime', width: 25 },
+      { header: 'End Time', key: 'endTime', width: 25 },
+      { header: 'Related Event', key: 'relatedEvent', width: 30 }
     ];
 
-    // Style de l'en-tête
-    const range = XLSX.utils.decode_range(<string>worksheet['!ref']);
-    for(let C = range.s.c; C <= range.e.c; ++C) {
-      const address = XLSX.utils.encode_col(C) + "1"; // Obtenir l'adresse de la cellule
-      if(!worksheet[address]) continue; // Si la cellule n'existe pas, continuez
-      worksheet[address].s = {
-        fill: {
-          fgColor: { rgb: "CCCCCC" }, // Gris clair
-        },
-        font: {
-          name: 'Arial',
-          sz: 14,
-          bold: true,
-          color: { rgb: "000000" }, // Noir
-        },
-        alignment: {
-          horizontal: "center",
-          vertical: "center",
-        },
-        border: {
-          top: { style: "thin", color: { auto: 1} },
-          right: { style: "thin", color: { auto: 1} },
-          bottom: { style: "thin", color: { auto: 1} },
-          left: { style: "thin", color: { auto: 1} }
-        }
+    // Apply styles to header row
+    const headerRow = worksheet.getRow(1);
+    headerRow.eachCell((cell) => {
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: 'FF1F4E78' }, // dark blue
       };
-    }
+      cell.font = {
+        bold: true,
+        color: { argb: 'FFFFFFFF' }, // white
+        size: 12,
+      };
+      cell.alignment = {
+        vertical: 'middle',
+        horizontal: 'center',
+        wrapText: true,
+      };
+      cell.border = {
+        top: { style: 'thin', color: { argb: 'FFFFFFFF' } },
+        left: { style: 'thin', color: { argb: 'FFFFFFFF' } },
+        bottom: { style: 'thin', color: { argb: 'FFFFFFFF' } },
+        right: { style: 'thin', color: { argb: 'FFFFFFFF' } },
+      };
+    });
 
-    // Création du classeur et ajout de la feuille
-    const workbook: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'Activités');
+    // Add and style data rows
+    activities.forEach((activity, index) => {
+      const row = worksheet.addRow({
+        id: activity.activity_id,
+        name: activity.activity_name,
+        description: activity.description,
+        startTime: this.formatDate(activity.startTime),
+        endTime: this.formatDate(activity.finishTime),
+        relatedEvent: activity.event?.event_name || 'No related event'
+      });
 
-    // Télécharger le fichier
-    XLSX.writeFile(workbook, `${excelFileName}.xlsx`);
+      // Apply alternating row color
+      const fill: FillPattern = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: index % 2 === 0 ? 'FFFFFFFF' : 'FFF2F2F2' }, // alternating white and light gray
+      };
+
+
+      row.eachCell((cell) => {
+        cell.fill = fill;
+        cell.font = {
+          color: { argb: 'FF000000' }, // black
+          size: 11,
+        };
+        cell.alignment = {
+          vertical: 'middle',
+          horizontal: 'left',
+          wrapText: true,
+        };
+        cell.border = {
+          top: { style: 'thin', color: { argb: 'FFD4D4D4' } },
+          left: { style: 'thin', color: { argb: 'FFD4D4D4' } },
+          bottom: { style: 'thin', color: { argb: 'FFD4D4D4' } },
+          right: { style: 'thin', color: { argb: 'FFD4D4D4' } },
+        };
+      });
+    });
+
+    // Generate and save the Excel file
+    workbook.xlsx.writeBuffer().then((buffer) => {
+      const blob = new Blob([buffer], {
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      });
+      FileSaver.saveAs(blob, `${excelFileName}.xlsx`);
+    });
   }
 }

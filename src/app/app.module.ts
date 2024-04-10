@@ -26,7 +26,7 @@ import { CommonModule, DatePipe } from "@angular/common";
 import { NgbDatepickerModule, NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatSidenavModule } from "@angular/material/sidenav";
 import { MatToolbarModule } from "@angular/material/toolbar";
-import { MatRippleModule } from "@angular/material/core";
+import { MatRippleModule } from '@angular/material/core';
 import { MatMenuModule } from "@angular/material/menu";
 import { FeatherModule } from 'angular-feather';
 import { allIcons } from 'angular-feather/icons';
@@ -38,6 +38,7 @@ import {SidebarBackComponent} from "./BackOffice/sidebar-back/sidebar-back.compo
 import {NavbarBackComponent} from "./BackOffice/navbar-back/navbar-back.component";
 import {FooterBackComponent} from "./BackOffice/footer-back/footer-back.component";
 import {AllTemplatBackComponent} from "./BackOffice/all-templat-back/all-templat-back.component";
+import { EventBComponent } from './BackOffice/Pages/event-b/event-b.component';
 import { UpdateprojectComponent } from './FrontOffice/pages/Project/updateproject/updateproject.component';
 import { ProjectDetailsComponent } from './FrontOffice/pages/Project/project-details/project-details.component';
 import { ProjectCalendarModalComponent } from './FrontOffice/pages/Project/project-calendar-modal/project-calendar-modal.component';
@@ -50,6 +51,7 @@ import { UpdateTaskComponent } from './FrontOffice/pages/Task/update-task/update
 import { AddTaskComponent } from './FrontOffice/pages/Task/add-task/add-task.component';
 import { KanbanBoardComponent } from './FrontOffice/pages/Task/kanban-board/kanban-board.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import {FullCalendarModule} from "@fullcalendar/angular";
 
 @NgModule({
   declarations: [
@@ -66,6 +68,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     NavbarBackComponent,
     FooterBackComponent,
     AllTemplatBackComponent,
+    FilterJobPipe,
+    EventBComponent,
     UpdateprojectComponent,
     ProjectDetailsComponent,
     ProjectCalendarModalComponent,
@@ -107,14 +111,14 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory,
-      
+
     }),
     DragDropModule,
-  ],
+    FullCalendarModule,
 
+  ],
   providers: [DatePipe],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
-
 })
 export class AppModule { }
