@@ -475,62 +475,62 @@ export class EventComponent  implements OnInit,AfterViewInit {
     this.locationSuggestions = []; // Clear suggestions
   }
 
-  // searchLocation(query: string, context: 'add' | 'update'): void {
-  //   const url = `https://nominatim.openstreetmap.org/search?format=json&q={searchTerm}`;
-  //   this.http.get<any[]>(url).subscribe(results => {
-  //     this.errorMessage = '';
-  //     if (results.length > 0) {
-  //       // Traitez les résultats
-  //       // Assurez-vous d'ajuster le traitement des résultats selon le format attendu
-  //     } else {
-  //       console.log('No results found');
-  //       this.errorMessage = 'No results found. Please try a different search.';
-  //     }
-  //     this.cdr.detectChanges();
-  //   }, error => {
-  //     console.error('Error during the search:', error);
-  //     this.errorMessage = 'An error occurred during the search. Please try again.';
-  //     this.cdr.detectChanges();
-  //   });
-  // }
-
-  searchLocation(context: 'add' | 'update'): void {
-    if (!this.searchQuery) {
-      console.log('Search query is empty.');
+  searchLocation(query: string): void {
+    if (!query.trim()) {
+      // Handle empty input
+      alert('Please enter a search term.');
       return;
     }
 
-    // Assuming this.eventService.searchLocation is implemented correctly
-    this.eventService.searchLocation(this.searchQuery, context).subscribe(
-      (results: any[]) => {
-        if (this.map) {
-          // Clear existing markers on the map
-          this.clearMapMarkers();
+    // The Nominatim search URL
+    const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`;
 
-          // Add markers for each search result
-          results.forEach((result: any) => {
-            const { lat, lon, display_name } = result;
-            const marker = L.marker([lat, lon]).addTo(this.map!);
-            marker.bindPopup(display_name || 'Unknown location').openPopup();
-          });
-        }
-      },
-      (error) => {
-        console.error('Error during the search:', error);
+    // Perform the HTTP request to the geocoding service
+    this.http.get<any[]>(url).subscribe(results => {
+      if (results && results.length > 0) {
+        // Assume the first result is the desired one
+        const { lat, lon } = results[0];
+
+        // Update the map view and place a marker
+        this.map?.setView([lat, lon], 13);
+        L.marker([lat, lon]).addTo(this.map!)
+          .bindPopup(results[0].display_name)
+          .openPopup();
+      } else {
+        // Handle no results found
+        alert('No results found for the search term. Please try another query.');
       }
-    );
+    }, error => {
+      // Handle errors from the geocoding service
+      console.error('Geocoding error:', error);
+      alert('An error occurred during the search. Please try again.');
+    });
   }
 
-// Function to clear existing markers on the map
-  private clearMapMarkers(): void {
-    if (this.map) {
-      this.map.eachLayer((layer) => {
-        if (layer instanceof L.Marker) {
-          this.map!.removeLayer(layer);
-        }
-      });
-    }
-  }
+  // searchLocation(context: 'add' | 'update'): void {
+  //   if (!this.searchQuery) {
+  //     console.log('Search query is empty.');
+  //     return;
+  //   }
+  //
+  //   // Assuming this.eventService.searchLocation is implemented correctly
+  //   this.eventService.searchLocation(this.searchQuery, context).subscribe(results => {
+  //     if (this.map) {
+  //       this.map.eachLayer(layer => {
+  //         if (layer instanceof L.Marker) {
+  //           this.map!.removeLayer(layer);
+  //         }
+  //       });
+  //
+  //       results.forEach((result: any) => {
+  //         const { lat, lon, display_name } = result;
+  //         L.marker([lat, lon]).addTo(this.map!).bindPopup(display_name || 'Unknown location').openPopup();
+  //       });
+  //     }
+  //   }, error => {
+  //     console.error('Error during the search:', error);
+  //   });
+  // }
 
   onSearchChange(event: Event): void {
     const latitude = event.place; // Access latitude directly
@@ -1085,5 +1085,4 @@ export class EventComponent  implements OnInit,AfterViewInit {
 
 
 }
-
 

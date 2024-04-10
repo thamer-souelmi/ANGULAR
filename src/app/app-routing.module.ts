@@ -30,6 +30,7 @@ const routes: Routes = [
     component: LoginComponent,
 
   },
+
   {
     path: "back",
     component: AllTemplatBackComponent,
