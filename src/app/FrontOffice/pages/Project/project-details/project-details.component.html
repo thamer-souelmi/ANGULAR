@@ -1,0 +1,22 @@
+<div class="modal-container">
+    <div class="modal-header">
+     
+      <div class="modal-body">
+        <h3>Project Details</h3>
+
+      <p><b>Project Name:</b> {{ project.projectName }}</p>
+      <p><b>Description:</b> {{ project.projectDescription }}</p>
+      <p><b>Start Date:</b> {{ project.startdateProject | date }}</p>
+      <p><b>End Date:</b> {{ project.enddateProject | date  }}</p>
+      <p><b>Status:</b> {{ project.projectStatus }}</p>
+      <div class="modal-footer">
+      <button type="button" class="btn btn-primary" (click)="viewAssociatedTasks()"> Associated Tasks</button>
+      <button type="button" class="btn btn-primary" (click)="uploadFiles()"> Files</button>
+    </div>
+      <br>
+      <div class="modal-footer">
+      <button type="button" class="btn btn-primary" (click)="openUpdateModal()">Edit</button>
+      <button type="button" class="btn btn-secondary" (click)="onClose()">Cancel</button>
+    </div>
+      </div>
+  </div>
