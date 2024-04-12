@@ -1,6 +1,6 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserModule} from "@angular/platform-browser";
+import { BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AllTemplateFrontComponent } from './FrontOffice/all-template-front/all-template-front.component';
@@ -15,12 +15,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpClientModule } from '@angular/common/http';
-import { EventComponent } from './FrontOffice/pages/event/event.component';
+import { EventComponent } from './FrontOffice/Pages/event/event.component';
 import { FindAllJobOffersComponent } from './FrontOffice/pages/JobOffer/find-all-job-offers/find-all-job-offers.component';
 import { WishlistComponent } from './FrontOffice/pages/JobOffer/wishlist/wishlist.component';
-import { FilterJobPipe } from './FrontOffice/pages/JobOffer/filter-job.pipe';
 import { CommonModule, DatePipe } from "@angular/common";
 // import { FullCalendarModule } from '@fullcalendar/angular';
 import { NgbDatepickerModule, NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -32,12 +31,13 @@ import { FeatherModule } from 'angular-feather';
 import { allIcons } from 'angular-feather/icons';
 import { httpInterceptorProviders } from './Helpers/http-request-interceptor';
 import { LoginComponent } from './BackOffice/Pages/login/login.component';
-import { FindAllUsersComponent } from './BackOffice/Pages/find-all-users/find-all-users.component';
 
 import {SidebarBackComponent} from "./BackOffice/sidebar-back/sidebar-back.component";
 import {NavbarBackComponent} from "./BackOffice/navbar-back/navbar-back.component";
 import {FooterBackComponent} from "./BackOffice/footer-back/footer-back.component";
 import {AllTemplatBackComponent} from "./BackOffice/all-templat-back/all-templat-back.component";
+import {FindAllUsersComponent} from "./BackOffice/Pages/find-all-users/find-all-users.component";
+import {FilterJobPipe} from "./FrontOffice/pages/JobOffer/filter-job.pipe";
 import { EventBComponent } from './BackOffice/Pages/event-b/event-b.component';
 import { UpdateprojectComponent } from './FrontOffice/pages/Project/updateproject/updateproject.component';
 import { ProjectDetailsComponent } from './FrontOffice/pages/Project/project-details/project-details.component';
@@ -52,7 +52,6 @@ import { AddTaskComponent } from './FrontOffice/pages/Task/add-task/add-task.com
 import { KanbanBoardComponent } from './FrontOffice/pages/Task/kanban-board/kanban-board.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import {FullCalendarModule} from "@fullcalendar/angular";
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -68,6 +67,7 @@ import {FullCalendarModule} from "@fullcalendar/angular";
     NavbarBackComponent,
     FooterBackComponent,
     AllTemplatBackComponent,
+
     FilterJobPipe,
     EventBComponent,
     UpdateprojectComponent,
@@ -88,7 +88,6 @@ import {FullCalendarModule} from "@fullcalendar/angular";
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
     NgbModule,
@@ -108,16 +107,19 @@ import {FullCalendarModule} from "@fullcalendar/angular";
     MatMenuModule,
     MatButtonModule,
     FeatherModule.pick(allIcons),
-    CalendarModule.forRoot({
+    FormsModule,
+    HttpClientModule,
+    NgbModule,
+        CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory,
 
     }),
     DragDropModule,
     FullCalendarModule,
-
   ],
-  providers: [DatePipe],
+  providers: [httpInterceptorProviders,DatePipe],
+
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

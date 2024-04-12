@@ -11,5 +11,6 @@ export class User {
    birthdate!: Date;
   phonenumber!:number;
     gender!:Gender;
-    role!: Role
+    role!: Role[];
+    image!: string;
 }

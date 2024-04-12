@@ -3,11 +3,10 @@ import { JobOffer } from 'src/app/Models/job-offer';
 import { JobCategory } from 'src/app/Models/job-category';
 import { JobNature } from 'src/app/Models/job-nature';
 import { JobOfferService } from 'src/app/Services/job-offer.service';
-import { Router } from '@angular/router';
-import { ActivatedRoute } from '@angular/router';
 import * as bootstrap from 'bootstrap';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import { DatePipe } from '@angular/common';
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {ActivatedRoute, Router} from "@angular/router";
 
 
 @Component({
