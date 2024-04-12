@@ -22,10 +22,11 @@ import { FeatherModule } from 'angular-feather';
 import { allIcons } from 'angular-feather/icons';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { httpInterceptorProviders } from './Helpers/http-request-interceptor';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './BackOffice/Pages/login/login.component';
 import { FindAllUsersComponent } from './BackOffice/Pages/find-all-users/find-all-users.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -52,8 +53,10 @@ import { FindAllUsersComponent } from './BackOffice/Pages/find-all-users/find-al
     MatButtonModule,
     FeatherModule.pick(allIcons),
     BrowserAnimationsModule,
+    ReactiveFormsModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    NgbModule
   ],
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent]

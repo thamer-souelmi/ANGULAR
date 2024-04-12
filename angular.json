@@ -27,9 +27,9 @@
               "src/BackOffice/assets"
             ],
             "styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.css",
               "src/assets/BackOffice/styles/style.scss"
-
             ],
             "scripts": []
           },
