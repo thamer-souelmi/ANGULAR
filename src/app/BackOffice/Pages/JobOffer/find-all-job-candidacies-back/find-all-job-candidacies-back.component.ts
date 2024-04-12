@@ -15,6 +15,8 @@ export class FindAllJobCandidaciesBackComponent implements OnInit{
   selectedCandidacy: Candidacy | null = null; // Variable to store selected candidacy
   jobOfferId: number = 0;
   candidacies: Candidacy[] = [];
+  searchtext:any;
+
   ngOnInit(): void {
     // No need to subscribe to route params here, as it's already done in the constructor
     this.loadCandidacies(this.jobOfferId);
@@ -68,5 +70,8 @@ export class FindAllJobCandidaciesBackComponent implements OnInit{
       console.error('Error downloading attachment:', error);
       // Handle error appropriately, e.g., show error message to user
     });
+  }
+  navigateToStatistics() {
+    this.router.navigate(['/statisticsCandidacies']);
   }
 }

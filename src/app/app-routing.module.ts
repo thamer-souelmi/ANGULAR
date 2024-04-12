@@ -20,6 +20,13 @@ import {
 import {
   FindAllJobCandidaciesBackComponent
 } from "./BackOffice/Pages/JobOffer/find-all-job-candidacies-back/find-all-job-candidacies-back.component";
+import {StatisticsComponent} from "./BackOffice/Pages/JobOffer/statistics/statistics.component";
+import {
+  StatisticsCandidaciesComponent
+} from "./BackOffice/Pages/JobOffer/statistics-candidacies/statistics-candidacies.component";
+import {
+  StatisticsInterviewComponent
+} from "./BackOffice/Pages/JobOffer/statistics-interview/statistics-interview.component";
 
 
 const routes: Routes = [
@@ -28,7 +35,11 @@ const routes: Routes = [
     component: AllTemplatBackComponent,
     children:[
       {path:"findAllJobOffersback", component:FindAllJobOffersBackComponent },
-      { path: 'findAllJobCandidaciesBack/:id', component: FindAllJobCandidaciesBackComponent }
+      { path: 'findAllJobCandidaciesBack/:id', component: FindAllJobCandidaciesBackComponent },
+      { path: 'statisticsHR', component: StatisticsComponent },
+      { path: 'statisticsCandidacies', component: StatisticsCandidaciesComponent },
+      { path: 'statisticsInterviews', component: StatisticsInterviewComponent }
+
     ]
 
   }, {

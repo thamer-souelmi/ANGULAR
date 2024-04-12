@@ -31,7 +31,7 @@ h2:hover::after {
 }
 .buttons-wrapper {
   position: fixed;
-  top: 50%;
+  top: 0; /* Position the buttons at the top of the screen */
   right: 20px; /* Adjust the distance from the right side as needed */
   display: flex;
   flex-direction: column;
@@ -44,4 +44,17 @@ h2:hover::after {
   border-radius: 10px; /* Adjust the border-radius for rounded corners */
   margin-bottom: 10px; /* Adjust the spacing between buttons as needed */
 }
+.modal-dialog {
+  position: relative;
+  z-index: 1000; /* Ensure modal appears above other content */
+}
+
+.modal-content {
+  border-radius: 10px; /* Add border-radius for rounded corners */
+}
+
+.modal-backdrop {
+  opacity: 0.5; /* Adjust the opacity of the modal backdrop */
+}
+
 

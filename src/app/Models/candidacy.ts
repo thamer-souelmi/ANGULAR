@@ -10,6 +10,10 @@ export class Candidacy {
   coverLetter!:string;
   submissionDate!:Date;
   candidacystatus!:number;
+  linkedinData!:string;
+  skills!:string;
+  country!:string;
+  educationHistory!:string;
   jobOfferId!: number; // Add jobOfferId property if it exists
 
 

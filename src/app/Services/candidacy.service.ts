@@ -58,4 +58,8 @@ export class CandidacyService {
     const apiUrl = `https://api.proofy.io/verifyaddr?aid=60118&key=TgMZZ2TTg7G1tDjsSpWPnJUg&email=${email}`;
     return this.myHttp.get(apiUrl);
   }
+  getCandidateStatisticsByCountry(): Observable<any[]> {
+    const url = `${this.urlCandidacy}/candidateStatisticsByCountry`;
+    return this.myHttp.get<any[]>(url);
+  }
 }

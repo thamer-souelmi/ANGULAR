@@ -142,7 +142,7 @@
         LinkedIn Profile is required.
       </div>
       <div *ngIf="candidacyForm.get('linkedin')?.hasError('pattern') && candidacyForm.get('linkedin')?.touched" class="text-danger">
-        Please enter a valid LinkedIn profile URL.
+        Please enter a valid LinkedIn profile URL it shoud end with /.
       </div>
     </div>
 

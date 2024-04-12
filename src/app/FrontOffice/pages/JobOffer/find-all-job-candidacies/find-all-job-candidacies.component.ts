@@ -9,6 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 import {FullCalendarComponent} from "@fullcalendar/angular";
 import interactionPlugin from "@fullcalendar/interaction";
 import dayGridPlugin from "@fullcalendar/daygrid";
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-find-all-job-candidacies',
@@ -34,7 +35,7 @@ export class FindAllJobCandidaciesComponent implements OnInit{
   candidacies: Candidacy[] = [];
   appointmentForm!: FormGroup;
 
-  constructor(private c: CandidacyService, private fb: FormBuilder, private route: ActivatedRoute, private router: Router, private toastr: ToastrService) {
+  constructor(private c: CandidacyService, private fb: FormBuilder, private route: ActivatedRoute, private router: Router, private toastr: ToastrService,private http: HttpClient) {
     this.appointmentForm = this.fb.group({
       appointmentTime: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -156,6 +157,24 @@ export class FindAllJobCandidaciesComponent implements OnInit{
     // arg.dateStr contient la date sélectionnée
     console.log('date click! ', arg.dateStr);
     // Ici, vous pouvez ouvrir une modal affichant les événements de cette date
+  }
+  fetchLinkedInData(linkedinUrl: string) {
+    // Remove the options parameter as it's not needed
+    // const options = { method: 'GET' };
+    // Dynamically pass the LinkedIn URL and include the method directly in the URL
+    const apiUrl = `https://api.scrapin.io/enrichment/profile?apikey=sk_live_660d4d710474e0ef72317654_key_omcwaeqkbz&linkedinUrl=${encodeURIComponent(linkedinUrl)}`;
+
+    // Fetch LinkedIn data without options parameter
+    this.http.get(apiUrl)
+      .subscribe(
+        (response) => {
+          console.log('LinkedIn Data:', response);
+          // Here you can process the response data as needed
+        },
+        (error) => {
+          console.error('Error fetching LinkedIn data:', error);
+        }
+      );
   }
 
 }

@@ -27,4 +27,7 @@ export class InterviewService {
   deleteInterview(id: number): Observable<void> {
     return this.myHttp.delete<void>(`${this.urlIntrview}/deleteInterviewById/${id}`);
   }
+  getSuccessRate(): Observable<Map<string, number>> {
+    return this.myHttp.get<Map<string, number>>(`${this.urlIntrview}/success-rate`);
+  }
 }

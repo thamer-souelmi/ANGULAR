@@ -28,6 +28,7 @@ import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatRippleModule } from "@angular/material/core";
 import { MatMenuModule } from "@angular/material/menu";
 import { FeatherModule } from 'angular-feather';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { allIcons } from 'angular-feather/icons';
 import {SidebarBackComponent} from "./BackOffice/sidebar-back/sidebar-back.component";
 import {NavbarBackComponent} from "./BackOffice/navbar-back/navbar-back.component";
@@ -38,6 +39,9 @@ import { ToastrModule } from 'ngx-toastr';
 import { FindAllJobOffersBackComponent } from './BackOffice/Pages/JobOffer/find-all-job-offers-back/find-all-job-offers-back.component';
 import { MatCardModule } from '@angular/material/card';
 import { FindAllJobCandidaciesBackComponent } from './BackOffice/Pages/JobOffer/find-all-job-candidacies-back/find-all-job-candidacies-back.component';
+import { StatisticsComponent } from './BackOffice/Pages/JobOffer/statistics/statistics.component';
+import { StatisticsCandidaciesComponent } from './BackOffice/Pages/JobOffer/statistics-candidacies/statistics-candidacies.component';
+import { StatisticsInterviewComponent } from './BackOffice/Pages/JobOffer/statistics-interview/statistics-interview.component';
 
 @NgModule({
   declarations: [
@@ -56,6 +60,9 @@ import { FindAllJobCandidaciesBackComponent } from './BackOffice/Pages/JobOffer/
     FindAllJobCandidaciesComponent,
     FindAllJobOffersBackComponent,
     FindAllJobCandidaciesBackComponent,
+    StatisticsComponent,
+    StatisticsCandidaciesComponent,
+    StatisticsInterviewComponent,
   ],
   imports: [
     BrowserModule,
@@ -87,7 +94,8 @@ import { FindAllJobCandidaciesBackComponent } from './BackOffice/Pages/JobOffer/
       progressAnimation:"increasing",
       preventDuplicates:true
     }), // ToastrModule added
-    MatCardModule
+    MatCardModule,
+    NgxChartsModule
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent]

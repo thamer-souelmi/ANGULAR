@@ -1,0 +1,17 @@
+<h2>Candidate demographics</h2>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <ngx-charts-pie-chart
+        [view]="[500, 400]"
+        [results]="chartDataCandidacy"
+        [legend]="true"
+        [legendPosition]="legendPosition.Right"
+        [explodeSlices]="false"
+        [doughnut]="false"
+        [gradient]="false"
+        (select)="onSelect($event)">
+      </ngx-charts-pie-chart>
+    </div>
+  </div>
+</div>

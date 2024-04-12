@@ -8,6 +8,8 @@ import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import {NgbModal, NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
 import {forkJoin, Observable} from "rxjs";
 import {CandidacyService} from "../../../../Services/candidacy.service";
+import {ActivatedRoute} from "@angular/router";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-find-all-job-offers-back',
@@ -17,14 +19,13 @@ import {CandidacyService} from "../../../../Services/candidacy.service";
 export class FindAllJobOffersBackComponent implements OnInit, AfterViewInit{
   jobOffers: JobOffer[] = [];
   searchtext:any;
-  displayedColumns: string[] = [ 'titleJobOffer', 'postedDate', 'applicationDeadLine',  'vacancy'];
   pageSizeOptions: number[] = [4, 8, 16];
   pageSize: number = 16;
   selectedJobOfferDetails?: JobOffer;
   private jobOfferDetailsModalRef: NgbModalRef | undefined;
   @ViewChild('jobOfferDetailsModal', { static: false }) jobOfferDetailsModal!: TemplateRef<any>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  constructor(private js: JobOfferService, private modalService: NgbModal,private candidacyService: CandidacyService){}
+  constructor(private js: JobOfferService, private modalService: NgbModal,private candidacyService: CandidacyService,private router: Router){}
   loadJobOffers() {
     this.js.findAllJobOffers().subscribe(jobOffers => {
       this.jobOffers = jobOffers;
@@ -39,10 +40,7 @@ export class FindAllJobOffersBackComponent implements OnInit, AfterViewInit{
     this.paginator.pageSize = this.pageSize;
     this.paginator.pageSizeOptions = this.pageSizeOptions;
   }
-  getColumnHeader(column: string): string {
-    // You can customize column headers here if needed
-    return column;
-  }
+
 
   onPageChange(event: any) {
     this.pageSize = event.pageSize;
@@ -101,5 +99,7 @@ export class FindAllJobOffersBackComponent implements OnInit, AfterViewInit{
   countCandidacies(jobOffer: JobOffer): Observable<number> {
     return this.candidacyService.countCandidaciesByJobOfferId(jobOffer.jobOffer_id);
   }
-
+  navigateToStatistics() {
+    this.router.navigate(['/statisticsHR']);
+  }
 }

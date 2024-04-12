@@ -50,6 +50,9 @@ export class JobOfferService {
   getCandidaciesByJobOfferId(jobOfferId: number): Observable<Candidacy[]> {
     return this.myHttp.get<Candidacy[]>(`${this.urlJobOffer}/${jobOfferId}/candidacies`);
   }
+  getJobOfferStatistics(): Observable<any[]> {
+    return this.myHttp.get<any[]>(`${this.urlJobOffer}/getJobOfferStatistics`);
+  }
 
 
 }

@@ -5,7 +5,7 @@
 }
 
 .btn-icon {
-  font-size: 1.3rem; /* Adjust the font size as needed */
+  font-size: 1rem; /* Adjust the font size as needed */
   padding: 0.5rem 1rem; /* Adjust the padding to increase button size */
   border-radius: 30px; /* Make the buttons oval with larger borders */
 }
@@ -42,3 +42,19 @@ h2::after {
 h2:hover::after {
   width: 150px; /* Underline grows on hover */
 }
+.buttons-wrapper {
+  position: fixed;
+  top: 50%;
+  right: 20px; /* Adjust the distance from the right side as needed */
+  display: flex;
+  flex-direction: column;
+  z-index: 1000; /* Ensure the buttons appear on top of other content */
+}
+
+.buttons-wrapper button {
+  padding: 10px 20px; /* Adjust the padding to increase the button size */
+  font-size: 18px; /* Adjust the font size to increase the button text size */
+  border-radius: 10px; /* Adjust the border-radius for rounded corners */
+  margin-bottom: 10px; /* Adjust the spacing between buttons as needed */
+}
+

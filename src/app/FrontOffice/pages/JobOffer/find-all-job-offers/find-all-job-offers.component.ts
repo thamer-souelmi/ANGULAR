@@ -317,33 +317,7 @@ export class FindAllJobOffersComponent implements OnInit, AfterViewInit {
     // Sort the jobOffers array by descending postedDate
     this.jobOffers.sort((a, b) => new Date(b.postedDate).getTime() - new Date(a.postedDate).getTime());
   }
-  filterJobOffers() {
-    this.filteredJobOffers = this.jobOffers.filter(jobOffer => {
-      let match = true;
 
-      // Filter by location
-      if (this.selectedLocation && jobOffer.jobLocation !== this.selectedLocation.toString()) {
-        match = false;
-      }
-
-      // Filter by vacancy
-      if (this.selectedVacancy !== null && jobOffer.vacancy !== parseInt(this.selectedVacancy.toString())) {
-        match = false;
-      }
-
-      // Filter by category
-      if (this.selectedCategory && jobOffer.jobCategory !== parseInt(this.selectedCategory)) {
-        match = false;
-      }
-
-      // Filter by job type
-      if (this.selectedJobType && jobOffer.jobNature !== parseInt(this.selectedJobType)) {
-        match = false;
-      }
-
-      return match;
-    });
-  }
   getCandidacies(jobOfferId: number): void {
     this.js.getCandidaciesByJobOfferId(jobOfferId)
       .subscribe(candidacies => {

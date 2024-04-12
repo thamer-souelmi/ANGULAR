@@ -42,7 +42,7 @@ export class JobOfferDetailsComponent implements OnInit {
       candidateName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       link: ['', [Validators.pattern(/^(ftp|http|https):\/\/[^ "]+$/)]], // Using regular expression directly
-      linkedin: ['', [Validators.pattern(/^(https?:\/\/)?(www\.)?linkedin\.com\/in\/[a-zA-Z0-9\-_]+$/)]],
+      linkedin: ['', [Validators.pattern(/^(https?:\/\/)?(www\.)?linkedin\.com\/in\/[a-zA-Z0-9\-_]+\/$/)]],
       github: ['', [Validators.pattern(/^(https?:\/\/)?(www\.)?github\.com\/[a-zA-Z0-9\-_]+$/)]],
       coverLetter: [''],
       submissionDate: [new Date()],
