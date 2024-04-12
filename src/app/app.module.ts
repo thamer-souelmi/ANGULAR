@@ -42,7 +42,7 @@ import { FindAllJobCandidaciesBackComponent } from './BackOffice/Pages/JobOffer/
 import { StatisticsComponent } from './BackOffice/Pages/JobOffer/statistics/statistics.component';
 import { StatisticsCandidaciesComponent } from './BackOffice/Pages/JobOffer/statistics-candidacies/statistics-candidacies.component';
 import { StatisticsInterviewComponent } from './BackOffice/Pages/JobOffer/statistics-interview/statistics-interview.component';
-
+import {MatTooltipModule} from '@angular/material/tooltip';
 @NgModule({
   declarations: [
     AppComponent,
@@ -95,7 +95,8 @@ import { StatisticsInterviewComponent } from './BackOffice/Pages/JobOffer/statis
       preventDuplicates:true
     }), // ToastrModule added
     MatCardModule,
-    NgxChartsModule
+    NgxChartsModule,
+    MatTooltipModule
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent]

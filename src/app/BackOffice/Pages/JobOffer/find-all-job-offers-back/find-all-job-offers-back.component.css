@@ -52,7 +52,7 @@ h2:hover::after {
 }
 
 .buttons-wrapper button {
-  padding: 10px 20px; /* Adjust the padding to increase the button size */
+  padding: 20px 20px; /* Adjust the padding to increase the button size */
   font-size: 18px; /* Adjust the font size to increase the button text size */
   border-radius: 10px; /* Adjust the border-radius for rounded corners */
   margin-bottom: 10px; /* Adjust the spacing between buttons as needed */

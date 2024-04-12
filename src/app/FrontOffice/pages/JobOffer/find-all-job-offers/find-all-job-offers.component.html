@@ -266,11 +266,13 @@
         <div class="buttons-container">
           <!-- Buttons -->
           <div class="buttons-wrapper">
-            <button class="btn btn-success" style="background-color: #fb6d1c; color: white;" data-bs-toggle="modal" data-bs-target="#addJobOfferModal">
+            <button mat-raised-button
+                    matTooltip="Add new Job offer" class="btn btn-success" style="background-color: #fb6d1c; color: white;" data-bs-toggle="modal" data-bs-target="#addJobOfferModal">
               <i class="fa fa-plus"></i>
             </button>
 
-            <button class="btn btn-primary mt-2" style="background-color: #08718e; color: white;" (click)="navigateToWishlist()">
+            <button mat-raised-button
+                    matTooltip="Consult Wishlist" class="btn btn-primary mt-2" style="background-color: #08718e; color: white;" (click)="navigateToWishlist()">
               <i class="fa fa-heart"></i>
             </button>
           </div>
@@ -316,10 +318,14 @@
                 <div class="jobs_right">
                   <div class="apply_now">
                     <!-- Inside the ngFor loop -->
-                    <a (click)="showUpdateModal(jobOffer)" class="heart_mark"> <i class="fa fa-pencil blue"></i> </a>
-                    <a (click)="askDeleteConfirmation(j.jobOffer_id)" class="heart_mark"><i class="fa fa-trash red"></i></a>
-                    <a [routerLink]="['/JobOffer/findAllJobCandidacies', j.jobOffer_id]" class="heart_mark"><i class="fas fa-users"></i></a>
-                    <a (click)="addToWishlist(j)" class="heart_mark"> <i class="fa fa-heart"></i> </a>
+                    <a mat-raised-button
+                       matTooltip="Edit Job offer" (click)="showUpdateModal(jobOffer)" class="heart_mark"> <i class="fa fa-pencil blue"></i> </a>
+                    <a mat-raised-button
+                       matTooltip="Delete Job offer" (click)="askDeleteConfirmation(j.jobOffer_id)" class="heart_mark"><i class="fa fa-trash red"></i></a>
+                    <a mat-raised-button
+                       matTooltip="Related Candidacies" [routerLink]="['/JobOffer/findAllJobCandidacies', j.jobOffer_id]" class="heart_mark"><i class="fas fa-users"></i></a>
+                    <a mat-raised-button
+                       matTooltip="Add to wish list"  (click)="addToWishlist(j)" class="heart_mark"> <i class="fa fa-heart"></i> </a>
                     <a [routerLink]="['/JobOffer/job-offer-details', j.jobOffer_id]" class="boxed-btn3">Apply Now</a>
                   </div>
                   <div class="date">

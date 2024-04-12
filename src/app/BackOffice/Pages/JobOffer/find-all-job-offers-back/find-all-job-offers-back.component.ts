@@ -10,6 +10,8 @@ import {forkJoin, Observable} from "rxjs";
 import {CandidacyService} from "../../../../Services/candidacy.service";
 import {ActivatedRoute} from "@angular/router";
 import { Router } from '@angular/router';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatButtonModule} from '@angular/material/button';
 
 @Component({
   selector: 'app-find-all-job-offers-back',
