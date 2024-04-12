@@ -3,13 +3,12 @@ import { User } from 'src/app/Models/User';
 
 
 import { UserService } from 'src/app/Services/user.service';
-import {ActivatedRoute, Router} from '@angular/router';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import { AuthService } from 'src/app/Services/auth.service';
 import { Observable } from 'rxjs';
 import {HttpEventType, HttpResponse} from "@angular/common/http";
-
+import {ActivatedRoute, Router} from "@angular/router";
 import * as XLSX from 'xlsx'
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-find-all-users',

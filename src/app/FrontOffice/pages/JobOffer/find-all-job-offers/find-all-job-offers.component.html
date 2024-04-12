@@ -1,0 +1,397 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha384-..." crossorigin="anonymous">
+<link rel="stylesheet" href="/assets/FrontOffice/JobOffer/css/owl.carousel.min.css">
+<link rel="stylesheet" href="/assets/FrontOffice/JobOffer/css/magnific-popup.css">
+<link rel="stylesheet" href="/assets/FrontOffice/JobOffer/css/font-awesome.min.css">
+<link rel="stylesheet" href="/assets/FrontOffice/JobOffer/css/themify-icons.css">
+<link rel="stylesheet" href="/assets/FrontOffice/JobOffer/css/nice-select.css">
+<link rel="stylesheet" href="/assets/FrontOffice/JobOffer/css/flaticon.css">
+<link rel="stylesheet" href="/assets/FrontOffice/JobOffer/css/gijgo.css">
+<link rel="stylesheet" href="/assets/FrontOffice/JobOffer/css/animate.min.css">
+<link rel="stylesheet" href="/assets/FrontOffice/JobOffer/css/slicknav.css">
+<link rel="stylesheet" href="/assets/FrontOffice/JobOffer/css/style.css">
+<div class="modal fade" #warningSuccessModal tabindex="-1" aria-labelledby="warningSuccessModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="warningSuccessModalLabel">Notification</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        {{ warningMessage }}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--warning add -->
+<!-- Confirmation Modal -->
+<div #deleteConfirmationModal class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteConfirmationModalLabel">Confirm Deletion</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete this job offer?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+        <button type="button" class="btn btn-danger" (click)="confirmDeletion()">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Confirmation Modal -->
+
+<!-- Modal for Adding Job Offer -->
+<div #myModal class="modal fade" id="addJobOfferModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalLabel">Add Job Offer</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Job Offer Form -->
+        <form [formGroup]="jobOfferForm" (ngSubmit)="onJobOfferSubmit()">
+          <!-- Job Offer Form Fields -->
+
+          <!-- Job Title Field -->
+          <div class="form-group">
+            <label for="titleJobOffer">Job Title:</label>
+            <input type="text" class="form-control" id="titleJobOffer" formControlName="titleJobOffer" [ngClass]="{ 'is-invalid': jobOfferForm.get('titleJobOffer')?.touched && jobOfferForm.get('titleJobOffer')?.invalid }" required>
+            <!-- Error message -->
+            <div *ngIf="jobOfferForm.get('titleJobOffer')?.hasError('required') && jobOfferForm.get('titleJobOffer')?.touched" class="text-danger">
+              Job Title is required.
+            </div>
+          </div>
+
+          <!-- Description Field -->
+          <div class="form-group">
+            <label for="description">Description:</label>
+            <textarea class="form-control" id="description" formControlName="description" [ngClass]="{ 'is-invalid': jobOfferForm.get('description')?.touched && jobOfferForm.get('description')?.invalid }" required></textarea>
+            <!-- Error message -->
+            <div *ngIf="jobOfferForm.get('description')?.hasError('required') && jobOfferForm.get('description')?.touched" class="text-danger">
+              Description is required.
+            </div>
+          </div>
+
+          <!-- Required Skills Field -->
+          <div class="form-group">
+            <label for="requiredSkills">Required Skills:</label>
+            <textarea class="form-control" class="form-control" id="requiredSkills" formControlName="requiredSkills" [ngClass]="{ 'is-invalid': jobOfferForm.get('requiredSkills')?.touched && jobOfferForm.get('requiredSkills')?.invalid }" required></textarea>
+            <!-- Error message -->
+            <div *ngIf="jobOfferForm.get('requiredSkills')?.hasError('required') && jobOfferForm.get('requiredSkills')?.touched" class="text-danger">
+              Required Skills are required.
+            </div>
+          </div>
+
+          <!-- Experience Field -->
+          <div class="form-group">
+            <label for="experience">Experience:</label>
+            <textarea class="form-control" id="experience" formControlName="experience" [ngClass]="{ 'is-invalid': jobOfferForm.get('experience')?.touched && jobOfferForm.get('experience')?.invalid }" required></textarea>
+            <!-- Error message -->
+            <div *ngIf="jobOfferForm.get('experience')?.hasError('required') && jobOfferForm.get('experience')?.touched" class="text-danger">
+              Experience is required.
+            </div>
+          </div>
+
+          <!-- Job Location Field -->
+          <div class="form-group">
+            <label for="jobLocation">Job Location:</label>
+            <input type="text" class="form-control" id="jobLocation" formControlName="jobLocation" [ngClass]="{ 'is-invalid': jobOfferForm.get('jobLocation')?.touched && jobOfferForm.get('jobLocation')?.invalid }" required>
+            <!-- Error message -->
+            <div *ngIf="jobOfferForm.get('jobLocation')?.hasError('required') && jobOfferForm.get('jobLocation')?.touched" class="text-danger">
+              Job Location is required.
+            </div>
+          </div>
+
+
+          <!-- Vacancy Field -->
+          <div class="form-group">
+            <label for="vacancy">Vacancy:</label>
+            <input type="number" class="form-control" id="vacancy" formControlName="vacancy" [ngClass]="{ 'is-invalid': jobOfferForm.get('vacancy')?.touched && jobOfferForm.get('vacancy')?.invalid }" required>
+            <!-- Error message -->
+            <div *ngIf="jobOfferForm.get('vacancy')?.hasError('required') && jobOfferForm.get('vacancy')?.touched" class="text-danger">
+              Vacancy is required.
+            </div>
+            <div *ngIf="jobOfferForm.get('vacancy')?.hasError('min') && jobOfferForm.get('vacancy')?.touched" class="text-danger">
+              Vacancy cannot be negative.
+            </div>
+          </div>
+
+          <!-- Min Salary Field -->
+          <div class="form-group">
+            <label for="minsalary">Min Salary:</label>
+            <input type="number" class="form-control" id="minsalary" formControlName="minsalary" [ngClass]="{ 'is-invalid': jobOfferForm.get('minsalary')?.touched && jobOfferForm.get('minsalary')?.invalid }" required>
+            <!-- Error message -->
+            <div *ngIf="jobOfferForm.get('minsalary')?.hasError('required') && jobOfferForm.get('minsalary')?.touched" class="text-danger">
+              Minimum Salary is required.
+            </div>
+            <div *ngIf="jobOfferForm.get('minsalary')?.hasError('min') && jobOfferForm.get('minsalary')?.touched" class="text-danger">
+              Minimum Salary cannot be negative.
+            </div>
+          </div>
+
+          <!-- Max Salary Field -->
+          <div class="form-group">
+            <label for="maxsalary">Max Salary:</label>
+            <input type="number" class="form-control" id="maxsalary" formControlName="maxsalary" [ngClass]="{ 'is-invalid': jobOfferForm.get('maxsalary')?.touched && jobOfferForm.get('maxsalary')?.invalid }" required>
+            <!-- Error message -->
+            <div *ngIf="jobOfferForm.get('maxsalary')?.hasError('required') && jobOfferForm.get('maxsalary')?.touched" class="text-danger">
+              Maximum Salary is required.
+            </div>
+            <div *ngIf="jobOfferForm.get('maxsalary')?.hasError('min') && jobOfferForm.get('maxsalary')?.touched" class="text-danger">
+              Maximum Salary cannot be negative.
+            </div>
+            <div *ngIf="jobOfferForm.get('maxsalary')?.hasError('maxSmallerThanMin') && jobOfferForm.get('maxsalary')?.touched" class="text-danger">
+              Maximum Salary must be greater than Minimum Salary.
+            </div>
+          </div>
+
+          <!-- Job Nature Field -->
+          <div class="form-group">
+            <label for="jobNature">Job Nature:</label>
+            <select class="form-control" id="jobNature" formControlName="jobNature" [ngClass]="{ 'is-invalid': jobOfferForm.get('jobNature')?.touched && jobOfferForm.get('jobNature')?.invalid }" required>
+              <option value="0">Full Time</option>
+              <option value="1">Part Time</option>
+              <option value="2">Intern</option>
+            </select>
+            <!-- Error message -->
+            <div *ngIf="jobOfferForm.get('jobNature')?.hasError('required') && jobOfferForm.get('jobNature')?.touched" class="text-danger">
+              Job Nature is required.
+            </div>
+          </div>
+
+          <!-- Job Category Field -->
+          <div class="form-group">
+            <label for="jobCategory">Job Category:</label>
+            <select class="form-control" id="jobCategory" formControlName="jobCategory" [ngClass]="{ 'is-invalid': jobOfferForm.get('jobCategory')?.touched && jobOfferForm.get('jobCategory')?.invalid }" required>
+              <option value="0">Software Development</option>
+              <option value="1">Data Science</option>
+              <option value="2">Security</option>
+              <option value="3">Infrastructure Networking</option>
+              <option value="4">Web Development</option>
+              <option value="5">Design</option>
+              <option value="6">Project Management</option>
+              <option value="7">Business Analysis</option>
+              <option value="8">Consulting And Sales</option>
+            </select>
+            <!-- Error message -->
+            <div *ngIf="jobOfferForm.get('jobCategory')?.hasError('required') && jobOfferForm.get('jobCategory')?.touched" class="text-danger">
+              Job Nature is required.
+            </div>
+          </div>
+
+          <!-- Application Deadline Field -->
+          <div class="form-group mb-4">
+            <label for="applicationDeadLine">Application Deadline Date and Time:</label>
+            <input type="datetime-local" class="form-control" id="applicationDeadLine" formControlName="applicationDeadLine" [ngClass]="{ 'is-invalid': jobOfferForm.get('applicationDeadLine')?.touched && jobOfferForm.get('applicationDeadLine')?.invalid }" required>
+            <!-- Error message -->
+            <div *ngIf="jobOfferForm.get('applicationDeadLine')?.hasError('required') && jobOfferForm.get('applicationDeadLine')?.touched" class="text-danger">
+              Application Deadline and Time are required.
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="text-center">
+            <button type="submit" class="btn btn-primary" [disabled]="!jobOfferForm.valid">Add Job Offer</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Update Modal -->
+<div #updateJobOfferModal class="modal fade" tabindex="-1" role="dialog" aria-labelledby="updateJobOfferModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="updateJobOfferModalLabel">Update Job Offer</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Job Offer Update Form -->
+        <form [formGroup]="updateJobOfferForm" (ngSubmit)="onUpdateJobOffer()">
+          <div class="mb-3">
+            <label for="titleJobOffer" class="form-label">Job Title:</label>
+            <input type="text" class="form-control" id="titleJobOffer" formControlName="titleJobOffer">
+          </div>
+          <div class="mb-3">
+            <label for="description" class="form-label">Description:</label>
+            <input type="text" class="form-control" id="description" formControlName="description">
+          </div>
+          <div class="mb-3">
+            <label for="requiredSkills" class="form-label">Required Skills:</label>
+            <input type="text" class="form-control" id="requiredSkills" formControlName="requiredSkills">
+          </div>
+          <div class="mb-3">
+            <label for="experience" class="form-label">Experience:</label>
+            <input type="text" class="form-control" id="experience" formControlName="experience">
+          </div>
+          <div class="mb-3">
+            <label for="jobLocation" class="form-label">Job Location:</label>
+            <input type="text" class="form-control" id="jobLocation" formControlName="jobLocation">
+          </div>
+          <div class="mb-3">
+            <label for="vacancy" class="form-label">Vacancy:</label>
+            <input type="number" class="form-control" id="vacancy" formControlName="vacancy">
+          </div>
+          <div class="mb-3">
+            <label for="minsalary" class="form-label">Minimum Salary:</label>
+            <input type="number" class="form-control" id="minsalary" formControlName="minsalary">
+          </div>
+          <div class="mb-3">
+            <label for="maxsalary" class="form-label">Maximum Salary:</label>
+            <input type="number" class="form-control" id="maxsalary" formControlName="maxsalary">
+          </div>
+
+          <button type="submit" class="btn btn-primary" [disabled]="!updateJobOfferForm.valid">Update</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<h2>JOB Listing</h2>
+<!-- job_listing_area_start -->
+<div class="job_listing_area plus_padding" style="background-color: white;">
+  <div class="container">
+    <div class="row justify-content-center"> <!-- Center the content -->
+      <div class="col-lg-10">
+        <div class="buttons-container">
+          <!-- Buttons -->
+          <div class="buttons-wrapper">
+            <button class="btn btn-success" style="background-color: #fb6d1c; color: white;" data-bs-toggle="modal" data-bs-target="#addJobOfferModal">
+              <i class="fa fa-plus"></i>
+            </button>
+
+            <button class="btn btn-primary mt-2" style="background-color: #08718e; color: white;" (click)="navigateToWishlist()">
+              <i class="fa fa-heart"></i>
+            </button>
+          </div>
+
+
+          <br>
+          <!-- Most recent -->
+          <div style="display: flex; align-items: center; margin-bottom: 20px;">
+            <button class="btn btn-secondary" style="height: 40px; font-size: 14px; background-color: #049565; border-color: #049565;" (click)="sortByMostRecent()">
+              <i class="fas fa-filter"></i> Most Recent
+            </button>
+            <div class="single_field" style="flex: 1; margin-left: 10px;">
+              <input type="search" [(ngModel)]="searchtext" name="search" id="form1" class="form-control" placeholder="Search keyword" style="width: 100%; height: 40px; padding: 8px 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px;">
+            </div>
+          </div>
+
+          <div class="job_lists m-0">
+            <div *ngFor="let j of getPaginatedItems() | filterJob:searchtext " class="col-lg-12 col-md-12">
+              <div class="single_jobs white-bg d-flex justify-content-between" style="border: 1px solid #049565;">
+                <div class="jobs_left d-flex align-items-center">
+                  <div class="thumb">
+                    <!-- Use the actual image source if available -->
+                    <img src="/assets/FrontOffice/JobOffer/img/svg_icon/1.svg" alt="">
+                  </div>
+                  <div class="jobs_conetent">
+                    <a [routerLink]="['/JobOffer/job-offer-details', j.jobOffer_id]"><h4>{{ j.titleJobOffer }}</h4><h6>{{ j.jobCategory }}</h6></a>
+                    <div class="links_locat d-flex align-items-center">
+                      <div class="location">
+                        <p> <i class="fa fa-map-marker"></i> {{ j.jobLocation }}</p>
+                      </div>
+                      <div class="location">
+                        <p> <i class="fa fa-clock-o"></i> {{ j.jobNature }}</p>
+                      </div>
+                      <div class="vacancy">
+                        <p> <i class="fa fa-users"></i> {{ j.vacancy }}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="jobs_right">
+                  <div class="apply_now">
+                    <!-- Inside the ngFor loop -->
+                    <a (click)="showUpdateModal(jobOffer)" class="heart_mark"> <i class="fa fa-pencil blue"></i> </a>
+                    <a (click)="askDeleteConfirmation(j.jobOffer_id)" class="heart_mark"><i class="fa fa-trash red"></i></a>
+                    <a (click)="navigateToCandidacies(jobOffer.jobOffer_id)" class="heart_mark"><i class="fas fa-users"></i></a>
+                    <a (click)="addToWishlist(j)" class="heart_mark"> <i class="fa fa-heart"></i> </a>
+                    <a [routerLink]="['/JobOffer/job-offer-details', j.jobOffer_id]" class="boxed-btn3">Apply Now</a>
+                  </div>
+                  <div class="date">
+                    <p>Date line: {{ j.applicationDeadLine | date:"medium" }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <br>
+          <br>
+          <!-- Pagination controls -->
+          <div class="d-flex justify-content-center">
+            <div class="pagination">
+              <button class="btn btn-primary" (click)="onPageChange(currentPage - 1)" [disabled]="currentPage === 1">
+                <i class="fa fa-chevron-left"></i> <!-- Left arrow icon -->
+              </button>
+              <!-- Display page numbers -->
+              <ng-container *ngFor="let page of getPaginationNumbers()">
+                <button class="btn btn-primary" [class.active]="page === currentPage" (click)="onPageChange(page)">
+                  {{ page }}
+                </button>
+              </ng-container>
+              <button class="btn btn-primary" (click)="onPageChange(currentPage + 1)" [disabled]="currentPage === getTotalPages()">
+                <i class="fa fa-chevron-right"></i> <!-- Right arrow icon -->
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- job_listing_area_end -->
+
+
+<script src="/assets/FrontOffice/JobOffer/js/owl.carousel.min.js"></script>
+<script src="/assets/FrontOffice/JobOffer/js/isotope.pkgd.min.js"></script>
+<script src="/assets/FrontOffice/JobOffer/js/ajax-form.js"></script>
+<script src="/assets/FrontOffice/JobOffer/js/waypoints.min.js"></script>
+<script src="/assets/FrontOffice/JobOffer/js/imagesloaded.pkgd.min.js"></script>
+<script src="/assets/FrontOffice/JobOffer/js/scrollIt.js"></script>
+<script src="/assets/FrontOffice/JobOffer/js/wow.min.js"></script>
+<script src="/assets/FrontOffice/JobOffer/js/nice-select.min.js"></script>
+<script src="/assets/FrontOffice/JobOffer/js/plugins.js"></script>
+<script src="/assets/FrontOffice/JobOffer/js/range.js"></script>
+<script src="/assets/FrontOffice/JobOffer/js/contact.js"></script>
+<script src="/assets/FrontOffice/JobOffer/js/mail-script.js"></script>
+<script src="/assets/FrontOffice/JobOffer/js/main.js"></script>
+
+
+
+<style>
+  #amount {
+    background-color: #f8f9fa; /* Set your desired background color */
+    padding: 10px; /* Add padding for better visibility */
+    border: 1px solid #ced4da; /* Add a border for a neat look */
+  }
+  .single_field input[type="text"],
+  .single_field select.wide {
+    width: 100%;
+    height: 40px; /* Adjust the height value as needed */
+    padding: 8px 12px; /* Add padding for better spacing */
+    border: 1px solid #ccc; /* Add a border for a consistent look */
+    border-radius: 4px; /* Add border-radius for rounded corners */
+    font-size: 14px; /* Adjust the font size as needed */
+  }
+  .job_listing_area.plus_padding {
+    background-color: white;
+  }
+  .red {
+    color: red;
+  }
+  .blue {
+    color: #08718e;
+  }
+
+</style>

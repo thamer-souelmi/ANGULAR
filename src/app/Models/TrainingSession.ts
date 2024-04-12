@@ -1,5 +1,5 @@
 import {TypeTS} from "./TypeTS";
-import {User} from "./User";
+// import {User} from "./User";
 import {RegistrationTS} from "./RegistrationTS";
 import {FeedBack} from "./FeedBack";
 import {TS_Status} from "./TS_Status";
@@ -14,7 +14,7 @@ export class TrainingSession {
   Place!: string;
   typeTS!: TypeTS;
   tsStatus!: TS_Status ;
-  user!:User;
+  // user!:User;
   registationtss!:RegistrationTS[];
   FeedBacks!: FeedBack[];
 

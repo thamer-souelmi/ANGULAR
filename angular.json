@@ -29,9 +29,13 @@
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.css",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css"
               "src/assets/BackOffice/styles/style.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
+
+            ]
           },
           "configurations": {
             "production": {
@@ -102,6 +106,8 @@
     }
   },
   "cli": {
+
     "analytics": "54f43be2-6c76-466d-83db-09acbbf9c6a2"
+
   }
 }
