@@ -35,8 +35,7 @@ const routes: Routes = [
     path: "back",
     component: AllTemplatBackComponent,
     children:[
-      {path: "EventBack ", component: EventBComponent},
-
+      {path:"EventBack", component:EventBComponent},
       {path:"findall", component:FindAllUsersComponent},
     ]},
 

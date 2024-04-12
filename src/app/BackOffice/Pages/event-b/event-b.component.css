@@ -1,0 +1,35 @@
+.table-custom {
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
+  margin-top: 20px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  border-radius: 10px;
+  overflow: hidden;
+  font-family: 'Arial', sans-serif;
+}
+
+.table-custom th, .table-custom td {
+  padding: 16px 20px;
+  text-align: left;
+}
+
+.table-custom th {
+  background-color: #6c7ae0; /* Couleur de fond des en-têtes */
+  color: white; /* Couleur du texte des en-têtes */
+  font-size: 16px;
+}
+
+.table-custom tr:nth-child(odd) {
+  background-color: #f8f9fa; /* Couleur de fond pour les lignes impaires */
+}
+
+.table-custom tr:hover {
+  background-color: #e2e3e5; /* Couleur de fond au survol */
+}
+
+.table-custom td {
+  border-bottom: 1px solid #e3e4e8; /* Ligne séparatrice légère */
+  font-size: 14px; /* Taille du texte des cellules */
+  color: #333; /* Couleur du texte des cellules */
+}
