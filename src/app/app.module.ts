@@ -61,6 +61,7 @@ import { ProjectChartComponent } from './BackOffice/Pages/Project/project-chart/
 
 
 import {FullCalendarModule} from "@fullcalendar/angular";
+import { ActivityBComponent } from './BackOffice/Pages/activity-b/activity-b.component';
 
 @NgModule({
   declarations: [
@@ -92,6 +93,7 @@ import {FullCalendarModule} from "@fullcalendar/angular";
     LoginComponent,
     FindAllUsersComponent ,
     FilterJobPipe,
+    ActivityBComponent,
     FormsuggestComponent,
     UsersuggestinfoComponent,
     FindAllProjectsComponent,

@@ -26,6 +26,7 @@ import { FindAllProjectsComponent } from './BackOffice/Pages/Project/find-all-pr
 import { ProjectChartComponent } from './BackOffice/Pages/Project/project-chart/project-chart.component';
 
 import {EventComponent} from "./FrontOffice/pages/event/event.component";
+import {ActivityBComponent} from "./BackOffice/Pages/activity-b/activity-b.component";
 
 
 
@@ -35,13 +36,17 @@ const routes: Routes = [
     component: LoginComponent,
 
   },
+  {path:"ActivityB", component:AllTemplatBackComponent,
+  children:[
+    {path:"activityB", component:ActivityBComponent}
+  ]},
 
   {
     path: "back",
     component: AllTemplatBackComponent,
     children:[
-      {path: "EventBack ", component: EventBComponent},
-
+      {path:"EventBack", component:EventBComponent},
+      {path:"activityB",component:ActivityBComponent},
       {path:"findall", component:FindAllUsersComponent},
     ]},
 
