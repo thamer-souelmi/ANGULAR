@@ -119,7 +119,6 @@ export class SidebarBackComponent {
       next: res => {
         console.log(res);
         this.storageService.clean();
-
         this.router.navigate(['']);
       },
       error: err => {

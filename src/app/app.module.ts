@@ -17,7 +17,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpClientModule } from '@angular/common/http';
-import { EventComponent } from './FrontOffice/Pages/event/event.component';
+import { EventComponent } from './FrontOffice/pages/event/event.component';
 import { FindAllJobOffersComponent } from './FrontOffice/pages/JobOffer/find-all-job-offers/find-all-job-offers.component';
 import { WishlistComponent } from './FrontOffice/pages/JobOffer/wishlist/wishlist.component';
 import { CommonModule, DatePipe } from "@angular/common";
@@ -25,7 +25,7 @@ import { CommonModule, DatePipe } from "@angular/common";
 import { NgbDatepickerModule, NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatSidenavModule } from "@angular/material/sidenav";
 import { MatToolbarModule } from "@angular/material/toolbar";
-import { MatRippleModule } from '@angular/material/core';
+import { MatRippleModule } from "@angular/material/core";
 import { MatMenuModule } from "@angular/material/menu";
 import { FeatherModule } from 'angular-feather';
 import { allIcons } from 'angular-feather/icons';
@@ -38,6 +38,10 @@ import {FooterBackComponent} from "./BackOffice/footer-back/footer-back.componen
 import {AllTemplatBackComponent} from "./BackOffice/all-templat-back/all-templat-back.component";
 import {FindAllUsersComponent} from "./BackOffice/Pages/find-all-users/find-all-users.component";
 import {FilterJobPipe} from "./FrontOffice/pages/JobOffer/filter-job.pipe";
+
+import {NgxCaptchaModule} from "ngx-captcha";
+
+
 import { EventBComponent } from './BackOffice/Pages/event-b/event-b.component';
 import { UpdateprojectComponent } from './FrontOffice/pages/Project/updateproject/updateproject.component';
 import { ProjectDetailsComponent } from './FrontOffice/pages/Project/project-details/project-details.component';
@@ -63,6 +67,7 @@ import { ProjectChartComponent } from './BackOffice/Pages/Project/project-chart/
 import {FullCalendarModule} from "@fullcalendar/angular";
 import { ActivityBComponent } from './BackOffice/Pages/activity-b/activity-b.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -78,26 +83,16 @@ import { ActivityBComponent } from './BackOffice/Pages/activity-b/activity-b.com
     NavbarBackComponent,
     FooterBackComponent,
     AllTemplatBackComponent,
-
-    FilterJobPipe,
-    EventBComponent,
-    UpdateprojectComponent,
-    ProjectDetailsComponent,
-    ProjectCalendarModalComponent,
-    ProjectFormComponent,
-    GetAllProjectComponent,
-    TasksByprojectComponent,
-    UpdateTaskComponent,
-    AddTaskComponent,
-    KanbanBoardComponent,
     LoginComponent,
+    FindAllUsersComponent,
+    FilterJobPipe ,
     FindAllUsersComponent ,
     FilterJobPipe,
     ActivityBComponent,
     FormsuggestComponent,
     UsersuggestinfoComponent,
     FindAllProjectsComponent,
-    ProjectChartComponent,
+    ProjectChartComponent
 
   ],
   imports: [
@@ -126,7 +121,8 @@ import { ActivityBComponent } from './BackOffice/Pages/activity-b/activity-b.com
     FormsModule,
     HttpClientModule,
     NgbModule,
-        CalendarModule.forRoot({
+    NgxCaptchaModule,
+    CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory,
 
@@ -136,12 +132,11 @@ import { ActivityBComponent } from './BackOffice/Pages/activity-b/activity-b.com
     AvatarModule,
    ChartModule,
 
-    FullCalendarModule,
-
+    FullCalendarModule
   ],
   providers: [httpInterceptorProviders,DatePipe],
-
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
+
 })
 export class AppModule { }
