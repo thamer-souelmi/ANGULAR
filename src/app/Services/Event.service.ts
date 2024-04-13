@@ -63,7 +63,9 @@ export class EventService {
     const url = `${this.EventUrl}/searchLocation?query=${encodeURIComponent(query)}`;
     return this.http.get<any[]>(url);
   }
-
+  searchEvents(query: string): Observable<Event[]> {
+    return this.http.get<Event[]>(`${this.EventUrl}/search?query=${query}`);
+  }
   getRelatedActivities(eventId: number): Observable<Activity[]> {
     return this.http.get<Activity[]>(`${this.EventUrl}/getRelatedActivities/${eventId}`);
   }

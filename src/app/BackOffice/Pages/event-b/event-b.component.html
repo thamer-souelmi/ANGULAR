@@ -1,49 +1,66 @@
-<!--<div class="d-flex justify-content-center mb-5">-->
-<!--  <mat-form-field appearance="outline" class="w-75 mx-auto"> &lt;!&ndash; Utilisation de w-75 pour une largeur maximale de 75% &ndash;&gt;-->
-<!--    <mat-label>Search activities</mat-label>-->
-<!--    <input matInput [(ngModel)]="searchQuery" (ngModelChange)="onSearchQueryChanged($event)">-->
-<!--  </mat-form-field>-->
-<!--</div>-->
-
-<div class="container mt-3">
-  <div class="row">
-    <div class="col-md-4" *ngFor="let event of events">
-      <div class="card mb-3">
-        <div class="card-header">
-          <h5 class="card-title">{{ event.event_name }}</h5>
-          <h6 class="card-subtitle mb-2 text-muted">{{ event.event_date | date:'medium' }}</h6>
-        </div>
-        <div class="card-body">
-          <p class="card-text">{{ event.event_description }}</p>
-          <p class="card-text"><strong>Place:</strong> {{ event.place }}</p>
-          <p class="card-text"><strong>Average Rating:</strong> {{ event.averageRating }}</p>
-        </div>
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item"><strong>Activities:</strong>
-            <ul>
-              <li *ngFor="let activity of event.Activitys">{{ activity.activity_name }}</li>
-            </ul>
-          </li>
-          <li class="list-group-item"><strong>Registrations:</strong>
-            <ul>
-              <li *ngFor="let registration of event.RegistationEvents">{{ registration.user?.firstname }}</li>
-            </ul>
-          </li>
-          <li class="list-group-item"><strong>Users:</strong>
-            <ul>
-              <li *ngFor="let user of event.users">{{ user.firstname }}</li>
-            </ul>
-          </li>
-          <li class="list-group-item"><strong>Feedbacks:</strong>
-            <ul>
-              <li *ngFor="let feedback of event.feedbacks">{{ feedback.description }}</li>
-            </ul>
-          </li>
-          <button (click)="generatePDF()" class="btn btn-success">Download as PDF</button>
-
-        </ul>
+<div class="d-flex justify-content-center mb-5">
+  <mat-form-field appearance="outline" class="w-75 mx-auto">
+    <mat-label>Search activities</mat-label>
+    <input matInput [(ngModel)]="searchQuery" (ngModelChange)="searchChanged.next($event)">
+  </mat-form-field>
+</div>
+<div class="card-container">
+  <div class="card" *ngFor="let event of filteredEvents">
+    <div class="card-body">
+      <h5 class="card-title">{{ event.event_name }}</h5>
+      <p class="card-text"><strong>Place:</strong> {{ event.place }}</p>
+      <div class="time-info">
+        <p><strong>Date:</strong>{{ event.event_date | date:'medium' }}</p>
+        <p class="card-text"><strong>Average Rating:</strong> {{ event.averageRating }}</p>
+        <button (click)="openModal(event)" class="btn btn-info btn-icon" aria-label="View details">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+               class="bi bi-info-circle" viewBox="0 0 16 16">
+            <path
+              d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+            <path
+              d="m8.93 6.588-2.29.287-.082.380.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
+          </svg>
+        </button>
       </div>
     </div>
-
   </div>
 </div>
+
+<!--modale details -->
+<ng-template #eventModal let-data>
+  <div class="modal-header">
+    <!-- Bouton de fermeture aligné à droite -->
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+      <span aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+  <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
+</svg></span>
+    </button>
+  </div>
+  <div class="modal-title">
+    <!-- Titre du modal sur une ligne différente -->
+    <h2>{{ data.event.event_name }}</h2>
+  </div>
+  <mat-dialog-content class="event-modal-content">
+    <!-- Contenu du modal -->
+    <p><strong>Date:</strong> {{ data.event.event_date | date:'medium' }}</p>
+    <p><strong>Place:</strong> {{ data.event.place }}</p>
+    <p><strong>Average Rating:</strong> {{ data.event.averageRating }}</p>
+    <p><strong>Description:</strong> {{ data.event.event_description }}</p>
+    <div *ngIf="selectedEventActivities.length > 0" class="activities-list">
+      <h3>Activities</h3>
+      <ul>
+        <li *ngFor="let activity of selectedEventActivities" class="activity-item">
+          <div class="activity-header">
+            <span class="activity-name">Name :{{ activity.activity_name }}</span>
+          </div>
+          <div class="activity-description">Description :{{ activity.description }}</div>
+        </li>
+      </ul>
+    </div>
+    <button (click)="generateReportPDF()" class="pdf-button">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filetype-pdf" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M14 4.5V14a2 2 0 0 1-2 2h-1v-1h1a1 1 0 0 0 1-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5zM1.6 11.85H0v3.999h.791v-1.342h.803q.43 0 .732-.173.305-.175.463-.474a1.4 1.4 0 0 0 .161-.677q0-.375-.158-.677a1.2 1.2 0 0 0-.46-.477q-.3-.18-.732-.179m.545 1.333a.8.8 0 0 1-.085.38.57.57 0 0 1-.238.241.8.8 0 0 1-.375.082H.788V12.48h.66q.327 0 .512.181.185.183.185.522m1.217-1.333a.8.8 0 0 1-.085.38.57.57 0 0 1-.238.241.8.8 0 0 1-.375.082H.788V12.48h.66q.327 0 .512.181.185.183.185.522m1.217-1.333v3.999h1.46q.602 0 .998-.237a1.45 1.45 0 0 0 .595-.689q.196-.45.196-1.084 0-.63-.196-1.075a1.43 1.43 0 0 0-.589-.68q-.396-.234-1.005-.234zm.791.645h.563q.371 0 .609.152a.9.9 0 0 1 .354.454q.118.302.118.753a2.3 2.3 0 0 1-.068.592 1.1 1.1 0 0 1-.196.422.8.8 0 0 1-.334.252 1.3 1.3 0 0 1-.483.082h-.563zm3.743 1.763v1.591h-.79V11.85h2.548v.653H7.896v1.117h1.606v.638z"/>
+      </svg>
+    </button>
+  </mat-dialog-content>
+</ng-template>
