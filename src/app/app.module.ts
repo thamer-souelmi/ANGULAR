@@ -52,6 +52,7 @@ import { AddTaskComponent } from './FrontOffice/pages/Task/add-task/add-task.com
 import { KanbanBoardComponent } from './FrontOffice/pages/Task/kanban-board/kanban-board.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import {FullCalendarModule} from "@fullcalendar/angular";
+import { ActivityBComponent } from './BackOffice/Pages/activity-b/activity-b.component';
 
 @NgModule({
   declarations: [
@@ -81,7 +82,8 @@ import {FullCalendarModule} from "@fullcalendar/angular";
     KanbanBoardComponent,
     LoginComponent,
     FindAllUsersComponent ,
-    FilterJobPipe // Ensure pipes are also declared
+    FilterJobPipe,
+    ActivityBComponent,
 
   ],
   imports: [

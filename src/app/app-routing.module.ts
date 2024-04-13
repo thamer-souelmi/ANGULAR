@@ -22,6 +22,7 @@ import { KanbanBoardComponent } from './FrontOffice/pages/Task/kanban-board/kanb
 import { LoginComponent } from './BackOffice/Pages/login/login.component';
 import {FindAllUsersComponent} from "./BackOffice/Pages/find-all-users/find-all-users.component";
 import {EventComponent} from "./FrontOffice/pages/event/event.component";
+import {ActivityBComponent} from "./BackOffice/Pages/activity-b/activity-b.component";
 
 
 const routes: Routes = [
@@ -30,12 +31,17 @@ const routes: Routes = [
     component: LoginComponent,
 
   },
+  {path:"ActivityB", component:AllTemplatBackComponent,
+  children:[
+    {path:"activityB", component:ActivityBComponent}
+  ]},
 
   {
     path: "back",
     component: AllTemplatBackComponent,
     children:[
       {path:"EventBack", component:EventBComponent},
+      {path:"activityB",component:ActivityBComponent},
       {path:"findall", component:FindAllUsersComponent},
     ]},
 
