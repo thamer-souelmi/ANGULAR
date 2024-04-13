@@ -38,6 +38,7 @@ import {FooterBackComponent} from "./BackOffice/footer-back/footer-back.componen
 import {AllTemplatBackComponent} from "./BackOffice/all-templat-back/all-templat-back.component";
 import {FindAllUsersComponent} from "./BackOffice/Pages/find-all-users/find-all-users.component";
 import {FilterJobPipe} from "./FrontOffice/pages/JobOffer/filter-job.pipe";
+import {NgxCaptchaModule} from "ngx-captcha";
 
 
 @NgModule({
@@ -85,7 +86,8 @@ import {FilterJobPipe} from "./FrontOffice/pages/JobOffer/filter-job.pipe";
     FeatherModule.pick(allIcons),
     FormsModule,
     HttpClientModule,
-    NgbModule
+    NgbModule,
+    NgxCaptchaModule
   ],
   providers: [httpInterceptorProviders,DatePipe],
   bootstrap: [AppComponent],

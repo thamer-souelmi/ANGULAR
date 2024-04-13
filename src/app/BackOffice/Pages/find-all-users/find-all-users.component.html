@@ -144,6 +144,10 @@
 
 
           </div>
+          <ngx-recaptcha2 #captchaElem
+                          [siteKey]="siteKey"
+                          formControlName="recaptcha">
+          </ngx-recaptcha2>
 
 
           <button type="submit" class="btn btn-primary" [disabled]="!userForm.valid">Add User</button>
@@ -164,7 +168,7 @@
       <div class="card card-default p-4">
         <a href="javascript:0" class="media text-secondary" data-toggle="modal" data-target="#modal-contact">
           <!-- Assuming you have a profile picture for each user -->
-             <img [src]=  "imageSrcs[1]" class="mr-2 img-fluid rounded" alt="Avatar Image">
+             <img [src]=  "imageSrcs[0]" class="mr-2 rounded" width="60" height="60"  alt="Avatar Image">
 
              <div class="media-body">
                <h5 class="mt-0 mb-2 text-dark">{{ users.firstname }} {{ users.lastname }}</h5>

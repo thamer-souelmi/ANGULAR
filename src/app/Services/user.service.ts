@@ -30,7 +30,7 @@ export class UserService {
   deleteUser(userId: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/removeUser/${userId}`);
   }
-  private baseUrlf = 'http://localhost:8082';
+  private baseUrlf = 'http://localhost:8082/user';
 
   upload(file: File): Observable<HttpEvent<any>> {
     const formData: FormData = new FormData();
