@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import { Activity } from "src/app/Models/Activity";
 import { ActivityService } from "src/app/Services/Activity.service";
 import { EventService } from "src/app/Services/Event.service";
@@ -7,6 +7,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { MatDialog } from "@angular/material/dialog";
 import * as _ from 'lodash';
 import { Event } from "src/app/Models/Event";
+
 
 @Component({
   selector: 'app-activity-b',
@@ -34,6 +35,7 @@ export class ActivityBComponent implements OnInit {
   selectedActivity: Activity | null = null;
   @ViewChild('detailsModal') detailsModal!: TemplateRef<any>;
   isDetailsModalOpen: boolean = false;
+
   constructor(
     private activityService: ActivityService,
     private eventService: EventService,
@@ -122,5 +124,7 @@ export class ActivityBComponent implements OnInit {
       console.error('Error loading events:', error);
     });
   }
+
+
 }
 

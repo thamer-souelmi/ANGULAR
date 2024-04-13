@@ -1,257 +1,80 @@
-
-
-.table-custom {
-  border-collapse: separate;
-  border-spacing: 0;
-  width: 100%;
-  margin-top: 20px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-  border-radius: 10px;
-  overflow: hidden;
+/* Global styles */
+body {
   font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
-.table-custom th, .table-custom td {
-  padding: 16px 20px;
-  text-align: left;
+/* Card Container */
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
 }
 
-.table-custom th {
-  background-color: #6c7ae0; /* Couleur de fond des en-têtes */
-  color: white; /* Couleur du texte des en-têtes */
-  font-size: 16px;
-}
-
-.table-custom tr:nth-child(odd) {
-  background-color: #f8f9fa; /* Couleur de fond pour les lignes impaires */
-}
-
-.table-custom tr:hover {
-  background-color: #e2e3e5; /* Couleur de fond au survol */
-}
-
-.table-custom td {
-  border-bottom: 1px solid #e3e4e8; /* Ligne séparatrice légère */
-  font-size: 14px; /* Taille du texte des cellules */
-  color: #333; /* Couleur du texte des cellules */
-}
-.search-activities-modal {
-  background: #fff;
-  padding: 25px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  width: auto;
-  max-width: 600px;
-  margin: 30px auto;
-  font-family: 'Arial', sans-serif; /* or your preferred font */
-}
-
-.search-activities-modal h2 {
-  margin-top: 0;
-  color: #333;
-  font-size: 24px;
-  text-align: left;
+/* Card */
+.card {
+  width: calc(100% - 20px); /* Trois cartes par ligne avec un espace entre */
   margin-bottom: 20px;
-  position: relative;
-  padding-bottom: 10px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.search-activities-modal h2:after {
-  content: '';
-  display: block;
-  width: 50px;
-  height: 4px;
-  background-color: #50b848; /* Adjust color accordingly */
-  position: absolute;
-  bottom: 0;
-  left: 0;
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
-.search-activities-modal .modal-content {
-  margin-bottom: 20px;
+/* Card Header */
+.card-header {
+  padding: 1rem;
 }
 
-.search-activities-modal .modal-actions {
-  text-align: right;
-  padding-top: 20px;
-  border-top: 1px solid #eee; /* A subtle top border for the actions area */
+.card-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
 }
 
-.search-activities-modal .modal-actions button {
-  background-color: #50b848; /* Adjust button color */
-  color: white;
-  padding: 10px 20px;
-  margin-right: 10px;
+.card-subtitle {
+  color: #6c757d;
+  margin-bottom: 0.5rem;
+}
+
+/* Card Body */
+.card-body {
+  padding: 1rem;
+}
+
+/* List Group */
+.list-group-item {
   border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
 }
 
-.search-activities-modal .modal-actions button:hover {
-  background-color: darken(#50b848, 10%);
+.list-group-item ul {
+  padding-left: 0;
 }
 
-.search-activities-modal .modal-actions button.close {
-  background-color: #ccc; /* A neutral color for close button */
+.list-group-item li {
+  list-style: none;
 }
 
-.search-activities-modal .modal-actions button.close:hover {
-  background-color: darken(#ccc, 10%);
-}
-
-.search-activities-modal .date-picker input[type="date"],
-.search-activities-modal .event-selector select {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  box-sizing: border-box; /* Ensures padding doesn't affect overall width */
-}
-
-/* Close Button Styling */
-.search-activities-modal .close-modal {
-  position: absolute;
-  top: 15px;
-  right: 15px;
+/* Button to view details */
+.btn-icon {
+  background-color: transparent;
   border: none;
-  background: transparent;
-  font-size: 18px;
-  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: background-color 0.2s, transform 0.2s;
 }
 
-/* Remove default browser styles for date input */
-.search-activities-modal input[type="date"]::-webkit-inner-spin-button,
-.search-activities-modal input[type="date"]::-webkit-calendar-picker-indicator {
-  display: none;
-  -webkit-appearance: none;
+.btn-icon:hover, .btn-icon:focus {
+  background-color: #f0f0f0;
+  transform: scale(1.1);
 }
 
-.search-activities-modal input[type="date"] {
-  -webkit-appearance: none; /* Removes default chrome and safari style */
-}
-
-/* Modal Overlay Background */
-.modal-backdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 1040;
-}
-/* Root colors */
-:root {
-  --modal-background: #fff;
-  --modal-shadow: rgba(0, 0, 0, 0.2);
-  --border-radius: 10px;
-  --modal-header-font-size: 24px;
-  --modal-padding: 25px;
-  --modal-width: 600px;
-  --close-button-size: 30px;
-  --input-padding: 10px;
-  --button-background: #50b848;
-  --button-hover-background: #45a63c;
-  --button-color: #fff;
-  --input-border-color: #ccc;
-  --modal-header-after-height: 4px;
-  --modal-header-after-width: 50px;
-  --modal-header-after-color: #50b848;
-  --close-button-color: #000;
-  --close-button-hover-color: #333;
-}
-.search-activities-modal {
-  background: #FFFFFF;
-  border-radius: 6px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  width: 100%;
-  max-width: 400px; /* Adjust the width as needed */
-  margin: auto;
-  position: relative;
-  font-family: 'Arial', sans-serif; /* Use a font that's available to you */
-}
-
-.search-activities-modal h2 {
-  font-size: 1.5rem;
-  color: #333;
-  margin-bottom: 20px;
-}
-
-.search-activities-modal .modal-content {
-  padding: 10px 0;
-}
-
-.search-activities-modal input[type="text"],
-.search-activities-modal input[type="date"],
-.search-activities-modal select {
-  width: calc(100% - 20px); /* Full width minus padding */
-  padding: 10px;
-  margin-bottom: 10px;
-  border: 1px solid #CCCCCC;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
-
-.search-activities-modal .modal-actions {
-  text-align: right;
-  padding-top: 10px;
-}
-
-.search-activities-modal .modal-actions button {
-  background-color: #4CAF50; /* Green color */
-  border: none;
-  border-radius: 4px;
-  color: white;
-  padding: 10px 15px;
-  margin-left: 10px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.search-activities-modal .modal-actions button:hover {
-  background-color: #45A049; /* Darker green */
-}
-
-.search-activities-modal .modal-actions button.close {
-  background-color: #f44336; /* Red color for close */
-}
-
-/* Style for the close (X) button */
-.search-activities-modal .close-modal {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  font-size: 24px;
-  color: #AAAAAA;
-}
-
-.search-activities-modal .close-modal:hover {
-  color: #777777;
-}
-
-/* Overwrite the focus color of inputs */
-.search-activities-modal input[type="text"]:focus,
-.search-activities-modal input[type="date"]:focus,
-.search-activities-modal select:focus {
-  border-color: #4CAF50; /* Green border for focus */
-  outline: none;
-}
-
-/* If you want to add a fade-in effect to your modal */
-.search-activities-modal {
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.3s, visibility 0.3s;
-}
-
-/* Add class 'open' to .search-activities-modal when you want it to fade in */
-.open {
-  opacity: 1;
-  visibility: visible;
+.bi-info-circle {
+  fill: #007bff;
 }
