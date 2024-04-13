@@ -27,6 +27,16 @@ export class UserService {
   deleteUser(userId: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/removeUser/${userId}`);
   }
-
-
+  //malekkk
+  getProjectManagers(): Observable<User[]> {
+    return this.http.get<User[]>(this.baseUrl + '/projectmanagers');
+  }
+  // malekkk
+  getEmployeesForTASKS(): Observable<User[]> {
+    return this.http.get<User[]>(this.baseUrl + '/employees');
+  }
+// malekk
+getCompetentUsers(): Observable<User[]> {
+  return this.http.get<User[]>(`${this.baseUrl}/competentUsers`);
+}
 }
