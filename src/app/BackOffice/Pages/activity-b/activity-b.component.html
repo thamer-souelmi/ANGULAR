@@ -1,0 +1,50 @@
+<!-- Search Box -->
+<div>
+  <input type="text" [(ngModel)]="searchQuery" (ngModelChange)="onSearchQueryChanged($event)" placeholder="Rechercher une activité" class="form-control mb-3">
+</div>
+
+<!-- Cards Container -->
+<div class="card-container">
+  <div *ngFor="let activity of filteredActivities" class="card">
+    <div class="card-body">
+      <h5 class="card-title">{{ activity.activity_name }}</h5>
+      <p class="card-text">{{ activity.description }}</p>
+      <div class="time-info">
+        <p><strong>Start:</strong> {{ activity.startTime | date: 'short' }}</p>
+        <p><strong>End:</strong> {{ activity.finishTime | date: 'short' }}</p>
+      </div>
+      <div class="card-actions">
+        <button class="btn btn-info btn-icon" (click)="openDetailsModal(activity)" aria-label="View details">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+            <path d="m8.93 6.588-2.29.287-.082.380.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Details Modal -->
+<div class="modal-backdrop" *ngIf="isDetailsModalOpen" (click)="closeDetailsModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h4 class="modal-title">Activity Details</h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="closeDetailsModal()"></button>
+
+    </div>
+    <div class="modal-body" *ngIf="selectedActivity">
+      <p><strong>Name:</strong> {{ selectedActivity.activity_name }}</p>
+      <p><strong>Description:</strong> {{ selectedActivity.description }}</p>
+      <p><strong>Start Time:</strong> {{ selectedActivity.startTime | date: 'short' }}</p>
+      <p><strong>End Time:</strong> {{ selectedActivity.finishTime | date: 'short' }}</p>
+      <p><strong>Description:</strong> {{ selectedActivity.event.event_name }}</p>
+
+
+      <!-- Add more fields as necessary -->
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="closeDetailsModal()">Close</button>
+    </div>
+  </div>
+</div>

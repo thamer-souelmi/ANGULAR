@@ -21,7 +21,13 @@ import { UpdateTaskComponent } from './FrontOffice/pages/Task/update-task/update
 import { KanbanBoardComponent } from './FrontOffice/pages/Task/kanban-board/kanban-board.component';
 import { LoginComponent } from './BackOffice/Pages/login/login.component';
 import {FindAllUsersComponent} from "./BackOffice/Pages/find-all-users/find-all-users.component";
+
+import { FindAllProjectsComponent } from './BackOffice/Pages/Project/find-all-projects/find-all-projects.component';
+import { ProjectChartComponent } from './BackOffice/Pages/Project/project-chart/project-chart.component';
+
 import {EventComponent} from "./FrontOffice/pages/event/event.component";
+import {ActivityBComponent} from "./BackOffice/Pages/activity-b/activity-b.component";
+
 
 
 const routes: Routes = [
@@ -30,13 +36,17 @@ const routes: Routes = [
     component: LoginComponent,
 
   },
+  {path:"ActivityB", component:AllTemplatBackComponent,
+  children:[
+    {path:"activityB", component:ActivityBComponent}
+  ]},
 
   {
     path: "back",
     component: AllTemplatBackComponent,
     children:[
-      {path: "EventBack ", component: EventBComponent},
-
+      {path:"EventBack", component:EventBComponent},
+      {path:"activityB",component:ActivityBComponent},
       {path:"findall", component:FindAllUsersComponent},
     ]},
 
@@ -88,6 +98,16 @@ const routes: Routes = [
         { path: 'update-task/:id', component: UpdateTaskComponent },
         { path: 'kanban-task', component: KanbanBoardComponent},
 
+      ]
+    },
+    {
+      path: "Projectback",
+      component: AllTemplatBackComponent,children:[
+        { path: 'findProjects', component:FindAllProjectsComponent },
+        { path: 'projectchart', component:ProjectChartComponent },
+        { path: 'kanban-task', component: KanbanBoardComponent},
+  
+  
       ]
     },
 ];

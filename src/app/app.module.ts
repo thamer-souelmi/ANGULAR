@@ -38,7 +38,34 @@ import {FooterBackComponent} from "./BackOffice/footer-back/footer-back.componen
 import {AllTemplatBackComponent} from "./BackOffice/all-templat-back/all-templat-back.component";
 import {FindAllUsersComponent} from "./BackOffice/Pages/find-all-users/find-all-users.component";
 import {FilterJobPipe} from "./FrontOffice/pages/JobOffer/filter-job.pipe";
+
 import {NgxCaptchaModule} from "ngx-captcha";
+
+
+import { EventBComponent } from './BackOffice/Pages/event-b/event-b.component';
+import { UpdateprojectComponent } from './FrontOffice/pages/Project/updateproject/updateproject.component';
+import { ProjectDetailsComponent } from './FrontOffice/pages/Project/project-details/project-details.component';
+import { ProjectCalendarModalComponent } from './FrontOffice/pages/Project/project-calendar-modal/project-calendar-modal.component';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { ProjectFormComponent } from './FrontOffice/pages/Project/project-form/project-form.component';
+import { GetAllProjectComponent } from './FrontOffice/pages/Project/get-all-project/get-all-project.component';
+import { TasksByprojectComponent } from './FrontOffice/pages/Task/tasks-byproject/tasks-byproject.component';
+import { UpdateTaskComponent } from './FrontOffice/pages/Task/update-task/update-task.component';
+import { AddTaskComponent } from './FrontOffice/pages/Task/add-task/add-task.component';
+import { KanbanBoardComponent } from './FrontOffice/pages/Task/kanban-board/kanban-board.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+
+import { AvatarModule } from 'ngx-avatars';
+import { FormsuggestComponent } from './FrontOffice/pages/Task/formsuggest/formsuggest.component';
+import { UsersuggestinfoComponent } from './FrontOffice/pages/Task/usersuggestinfo/usersuggestinfo.component';
+import { FindAllProjectsComponent } from './BackOffice/Pages/Project/find-all-projects/find-all-projects.component';
+import { ChartModule } from 'angular-highcharts';
+import { ProjectChartComponent } from './BackOffice/Pages/Project/project-chart/project-chart.component';
+
+
+import {FullCalendarModule} from "@fullcalendar/angular";
+import { ActivityBComponent } from './BackOffice/Pages/activity-b/activity-b.component';
 
 
 @NgModule({
@@ -58,7 +85,14 @@ import {NgxCaptchaModule} from "ngx-captcha";
     AllTemplatBackComponent,
     LoginComponent,
     FindAllUsersComponent,
-    FilterJobPipe // Ensure pipes are also declared
+    FilterJobPipe ,
+    FindAllUsersComponent ,
+    FilterJobPipe,
+    ActivityBComponent,
+    FormsuggestComponent,
+    UsersuggestinfoComponent,
+    FindAllProjectsComponent,
+    ProjectChartComponent
 
   ],
   imports: [
@@ -87,7 +121,18 @@ import {NgxCaptchaModule} from "ngx-captcha";
     FormsModule,
     HttpClientModule,
     NgbModule,
-    NgxCaptchaModule
+    NgxCaptchaModule,
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+
+    }),
+    DragDropModule,
+
+    AvatarModule,
+   ChartModule,
+
+    FullCalendarModule
   ],
   providers: [httpInterceptorProviders,DatePipe],
   bootstrap: [AppComponent],
