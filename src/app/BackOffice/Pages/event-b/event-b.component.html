@@ -1,0 +1,44 @@
+<table class="table-custom">
+  <thead>
+  <tr>
+    <th>Event Name</th>
+    <th>Description</th>
+    <th>Place</th>
+    <th>Date</th>
+    <th>Average Rating</th>
+    <th>Activities</th>
+    <th>Registrations</th>
+    <th>Users</th>
+    <th>Feedbacks</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let event of events">
+    <td>{{ event.event_name }}</td>
+    <td>{{ event.event_description }}</td>
+    <td>{{ event.place }}</td>
+    <td>{{ event.event_date | date:'medium' }}</td>
+    <td>{{ event.averageRating }}</td>
+    <td>
+      <ul>
+        <li *ngFor="let activity of event.Activitys">{{ activity.activity_name }}</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+<!--        <li *ngFor="let registration of event.RegistationEvents">{{ registration.user?.firstname }}</li>-->
+      </ul>
+    </td>
+    <td>
+      <ul>
+<!--        <li *ngFor="let user of event.users">{{ user.firstname }}</li>-->
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li *ngFor="let feedback of event.feedbacks">{{ feedback.description }}</li>
+      </ul>
+    </td>
+  </tr>
+  </tbody>
+</table>
