@@ -39,6 +39,10 @@ import {AllTemplatBackComponent} from "./BackOffice/all-templat-back/all-templat
 import {FindAllUsersComponent} from "./BackOffice/Pages/find-all-users/find-all-users.component";
 import {FilterJobPipe} from "./FrontOffice/pages/JobOffer/filter-job.pipe";
 import {NgxCaptchaModule} from "ngx-captcha";
+import {UpdateprojectComponent} from "./FrontOffice/pages/Project/updateproject/updateproject.component";
+import {UpdateTaskComponent} from "./FrontOffice/pages/Task/update-task/update-task.component";
+import {TasksByprojectComponent} from "./FrontOffice/pages/Task/tasks-byproject/tasks-byproject.component";
+import {KanbanBoardComponent} from "./FrontOffice/Pages/Task/kanban-board/kanban-board.component";
 
 
 @NgModule({
@@ -47,6 +51,8 @@ import {NgxCaptchaModule} from "ngx-captcha";
     AllTemplateFrontComponent,
     FooterFrontComponent,
     HeaderFrontComponent,
+    UpdateprojectComponent,
+    UpdateTaskComponent,
     HomeFrontComponent,
     ActivityComponentF,
     EventComponent,
@@ -58,8 +64,9 @@ import {NgxCaptchaModule} from "ngx-captcha";
     AllTemplatBackComponent,
     LoginComponent,
     FindAllUsersComponent,
-    FilterJobPipe // Ensure pipes are also declared
-
+    FilterJobPipe, // Ensure pipes are also declared
+    TasksByprojectComponent,
+    KanbanBoardComponent
   ],
   imports: [
     BrowserModule,

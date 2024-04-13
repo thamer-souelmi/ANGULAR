@@ -9,8 +9,7 @@ import {Router} from "@angular/router";
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-
-  form: any = {
+  url: string = "";  form: any = {
     email: null,
     password: null
   };
@@ -21,7 +20,7 @@ export class LoginComponent implements OnInit {
 
 
   constructor(private authService: AuthService, private storageService: StorageService,
-              private router : Router ) { }
+              private router : Router) { }
 
   ngOnInit(): void {
     if (this.storageService.isLoggedIn()) {
@@ -42,6 +41,7 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['home']);
       }
     }
+    this.authService.get("/auth/url").subscribe((data: any) => this.url = data.authURL);
   }
 
   onSubmit(): void {
