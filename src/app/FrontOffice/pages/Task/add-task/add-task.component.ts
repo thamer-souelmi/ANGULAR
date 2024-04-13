@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
+import { User } from 'src/app/Models/User';
 import { Priority } from 'src/app/Models/priority';
 import { Project } from 'src/app/Models/project';
 import { Task } from 'src/app/Models/task';
 import { TaskStatus } from 'src/app/Models/task-status';
 import { ProjectService } from 'src/app/Services/project.service';
 import { TaskService } from 'src/app/Services/task.service';
+import { UserService } from 'src/app/Services/user.service';
 
 @Component({
   selector: 'app-add-task',
@@ -16,6 +18,10 @@ export class AddTaskComponent implements OnInit {
   projects: Project[] = []; 
   selectedProject!: Project; 
 
+  employees:User[]=[];
+  selectedEmployee!: User; 
+
+
   newTask: Task = new Task(); 
   taskStatusOptions: string[] = ['TODO', 'INPROGRESS', 'COMPLETED', 'CANCELLED']; 
   selectedTaskStatus: TaskStatus = TaskStatus.TODO; 
@@ -25,10 +31,19 @@ export class AddTaskComponent implements OnInit {
   PpriorityOptions = Object.keys(Priority).map(key => Priority[key as keyof typeof Priority]) ; 
 
 
-  constructor(private taskService: TaskService,private projectService: ProjectService, private dialogRef: MatDialogRef<AddTaskComponent>) { }
+  constructor(private taskService: TaskService,private projectService: ProjectService, private dialogRef: MatDialogRef<AddTaskComponent>,private userService: UserService) { }
 
   ngOnInit(): void {
     this.loadProjects();
+    this.loadEmployees();
+    
+  }
+  loadEmployees(): void {
+    this.userService.getEmployeesForTASKS().subscribe(employees =>{
+      this.employees=employees;
+    });
+
+
   }
   loadProjects(): void {
     
@@ -41,6 +56,7 @@ export class AddTaskComponent implements OnInit {
     this.newTask.taskStatus = this.selectedTaskStatus;
     this.newTask.priority = this.selectedPriority;
     this.newTask.projetT = this.selectedProject;
+    this.newTask.employeeTask=this.selectedEmployee;
 
 
     this.taskService.AddTask(this.newTask).subscribe(() => {

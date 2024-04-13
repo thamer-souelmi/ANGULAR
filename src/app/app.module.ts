@@ -51,7 +51,17 @@ import { UpdateTaskComponent } from './FrontOffice/pages/Task/update-task/update
 import { AddTaskComponent } from './FrontOffice/pages/Task/add-task/add-task.component';
 import { KanbanBoardComponent } from './FrontOffice/pages/Task/kanban-board/kanban-board.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+
+import { AvatarModule } from 'ngx-avatars';
+import { FormsuggestComponent } from './FrontOffice/pages/Task/formsuggest/formsuggest.component';
+import { UsersuggestinfoComponent } from './FrontOffice/pages/Task/usersuggestinfo/usersuggestinfo.component';
+import { FindAllProjectsComponent } from './BackOffice/Pages/Project/find-all-projects/find-all-projects.component';
+import { ChartModule } from 'angular-highcharts';
+import { ProjectChartComponent } from './BackOffice/Pages/Project/project-chart/project-chart.component';
+
+
 import {FullCalendarModule} from "@fullcalendar/angular";
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -81,7 +91,11 @@ import {FullCalendarModule} from "@fullcalendar/angular";
     KanbanBoardComponent,
     LoginComponent,
     FindAllUsersComponent ,
-    FilterJobPipe // Ensure pipes are also declared
+    FilterJobPipe,
+    FormsuggestComponent,
+    UsersuggestinfoComponent,
+    FindAllProjectsComponent,
+    ProjectChartComponent,
 
   ],
   imports: [
@@ -116,7 +130,12 @@ import {FullCalendarModule} from "@fullcalendar/angular";
 
     }),
     DragDropModule,
+
+    AvatarModule,
+   ChartModule,
+
     FullCalendarModule,
+
   ],
   providers: [httpInterceptorProviders,DatePipe],
 

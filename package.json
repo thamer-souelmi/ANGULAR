@@ -26,13 +26,19 @@
     "@ng-bootstrap/ng-bootstrap": "^15.1.2",
     "angular-calendar": "^0.31.0",
     "angular-feather": "^6.5.1",
+    "angular-highcharts": "^16.0.0",
     "bootstrap": "^5.3.3",
     "calendar-utils": "^0.10.4",
     "date-fns": "^3.6.0",
+
+    "highcharts": "^11.4.1",
+    "ngx-avatars": "^1.6.1",
+
     "exceljs": "^4.4.0",
     "file-saver": "^2.0.5",
     "leaflet": "^1.9.4",
     "ngx-cookie-service": "^17.1.0",
+
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "xlsx": "^0.18.5",
