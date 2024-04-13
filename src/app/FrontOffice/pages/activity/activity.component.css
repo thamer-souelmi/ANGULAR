@@ -68,6 +68,20 @@
   z-index: 1000;
   transition: all 0.3s ease-in-out;
 }
+.btn-add-activityExcell{
+  position: fixed;
+  right: 100px;
+  bottom: 20px;
+  background-color: #08718e;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 0.25rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  transition: all 0.3s ease-in-out;
+}
 .btn-calender {
   position: fixed;
   right: 130px;

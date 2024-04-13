@@ -94,4 +94,8 @@ export class ActivityService {
 
     return this.http.get<Activity[]>(`${this.ActivityUrl}api/activities/search`, { params });
   }
+  findAllActivitiesWithoutPagination(): Observable<Activity[]> {
+    return this.http.get<Activity[]>(`${this.ActivityUrl}all`); // Assurez-vous que l'URL est correcte
+  }
+
 }

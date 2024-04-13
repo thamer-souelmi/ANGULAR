@@ -13,10 +13,14 @@ export class User {
    birthdate!: Date;
   phonenumber!:number;
     gender!:Gender;
-    role!: Role
+
     //malekk
     projects!:Project[];
     employeeTasks!:Task[];
 
+
+
+    role!: Role[];
+    image!: string;
 
 }
