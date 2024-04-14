@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild, AfterViewInit, TemplateRef, ElementRef} from '@angular/core';
+import {Component, OnInit, ViewChild, AfterViewInit, TemplateRef, ElementRef, ChangeDetectorRef} from '@angular/core';
 import {MatTableModule} from '@angular/material/table';
 import { JobOffer } from 'src/app/Models/job-offer';
 import { JobCategory } from 'src/app/Models/job-category';
@@ -23,11 +23,15 @@ export class FindAllJobOffersBackComponent implements OnInit, AfterViewInit{
   searchtext:any;
   pageSizeOptions: number[] = [4, 8, 16];
   pageSize: number = 16;
-  selectedJobOfferDetails?: JobOffer;
+  selectedJobOfferDetails: JobOffer | null = null;
   private jobOfferDetailsModalRef: NgbModalRef | undefined;
-  @ViewChild('jobOfferDetailsModal', { static: false }) jobOfferDetailsModal!: TemplateRef<any>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  constructor(private js: JobOfferService, private modalService: NgbModal,private candidacyService: CandidacyService,private router: Router){}
+  @ViewChild('detailsModal') detailsModal!: TemplateRef<any>;
+  isDetailsModalOpen: boolean = false;
+  isModalOpen: boolean = false;
+  isResultsModalOpen = false;
+  constructor(private js: JobOfferService, private modalService: NgbModal,private candidacyService: CandidacyService,private router: Router,    private cdr: ChangeDetectorRef
+  ){}
   loadJobOffers() {
     this.js.findAllJobOffers().subscribe(jobOffers => {
       this.jobOffers = jobOffers;
@@ -35,8 +39,9 @@ export class FindAllJobOffersBackComponent implements OnInit, AfterViewInit{
   }
   ngOnInit() {
     this.loadJobOffers();
-    this.selectedJobOfferDetails = undefined; // Set selectedJobOfferDetails to undefined initially
+    this.isResultsModalOpen = false;// Set selectedJobOfferDetails to undefined initially
   }
+
   ngAfterViewInit() {
     // Set the paginator after the view initialization
     this.paginator.pageSize = this.pageSize;
@@ -47,18 +52,7 @@ export class FindAllJobOffersBackComponent implements OnInit, AfterViewInit{
   onPageChange(event: any) {
     this.pageSize = event.pageSize;
   }
-  openJobOfferDetailsModal(jobId: number) {
-    this.js.getJobOfferById(jobId).subscribe(
-      jobOffer => {
-        this.selectedJobOfferDetails = jobOffer;
-        this.jobOfferDetailsModalRef = this.modalService.open(this.jobOfferDetailsModal, { centered: true });
-      },
-      error => {
-        console.error('Error fetching job offer:', error);
-        // Handle error, e.g., display an error message
-      }
-    );
-  }
+
 
   closeModal() {
     if (this.jobOfferDetailsModalRef) {
@@ -104,4 +98,18 @@ export class FindAllJobOffersBackComponent implements OnInit, AfterViewInit{
   navigateToStatistics() {
     this.router.navigate(['/statisticsHR']);
   }
+  openDetailsModal(activity: JobOffer): void {
+    console.log('Selected Job Offer ID:', activity.jobOffer_id); // Log the ID of the selected job offer
+    this.selectedJobOfferDetails = activity;
+    console.log('Selected Job Offer Details:', this.selectedJobOfferDetails); // Log the selectedJobOfferDetails
+    this.isDetailsModalOpen = true;
+    this.cdr.detectChanges(); // Trigger change detection manually
+  }
+
+
+  closeDetailsModal(): void {
+    this.selectedJobOfferDetails = null;
+    this.isDetailsModalOpen = false; // Set the modal to close
+  }
+
 }

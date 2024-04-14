@@ -43,6 +43,7 @@ import { StatisticsComponent } from './BackOffice/Pages/JobOffer/statistics/stat
 import { StatisticsCandidaciesComponent } from './BackOffice/Pages/JobOffer/statistics-candidacies/statistics-candidacies.component';
 import { StatisticsInterviewComponent } from './BackOffice/Pages/JobOffer/statistics-interview/statistics-interview.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import { QuizComponent } from "./FrontOffice/pages/Quiz/quiz/quiz.component";
 @NgModule({
   declarations: [
     AppComponent,
@@ -63,6 +64,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     StatisticsComponent,
     StatisticsCandidaciesComponent,
     StatisticsInterviewComponent,
+    QuizComponent,
   ],
   imports: [
     BrowserModule,

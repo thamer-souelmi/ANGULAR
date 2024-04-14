@@ -62,4 +62,8 @@ export class CandidacyService {
     const url = `${this.urlCandidacy}/candidateStatisticsByCountry`;
     return this.myHttp.get<any[]>(url);
   }
+  getMostQualifiedCandidatesStatistics(): Observable<any[]> {
+    const url = `${this.urlCandidacy}/mostQualifiedCandidatesStatistics`;
+    return this.myHttp.get<any[]>(url);
+  }
 }

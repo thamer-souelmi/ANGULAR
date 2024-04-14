@@ -27,6 +27,7 @@ import {
 import {
   StatisticsInterviewComponent
 } from "./BackOffice/Pages/JobOffer/statistics-interview/statistics-interview.component";
+import {QuizComponent} from "./FrontOffice/pages/Quiz/quiz/quiz.component";
 
 
 const routes: Routes = [
@@ -55,8 +56,9 @@ const routes: Routes = [
       { path: 'findAllJobOffersfront', component: FindAllJobOffersComponent },
       { path: 'job-offer-details/:id', component: JobOfferDetailsComponent },
       { path: 'wishlist', component: WishlistComponent },
-      { path: 'findAllJobCandidacies/:id', component: FindAllJobCandidaciesComponent }
+      { path: 'findAllJobCandidacies/:id', component: FindAllJobCandidaciesComponent },
     ]},
+  { path: 'quiz', component: QuizComponent },
 ];
 
 @NgModule({

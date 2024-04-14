@@ -8,10 +8,13 @@ import { LegendPosition } from '@swimlane/ngx-charts';
 })
 export class StatisticsCandidaciesComponent implements OnInit{
   chartDataCandidacy: { name: string, value: number }[] = [];
+  chartDataMostQualified: { name: string, value: number }[] = [];
   legendPosition = LegendPosition;
   constructor(private candidacyService: CandidacyService) { }
   ngOnInit(): void {
     this.loadCandidacyChartData();
+    this.loadMostQualifiedChartData();
+
   }
   loadCandidacyChartData(): void {
     this.candidacyService.getCandidateStatisticsByCountry().subscribe(
@@ -23,6 +26,17 @@ export class StatisticsCandidaciesComponent implements OnInit{
       },
       (error) => {
         console.error('Error loading candidacy chart data:', error);
+      }
+    );
+  }
+  loadMostQualifiedChartData(): void {
+    this.candidacyService.getMostQualifiedCandidatesStatistics().subscribe(
+      (data: any[]) => {
+        console.log('Received most qualified data:', data); // Log the received data
+        this.chartDataMostQualified = data.map(item => ({ name: item.candidateName, value: item.numberOfSkills }));
+      },
+      (error) => {
+        console.error('Error loading most qualified chart data:', error);
       }
     );
   }

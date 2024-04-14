@@ -1,3 +1,17 @@
+<h2>Most Qualified Candidates</h2>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <ngx-charts-pie-grid
+        [view]="[500, 400]"
+        [results]="chartDataMostQualified"
+        [animations]="true"
+        [label]="'Total'"
+        (select)="onSelect($event)">
+      </ngx-charts-pie-grid>
+    </div>
+  </div>
+</div>
 <h2>Candidate demographics</h2>
 <div class="container">
   <div class="row justify-content-center">
@@ -15,3 +29,6 @@
     </div>
   </div>
 </div>
+
+
+
