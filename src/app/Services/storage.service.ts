@@ -28,6 +28,10 @@ export class StorageService {
     }
     return {};
   }
+  public getUserS(): any {
+    const userString = localStorage.getItem(USER_KEY);
+    return userString ? JSON.parse(userString) : null;
+  }
 
   public isLoggedIn(): boolean {
     return this.cookieService.check(USER_KEY);

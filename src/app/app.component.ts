@@ -21,15 +21,22 @@ export class AppComponent {
     .subscribe(params => {
       if (params["code"] !== undefined) {
         this.authService.getToken(params["code"]).subscribe(result => {
-          if (result === true) {
+          if (result !== null) {
             this.isLoginFailed = false;
             this.isLoggedIn = true;
-            this.router.navigate(['/home/home']);
-              
-        
-          } else {
-            this.router.navigate(['12421']);
-          }
+            const roles = this.storageService.getUser().roles;
+      let isAdmin = false;
+      for (const role of roles) {
+        if (role === "admin") {
+          isAdmin = true;
+          break; // Once "admin" role is found, no need to continue the loop
+        }
+      }
+      if (isAdmin) {
+        this.router.navigate(['back/findall']);
+      } else {
+        this.router.navigate(['/home/home']);
+      }}
         });
       }
     }
