@@ -1,3 +1,4 @@
+import { User } from "./User";
 import { StatusProject } from "./status-project";
 import { Task } from "./task";
 
@@ -9,6 +10,7 @@ export class Project {
     enddateProject!:Date;
     projectStatus!:StatusProject;
     tasks!:Task[];
+    projectManager!:User;
 
    
 }

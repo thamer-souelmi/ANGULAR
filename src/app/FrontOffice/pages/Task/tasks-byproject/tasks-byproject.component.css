@@ -33,19 +33,19 @@
     top: 50%; /* Positionner au milieu de la boîte parente */
     transform: translateY(-50%);     right: 5px; /* Ajuster la position de la ligne à droite */
     height: 135px;
-    width: 5px; /* Largeur de la ligne */
-    border-radius: 0 8px 8px 0; /* Arrondi le coin droit */
+    width: 5px; 
+    border-radius: 0 8px 8px 0; 
 }
 .story-container .story.high-priority::after {
-    background-color: red; /* Rouge pour les tâches à haute priorité */
+    background-color: red; 
   }
   
   .story-container .story.medium-priority::after {
-    background-color: orange; /* Orange pour les tâches à priorité moyenne */
+    background-color: orange; 
   }
   
   .story-container .story.low-priority::after {
-    background-color:#049565; /* Jaune pour les tâches à faible priorité */
+    background-color:#049565; 
   }
   .story h3 {
     margin: 0 0 8px 0;
@@ -87,7 +87,7 @@
     border-color: #049565; /* Couleur de la bordure */
     position: relative;
     left: 1400px;
-   
+    top:-50px;
   }
   
   
@@ -97,3 +97,13 @@
     font-size: 1rem; /* Taille de l'icône */
    
   }
+  .suggestions-button {
+    background-color:#049565; /* Couleur de fond */
+    color: #fff; /* Couleur du texte */
+    border-color: #049565; /* Couleur de la bordure */
+    position: relative;
+    right: -50px;
+    top:-50px;
+    font-size: 1rem;
+  }
+  

@@ -54,7 +54,13 @@ export class TaskService {
     return this.myHttp.get<Task[]>(`${this.urlTaskCrud}/Task/tasks?status=${status}`);
   }
 
-  
+  getCountByEmployeeTask(userId: number): Observable<number> {
+    return this.myHttp.get<number>(`${this.urlTaskCrud}/Task/countByEmployeeTask?userId=${userId}`);
+  }
+
+  checkAvailableTasks(userId: number): Observable<boolean> {
+    return this.myHttp.get<boolean>(`${this.urlTaskCrud}/Task/available?userId=${userId}`);
+  }
 
 
 }

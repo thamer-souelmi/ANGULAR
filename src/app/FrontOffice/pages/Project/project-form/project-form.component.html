@@ -51,9 +51,14 @@
                   {{ status }}
                 </option>
               </select>
-  
-  
             </div>
+            <br>
+            <div class="form-group">
+            <label for="projectManager">Project Manager:</label>
+<select id="projectManager" [(ngModel)]="selectedmanager" name="projectManager" class="form-control" required>
+  <option *ngFor="let manager of projectManagers" [value]="manager">{{ manager.firstname }} {{ manager.lastname }}</option>
+</select>
+</div>
             <br>
   
   

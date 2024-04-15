@@ -6,6 +6,7 @@ import { AddTaskComponent } from '../add-task/add-task.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Priority } from 'src/app/Models/priority';
 import { UpdateTaskComponent } from '../update-task/update-task.component';
+import { FormsuggestComponent } from '../formsuggest/formsuggest.component';
 
 @Component({
   selector: 'app-tasks-byproject',
@@ -80,7 +81,16 @@ createNewTask(): void {
     }
   });
 }
-  
+openFormsuggestModal(): void {
+  const dialogRef = this.dialog.open(FormsuggestComponent, {
+    width: '500px'
+  });
+
+  dialogRef.afterClosed().subscribe(result => {
+    if (result) {
+    }
+  });
+}
   }
 
 

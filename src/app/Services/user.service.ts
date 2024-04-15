@@ -30,7 +30,22 @@ export class UserService {
   deleteUser(userId: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/removeUser/${userId}`);
   }
-  private baseUrlf = 'http://localhost:8082/user';
+
+
+  //malekkk
+  getProjectManagers(): Observable<User[]> {
+    return this.http.get<User[]>(this.baseUrl + '/projectmanagers');
+  }
+  // malekkk
+  getEmployeesForTASKS(): Observable<User[]> {
+    return this.http.get<User[]>(this.baseUrl + '/employees');
+  }
+// malekk
+getCompetentUsers(): Observable<User[]> {
+  return this.http.get<User[]>(`${this.baseUrl}/competentUsers`);
+}
+
+private baseUrlf : string = 'http://localhost:8082/user';
 
   upload(file: File): Observable<HttpEvent<any>> {
     const formData: FormData = new FormData();
@@ -55,5 +70,6 @@ export class UserService {
       observe: 'response' // To access full response including headers
     });
   }
+
 
 }
