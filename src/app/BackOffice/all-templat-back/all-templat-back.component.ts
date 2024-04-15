@@ -12,6 +12,8 @@ export class AllTemplatBackComponent  implements OnInit {
   }
 
   ngOnInit() {
+        if (!this.storageService.isLoggedIn())
+     this.router.navigate(['']);
     const roles = this.storageService.getUser().roles;
 
     let isAdmin = false;
