@@ -205,56 +205,56 @@
     </div>
   </div>
 </div>
-<!-- Update Modal -->
-<div #updateJobOfferModal class="modal fade" tabindex="-1" role="dialog" aria-labelledby="updateJobOfferModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="updateJobOfferModalLabel">Update Job Offer</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <!-- Job Offer Update Form -->
-        <form [formGroup]="updateJobOfferForm" (ngSubmit)="onUpdateJobOffer()">
-          <div class="mb-3">
-            <label for="titleJobOffer" class="form-label">Job Title:</label>
-            <input type="text" class="form-control" id="titleJobOffer" formControlName="titleJobOffer">
-          </div>
-          <div class="mb-3">
-            <label for="description" class="form-label">Description:</label>
-            <input type="text" class="form-control" id="description" formControlName="description">
-          </div>
-          <div class="mb-3">
-            <label for="requiredSkills" class="form-label">Required Skills:</label>
-            <input type="text" class="form-control" id="requiredSkills" formControlName="requiredSkills">
-          </div>
-          <div class="mb-3">
-            <label for="experience" class="form-label">Experience:</label>
-            <input type="text" class="form-control" id="experience" formControlName="experience">
-          </div>
-          <div class="mb-3">
-            <label for="jobLocation" class="form-label">Job Location:</label>
-            <input type="text" class="form-control" id="jobLocation" formControlName="jobLocation">
-          </div>
-          <div class="mb-3">
-            <label for="vacancy" class="form-label">Vacancy:</label>
-            <input type="number" class="form-control" id="vacancy" formControlName="vacancy">
-          </div>
-          <div class="mb-3">
-            <label for="minsalary" class="form-label">Minimum Salary:</label>
-            <input type="number" class="form-control" id="minsalary" formControlName="minsalary">
-          </div>
-          <div class="mb-3">
-            <label for="maxsalary" class="form-label">Maximum Salary:</label>
-            <input type="number" class="form-control" id="maxsalary" formControlName="maxsalary">
-          </div>
+<!--&lt;!&ndash; Update Modal &ndash;&gt;-->
+<!--<div #updateJobOfferModal class="modal fade" tabindex="-1" role="dialog" aria-labelledby="updateJobOfferModalLabel" aria-hidden="true">-->
+<!--  <div class="modal-dialog">-->
+<!--    <div class="modal-content">-->
+<!--      <div class="modal-header">-->
+<!--        <h5 class="modal-title" id="updateJobOfferModalLabel">Update Job Offer</h5>-->
+<!--        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
+<!--      </div>-->
+<!--      <div class="modal-body">-->
+<!--        &lt;!&ndash; Job Offer Update Form &ndash;&gt;-->
+<!--        <form [formGroup]="updateJobOfferForm" (ngSubmit)="onUpdateJobOffer()">-->
+<!--          <div class="mb-3">-->
+<!--            <label for="titleJobOffer" class="form-label">Job Title:</label>-->
+<!--            <input type="text" class="form-control" id="titleJobOffer" formControlName="titleJobOffer">-->
+<!--          </div>-->
+<!--          <div class="mb-3">-->
+<!--            <label for="description" class="form-label">Description:</label>-->
+<!--            <input type="text" class="form-control" id="description" formControlName="description">-->
+<!--          </div>-->
+<!--          <div class="mb-3">-->
+<!--            <label for="requiredSkills" class="form-label">Required Skills:</label>-->
+<!--            <input type="text" class="form-control" id="requiredSkills" formControlName="requiredSkills">-->
+<!--          </div>-->
+<!--          <div class="mb-3">-->
+<!--            <label for="experience" class="form-label">Experience:</label>-->
+<!--            <input type="text" class="form-control" id="experience" formControlName="experience">-->
+<!--          </div>-->
+<!--          <div class="mb-3">-->
+<!--            <label for="jobLocation" class="form-label">Job Location:</label>-->
+<!--            <input type="text" class="form-control" id="jobLocation" formControlName="jobLocation">-->
+<!--          </div>-->
+<!--          <div class="mb-3">-->
+<!--            <label for="vacancy" class="form-label">Vacancy:</label>-->
+<!--            <input type="number" class="form-control" id="vacancy" formControlName="vacancy">-->
+<!--          </div>-->
+<!--          <div class="mb-3">-->
+<!--            <label for="minsalary" class="form-label">Minimum Salary:</label>-->
+<!--            <input type="number" class="form-control" id="minsalary" formControlName="minsalary">-->
+<!--          </div>-->
+<!--          <div class="mb-3">-->
+<!--            <label for="maxsalary" class="form-label">Maximum Salary:</label>-->
+<!--            <input type="number" class="form-control" id="maxsalary" formControlName="maxsalary">-->
+<!--          </div>-->
 
-          <button type="submit" class="btn btn-primary" [disabled]="!updateJobOfferForm.valid">Update</button>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
+<!--          <button type="submit" class="btn btn-primary" [disabled]="!updateJobOfferForm.valid">Update</button>-->
+<!--        </form>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
 
 
 <h2>JOB Listing</h2>
@@ -319,7 +319,7 @@
                   <div class="apply_now">
                     <!-- Inside the ngFor loop -->
                     <a mat-raised-button
-                       matTooltip="Edit Job offer" (click)="showUpdateModal(jobOffer)" class="heart_mark"> <i class="fa fa-pencil blue"></i> </a>
+                       matTooltip="Edit Job offer" (click)="openUpdateModal()" class="heart_mark"> <i class="fa fa-pencil blue"></i> </a>
                     <a mat-raised-button
                        matTooltip="Delete Job offer" (click)="askDeleteConfirmation(j.jobOffer_id)" class="heart_mark"><i class="fa fa-trash red"></i></a>
                     <a mat-raised-button

@@ -13,6 +13,9 @@ import { HttpClient } from '@angular/common/http';
 import {RecommendationService} from "../../../../Services/recommendation.service";
 import {MatDialog} from "@angular/material/dialog";
 import {InterviewCalendarComponent} from "../../Interview/interview-calendar/interview-calendar.component";
+import {
+  CandiadateLinkedInDetailsComponent
+} from "../candiadate-linked-in-details/candiadate-linked-in-details.component";
 
 @Component({
   selector: 'app-find-all-job-candidacies',
@@ -215,5 +218,13 @@ export class FindAllJobCandidaciesComponent implements OnInit{
     dialogRef.afterClosed().subscribe(result => {
     });
   }
+  openDetailModal(candidate: Candidacy) {
+    const dialogRef = this.dialog.open(CandiadateLinkedInDetailsComponent, {
+      data: { candidate: candidate }
+    });
 
+    dialogRef.afterClosed().subscribe(result => {
+      // Handle modal close event if needed
+    });
+  }
 }

@@ -51,6 +51,7 @@ import { InterviewDetailsComponent } from './FrontOffice/pages/Interview/intervi
 import { UpdateInterviewComponent } from './FrontOffice/pages/Interview/update-interview/update-interview.component';
 import { InterviewDetailsBackComponent } from './BackOffice/Pages/JobOffer/interview-details-back/interview-details-back.component';
 import { UpdateJobOfferComponent } from './FrontOffice/pages/JobOffer/update-job-offer/update-job-offer.component';
+import { CandiadateLinkedInDetailsComponent } from './FrontOffice/pages/JobOffer/candiadate-linked-in-details/candiadate-linked-in-details.component';
 
 @NgModule({
   declarations: [
@@ -78,6 +79,7 @@ import { UpdateJobOfferComponent } from './FrontOffice/pages/JobOffer/update-job
     UpdateInterviewComponent,
     InterviewDetailsBackComponent,
     UpdateJobOfferComponent,
+    CandiadateLinkedInDetailsComponent,
   ],
   imports: [
     BrowserModule,

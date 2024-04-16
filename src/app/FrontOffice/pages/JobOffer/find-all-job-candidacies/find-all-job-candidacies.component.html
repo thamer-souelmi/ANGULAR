@@ -80,8 +80,14 @@
           <p class="card-text">LinkeIn Account: <a href="{{ candidacy.linkedin }}" target="_blank" class="fab fa-linkedin fa-lg"></a></p>
           <p class="card-text">GitHub Account: <a href="{{ candidacy.github }}" target="_blank"><i class="fab fa-github fa-lg"></i></a></p>
           <p class="card-text">Attachments: <a href="#" (click)="downloadAttachment($event, candidacy.cv)">
-            <i class="fas fa-paperclip"></i>
-          </a>
+            <i class="fas fa-paperclip"></i></a></p>
+          <p class="card-text">
+            More candidate Details:
+            <button class="btn btn-link" (click)="openDetailModal(candidacy)">
+              <i class="bi bi-info-circle"></i>
+            </button>
+          </p>
+
           <div class="container bg-light p-3">
             <div class="d-flex justify-content-between">
               <div class="btn-group">
@@ -125,7 +131,10 @@
   </div>
 </div>
 <div class="d-flex justify-content-end mb-3">
-  <i class="material-icons" class="btn btn-primary mt-2" style="background-color: #08718e; color: white;" (click)="openCalendarModal()">
-    <i class="fas fa-calendar-alt"></i>
+  <i mat-raised-button
+     matTooltip="Interviews" class="material-icons btn btn-primary mt-2 larger-button" style="background-color: #08718e; color: white;" (click)="openCalendarModal()">
+    <i class="bi bi-calendar3"></i>
   </i>
 </div>
+
+

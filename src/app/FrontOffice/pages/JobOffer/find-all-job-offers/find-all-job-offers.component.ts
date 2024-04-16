@@ -13,6 +13,8 @@ import {Candidacy} from "../../../../Models/candidacy";
 import {Observable} from "rxjs"; // Import the pipe
 import { forkJoin } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
+import {UpdateJobOfferComponent} from "../update-job-offer/update-job-offer.component";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-find-all-job-offers',
@@ -51,7 +53,7 @@ export class FindAllJobOffersComponent implements OnInit, AfterViewInit {
   jobOffer_id!: number;
   jobOffer1!: JobOffer;
   private candidacies!: Candidacy[];
-  constructor(private js: JobOfferService, private router: Router,private formBuilder: FormBuilder,
+  constructor(private js: JobOfferService, private router: Router,private formBuilder: FormBuilder,private dialog: MatDialog,
               private cdr: ChangeDetectorRef,
               private ngZone: NgZone,private route: ActivatedRoute,private candidacyService: CandidacyService,private toastr: ToastrService) {
     this.jobOfferForm = this.formBuilder.group({
@@ -90,6 +92,16 @@ export class FindAllJobOffersComponent implements OnInit, AfterViewInit {
     }
     // Repeat for other select elements if needed
   }
+  openUpdateModal(): void {
+    const dialogRef = this.dialog.open(UpdateJobOfferComponent, {
+      width: '600px',
+      data: { jobOffer: this.jobOffer }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+    });
+  }
+
 
   loadJobOffers() {
     this.js.findAllJobOffers().subscribe(jobOffers => {
@@ -231,13 +243,6 @@ export class FindAllJobOffersComponent implements OnInit, AfterViewInit {
     } else {
       this.router.navigate(['/JobOffer/job-offer-details', selectedValue]);
     }
-  }
-  resetSelects() {
-    // Check if locationSelect is defined and truthy
-    if (this.locationSelect && this.locationSelect.nativeElement) {
-      this.locationSelect.nativeElement.value = ''; // Clear the selected option
-    }
-    // Repeat for other select elements if needed
   }
   salaryRangeValidator(formGroup: FormGroup) {
     const minSalary = formGroup.get('minsalary')!.value;
