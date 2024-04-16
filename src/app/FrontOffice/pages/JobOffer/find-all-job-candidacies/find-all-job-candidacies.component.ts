@@ -10,6 +10,9 @@ import {FullCalendarComponent} from "@fullcalendar/angular";
 import interactionPlugin from "@fullcalendar/interaction";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import { HttpClient } from '@angular/common/http';
+import {RecommendationService} from "../../../../Services/recommendation.service";
+import {MatDialog} from "@angular/material/dialog";
+import {InterviewCalendarComponent} from "../../Interview/interview-calendar/interview-calendar.component";
 
 @Component({
   selector: 'app-find-all-job-candidacies',
@@ -35,7 +38,7 @@ export class FindAllJobCandidaciesComponent implements OnInit{
   candidacies: Candidacy[] = [];
   appointmentForm!: FormGroup;
 
-  constructor(private c: CandidacyService, private fb: FormBuilder, private route: ActivatedRoute, private router: Router, private toastr: ToastrService,private http: HttpClient) {
+  constructor(private c: CandidacyService, private fb: FormBuilder, private route: ActivatedRoute, private router: Router, private toastr: ToastrService,private http: HttpClient,private recommendationService: RecommendationService,public dialog: MatDialog) {
     this.appointmentForm = this.fb.group({
       appointmentTime: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -146,6 +149,9 @@ export class FindAllJobCandidaciesComponent implements OnInit{
       } else if (status === 2) {
         this.toastr.success('Candidate Hired !', 'Success');
       }
+      else if (status === 1) {
+        this.toastr.info('Candidate Selected for Interview !', 'Success');
+      }
 
       // Optionally, you can update the local candidacies array or handle other UI updates
     }, error => {
@@ -175,6 +181,39 @@ export class FindAllJobCandidaciesComponent implements OnInit{
           console.error('Error fetching LinkedIn data:', error);
         }
       );
+  }
+  sendRequirements() {
+    const requirements = {
+      html: 5,
+      python: 4,
+      java: 3,
+      c: 2,
+      javascript: 4,
+      kotlin: 2,
+      swift: 1,
+      react: 3,
+      angular: 2,
+      spring: 4,
+      'C++': 3,
+      'C#': 0
+    };
+
+    this.recommendationService.sendRequirements(requirements).subscribe(
+      (response) => {
+        console.log('Response from server:', response);
+        // Handle the response from the server as needed
+      },
+      (error) => {
+        console.error('Error sending requirements:', error);
+        // Handle errors
+      }
+    );
+  }
+  openCalendarModal() {
+    const dialogRef = this.dialog.open(InterviewCalendarComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+    });
   }
 
 }

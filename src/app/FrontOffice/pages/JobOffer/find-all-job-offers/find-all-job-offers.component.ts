@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef, NgZone, Af
 import { JobOffer } from 'src/app/Models/job-offer';
 import { JobCategory } from 'src/app/Models/job-category';
 import { JobNature } from 'src/app/Models/job-nature';
-import { WishlistComponent } from 'src/app/FrontOffice/pages/JobOffer/wishlist/wishlist.component';
 import { JobOfferService } from 'src/app/Services/job-offer.service';
 import { CandidacyService } from 'src/app/Services/candidacy.service';
 import { Router } from '@angular/router';
@@ -36,8 +35,8 @@ export class FindAllJobOffersComponent implements OnInit, AfterViewInit {
   warningMessage: string = '';
   @ViewChild('deleteConfirmationModal') deleteConfirmationModal!: ElementRef;
   private jobOfferIdToDelete!: number;
-  updateJobOfferForm!: FormGroup;
-  @ViewChild('updateJobOfferModal') updateJobOfferModal!: ElementRef;
+  // updateJobOfferForm!: FormGroup;
+  // @ViewChild('updateJobOfferModal') updateJobOfferModal!: ElementRef;
   selectedJobOffer?: JobOffer ;
   jobOffersLocations: string[] = [];
   jobOffersVacancies: number[] = [];
@@ -68,20 +67,20 @@ export class FindAllJobOffersComponent implements OnInit, AfterViewInit {
       jobNature: [0, Validators.required],
       jobCategory: [0, Validators.required]
     }, { validators: this.salaryRangeValidator });
-    this.updateJobOfferForm = this.formBuilder.group({
-      jobOffer_id: [''], // Ensure this field is included
-      titleJobOffer: ['', Validators.required],
-      description: ['', Validators.required],
-      requiredSkills: ['', Validators.required],
-      experience: ['', Validators.required],
-      jobLocation: ['', Validators.required],
-      // applicationDeadLine: ['', Validators.required],
-      vacancy: ['', [Validators.required, Validators.min(1)]],
-      minsalary: ['', [Validators.required, Validators.min(1)]],
-      maxsalary: ['', [Validators.required, Validators.min(1)]],
-      // jobNature: ['', Validators.required],
-      // jobCategory: ['', Validators.required],
-    }, { validators: this.salaryRangeValidator });
+    // this.updateJobOfferForm = this.formBuilder.group({
+    //   jobOffer_id: [''], // Ensure this field is included
+    //   titleJobOffer: ['', Validators.required],
+    //   description: ['', Validators.required],
+    //   requiredSkills: ['', Validators.required],
+    //   experience: ['', Validators.required],
+    //   jobLocation: ['', Validators.required],
+    //   // applicationDeadLine: ['', Validators.required],
+    //   vacancy: ['', [Validators.required, Validators.min(1)]],
+    //   minsalary: ['', [Validators.required, Validators.min(1)]],
+    //   maxsalary: ['', [Validators.required, Validators.min(1)]],
+    //   // jobNature: ['', Validators.required],
+    //   // jobCategory: ['', Validators.required],
+    // }, { validators: this.salaryRangeValidator });
 
   }
   ngAfterViewInit() {
@@ -215,34 +214,7 @@ export class FindAllJobOffersComponent implements OnInit, AfterViewInit {
   }
 
 
-  showUpdateModal(jobOffer: JobOffer): void {
-    // Assign the selected job offer to the component variable
-    this.selectedJobOffer = jobOffer;
 
-    // Check if the selected job offer is defined
-    if (this.selectedJobOffer) {
-      // Populate the form fields with the data of the selected job offer
-      this.updateJobOfferForm.patchValue({
-        jobOffer_id: this.selectedJobOffer.jobOffer_id,
-        titleJobOffer: this.selectedJobOffer.titleJobOffer,
-        description: this.selectedJobOffer.description,
-        requiredSkills: this.selectedJobOffer.requiredSkills,
-        experience: this.selectedJobOffer.experience,
-        jobLocation: this.selectedJobOffer.jobLocation,
-        vacancy: this.selectedJobOffer.vacancy,
-        minsalary: this.selectedJobOffer.minsalary,
-        maxsalary: this.selectedJobOffer.maxsalary,
-        // jobNature: this.selectedJobOffer.jobNature,
-        // jobCategory: this.selectedJobOffer.jobCategory,
-      });
-
-      // Assuming you have a reference to the modal element
-      const modal = new bootstrap.Modal(this.updateJobOfferModal.nativeElement);
-      modal.show();
-    } else {
-      console.error('Selected job offer is undefined.');
-    }
-  }
 
 
   onSortChange(event: any): void {
@@ -277,56 +249,15 @@ export class FindAllJobOffersComponent implements OnInit, AfterViewInit {
     }
   }
 
-  onUpdateJobOffer(): void {
-    if (this.updateJobOfferForm.valid && this.selectedJobOffer) {
-      const updatedJobOffer = {
-        ...this.selectedJobOffer, // Ensure you have the job offer ID and any other non-updated fields
-        ...this.updateJobOfferForm.value,
-      };
 
-      this.js.updateJobOffer(updatedJobOffer.jobOffer_id, updatedJobOffer).subscribe({
-        next: () => {
-          this.showModalWithMessage('Job offer updated successfully!');
-          // Close the modal or perform any other necessary action
-        },
-        error: (error) => {
-          console.error('Error updating job offer:', error);
-          this.showModalWithMessage('Error updating job offer. Please try again.');
-        }
-      });
-    } else {
-      console.error('Form is invalid or selected job offer is undefined.');
-      // Handle the case where the form is invalid or selected job offer is undefined
-    }
-  }
-  getCandidaciesByJobOfferId(jobOfferId: number): void {
-    // Call the service method to get candidacies by job offer ID
-    this.js.getCandidaciesByJobOfferId(jobOfferId).subscribe(
-      (candidacies: any) => {
-        // Handle the retrieved candidacies as needed
-        console.log('Candidacies for job offer ID', jobOfferId, 'retrieved successfully:', candidacies);
-      },
-      error => {
-        console.error('Error retrieving candidacies for job offer ID', jobOfferId, ':', error);
-        // Handle error accordingly
-      }
-    );
-  }
+
 
   sortByMostRecent() {
     // Sort the jobOffers array by descending postedDate
     this.jobOffers.sort((a, b) => new Date(b.postedDate).getTime() - new Date(a.postedDate).getTime());
   }
 
-  getCandidacies(jobOfferId: number): void {
-    this.js.getCandidaciesByJobOfferId(jobOfferId)
-      .subscribe(candidacies => {
-        this.candidacies = candidacies;
-        // Handle displaying the candidacies, e.g., update UI, show in a modal, etc.
-      }, error => {
-        // Handle error, e.g., show error message to the user
-      });
-  }
+
   sortByMostApplied(): void {
     console.log('Sorting by most applied...');
 

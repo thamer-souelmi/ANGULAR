@@ -5,6 +5,8 @@ export class Interview {
   dateInterview!:Date;
   statusInterview!:StatusInterview;
   passed!:boolean;
+  candidateName!:string;
+email!:string;
 }
 
 

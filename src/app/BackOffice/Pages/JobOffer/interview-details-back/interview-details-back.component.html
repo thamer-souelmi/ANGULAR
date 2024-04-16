@@ -1,0 +1,35 @@
+<!-- Add Font Awesome stylesheet link -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha384-..." crossorigin="anonymous">
+
+<div class="buttons-wrapper">
+  <!-- Button with icon for Interview Statistics -->
+  <button mat-raised-button matTooltip="Interview Statistics" class="btn btn-primary mt-2" style="background-color: #08718e; color: white;" (click)="navigateToStatistics()">
+    <i class="fas fa-chart-bar mr-2"></i>
+  </button>
+</div>
+
+<div class="interview-card" *ngFor="let interview of interviews">
+  <div class="card" style="width: 400px;"> <!-- Adjust width as needed -->
+    <div class="card-header bg-info text-white">
+      <strong><span class="interview-details">Interview Details</span></strong>
+    </div>
+    <div class="card-body">
+      <div>
+        <p><strong><i class="far fa-calendar-alt mr-2"></i> Interview Date:</strong> {{ interview.dateInterview | date }}</p>
+        <p><strong><i class="fas fa-info-circle mr-2"></i> Status Interview:</strong> {{ interview.statusInterview }}</p>
+        <p><b><i class="fas fa-file-alt mr-2"></i> Result interview:</b>
+          <span *ngIf="interview.passed; else failed" class="badge badge-pill badge-success rounded-pill">Passed</span>
+          <ng-template #failed>
+            <span class="badge badge-pill badge-danger rounded-pill">Failed</span>
+          </ng-template>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .interview-details {
+    color: black;
+  }
+</style>

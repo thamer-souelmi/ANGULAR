@@ -1,0 +1,38 @@
+<div class="modal-container">
+  <div class="modal-header">
+    <div class="modal-body">
+      <form (ngSubmit)="onSubmit()" #interviewForm="ngForm">
+        <br>
+        <div class="form-group">
+          <label for="dateInterview">Interview Date:</label>
+          <input type="date" id="dateInterview" name="dateInterview" [(ngModel)]="interview.dateInterview" class="form-control" required>
+          <div *ngIf="interviewForm.controls['dateInterview'].invalid && (interviewForm.controls['dateInterview'].dirty || interviewForm.controls['dateInterview'].touched)">
+            <div class="text-danger" *ngIf="interviewForm.controls['dateInterview'].errors?.['required']">Interview Date is required.</div>
+          </div>
+        </div>
+        <br>
+        <div class="form-group">
+          <label for="statusInterview">Status:</label>
+          <select id="statusInterview" name="statusInterview" [(ngModel)]="interview.statusInterview" class="form-control" required>
+            <option *ngFor="let status of statusOptions" [value]="status">{{ status }}</option>
+          </select>
+        </div>
+        <br>
+        <div class="form-group">
+          <label for="passed">Result:</label>
+          <select id="passed" name="passed" [(ngModel)]="interview.passed" class="form-control" required>
+            <option value="true">Passed</option>
+            <option value="false">Failed</option>
+          </select>
+        </div>
+        <br>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary" [disabled]="interviewForm.invalid">Edit</button>
+          <button type="button" class="btn btn-secondary" (click)="onClose()">Cancel</button>
+        </div>
+        <br>
+      </form>
+      <br>
+    </div>
+  </div>
+</div>

@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class CandidacyService {
   urlCandidacy: string = "http://localhost:8082/candidacy";
-
+urlRecommender:string="http://127.0.0.1:5000/";
   findAllCandidacies(): Observable<Candidacy[]> {
     return this.myHttp.get<Candidacy[]>(this.urlCandidacy + '/findAllCandidacies');
   }
@@ -25,7 +25,7 @@ export class CandidacyService {
     return this.myHttp.post<Candidacy>(this.urlCandidacy + '/addCandidacy', candidate);
   }
 
-  constructor(private myHttp:HttpClient) { }
+  constructor(private myHttp:HttpClient,private http:HttpClient) { }
 
   upload(file: File): Observable<HttpEvent<any>> {
     const formData: FormData = new FormData();
@@ -66,4 +66,9 @@ export class CandidacyService {
     const url = `${this.urlCandidacy}/mostQualifiedCandidatesStatistics`;
     return this.myHttp.get<any[]>(url);
   }
+  sendRequirements(requirements: any) {
+    const url = `${this.urlRecommender}`; // Update the URL to point to your Flask server
+    return this.http.post<any>(url, requirements); // Pass requirements as the second argument
+  }
+
 }

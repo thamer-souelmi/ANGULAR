@@ -28,6 +28,9 @@ import {
   StatisticsInterviewComponent
 } from "./BackOffice/Pages/JobOffer/statistics-interview/statistics-interview.component";
 import {QuizComponent} from "./FrontOffice/pages/Quiz/quiz/quiz.component";
+import {
+  InterviewDetailsBackComponent
+} from "./BackOffice/Pages/JobOffer/interview-details-back/interview-details-back.component";
 
 
 const routes: Routes = [
@@ -39,7 +42,8 @@ const routes: Routes = [
       { path: 'findAllJobCandidaciesBack/:id', component: FindAllJobCandidaciesBackComponent },
       { path: 'statisticsHR', component: StatisticsComponent },
       { path: 'statisticsCandidacies', component: StatisticsCandidaciesComponent },
-      { path: 'statisticsInterviews', component: StatisticsInterviewComponent }
+      { path: 'statisticsInterviews', component: StatisticsInterviewComponent },
+      { path: 'findInterviewBack/:id', component: InterviewDetailsBackComponent },
 
     ]
 

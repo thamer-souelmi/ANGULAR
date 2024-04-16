@@ -63,6 +63,7 @@
 <h2 class="text-center">Candidacies</h2>
 <br>
 <br>
+<!--<button class="btn btn-primary justify-content-end" (click)="sendRequirements()">Recommandation</button>-->
 <br>
 <br>
 <div class="container">
@@ -91,9 +92,8 @@
                   <i class="fas fa-check"></i>
                 </button>
                 <button class="btn btn-calender"
-                        data-bs-toggle="modal"
-                        data-bs-target="#calendarModal"
-                        (click)="updateCandidacyStatus(candidacy, 1); $event.stopPropagation()">                  <i class="fas fa-calendar-alt"></i>
+                        (click)="updateCandidacyStatus(candidacy, 1)
+">                  <i class="fas fa-calendar-alt"></i>
                 </button>
               </div>
               <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addInterviewModal">Interview</button>
@@ -123,4 +123,9 @@
       </div>
     </div>
   </div>
+</div>
+<div class="d-flex justify-content-end mb-3">
+  <i class="material-icons" class="btn btn-primary mt-2" style="background-color: #08718e; color: white;" (click)="openCalendarModal()">
+    <i class="fas fa-calendar-alt"></i>
+  </i>
 </div>

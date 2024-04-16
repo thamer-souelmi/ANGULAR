@@ -44,6 +44,14 @@ import { StatisticsCandidaciesComponent } from './BackOffice/Pages/JobOffer/stat
 import { StatisticsInterviewComponent } from './BackOffice/Pages/JobOffer/statistics-interview/statistics-interview.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { QuizComponent } from "./FrontOffice/pages/Quiz/quiz/quiz.component";
+import { InterviewCalendarComponent } from './FrontOffice/pages/Interview/interview-calendar/interview-calendar.component';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { InterviewDetailsComponent } from './FrontOffice/pages/Interview/interview-details/interview-details.component';
+import { UpdateInterviewComponent } from './FrontOffice/pages/Interview/update-interview/update-interview.component';
+import { InterviewDetailsBackComponent } from './BackOffice/Pages/JobOffer/interview-details-back/interview-details-back.component';
+import { UpdateJobOfferComponent } from './FrontOffice/pages/JobOffer/update-job-offer/update-job-offer.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -65,6 +73,11 @@ import { QuizComponent } from "./FrontOffice/pages/Quiz/quiz/quiz.component";
     StatisticsCandidaciesComponent,
     StatisticsInterviewComponent,
     QuizComponent,
+    InterviewCalendarComponent,
+    InterviewDetailsComponent,
+    UpdateInterviewComponent,
+    InterviewDetailsBackComponent,
+    UpdateJobOfferComponent,
   ],
   imports: [
     BrowserModule,
@@ -98,7 +111,14 @@ import { QuizComponent } from "./FrontOffice/pages/Quiz/quiz/quiz.component";
     }), // ToastrModule added
     MatCardModule,
     NgxChartsModule,
-    MatTooltipModule
+    MatTooltipModule,
+    FullCalendarModule,
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+
+    }),
+
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent]
