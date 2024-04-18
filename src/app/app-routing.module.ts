@@ -2,12 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {AllTemplateFrontComponent} from "./FrontOffice/all-template-front/all-template-front.component";
 import {HomeFrontComponent} from "./FrontOffice/home-front/home-front.component";
-import {ActivityComponentF} from "./FrontOffice/pages/activity/activity.component";
-
-import {
-  FindAllJobOffersComponent
-} from "./FrontOffice/pages/JobOffer/find-all-job-offers/find-all-job-offers.component";
-import {WishlistComponent} from "./FrontOffice/pages/JobOffer/wishlist/wishlist.component";
+import { ActivityComponentF } from './FrontOffice/pages/activity/activity.component';
+import { WishlistComponent } from './FrontOffice/pages/JobOffer/wishlist/wishlist.component';
 
 import {SidebarBackComponent} from "./BackOffice/sidebar-back/sidebar-back.component";
 import { AllTemplatBackComponent } from './BackOffice/all-templat-back/all-templat-back.component';
@@ -16,7 +12,6 @@ import { GetAllProjectComponent } from './FrontOffice/pages/Project/get-all-proj
 import { ProjectDetailsComponent } from './FrontOffice/pages/Project/project-details/project-details.component';
 import { UpdateprojectComponent } from './FrontOffice/pages/Project/updateproject/updateproject.component';
 import { TasksByprojectComponent } from './FrontOffice/pages/Task/tasks-byproject/tasks-byproject.component';
-import { AddTaskComponent } from './FrontOffice/pages/Task/add-task/add-task.component';
 import { UpdateTaskComponent } from './FrontOffice/pages/Task/update-task/update-task.component';
 import { KanbanBoardComponent } from './FrontOffice/pages/Task/kanban-board/kanban-board.component';
 import { LoginComponent } from './BackOffice/Pages/login/login.component';
@@ -34,6 +29,12 @@ import { DetailprojectbackComponent } from './BackOffice/Pages/Project/detailpro
 import { PMstatisticComponent } from './BackOffice/Pages/Task/pmstatistic/pmstatistic.component';
 import { PiecharttaskComponent } from './BackOffice/Pages/Task/piecharttask/piecharttask.component';
 
+import {ActivityBComponent} from "./BackOffice/Pages/activity-b/activity-b.component";
+import {TrainingSessionComponent} from "./FrontOffice/pages/training-session/training-session.component";
+
+import { FindAllJobOffersComponent } from './FrontOffice/pages/JobOffer/find-all-job-offers/find-all-job-offers.component';
+
+
 
 
 const routes: Routes = [
@@ -42,15 +43,31 @@ const routes: Routes = [
     component: LoginComponent,
 
   },
+  {
+    path:"trainigSession", component:AllTemplateFrontComponent,
+    children:[
+      {path:"trainigSession", component:TrainingSessionComponent}
+    ]
+  },
+
+  {path:"ActivityB", component:AllTemplatBackComponent,
+  children:[
+    {path:"activityB", component:ActivityBComponent}
+  ]},
 
   {
     path: "back",
     component: AllTemplatBackComponent,
     children:[
-      {path: "EventBack ", component: EventBComponent},
+
       { path: 'taskback', component: TaskbackComponent},
 
       //{path:"findall", component:FindAllUsersComponent},
+
+      {path:"EventBack", component:EventBComponent},
+      {path:"activityB",component:ActivityBComponent},
+      {path:"findall", component:FindAllUsersComponent},
+
     ]},
 
   {

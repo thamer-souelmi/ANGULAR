@@ -1,0 +1,96 @@
+<div class="container mt-3">
+  <!-- Button to Add New Training Session -->
+  <button class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#addTrainingSessionModal">Add New Training Session</button>
+
+  <!-- Training Session Cards Display -->
+  <div class="row">
+    <div class="col-md-4" *ngFor="let session of trainingSessions">
+      <div class="card mb-4">
+        <div class="card-body">
+          <h5 class="card-title">{{ session.title }}</h5>
+          <h6 class="card-subtitle mb-2 text-muted">{{ session.start_Date | date:'mediumDate' }} to {{ session.Finish_Date | date:'mediumDate' }}</h6>
+          <p class="card-text">Topic: {{ session.Topic }}</p>
+          <p class="card-text">Place: {{ session.Place }}</p>
+          <p class="card-text">Capacity: {{ session.Capacity }}</p>
+          <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editTrainingSessionModal" (click)="selectTrainingSession(session)">Edit</button>
+          <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteTrainingSessionModal" (click)="selectTrainingSession(session)">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Add Training Session Modal -->
+<div class="modal fade" id="addTrainingSessionModal" tabindex="-1" aria-labelledby="addTrainingSessionModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addTrainingSessionModalLabel">Add Training Session</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="newTrainingSessionForm">
+          <!-- Form fields for adding a training session -->
+          <input type="text" class="form-control mb-2" placeholder="Title" formControlName="title">
+          <input type="date" class="form-control mb-2" formControlName="start_Date">
+          <input type="date" class="form-control mb-2" formControlName="Finish_Date">
+          <input type="text" class="form-control mb-2" placeholder="Topic" formControlName="Topic">
+          <input type="number" class="form-control mb-2" placeholder="Capacity" formControlName="Capacity">
+          <input type="text" class="form-control mb-2" placeholder="Place" formControlName="Place">
+          <!-- Additional fields can be added as needed -->
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-success" (click)="addTrainingSession()">Add</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Training Session Modal -->
+<div class="modal fade" id="editTrainingSessionModal" tabindex="-1" aria-labelledby="editTrainingSessionModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editTrainingSessionModalLabel">Edit Training Session</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="updateTrainingSessionForm">
+          <!-- Form fields for editing a training session -->
+          <input type="text" class="form-control mb-2" placeholder="Title" formControlName="title">
+          <input type="date" class="form-control mb-2" formControlName="start_Date">
+          <input type="date" class="form-control mb-2" formControlName="Finish_Date">
+          <input type="text" class="form-control mb-2" placeholder="Topic" formControlName="Topic">
+          <input type="number" class="form-control mb-2" placeholder="Capacity" formControlName="Capacity">
+          <input type="text" class="form-control mb-2" placeholder="Place" formControlName="Place">
+          <!-- Additional fields as per your TrainingSession model -->
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" (click)="updateTrainingSession()">Save Changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Training Session Modal -->
+<div class="modal fade" id="deleteTrainingSessionModal" tabindex="-1" aria-labelledby="deleteTrainingSessionModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteTrainingSessionModalLabel">Confirm Deletion</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete this training session?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+        <button type="button" class="btn btn-danger" (click)="deleteTrainingSession()">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>

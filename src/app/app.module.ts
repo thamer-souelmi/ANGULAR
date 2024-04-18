@@ -19,6 +19,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpClientModule } from '@angular/common/http';
 import { FindAllJobOffersComponent } from './FrontOffice/pages/JobOffer/find-all-job-offers/find-all-job-offers.component';
 import { WishlistComponent } from './FrontOffice/pages/JobOffer/wishlist/wishlist.component';
+
 import { CommonModule, DatePipe } from "@angular/common";
 // import { FullCalendarModule } from '@fullcalendar/angular';
 import { NgbDatepickerModule, NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -37,18 +38,14 @@ import {NavbarBackComponent} from "./BackOffice/navbar-back/navbar-back.componen
 import {FooterBackComponent} from "./BackOffice/footer-back/footer-back.component";
 import {AllTemplatBackComponent} from "./BackOffice/all-templat-back/all-templat-back.component";
 import {FindAllUsersComponent} from "./BackOffice/Pages/find-all-users/find-all-users.component";
-import {FilterJobPipe} from "./FrontOffice/pages/JobOffer/filter-job.pipe";
-import { EventBComponent } from './BackOffice/Pages/event-b/event-b.component';
+import { FilterJobPipe } from './FrontOffice/pages/JobOffer/filter-job.pipe';
+
+import {NgxCaptchaModule} from "ngx-captcha";
 import { UpdateprojectComponent } from './FrontOffice/pages/Project/updateproject/updateproject.component';
-import { ProjectDetailsComponent } from './FrontOffice/pages/Project/project-details/project-details.component';
-import { ProjectCalendarModalComponent } from './FrontOffice/pages/Project/project-calendar-modal/project-calendar-modal.component';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
-import { ProjectFormComponent } from './FrontOffice/pages/Project/project-form/project-form.component';
-import { GetAllProjectComponent } from './FrontOffice/pages/Project/get-all-project/get-all-project.component';
 import { TasksByprojectComponent } from './FrontOffice/pages/Task/tasks-byproject/tasks-byproject.component';
 import { UpdateTaskComponent } from './FrontOffice/pages/Task/update-task/update-task.component';
-import { AddTaskComponent } from './FrontOffice/pages/Task/add-task/add-task.component';
 import { KanbanBoardComponent } from './FrontOffice/pages/Task/kanban-board/kanban-board.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
@@ -69,13 +66,28 @@ import { TodolistComponent } from './BackOffice/Pages/Task/todolist/todolist.com
 import {MatSortModule} from '@angular/material/sort';
 import { DetailprojectbackComponent } from './BackOffice/Pages/Project/detailprojectback/detailprojectback.component';
 import { PMstatisticComponent } from './BackOffice/Pages/Task/pmstatistic/pmstatistic.component';
-import { PiecharttaskComponent } from './BackOffice/Pages/Task/piecharttask/piecharttask.component';
+import { PiecharttaskComponent } from './BackOffice/Pages/Task/piecharttask/piecharttask.component';import { ActivityBComponent } from './BackOffice/Pages/activity-b/activity-b.component';
+import { RegistrationBComponent } from './BackOffice/Pages/registration-b/registration-b.component';
+import {MatSnackBarModule} from "@angular/material/snack-bar";
+import {
+  TrainingSessionComponent} from './FrontOffice/pages/training-session/training-session.component';
+import {MatGridListModule} from "@angular/material/grid-list";
+import {MatCardModule} from "@angular/material/card";
+import { EventBComponent } from './BackOffice/Pages/event-b/event-b.component';
+import { ProjectFormComponent } from './FrontOffice/pages/Project/project-form/project-form.component';
+import { ProjectDetailsComponent } from './FrontOffice/pages/Project/project-details/project-details.component';
+import { ProjectCalendarModalComponent } from './FrontOffice/pages/Project/project-calendar-modal/project-calendar-modal.component';
+import { GetAllProjectComponent } from './FrontOffice/pages/Project/get-all-project/get-all-project.component';
+
+
 @NgModule({
   declarations: [
     AppComponent,
     AllTemplateFrontComponent,
     FooterFrontComponent,
     HeaderFrontComponent,
+    UpdateprojectComponent,
+    UpdateTaskComponent,
     HomeFrontComponent,
     ActivityComponentF,
     EventComponent,
@@ -85,21 +97,12 @@ import { PiecharttaskComponent } from './BackOffice/Pages/Task/piecharttask/piec
     NavbarBackComponent,
     FooterBackComponent,
     AllTemplatBackComponent,
-
-    FilterJobPipe,
-    EventBComponent,
-    UpdateprojectComponent,
-    ProjectDetailsComponent,
-    ProjectCalendarModalComponent,
-    ProjectFormComponent,
-    GetAllProjectComponent,
-    TasksByprojectComponent,
-    UpdateTaskComponent,
-    AddTaskComponent,
-    KanbanBoardComponent,
     LoginComponent,
+    FindAllUsersComponent,
+    FilterJobPipe, 
     FindAllUsersComponent ,
     FilterJobPipe,
+    ActivityBComponent,
     FormsuggestComponent,
     UsersuggestinfoComponent,
     FindAllProjectsComponent,
@@ -111,7 +114,16 @@ import { PiecharttaskComponent } from './BackOffice/Pages/Task/piecharttask/piec
     DetailprojectbackComponent,
     PMstatisticComponent,
     PiecharttaskComponent,
+    RegistrationBComponent,
+    TrainingSessionComponent,
 
+    TasksByprojectComponent,
+    KanbanBoardComponent,
+    EventBComponent,
+    ProjectFormComponent,
+    ProjectDetailsComponent,
+    ProjectCalendarModalComponent,
+    GetAllProjectComponent,
   ],
   imports: [
     BrowserModule,
@@ -134,12 +146,14 @@ import { PiecharttaskComponent } from './BackOffice/Pages/Task/piecharttask/piec
     MatToolbarModule,
     MatRippleModule,
     MatMenuModule,
+    MatSnackBarModule,
     MatButtonModule,
     FeatherModule.pick(allIcons),
     FormsModule,
     HttpClientModule,
     NgbModule,
-        CalendarModule.forRoot({
+    NgxCaptchaModule,
+    CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory,
 
@@ -154,11 +168,13 @@ import { PiecharttaskComponent } from './BackOffice/Pages/Task/piecharttask/piec
     MatTableModule,
     MatCheckboxModule,
     
+    MatCardModule,
+    MatGridListModule
 
   ],
   providers: [httpInterceptorProviders,DatePipe],
-
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
+
 })
 export class AppModule { }
