@@ -41,6 +41,7 @@ export class FindAllUsersComponent {
   currentPage: number = 1; // Current page
   itemsPerPage: number = 1; // Items per page
   userForm: FormGroup;
+    siteKey: string= "6Lcom7kpAAAAAArX67LiteQ0DxzZg-CCyjkEHVZL";
   @ViewChild('myModal') myModal!: ElementRef;
   @ViewChild('warningSuccessModal') warningSuccessModal!: ElementRef;
   warningMessage: string = '';
@@ -60,8 +61,10 @@ export class FindAllUsersComponent {
       phonenumber:['', [Validators.required]],
       gender: ['', Validators.required],
     role: ['', Validators.required], });
+    recaptcha: ['', Validators.required]
 
   }
+
 
 
   ngOnInit(){
