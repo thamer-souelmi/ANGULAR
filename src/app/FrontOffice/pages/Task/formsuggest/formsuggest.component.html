@@ -1,0 +1,25 @@
+<head>  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha384-..." crossorigin="anonymous">
+</head>
+
+<div class="modal-container">
+    <div class="modal-header">
+      <h2>Suggestions</h2>
+    </div>
+
+    <div class="modal-body" style="max-height: 600px; overflow-y: auto; ">
+        <div class="container"  style="justify-content: center;">
+        <ul>
+            <li *ngFor="let user of users; let i = index" (click)="openUsersuggestinfo(user) ">
+                {{ i + 1 }}. {{ user.firstname }} {{ user.lastname }} 
+            </li>
+        </ul>
+    </div>
+<div class="modal-footer"> 
+    <button mat-raised-button
+                matTooltip="Job offers Statistics" style="background-color: #08718e; color: white;"  (click)="navigateToStatistics()">
+          <i class="fa fa-line-chart"></i>
+        </button>
+    <button type="button" class="btn btn-secondary" (click)="onClose()">Cancel</button>
+  </div>
+</div>
+</div>

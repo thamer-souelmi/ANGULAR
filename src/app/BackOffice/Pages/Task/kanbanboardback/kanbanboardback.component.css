@@ -1,0 +1,233 @@
+html, body {
+    height: 100%;
+    background-color: #5A5A65;
+    font-family: 'Arial'
+  
+  }
+header {
+    padding: 1rem;
+    color: #212121;
+    h1 {
+      font-size: 32px;
+      margin: 0;
+    }
+    h2 {
+      font-size: 14px;
+      margin: 0;
+    }
+  }
+  
+  .flex {
+    display: flex;
+    gap: 3rem;
+    flex-wrap: wrap;
+  }
+  .container {
+    display: flex;
+    flex-direction: column;
+    border-radius: 12px;
+    gap: 10px;
+    padding: 40px;
+    background: #ffffff;
+  }
+  
+  .section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 8px;
+    gap: 8px;
+    min-width: 230px;
+    background: #f3f4f4;
+    border-radius: 12px;
+    cursor: grab;
+    flex: 1; /* Allow sections to grow/shrink proportionally */
+  }
+  
+  .story {
+    position: relative; /* Assurer le positionnement relatif pour l'élément parent */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 16px;
+    gap: 8px;
+    width: 200px; /* Remove fixed height */
+    background: #ffffff;
+    border: 1px solid #dddddd;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.08);
+    border-radius: 8px;
+    flex: 1; /* Allow stories to grow/shrink proportionally */
+    order: 2;
+    flex-grow: 0;
+}
+
+.task-details {
+  display: flex;
+  align-items: center;
+}
+
+.edit-icon {
+  position: absolute;
+  right: 0;
+  top: 20px;
+  transform: translateY(-50%);
+}
+.avatar-icon {
+  position: absolute;
+  right: 5px;
+  bottom: -2px;
+  transform: translateY(-20%);
+}
+
+.story::after {
+    content: '';
+    position: absolute;
+    top: 50%; /* Positionner au milieu de la boîte parente */
+    transform: translateY(-50%);     right: 192px; /* Ajuster la position de la ligne à droite */
+    height: 135px;
+    width: 5px; /* Largeur de la ligne */
+    background-color: #fb6d1c; /* Couleur de la ligne */
+    border-radius: 0 8px 8px 0; /* Arrondi le coin droit */
+}
+  .priority-label {
+    font-weight: bold; /* Texte en gras */
+    background-color: #f0f0f0; /* Couleur de fond */
+    padding: 4px 8px; /* Espacement interne */
+    border-radius: 4px; /* Bord arrondi */
+    margin-bottom: 4px; /* Marge inférieure */
+    display: inline-block; /* Afficher en ligne avec le texte */
+}
+  .high-priority {
+    color: red;
+  }
+  
+  .medium-priority {
+    color: blue;
+  }
+  
+  .low-priority {
+    color: yellow;
+  }
+
+  .story button {
+    margin-left: 155px; /* Adjust spacing between button and text */
+    float: left; /* Align button to the left */  /* Added colon here */
+  }
+  .status {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 13px;
+    gap: 10px;
+    width: 66px;
+    height: 27px;
+    border-radius: 20px;
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+    justify-content: center;
+  }
+  .ACTIVE {
+    background-color: #f0e7f6;
+  }
+  
+  .BLOCKED {
+    background-color: #ffdce0;
+  }
+  
+  .DONE {
+    background-color: #cbdfd8;
+  }
+  
+  .TODO,.none {
+    background-color: #e2dee2;
+  }
+ 
+  .title {
+    font-size: 16px;
+    padding: 2px;
+    margin: 6px;
+    text-transform: uppercase;
+    font-weight: bold; /* Ajout de la propriété font-weight en gras */
+}
+  
+      .add-task-container button {
+        color: #049565;
+        margin-left: -3px;
+        margin-right: -300px; /* Adjust spacing between button and text */
+        float: left;
+        display: grid;
+  align-items: end; 
+        
+      }
+      .section-header {
+        display: flex; /* Utiliser Flexbox */
+        align-items: center; /* Aligner les éléments verticalement au centre */
+    }
+    
+    .btn-sm {
+      padding: 0.08rem 0.5rem; /* Ajuster le rembourrage pour réduire la taille du bouton */
+  }
+  
+  .btn-succes {
+      color: #fff; /* Couleur du texte */
+      background-color: #fff; /* Couleur de fond verte */
+      border-color: #28a745; /* Couleur de la bordure verte */
+  }
+  
+  .btn-success:hover {
+      color: #fff; /* Couleur du texte au survol */
+      background-color: #218838; /* Couleur de fond verte plus foncée */
+      border-color: #1e7e34; /* Couleur de la bordure verte plus foncée */
+  }
+      
+.navbar {
+    background-color: #f0f0f0;
+    padding: 10px 20px;
+  }
+  
+  .navbar ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .navbar li {
+    display: inline-block;
+  }
+  
+  .navbar a {
+    text-decoration: none;
+    color: #333;
+    padding: 5px 10px;
+  }
+  
+  .navbar a:hover {
+    background-color: #ddd;
+  }
+  .add-button {
+    margin-left: auto; /* Move button to the right side */
+  }
+  
+  .add-button button {
+    font-size: 18px; /* Adjust font size */
+    padding: 5px 10px; /* Adjust padding */
+    border: 1px solid #218838;; /* Add border */
+    border-radius: 5px; /* Add rounded corners */
+    cursor: pointer; /* Indicate clickable behavior */
+  }
+  
+  .add-button button:hover {
+    background-color: #218838;; /* Change background on hover */
+  }
+  .pos{
+    position: absolute;
+
+    right: 700px;
+}
+
+
+

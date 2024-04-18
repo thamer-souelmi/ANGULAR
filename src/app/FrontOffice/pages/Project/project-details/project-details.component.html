@@ -1,0 +1,33 @@
+<div class="modal-container">
+    <div class="modal-header">
+      <h3>Project Details</h3>
+      <p class="clickable-task" (click)="viewAssociatedTasks()">Tasks</p>
+
+      </div>
+      <br>
+      <div class="modal-body">
+       
+
+      <p><b>Project Name:</b> {{ project.projectName }}</p>
+      <br>
+      <p><b>Description:</b> 
+        {{ project.projectDescription.substring(0, 50) }}<br>{{ project.projectDescription.substring(50) }}
+      </p>
+      <br>
+      <div class="date-container">
+        <p><b><i class="fas fa-calendar" ></i>  Start Date:</b> {{ project.startdateProject | date }}</p>
+        <p class="end-date"><b><i class="fas fa-calendar"></i>  End Date:</b> {{ project.enddateProject | date  }}</p>
+      </div>
+      <br>
+      
+      <p class="status" class=" badge badge-dark rounded-pill" style="background-color: #ffc107 !important;"><b>Status:</b> {{ project.projectStatus }}</p>
+            
+      <!--<button type="button" class="btn btn-primary" (click)="uploadFiles()"> Files</button>--->
+      <br>
+      <div class="modal-footer">
+      <button type="button" class="btn btn-primary" style="background-color: #F39C12; border-color: #F39C12;"  (click)="openUpdateModal()"><i class="fas fa-pencil-alt"></i>
+      </button>
+
+      <button type="button" class="btn btn-secondary" (click)="onClose()">Cancel</button>
+    </div>
+      </div>

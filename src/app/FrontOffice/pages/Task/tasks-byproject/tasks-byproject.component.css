@@ -1,0 +1,117 @@
+.container {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .column {
+    display: inline-block;
+    vertical-align: top;
+    margin: 0 10px;
+  }
+  
+  .priority-title {
+    text-align: center;
+  }
+  .story-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .story {
+    position: relative;
+    box-sizing: border-box;
+    padding: 16px;
+    background: #ffffff;
+    border: 1px solid #dddddd;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.08);
+    border-radius: 8px;
+  }
+  .story::after {
+    content: '';
+    position: absolute;
+    top: 50%; /* Positionner au milieu de la boîte parente */
+    transform: translateY(-50%);     right: 5px; /* Ajuster la position de la ligne à droite */
+    height: 135px;
+    width: 5px; 
+    border-radius: 0 8px 8px 0; 
+}
+.story-container .story.high-priority::after {
+    background-color: red; 
+  }
+  
+  .story-container .story.medium-priority::after {
+    background-color: orange; 
+  }
+  
+  .story-container .story.low-priority::after {
+    background-color:#049565; 
+  }
+  .story h3 {
+    margin: 0 0 8px 0;
+  }
+  
+  .story p {
+    margin: 0;
+  }
+  
+  .story button {
+    margin-top: 8px;
+  }
+  .date-info {
+    display: flex;
+    align-items: center;
+  }
+  
+  .date-icon {
+    margin-right: 5px;
+  }
+  
+  .button-container {
+    display: flex;
+    justify-content: space-between; /* Espacement entre les boutons */
+  }
+  
+  .edit-button{
+    color: #049565;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .edit-button i, .delete-button i {
+    margin-right: 1px; /* Espace entre l'icône et le texte */
+  }
+  .btn-primary {
+    background-color:#049565; /* Couleur de fond */
+    color: #fff; /* Couleur du texte */
+    border-color: #049565; /* Couleur de la bordure */
+    position: relative;
+    left: 1400px;
+    top:-50px;
+  }
+  
+  
+  
+  /* CSS pour ajuster la taille de l'icône */
+  .bi-plus {
+    font-size: 1rem; /* Taille de l'icône */
+   
+  }
+  .suggestions-button {
+    background-color:#049565; /* Couleur de fond */
+    color: #fff; /* Couleur du texte */
+    border-color: #049565; /* Couleur de la bordure */
+    position: relative;
+    right: -50px;
+    top:-50px;
+    font-size: 1rem;
+  }
+  table {
+    width: 100%;
+  }
+  .mat-column-select {
+    overflow: initial;
+  }
+  .status {
+    text-align: center;
+  }

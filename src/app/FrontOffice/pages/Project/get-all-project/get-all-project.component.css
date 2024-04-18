@@ -1,0 +1,151 @@
+.container {
+    text-align: center;
+  }
+  
+  .btn-primary {
+    background-color: #049565;
+    color: white;
+  }
+  
+  .project-list {
+    margin: 20px auto;
+    display: flex; /* Use flexbox for layout */
+    flex-wrap: wrap; /* Wrap items onto multiple lines */
+    width: 80%;
+  }
+  
+  .project-item {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin: 10px; /* Add space between items */
+    width: calc(33% - 20px); /* Calculate width based on 3 columns */
+    text-align: center; /* Center content within each block */
+    position: relative; /* Allow positioning of overlay title */
+    
+    
+
+  }
+  
+  .project-item mat-icon {
+    display: flex; 
+    justify-content: space-between;
+    margin-left: auto; 
+    opacity: 0.2;
+  }
+  
+  .project-item h3 {
+    font-size: 18px;
+    margin-bottom: 5px; 
+  }
+  
+  .project-item p {
+    font-size: 14px;
+    margin-bottom: 10px; 
+  }
+  
+  .btn-info {
+    background-color: #17a2b8;
+    color: white;
+  }
+  
+  img {
+    width: 20px;
+    margin-right: 10px;
+  }
+  .mat-paginator {
+    display: block;
+  }
+  h2::after {
+    content: '';
+    display: block;
+    margin: 0 auto;
+    height: 3px;
+    width: 100px;
+    background: #08718e;
+    border-radius: 2px;
+    margin-top: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: width 0.3s ease; /* Transition for hover effect */
+  }
+  
+  h2:hover::after {
+    width: 150px; /* Underline grows on hover */
+  }
+  h2 {
+    animation: fadeInDown 1s ease-out forwards;
+    text-align: center;
+    font-size: 2.5rem;
+    color: #08718e;
+    font-weight: 500; /* Adjust weight as necessary */
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 2px; /* Slightly more spaced */
+    position: relative;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1); /* Subtle text-shadow for depth */
+    transition: text-shadow 0.3s ease; /* Smooth transition for shadow */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Example font */
+  }
+  
+  /* Hover effect for the underline */
+ 
+  .btn-add-activity {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    background-color: #08718e;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 0.25rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    transition: all 0.3s ease-in-out;
+  }
+  .btn-calender {
+    position: fixed;
+    right: 130px;
+    bottom: 20px;
+    background-color: #08718e;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 0.25rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    transition: all 0.3s ease-in-out;
+  }
+  .card {
+    border: 0;
+  }
+  
+  .card-header {
+    background-color: var(--color-dark-blue);
+    color: #fff;
+  }
+  
+  
+  .card-body {
+    background-color: #fff;
+    border-left: 5px solid var(--color-soft-green);
+  }
+  
+  .card-footer {
+    background-color: var(--color-light-blue);
+  }
+  .card-title {
+    color: black !important;
+  }
+  .activity-card {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 1s ease-out forwards;
+    animation-delay: var(--animation-delay);
+  }  
+  
+  .btn-icon {
+    font-size: 1rem; /* Adjust the font size as needed */
+    padding: 0.5rem 1rem; /* Adjust the padding to increase button size */
+    border-radius: 30px; /* Make the buttons oval with larger borders */
+  }

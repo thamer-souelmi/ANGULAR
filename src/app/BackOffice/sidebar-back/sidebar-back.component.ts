@@ -2,6 +2,10 @@ import { Component } from '@angular/core';
 import {Observable} from "rxjs";
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { map, shareReplay } from 'rxjs/operators';
+import {StorageService} from "../../Services/storage.service";
+import {AuthService} from "../../Services/auth.service";
+import {Router} from "@angular/router";
+import { User } from 'src/app/Models/User';
 interface sidebarMenu {
   link: string;
   icon: string;
@@ -20,7 +24,17 @@ export class SidebarBackComponent {
       map(result => result.matches),
       shareReplay()
     );
-  constructor(private breakpointObserver: BreakpointObserver) { }
+    user : User = new User;
+    name : String = "";
+    ngOnInit(): void {
+      this.name= this.storageService.getUserS.name;
+      console.log("Name in sidebar "+this.name);
+     
+
+    }
+  constructor(private breakpointObserver: BreakpointObserver,private storageService: StorageService,
+              private authService: AuthService, private router : Router) { }
+
   sidebarMenu: sidebarMenu[] = [
     {
       link: "/",
@@ -109,4 +123,16 @@ export class SidebarBackComponent {
     },
   ]
 
+  logout(): void {
+    this.authService.logout().subscribe({
+      next: res => {
+        console.log(res);
+        this.storageService.clean();
+        this.router.navigate(['']);
+      },
+      error: err => {
+        console.log(err);
+      }
+    });
+  }
 }
