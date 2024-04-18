@@ -7,6 +7,27 @@ import { WishlistComponent } from './FrontOffice/pages/JobOffer/wishlist/wishlis
 
 import {SidebarBackComponent} from "./BackOffice/sidebar-back/sidebar-back.component";
 import { AllTemplatBackComponent } from './BackOffice/all-templat-back/all-templat-back.component';
+import {JobOfferDetailsComponent} from "./FrontOffice/pages/JobOffer/job-offer-details/job-offer-details.component";
+import {
+  FindAllJobCandidaciesComponent
+} from "./FrontOffice/pages/JobOffer/find-all-job-candidacies/find-all-job-candidacies.component";
+import {
+  FindAllJobOffersBackComponent
+} from "./BackOffice/Pages/JobOffer/find-all-job-offers-back/find-all-job-offers-back.component";
+import {
+  FindAllJobCandidaciesBackComponent
+} from "./BackOffice/Pages/JobOffer/find-all-job-candidacies-back/find-all-job-candidacies-back.component";
+import {StatisticsComponent} from "./BackOffice/Pages/JobOffer/statistics/statistics.component";
+import {
+  StatisticsCandidaciesComponent
+} from "./BackOffice/Pages/JobOffer/statistics-candidacies/statistics-candidacies.component";
+import {
+  StatisticsInterviewComponent
+} from "./BackOffice/Pages/JobOffer/statistics-interview/statistics-interview.component";
+import {QuizComponent} from "./FrontOffice/pages/Quiz/quiz/quiz.component";
+import {
+  InterviewDetailsBackComponent
+} from "./BackOffice/Pages/JobOffer/interview-details-back/interview-details-back.component";
 import {EventBComponent} from "./BackOffice/Pages/event-b/event-b.component";
 import { GetAllProjectComponent } from './FrontOffice/pages/Project/get-all-project/get-all-project.component';
 import { ProjectDetailsComponent } from './FrontOffice/pages/Project/project-details/project-details.component';
@@ -58,7 +79,16 @@ const routes: Routes = [
   {
     path: "back",
     component: AllTemplatBackComponent,
-    children:[
+    children: [
+
+      {path: "findAllJobOffersback", component: FindAllJobOffersBackComponent},
+      {path: 'findAllJobCandidaciesBack/:id', component: FindAllJobCandidaciesBackComponent},
+      {path: 'statisticsHR', component: StatisticsComponent},
+      {path: 'statisticsCandidacies', component: StatisticsCandidaciesComponent},
+      {path: 'statisticsInterviews', component: StatisticsInterviewComponent},
+      {path: 'findInterviewBack/:id', component: InterviewDetailsBackComponent},
+
+
 
       { path: 'taskback', component: TaskbackComponent},
 
@@ -70,6 +100,7 @@ const routes: Routes = [
 
     ]},
 
+
   {
     path: "home",
     component: AllTemplateFrontComponent,
@@ -79,8 +110,7 @@ const routes: Routes = [
   },
   {
 
-    path: "ActivityF",
-    component: AllTemplateFrontComponent,children:[
+    path: "ActivityF", component: AllTemplateFrontComponent,children:[
       { path: 'getActivityF', component:ActivityComponentF },
     ]
   },
@@ -96,9 +126,13 @@ const routes: Routes = [
     path: "JobOffer",
     component: AllTemplateFrontComponent,children:[
       { path: 'findAllJobOffersfront', component: FindAllJobOffersComponent },
+      { path: 'job-offer-details/:id', component: JobOfferDetailsComponent },
       { path: 'wishlist', component: WishlistComponent },
-
+      { path: 'findAllJobCandidacies/:id', component: FindAllJobCandidaciesComponent },
     ]},
+
+  { path: 'quiz', component: QuizComponent },
+
     {
       path: "Project",
       component: AllTemplateFrontComponent,children:[
@@ -133,15 +167,10 @@ const routes: Routes = [
         { path: 'emplyeestat', component: PMstatisticComponent},
         { path: 'taskpiechart/:projectId', component: PiecharttaskComponent},
 
-
-
-
-  
-  
       ]
     },
-];
 
+]
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]

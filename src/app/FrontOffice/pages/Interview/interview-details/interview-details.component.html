@@ -1,0 +1,23 @@
+<div class="modal-container">
+  <div class="modal-header">
+
+    <div class="modal-body">
+      <h3>Interview Details</h3>
+      <p><b>Candidate Name:</b> {{ interview.candidateName }}</p>
+      <p><b>Candidate Email:</b> {{ interview.email }}</p>
+      <p><b>Status Interview:</b> {{ interview.statusInterview }}</p>
+      <p><b>Result interview:</b>
+        <span *ngIf="interview.passed; else failed" class="badge badge-pill badge-success rounded-pill">Passed</span>
+        <ng-template #failed>
+          <span class="badge badge-pill badge-danger rounded-pill">Failed</span>
+        </ng-template>
+      </p>
+      <p><b>Start Date:</b> {{ interview.dateInterview | date }}</p>
+      <br>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="openUpdateModal()">Edit</button>
+        <button type="button" class="btn btn-secondary" (click)="onClose()">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
