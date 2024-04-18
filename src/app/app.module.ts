@@ -49,7 +49,6 @@ import { StatisticsInterviewComponent } from './BackOffice/Pages/JobOffer/statis
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { QuizComponent } from "./FrontOffice/pages/Quiz/quiz/quiz.component";
 import { InterviewCalendarComponent } from './FrontOffice/pages/Interview/interview-calendar/interview-calendar.component';
-import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { InterviewDetailsComponent } from './FrontOffice/pages/Interview/interview-details/interview-details.component';
 import { UpdateInterviewComponent } from './FrontOffice/pages/Interview/update-interview/update-interview.component';
@@ -64,7 +63,6 @@ import { FilterJobPipe } from './FrontOffice/pages/JobOffer/filter-job.pipe';
 import {NgxCaptchaModule} from "ngx-captcha";
 import { UpdateprojectComponent } from './FrontOffice/pages/Project/updateproject/updateproject.component';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
-import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { TasksByprojectComponent } from './FrontOffice/pages/Task/tasks-byproject/tasks-byproject.component';
 import { UpdateTaskComponent } from './FrontOffice/pages/Task/update-task/update-task.component';
 import { KanbanBoardComponent } from './FrontOffice/pages/Task/kanban-board/kanban-board.component';
@@ -93,7 +91,6 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {
   TrainingSessionComponent} from './FrontOffice/pages/training-session/training-session.component';
 import {MatGridListModule} from "@angular/material/grid-list";
-import {MatCardModule} from "@angular/material/card";
 import { EventBComponent } from './BackOffice/Pages/event-b/event-b.component';
 import { ProjectFormComponent } from './FrontOffice/pages/Project/project-form/project-form.component';
 import { ProjectDetailsComponent } from './FrontOffice/pages/Project/project-details/project-details.component';
@@ -136,7 +133,7 @@ import { GetAllProjectComponent } from './FrontOffice/pages/Project/get-all-proj
 
     LoginComponent,
     FindAllUsersComponent,
-    FilterJobPipe, 
+    FilterJobPipe,
     FindAllUsersComponent ,
     FilterJobPipe,
     ActivityBComponent,
@@ -216,7 +213,7 @@ import { GetAllProjectComponent } from './FrontOffice/pages/Project/get-all-proj
     MatSortModule,
     MatTableModule,
     MatCheckboxModule,
-    
+
     MatCardModule,
     MatGridListModule
 

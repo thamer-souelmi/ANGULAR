@@ -5,7 +5,6 @@ import { JobNature } from 'src/app/Models/job-nature';
 import { JobOfferService } from 'src/app/Services/job-offer.service';
 
 import { CandidacyService } from 'src/app/Services/candidacy.service';
-import { Router } from '@angular/router';
 
 import * as bootstrap from 'bootstrap';
 import { DatePipe } from '@angular/common';

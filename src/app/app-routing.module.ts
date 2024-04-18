@@ -79,16 +79,15 @@ const routes: Routes = [
   {
     path: "back",
     component: AllTemplatBackComponent,
-    children:[
+    children: [
 
-      {path:"findAllJobOffersback", component:FindAllJobOffersBackComponent },
-      { path: 'findAllJobCandidaciesBack/:id', component: FindAllJobCandidaciesBackComponent },
-      { path: 'statisticsHR', component: StatisticsComponent },
-      { path: 'statisticsCandidacies', component: StatisticsCandidaciesComponent },
-      { path: 'statisticsInterviews', component: StatisticsInterviewComponent },
-      { path: 'findInterviewBack/:id', component: InterviewDetailsBackComponent },
+      {path: "findAllJobOffersback", component: FindAllJobOffersBackComponent},
+      {path: 'findAllJobCandidaciesBack/:id', component: FindAllJobCandidaciesBackComponent},
+      {path: 'statisticsHR', component: StatisticsComponent},
+      {path: 'statisticsCandidacies', component: StatisticsCandidaciesComponent},
+      {path: 'statisticsInterviews', component: StatisticsInterviewComponent},
+      {path: 'findInterviewBack/:id', component: InterviewDetailsBackComponent},
 
-    ]
 
 
       { path: 'taskback', component: TaskbackComponent},
@@ -111,8 +110,7 @@ const routes: Routes = [
   },
   {
 
-    path: "ActivityF",
-    component: AllTemplateFrontComponent,children:[
+    path: "ActivityF", component: AllTemplateFrontComponent,children:[
       { path: 'getActivityF', component:ActivityComponentF },
     ]
   },
@@ -169,15 +167,10 @@ const routes: Routes = [
         { path: 'emplyeestat', component: PMstatisticComponent},
         { path: 'taskpiechart/:projectId', component: PiecharttaskComponent},
 
-
-
-
-  
-  
       ]
     },
-];
 
+]
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
