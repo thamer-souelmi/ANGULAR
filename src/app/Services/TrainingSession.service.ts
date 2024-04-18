@@ -12,11 +12,11 @@ export class TrainingSessionService {
   constructor(private http: HttpClient) { }
 
   findAllRegistrationTS(): Observable<TrainingSession[]> {
-    return this.http.get<TrainingSession[]>(this.TrainingSessionUrl + 'findAllRegistrationTS');
+    return this.http.get<TrainingSession[]>(this.TrainingSessionUrl + 'findAllTrainingSession');
   }
 
   findOneTrainingSession(TS_id:number): Observable<TrainingSession> {
-    return this.http.get<TrainingSession>(this.TrainingSessionUrl + '/findOneTrainingSession/${TS_id}');
+    return this.http.get<TrainingSession>(this.TrainingSessionUrl + 'findOneTrainingSession/${TS_id}');
   }
 
   addTrainingSession(trainingSession: TrainingSession): Observable<TrainingSession> {

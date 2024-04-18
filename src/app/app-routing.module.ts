@@ -23,6 +23,7 @@ import { LoginComponent } from './BackOffice/Pages/login/login.component';
 import {FindAllUsersComponent} from "./BackOffice/Pages/find-all-users/find-all-users.component";
 import {EventComponent} from "./FrontOffice/pages/event/event.component";
 import {ActivityBComponent} from "./BackOffice/Pages/activity-b/activity-b.component";
+import {TrainingSessionComponent} from "./FrontOffice/pages/training-session/training-session.component";
 
 
 const routes: Routes = [
@@ -31,6 +32,13 @@ const routes: Routes = [
     component: LoginComponent,
 
   },
+  {
+    path:"trainigSession", component:AllTemplateFrontComponent,
+    children:[
+      {path:"trainigSession", component:TrainingSessionComponent}
+    ]
+  },
+
   {path:"ActivityB", component:AllTemplatBackComponent,
   children:[
     {path:"activityB", component:ActivityBComponent}

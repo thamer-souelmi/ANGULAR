@@ -53,6 +53,12 @@ import { KanbanBoardComponent } from './FrontOffice/pages/Task/kanban-board/kanb
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import {FullCalendarModule} from "@fullcalendar/angular";
 import { ActivityBComponent } from './BackOffice/Pages/activity-b/activity-b.component';
+import { RegistrationBComponent } from './BackOffice/Pages/registration-b/registration-b.component';
+import {MatSnackBarModule} from "@angular/material/snack-bar";
+import {
+  TrainingSessionComponent} from './FrontOffice/pages/training-session/training-session.component';
+import {MatGridListModule} from "@angular/material/grid-list";
+import {MatCardModule} from "@angular/material/card";
 
 @NgModule({
   declarations: [
@@ -84,6 +90,8 @@ import { ActivityBComponent } from './BackOffice/Pages/activity-b/activity-b.com
     FindAllUsersComponent ,
     FilterJobPipe,
     ActivityBComponent,
+    RegistrationBComponent,
+    TrainingSessionComponent,
 
   ],
   imports: [
@@ -108,6 +116,7 @@ import { ActivityBComponent } from './BackOffice/Pages/activity-b/activity-b.com
     MatToolbarModule,
     MatRippleModule,
     MatMenuModule,
+    MatSnackBarModule,
     MatButtonModule,
     FeatherModule.pick(allIcons),
     CalendarModule.forRoot({
@@ -117,7 +126,8 @@ import { ActivityBComponent } from './BackOffice/Pages/activity-b/activity-b.com
     }),
     DragDropModule,
     FullCalendarModule,
-
+    MatCardModule,
+    MatGridListModule
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent],

@@ -1,6 +1,6 @@
 /* Global styles */
 body {
-  font-family: 'Arial', sans-serif; /* Example font */
+  font-family: 'Arial', sans-serif;
 }
 
 /* Card Container */
@@ -8,21 +8,21 @@ body {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
-  justify-content: center; /* Center cards in the container */
+  justify-content: center;
 }
 
 /* Card */
 .card {
   box-shadow: 0 2px 4px rgba(0,0,0,0.1), 0 4px 20px rgba(0,0,0,0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  width: calc(33.333% - 0.5rem); /* Three cards per row with gap */
+  width: calc(33.333% - 0.5rem);
   margin-bottom: 1rem;
   border-radius: 0.5rem;
-  background: #ffffff; /* Card background color */
-  border: solid 1px #f0f0f0; /* Light border for card */
+  background: #ffffff;
+  border: solid 1px #f0f0f0;
 }
 
-/* Hover state for card */
+/* Card hover state */
 .card:hover {
   transform: translateY(-5px);
   box-shadow: 0 10px 30px rgba(0,0,0,0.2);
@@ -77,36 +77,43 @@ body {
   z-index: 1040;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.6); /* Darker backdrop for better focus on modal */
+  background-color: rgba(0, 0, 0, 0.6);
 }
+
+/* Modal Content */
 .modal-content {
   display: flex;
   flex-direction: column;
   position: fixed;
   z-index: 1050;
-  padding: 1.5rem;
-  border-radius: 0.3rem;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: auto;
-  max-width: 600px; /* Adjust as needed */
+  overflow-y: auto;
+  animation: scaleUp 0.3s ease-out forwards;
+font-family: 'Arial', sans-serif;
+  color: #333; /* Ensuring good readability */
   background: #fff;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-  overflow-y: auto; /* For scrollable content */
-  animation: scaleUp 0.3s ease-out forwards; /* Smooth scaling animation */
+  border-radius: 8px; /* Rounded corners for a modern look */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  padding: 20px; /* Ample padding for content */
+  width: 80%; /* Suitable width on desktop */
+  max-width: 500px; /* Maximum width to maintain readability */
+  margin: auto; /* Centers the modal in the viewport */
 }
 
 @keyframes scaleUp {
-  0% {
+  from {
     transform: translate(-50%, -50%) scale(0.8);
     opacity: 0;
   }
-  100% {
+  to {
     transform: translate(-50%, -50%) scale(1);
     opacity: 1;
   }
 }
+
+/* Responsive modal */
 @media (max-width: 768px) {
   .modal-content {
     max-width: 90%;
@@ -120,79 +127,174 @@ body {
   }
 }
 
-
 /* Modal Header */
 .modal-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem;
+  margin-bottom:20px;
 }
 
 /* Modal Title */
 .modal-title {
-  font-size: 1.5rem;
+  font-size: 1.5rem; /* Large and legible title */
   font-weight: bold;
+  color: #007bff; /* Highlight color for title */
+  flex: 1; /* Allows title to take up the available space */
+  text-align: left;
 }
 
 /* Close Button */
 .close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background-color: transparent;
+  border: none;
+  padding: 0.5rem;
+  cursor: pointer;
+
+font-size: 2rem; /* Large close button for easy interaction */
+  line-height: 1;
+  color: #aab0b6; /* Subtle color for close button */
   background: none;
   border: none;
-  font-size: 1.25rem;
+}
+.close:hover {
+  color: #007bff; /* Highlight color when hovered */
+}
+.modal-body {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #666; /* Soft color for the body text */
+}
+.modal-section {
+  margin-bottom: 20px; /* Space between sections */
+}
+.close svg {
+  width: 24px;
+  height: 24px;
+  fill: #333;
+}
+
+/* Activities List */
+  .activities-list {
+    list-style: none;
+    padding-left: 0; /* Removes default padding */
+    margin-top: 10px;
+  }
+
+.activity-item {
+  margin-bottom: 1rem; /* Adds space between activity items */
+  padding-bottom: 1rem; /* Adds padding below each item for visual separation */
+  border-bottom: 1px solid #eaeaea; /* A subtle line to separate items */
+}
+
+.activity-header {
+  font-size: 1rem; /* Sets a standard font size for activity header */
+  font-weight: bold; /* Makes the header bold */
+  margin-bottom: 0.5rem; /* Adds a little space below the header */
+  color: #007bff; /* Sets a theme color for the activity name */
+}
+
+.activity-name {
+  display: block; /* Ensures 'Name' starts on a new line */
+  margin-bottom: 0.25rem; /* Space between 'Name' and the actual name */
+}
+
+
+.activity-description {
+  display: block; /* Ensures 'Description' starts on a new line */
+  margin-top: 0.5rem; /* Space above the description if following other text */
+}
+.activity-header span, .activity-description span {
+  font-weight: normal; /* Resets bold styling for labels */
+  color: #333; /* Sets a darker color for the text */
+}
+/* PDF Button */
+.pdf-button {
+  background-color: #dc3545; /* Bootstrap danger color for emphasis */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 15px;
+  font-size: 1rem;
   cursor: pointer;
-}
-
-/* Modal Footer */
-.modal-footer {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 1rem;
-}
-
-/* Close Button in Modal Footer */
-.modal-footer .btn-secondary {
-  color: #333;
-  background-color: #e4e4e4;
-  border-color: #d3d3d3;
-}
-
-/* Make sure the cards are responsive */
-@media (max-width: 768px) {
-  .card {
-    width: calc(50% - 0.5rem); /* Two cards per row on small devices */
-  }
-}
-
-@media (max-width: 480px) {
-  .card {
-    width: 100%; /* Full width cards on extra small devices */
-  }
-}
-/* Additional styles for the information button */
-.btn-icon {
-  background-color: transparent; /* Button background */
-  border: none; /* Removes border */
-  padding: 0.25rem; /* Padding around the icon */
-  border-radius: 50%; /* Circular shape */
-  transition: background-color 0.2s, transform 0.2s; /* Smooth transition for hover effects */
-  display: flex; /* To center the SVG icon inside the button */
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  margin-left: auto; /* Push the button to the right */
+  margin-top: 20px; /* Space above the button */
+  text-decoration: none; /* Removes underline from links */
+}
+
+.pdf-button:hover {
+  background-color: rgba(255, 0, 0, 1);
+}
+
+.pdf-icon {
+  margin-right: 5px; /* Space between icon and text */
+}
+
+/* Ensure cards are responsive */
+@media (max-width: 768px) {
+  /* Responsive Modal Styles */
+  .modal-content {
+    width: 95%; /* Full width on smaller screens */
+    padding: 15px; /* Slightly less padding on smaller screens */
+  }
+
+  .event-title {
+    font-size: 2rem; /* Increase the font size */
+    font-weight: bold; /* Make the title bold */
+    color: #08718e; /* Event title color */
+    text-align: center; /* Align the text to the center */
+    margin: 0; /* Reset margin to remove any default spacing */
+    padding: 0.5rem 1rem; /* Add some padding for spacing */
+    background-color: #f8f9fa; /* Light background color for the title area */
+    border-top-left-radius: 0.3rem; /* Rounded corners for the top left */
+    border-top-right-radius: 0.3rem; /* Rounded corners for the top right */
+
+    /* Flexbox properties for centering vertically */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+
+  .close {
+    position: absolute;
+    top: 1rem; /* Align vertically with the title */
+    right: 1rem; /* Consistent spacing from the corner */
+    background-color: transparent;
+    border: none;
+    font-size: 1.5rem; /* Size of the close button */
+    cursor: pointer;
+  }
+}
+
+/* Icon Button */
+.btn-icon {
+  background-color: transparent;
+  border: none;
+  padding: 0.25rem;
+  border-radius: 50%;
+  transition: background-color 0.2s, transform 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
 }
 
 .btn-icon:hover, .btn-icon:focus {
-  background-color: #e3e3e3; /* Light background on hover/focus */
-  transform: scale(1.1); /* Slightly enlarge the button */
-  outline: none; /* Remove the focus outline */
+  background-color: #e3e3e3;
+  transform: scale(1.1);
+  outline: none;
 }
 
 .bi-info-circle {
-  fill: #007bff; /* Icon color */
+  fill: #007bff;
 }
 
-/* Tooltip (if needed) */
 .btn-icon::after {
   content: 'More Info';
   display: none;
@@ -208,81 +310,10 @@ body {
 .btn-icon:hover::after {
   display: block;
 }
+
 .custom-width {
-  width: 300px; /* Remplacez cette valeur par la longueur souhaitée */
-}
-.activities-list {
-  margin-top: 20px;
-}
-
-.activity-item {
-  margin-bottom: 15px;
-  list-style-type: none; /* Removes the default bullet points */
-}
-
-.activity-header {
-  font-weight: bold;
-  display: flex;
-  align-items: center; /* Aligns icons with text if used */
-}
-
-.activity-name {
-  margin-right: 10px;
-  font-size: 1.1em;
-}
-
-.activity-description {
-  margin-left: 20px; /* Indent the description slightly */
-}
-
-/* CSS pour le bouton PDF */
-.pdf-button {
-  background-color: rgba(255, 0, 0, 0.8);
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 15px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.pdf-button:hover {
-  background-color: rgba(255, 0, 0, 1);
+  width: 300px;
 }
 
 
-.pdf-icon {
-  width: 20px;
-  height: 20px;
-  margin-right: 5px;
-  vertical-align: middle;
-}
-
-.modal-header {
-  display: flex;
-  justify-content: space-between; /* Aligner les éléments sur les côtés opposés */
-  align-items: center; /* Centrer verticalement les éléments */
-}
-
-.modal-title {
-  flex-grow: 1; /* Permet au titre de prendre tout l'espace disponible */
-  text-align: center; /* Centrer le texte horizontalement */
-}
-
-
-.close {
-  position: absolute;
-  top: 1rem; /* Adjust to align vertically with the title */
-  right: 1rem; /* Consistent spacing from the corner */
-  background-color: transparent;
-  border: none;
-  padding: 0.5rem;
-  cursor: pointer;
-}
-
-.close svg {
-  width: 24px; /* Slightly larger icon for better visibility */
-  height: 24px;
-  fill: #333; /* Icon color that contrasts with the background */
-}
 
