@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { User } from 'src/app/Models/User';
 import { TaskService } from 'src/app/Services/task.service';
 import { UserService } from 'src/app/Services/user.service';
@@ -13,7 +14,7 @@ export class UsersuggestinfoComponent  implements OnInit{
   tasksCount: number = 0;
   isAvailable: boolean = false;
   users: User[] = [];
-  constructor(private userService: UserService,private dialogRef: MatDialogRef<UsersuggestinfoComponent>,private taskService: TaskService, @Inject(MAT_DIALOG_DATA) public data: { user: User }) { }
+  constructor(private userService: UserService,private dialogRef: MatDialogRef<UsersuggestinfoComponent>,private router: Router,private taskService: TaskService, @Inject(MAT_DIALOG_DATA) public data: { user: User }) { }
 
 
   ngOnInit(): void {
@@ -37,4 +38,5 @@ getUserTaskInfo(user: User): void {
   onClose(): void {
     this.dialogRef.close(); 
   }
+  
 }

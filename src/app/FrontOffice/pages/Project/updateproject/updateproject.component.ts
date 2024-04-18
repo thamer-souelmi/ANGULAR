@@ -17,7 +17,8 @@ export class UpdateprojectComponent implements OnInit{
     statusOptions = Object.keys(StatusProject).map(key => StatusProject[key as keyof typeof StatusProject]) ; 
   project: Project;
   projectStatuses: string[];
-  projectStatus!: StatusProject;  constructor(
+  projectStatus!: StatusProject;  
+  constructor(
     private dialogRef: MatDialogRef<UpdateprojectComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private projectService: ProjectService
@@ -41,10 +42,10 @@ export class UpdateprojectComponent implements OnInit{
   }
 
   onSubmit(): void {
-    console.log("Submitting project:", this.project);
+    //console.log("Submitting project:", this.project);
     this.project.projectStatus = this.projectStatus; 
     this.projectService.UpdateProject(this.project).subscribe(updatedProject => {
-      console.log("Updated project:", updatedProject);
+     // console.log("Updated project:", updatedProject);
 
       this.dialogRef.close(updatedProject);
     });

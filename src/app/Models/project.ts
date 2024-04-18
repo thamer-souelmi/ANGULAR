@@ -11,6 +11,7 @@ export class Project {
     projectStatus!:StatusProject;
     tasks!:Task[];
     projectManager!:User;
+    fileName!:String;
 
    
 }

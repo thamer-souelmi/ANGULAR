@@ -2,30 +2,38 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {AllTemplateFrontComponent} from "./FrontOffice/all-template-front/all-template-front.component";
 import {HomeFrontComponent} from "./FrontOffice/home-front/home-front.component";
-import { ActivityComponentF } from './FrontOffice/Pages/activity/activity.component';
-import { WishlistComponent } from './FrontOffice/Pages/JobOffer/wishlist/wishlist.component';
+import { ActivityComponentF } from './FrontOffice/pages/activity/activity.component';
+import { WishlistComponent } from './FrontOffice/pages/JobOffer/wishlist/wishlist.component';
 
 import {SidebarBackComponent} from "./BackOffice/sidebar-back/sidebar-back.component";
 import { AllTemplatBackComponent } from './BackOffice/all-templat-back/all-templat-back.component';
 import {EventBComponent} from "./BackOffice/Pages/event-b/event-b.component";
-import { GetAllProjectComponent } from './FrontOffice/Pages/Project/get-all-project/get-all-project.component';
-import { ProjectDetailsComponent } from './FrontOffice/Pages/Project/project-details/project-details.component';
-import { UpdateprojectComponent } from './FrontOffice/Pages/Project/updateproject/updateproject.component';
-import { TasksByprojectComponent } from './FrontOffice/Pages/Task/tasks-byproject/tasks-byproject.component';
-import { AddTaskComponent } from './FrontOffice/Pages/Task/add-task/add-task.component';
-import { UpdateTaskComponent } from './FrontOffice/Pages/Task/update-task/update-task.component';
-import { KanbanBoardComponent } from './FrontOffice/Pages/Task/kanban-board/kanban-board.component';
+import { GetAllProjectComponent } from './FrontOffice/pages/Project/get-all-project/get-all-project.component';
+import { ProjectDetailsComponent } from './FrontOffice/pages/Project/project-details/project-details.component';
+import { UpdateprojectComponent } from './FrontOffice/pages/Project/updateproject/updateproject.component';
+import { TasksByprojectComponent } from './FrontOffice/pages/Task/tasks-byproject/tasks-byproject.component';
+import { UpdateTaskComponent } from './FrontOffice/pages/Task/update-task/update-task.component';
+import { KanbanBoardComponent } from './FrontOffice/pages/Task/kanban-board/kanban-board.component';
 import { LoginComponent } from './BackOffice/Pages/login/login.component';
 import {FindAllUsersComponent} from "./BackOffice/Pages/find-all-users/find-all-users.component";
 
 import { FindAllProjectsComponent } from './BackOffice/Pages/Project/find-all-projects/find-all-projects.component';
 import { ProjectChartComponent } from './BackOffice/Pages/Project/project-chart/project-chart.component';
 
-import { EventComponent } from './FrontOffice/Pages/event/event.component';
+import {EventComponent} from "./FrontOffice/pages/event/event.component";
+import { TaskbackComponent } from './BackOffice/Pages/Task/taskback/taskback.component';
+import { KanbanboardbackComponent } from './BackOffice/Pages/Task/kanbanboardback/kanbanboardback.component';
+import { AppGanttChartComponent } from './BackOffice/Pages/Task/app-gantt-chart/app-gantt-chart.component';
+import { TodolistComponent } from './BackOffice/Pages/Task/todolist/todolist.component';
+import { DetailprojectbackComponent } from './BackOffice/Pages/Project/detailprojectback/detailprojectback.component';
+import { PMstatisticComponent } from './BackOffice/Pages/Task/pmstatistic/pmstatistic.component';
+import { PiecharttaskComponent } from './BackOffice/Pages/Task/piecharttask/piecharttask.component';
+
 import {ActivityBComponent} from "./BackOffice/Pages/activity-b/activity-b.component";
 import {TrainingSessionComponent} from "./FrontOffice/pages/training-session/training-session.component";
 
-import { FindAllJobOffersComponent } from './FrontOffice/Pages/JobOffer/find-all-job-offers/find-all-job-offers.component';
+import { FindAllJobOffersComponent } from './FrontOffice/pages/JobOffer/find-all-job-offers/find-all-job-offers.component';
+
 
 
 
@@ -51,9 +59,15 @@ const routes: Routes = [
     path: "back",
     component: AllTemplatBackComponent,
     children:[
+
+      { path: 'taskback', component: TaskbackComponent},
+
+      //{path:"findall", component:FindAllUsersComponent},
+
       {path:"EventBack", component:EventBComponent},
       {path:"activityB",component:ActivityBComponent},
       {path:"findall", component:FindAllUsersComponent},
+
     ]},
 
   {
@@ -111,7 +125,17 @@ const routes: Routes = [
       component: AllTemplatBackComponent,children:[
         { path: 'findProjects', component:FindAllProjectsComponent },
         { path: 'projectchart', component:ProjectChartComponent },
-        { path: 'kanban-task', component: KanbanBoardComponent},
+        { path: 'kanbanback', component: KanbanboardbackComponent},
+        { path: 'taskback', component: TaskbackComponent},
+        { path: 'gantt', component: AppGanttChartComponent},
+        { path: 'Todolist', component: TodolistComponent},
+        { path: 'detailback', component: DetailprojectbackComponent},
+        { path: 'emplyeestat', component: PMstatisticComponent},
+        { path: 'taskpiechart/:projectId', component: PiecharttaskComponent},
+
+
+
+
   
   
       ]
