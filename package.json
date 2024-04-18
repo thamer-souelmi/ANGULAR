@@ -27,14 +27,21 @@
     "@swimlane/ngx-charts": "^20.5.0",
     "angular-calendar": "^0.31.0",
     "angular-feather": "^6.5.1",
+    "angular-highcharts": "^16.0.0",
     "bootstrap": "^5.3.3",
     "calendar-utils": "^0.10.4",
     "date-fns": "^3.6.0",
+
+    "highcharts": "^11.4.1",
+    "ngx-avatars": "^1.6.1",
+
     "exceljs": "^4.4.0",
     "file-saver": "^2.0.5",
     "html2canvas": "^1.4.1",
     "jspdf": "^2.5.1",
     "leaflet": "^1.9.4",
+    "ngx-cookie-service": "^17.1.0",
+
     "leaflet-control-geocoder": "^2.4.0",
     "pdfmake": "^0.2.10",
     "rxjs": "~7.8.0",

@@ -62,6 +62,13 @@
           </select>
         </div>
         <br>
+        <div class="form-group">
+          <label for="Employee">Membre:</label>
+          <select id="Employee" [(ngModel)]="selectedEmployee" name="Employee" class="form-control" required>
+            <option *ngFor="let Employee of employees" [ngValue]="Employee">{{ Employee.firstname }} {{ Employee.lastname }} </option>
+          </select>
+        </div>
+        <br>
         <div class="modal-footer"> 
           <button type="submit" class="btn btn-primary" [disabled]="taskForm.invalid">Add Task</button>
           <button type="button" class="btn btn-secondary" (click)="onClose()">Cancel</button>

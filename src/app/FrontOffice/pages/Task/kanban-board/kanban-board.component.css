@@ -73,6 +73,12 @@ header {
   top: 20px;
   transform: translateY(-50%);
 }
+.avatar-icon {
+  position: absolute;
+  right: 5px;
+  bottom: -2px;
+  transform: translateY(-20%);
+}
 
 .story::after {
     content: '';
