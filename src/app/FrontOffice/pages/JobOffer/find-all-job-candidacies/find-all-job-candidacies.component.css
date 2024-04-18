@@ -46,4 +46,14 @@ h2:hover::after {
 .larger-button i {
   font-size: 35px; /* Adjust the icon size as needed */
 }
+.card-icons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+
+.card-icons a {
+  margin: 0 5px; /* Adjust as needed */
+}
 

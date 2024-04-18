@@ -5,6 +5,11 @@ import {FormBuilder, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
 import dayGridPlugin from "@fullcalendar/daygrid";
+import {MatDialog} from "@angular/material/dialog";
+
+import {
+  CandidateLinkedInDetailsBackComponent
+} from "../candidate-linked-in-details-back/candidate-linked-in-details-back.component";
 
 @Component({
   selector: 'app-find-all-job-candidacies-back',
@@ -21,7 +26,7 @@ export class FindAllJobCandidaciesBackComponent implements OnInit{
     // No need to subscribe to route params here, as it's already done in the constructor
     this.loadCandidacies(this.jobOfferId);
   }
-  constructor(private c: CandidacyService, private route: ActivatedRoute, private router: Router, private toastr: ToastrService) {
+  constructor(private c: CandidacyService, private route: ActivatedRoute, private router: Router, private toastr: ToastrService,public dialog: MatDialog) {
 
     // Retrieve jobOfferId from the route parameters
     this.route.params.subscribe(params => {
@@ -73,5 +78,14 @@ export class FindAllJobCandidaciesBackComponent implements OnInit{
   }
   navigateToStatistics() {
     this.router.navigate(['/statisticsCandidacies']);
+  }
+  openDetailModal(candidate: Candidacy) {
+    const dialogRef = this.dialog.open(CandidateLinkedInDetailsBackComponent, {
+      data: { candidate: candidate }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      // Handle modal close event if needed
+    });
   }
 }

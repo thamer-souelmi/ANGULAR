@@ -198,7 +198,8 @@ export class FindAllJobCandidaciesComponent implements OnInit{
       angular: 2,
       spring: 4,
       'C++': 3,
-      'C#': 0
+      'C#': 0,
+      candidate: 5 // Assuming you want to send a value of 1 for the number of candidates
     };
 
     this.recommendationService.sendRequirements(requirements).subscribe(

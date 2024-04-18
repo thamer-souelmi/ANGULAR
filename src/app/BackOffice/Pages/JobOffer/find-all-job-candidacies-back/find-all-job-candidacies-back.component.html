@@ -22,16 +22,9 @@
             <span style="margin-right: 20px;">{{ candidacy.candidateName }}</span>
             <span class="text-end">{{ candidacy.submissionDate | date }}</span>
           </h3>
-          <p class="card-text">Email: <a href="mailto:{{ candidacy.email }}" style="text-decoration: underline;">{{ candidacy.email }}</a></p>
-          <p class="card-text">Portfolio link: <a href="{{ candidacy.link }}" target="_blank"><i class="fas fa-external-link-alt"></i></a></p>
-          <p class="card-text">LinkeIn Account: <a href="{{ candidacy.linkedin }}" target="_blank" class="fab fa-linkedin fa-lg"></a></p>
-          <p class="card-text">GitHub Account: <a href="{{ candidacy.github }}" target="_blank"><i class="fab fa-github fa-lg"></i></a></p>
-          <p class="card-text">Attachments: <a href="#" (click)="downloadAttachment($event, candidacy.cv)">
-            <i class="fas fa-paperclip"></i>
-          </a></p>
-          <p class="card-text">Interview details:<a mat-raised-button
-                                                    matTooltip="Show related Interview" [routerLink]="['/findInterviewBack', candidacy.candidacy_id]">
-            <i class="far fa-calendar-alt"></i></a></p>
+          <p class="card-text"><a href="mailto:{{ candidacy.email }}" style="text-decoration: underline;">{{ candidacy.email }}</a></p>
+
+
           <p class="card-text">
             Status Candidacy:
             <span *ngIf="candidacy.candidacystatus === -1" class="badge badge-pill badge-danger rounded-pill">Rejected</span>
@@ -39,6 +32,29 @@
             <span *ngIf="candidacy.candidacystatus === 1" class="badge badge-pill badge-info rounded-pill">Selected for Interview</span>
             <span *ngIf="candidacy.candidacystatus === 2" class="badge badge-pill badge-success rounded-pill">Hired</span>
           </p>
+          <div class="card-footer">
+            <a href="{{ candidacy.link }}" target="_blank"><i class="fas fa-external-link-alt"></i></a>
+            <span class="icon-margin"></span>
+            <a href="{{ candidacy.linkedin }}" target="_blank" class="fab fa-linkedin fa-lg"></a>
+            <span class="icon-margin"></span>
+            <a href="{{ candidacy.github }}" target="_blank"><i class="fab fa-github fa-lg"></i></a>
+            <span class="icon-margin"></span>
+            <a href="#" (click)="downloadAttachment($event, candidacy.cv)">
+              <i class="fas fa-paperclip"></i>
+            </a>
+            <span class="icon-margin"></span>
+            <a [routerLink]="['/findInterviewBack', candidacy.candidacy_id]">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar2-check-fill" viewBox="0 0 16 16">
+                <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5m9.954 3H2.545c-.3 0-.545.224-.545.5v1c0 .276.244.5.545.5h10.91c.3 0 .545-.224.545-.5v-1c0-.276-.244-.5-.546-.5m-2.6 5.854a.5.5 0 0 0-.708-.708L7.5 10.793 6.354 9.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0z"/>
+              </svg></a>
+            <span class="icon-margin"></span>
+            <a (click)="openDetailModal(candidacy)">
+              <i class="fas fa-info-circle"></i>
+            </a>
+          </div>
+
+
+
         </div>
 
       </div>

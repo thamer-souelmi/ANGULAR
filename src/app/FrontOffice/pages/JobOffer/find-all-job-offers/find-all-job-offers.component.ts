@@ -55,7 +55,7 @@ export class FindAllJobOffersComponent implements OnInit, AfterViewInit {
   private candidacies!: Candidacy[];
   constructor(private js: JobOfferService, private router: Router,private formBuilder: FormBuilder,private dialog: MatDialog,
               private cdr: ChangeDetectorRef,
-              private ngZone: NgZone,private route: ActivatedRoute,private candidacyService: CandidacyService,private toastr: ToastrService) {
+              private ngZone: NgZone,private route: ActivatedRoute,private candidacyService: CandidacyService,private toastr: ToastrService,) {
     this.jobOfferForm = this.formBuilder.group({
       titleJobOffer: ['', Validators.required],
       description: ['', Validators.required],
@@ -83,7 +83,6 @@ export class FindAllJobOffersComponent implements OnInit, AfterViewInit {
     //   // jobNature: ['', Validators.required],
     //   // jobCategory: ['', Validators.required],
     // }, { validators: this.salaryRangeValidator });
-
   }
   ngAfterViewInit() {
     // Access the nativeElement property inside ngAfterViewInit
@@ -92,13 +91,23 @@ export class FindAllJobOffersComponent implements OnInit, AfterViewInit {
     }
     // Repeat for other select elements if needed
   }
-  openUpdateModal(): void {
+  // openUpdateModal(): void {
+  //   const dialogRef = this.dialog.open(UpdateJobOfferComponent, {
+  //     width: '600px',
+  //     data: { jobOffer: this.jobOffer }
+  //   });
+  //
+  //   dialogRef.afterClosed().subscribe(result => {
+  //   });
+  // }
+  openUpdateJobOfferDialog(jobOffer: JobOffer): void {
+    console.log('Job Offer Data:', jobOffer); // Log the jobOffer data before opening the dialog
     const dialogRef = this.dialog.open(UpdateJobOfferComponent, {
-      width: '600px',
-      data: { jobOffer: this.jobOffer }
+      data: { jobOffer: jobOffer } // Pass jobOffer data to the dialog
     });
 
     dialogRef.afterClosed().subscribe(result => {
+      // Handle dialog close event if needed
     });
   }
 
@@ -112,7 +121,7 @@ export class FindAllJobOffersComponent implements OnInit, AfterViewInit {
       this.jobOffersVacancies = Array.from(new Set(jobOffers.map(jobOffer => jobOffer.vacancy)));
       // Convert enum values to strings before assigning
       this.jobOffersCategories = Array.from(new Set(jobOffers.map(jobOffer => JobCategory[jobOffer.jobCategory])));
-      this.jobOffersJobTypes = Array.from(new Set(jobOffers.map(jobOffer => JobNature[jobOffer.jobNature])));
+      this.jobOffersJobTypes                                                                                                                              = Array.from(new Set(jobOffers.map(jobOffer => JobNature[jobOffer.jobNature])));
     });
     this.sortByMostApplied();
   }

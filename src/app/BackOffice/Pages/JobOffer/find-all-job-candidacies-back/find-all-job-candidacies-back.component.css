@@ -49,3 +49,24 @@ h2:hover::after {
   border-radius: 10px; /* Adjust the border-radius for rounded corners */
   margin-bottom: 10px; /* Adjust the spacing between buttons as needed */
 }
+.icon-margin {
+  margin-right: 8px; /* Adjust the margin as needed */
+}
+/*.card-footer {*/
+/*  display: flex;*/
+/*  justify-content: space-between;*/
+/*  align-items: center;*/
+/*  padding: 10px;*/
+/*}*/
+.card-footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+
+.card-footer a {
+  margin: 0 5px; /* Adjust as needed */
+}
+
+

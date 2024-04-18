@@ -10,8 +10,9 @@ import {forkJoin, Observable} from "rxjs";
 import {CandidacyService} from "../../../../Services/candidacy.service";
 import {ActivatedRoute} from "@angular/router";
 import { Router } from '@angular/router';
-import {MatTooltipModule} from '@angular/material/tooltip';
-import {MatButtonModule} from '@angular/material/button';
+import {MatDialog} from "@angular/material/dialog";
+
+import {JobOfferDetailsBackComponent} from "../job-offer-details-back/job-offer-details-back.component";
 
 @Component({
   selector: 'app-find-all-job-offers-back',
@@ -30,7 +31,7 @@ export class FindAllJobOffersBackComponent implements OnInit, AfterViewInit{
   isDetailsModalOpen: boolean = false;
   isModalOpen: boolean = false;
   isResultsModalOpen = false;
-  constructor(private js: JobOfferService, private modalService: NgbModal,private candidacyService: CandidacyService,private router: Router,    private cdr: ChangeDetectorRef
+  constructor(private js: JobOfferService, private modalService: NgbModal,private candidacyService: CandidacyService,private router: Router,    private cdr: ChangeDetectorRef,public dialog: MatDialog
   ){}
   loadJobOffers() {
     this.js.findAllJobOffers().subscribe(jobOffers => {
@@ -98,18 +99,27 @@ export class FindAllJobOffersBackComponent implements OnInit, AfterViewInit{
   navigateToStatistics() {
     this.router.navigate(['/statisticsHR']);
   }
-  openDetailsModal(activity: JobOffer): void {
-    console.log('Selected Job Offer ID:', activity.jobOffer_id); // Log the ID of the selected job offer
-    this.selectedJobOfferDetails = activity;
-    console.log('Selected Job Offer Details:', this.selectedJobOfferDetails); // Log the selectedJobOfferDetails
-    this.isDetailsModalOpen = true;
-    this.cdr.detectChanges(); // Trigger change detection manually
-  }
+  // openDetailsModal(activity: JobOffer): void {
+  //   console.log('Selected Job Offer ID:', activity.jobOffer_id); // Log the ID of the selected job offer
+  //   this.selectedJobOfferDetails = activity;
+  //   console.log('Selected Job Offer Details:', this.selectedJobOfferDetails); // Log the selectedJobOfferDetails
+  //   this.isDetailsModalOpen = true;
+  //   this.cdr.detectChanges(); // Trigger change detection manually
+  // }
+  //
+  //
+  // closeDetailsModal(): void {
+  //   this.selectedJobOfferDetails = null;
+  //   this.isDetailsModalOpen = false; // Set the modal to close
+  // }
+  openDetailModal(jobOffer: JobOffer) {
+    const dialogRef = this.dialog.open(JobOfferDetailsBackComponent, {
+      data: { jobOffer: jobOffer }
+    });
 
-
-  closeDetailsModal(): void {
-    this.selectedJobOfferDetails = null;
-    this.isDetailsModalOpen = false; // Set the modal to close
+    dialogRef.afterClosed().subscribe(result => {
+      // Handle modal close event if needed
+    });
   }
 
 }
