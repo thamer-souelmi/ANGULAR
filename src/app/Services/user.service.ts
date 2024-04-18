@@ -71,5 +71,7 @@ private baseUrlf : string = 'http://localhost:8082/user';
     });
   }
 
-
+  getUserByEmail(email: string): Observable<User> {
+    return this.http.get<User>(`${this.baseUrl}/email/${email}`);
+  }
 }

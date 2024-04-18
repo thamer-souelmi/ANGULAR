@@ -17,9 +17,10 @@ import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpClientModule } from '@angular/common/http';
-import { EventComponent } from './FrontOffice/Pages/event/event.component';
-import { FindAllJobOffersComponent } from './FrontOffice/Pages/JobOffer/find-all-job-offers/find-all-job-offers.component';
-import { WishlistComponent } from './FrontOffice/Pages/JobOffer/wishlist/wishlist.component';
+import { EventComponent } from './FrontOffice/pages/event/event.component';
+import { FindAllJobOffersComponent } from './FrontOffice/pages/JobOffer/find-all-job-offers/find-all-job-offers.component';
+import { WishlistComponent } from './FrontOffice/pages/JobOffer/wishlist/wishlist.component';
+
 import { CommonModule, DatePipe } from "@angular/common";
 // import { FullCalendarModule } from '@fullcalendar/angular';
 import { NgbDatepickerModule, NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -58,6 +59,12 @@ import { ProjectChartComponent } from './BackOffice/Pages/Project/project-chart/
 
 import {FullCalendarModule} from "@fullcalendar/angular";
 import { ActivityBComponent } from './BackOffice/Pages/activity-b/activity-b.component';
+import { RegistrationBComponent } from './BackOffice/Pages/registration-b/registration-b.component';
+import {MatSnackBarModule} from "@angular/material/snack-bar";
+import {
+  TrainingSessionComponent} from './FrontOffice/pages/training-session/training-session.component';
+import {MatGridListModule} from "@angular/material/grid-list";
+import {MatCardModule} from "@angular/material/card";
 import { EventBComponent } from './BackOffice/Pages/event-b/event-b.component';
 import { ProjectFormComponent } from './FrontOffice/Pages/Project/project-form/project-form.component';
 import { ProjectDetailsComponent } from './FrontOffice/Pages/Project/project-details/project-details.component';
@@ -92,6 +99,9 @@ import { GetAllProjectComponent } from './FrontOffice/Pages/Project/get-all-proj
     UsersuggestinfoComponent,
     FindAllProjectsComponent,
     ProjectChartComponent,
+    RegistrationBComponent,
+    TrainingSessionComponent,
+
     TasksByprojectComponent,
     KanbanBoardComponent,
     EventBComponent,
@@ -121,6 +131,7 @@ import { GetAllProjectComponent } from './FrontOffice/Pages/Project/get-all-proj
     MatToolbarModule,
     MatRippleModule,
     MatMenuModule,
+    MatSnackBarModule,
     MatButtonModule,
     FeatherModule.pick(allIcons),
     FormsModule,
@@ -137,7 +148,10 @@ import { GetAllProjectComponent } from './FrontOffice/Pages/Project/get-all-proj
     AvatarModule,
    ChartModule,
 
-    FullCalendarModule
+    FullCalendarModule,
+    MatCardModule,
+    MatGridListModule
+
   ],
   providers: [httpInterceptorProviders,DatePipe],
   bootstrap: [AppComponent],
