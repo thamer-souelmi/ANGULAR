@@ -1,0 +1,99 @@
+<head>
+  
+  <!-- Favicon -->
+  <link href="/assets/FrontOffice/img/favicon.ico" rel="icon">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+
+  <!-- Google Web Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Icon Font Stylesheet -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+  <!-- Libraries Stylesheet -->
+  <link href="/assets/FrontOffice/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+  <link href="/assets/FrontOffice/lib/animate/animate.min.css" rel="stylesheet">
+
+  <!-- Customized Bootstrap Stylesheet -->
+  <link href="/assets/FrontOffice/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Template Stylesheet -->
+  <link href="/assets/FrontOffice/css/style.css" rel="stylesheet">
+</head>
+
+
+
+
+<nav class="navbar">
+   
+      <li><h3>Tasks</h3></li>
+      <ul class="pos">
+        
+      <li ><a  href="/Projectback/taskback">List</a></li>
+      <li><a href="/Projectback/kanbanback">Kanban Board</a></li>
+      <li><a href="#">Gantt</a></li>
+      <li><a href="/Projectback/Todolist">To-Do-List</a></li>
+
+    </ul>
+      <li  (click)="openAddTaskModal()"><button class="btn btn-primary"> + Add Task </button></li>
+   
+  </nav>
+  <br>
+<div class="container">
+    <header>
+      <h1>Kanban Board</h1>
+      <h2>Your board</h2>
+    </header>
+    <div class="add-task-container">
+      <!--  <button class="btn btn-sm btn-succes" (click)="openAddTaskModal()">
+          <i class="bi bi-plus"></i> 
+      </button>-->
+      </div>
+    <div class="flex" >
+      <div *ngFor="let section of ['TODO', 'INPROGRESS', 'COMPLETED', 'CANCELLED']" class="section"
+           [cdkDropListData]="filterTasksBySection(section)" 
+           cdkDropList 
+           (cdkDropListDropped)="handleDrop($event, section)">
+           <div class="section-header">
+           
+          <span class="title">{{ section }}</span>
+        </div>
+        <div *ngFor="let task of filterTasksBySection(section)" 
+             class="story" 
+             cdkDrag [cdkDragData]="task">
+             <div class="task-details">
+              <button mat-icon-button class="edit-icon" (click)="openEditTaskModal(task)">
+                  <mat-icon class="mat-icon-small">edit</mat-icon>
+              </button>
+              <span>{{ task.taskname }}</span>
+          </div>
+          <span>{{ task.taskDescription }}</span>
+          <span class="priority-label"
+          [ngClass]="{
+                'high-priority': task.priority === Priority.HIGH,
+                'medium-priority': task.priority === Priority.MEDUIM,
+                'low-priority': task.priority === Priority.LOW
+              }">
+        {{ task.priority }}
+    </span>
+
+    <ngx-avatars class="avatar-icon" 
+             [name]="task.employeeTask.firstname + ' ' + task.employeeTask.lastname" 
+             size="30" 
+             bgColor="#049565" 
+             [round]="true"
+             title="{{ task.employeeTask.firstname + ' ' + task.employeeTask.lastname }}">
+</ngx-avatars>
+
+
+        </div>
+
+  
+        
+      </div>
+    </div>
+  </div>
+  

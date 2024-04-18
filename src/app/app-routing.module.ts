@@ -26,6 +26,13 @@ import { FindAllProjectsComponent } from './BackOffice/Pages/Project/find-all-pr
 import { ProjectChartComponent } from './BackOffice/Pages/Project/project-chart/project-chart.component';
 
 import {EventComponent} from "./FrontOffice/pages/event/event.component";
+import { TaskbackComponent } from './BackOffice/Pages/Task/taskback/taskback.component';
+import { KanbanboardbackComponent } from './BackOffice/Pages/Task/kanbanboardback/kanbanboardback.component';
+import { AppGanttChartComponent } from './BackOffice/Pages/Task/app-gantt-chart/app-gantt-chart.component';
+import { TodolistComponent } from './BackOffice/Pages/Task/todolist/todolist.component';
+import { DetailprojectbackComponent } from './BackOffice/Pages/Project/detailprojectback/detailprojectback.component';
+import { PMstatisticComponent } from './BackOffice/Pages/Task/pmstatistic/pmstatistic.component';
+import { PiecharttaskComponent } from './BackOffice/Pages/Task/piecharttask/piecharttask.component';
 
 
 
@@ -41,8 +48,9 @@ const routes: Routes = [
     component: AllTemplatBackComponent,
     children:[
       {path: "EventBack ", component: EventBComponent},
+      { path: 'taskback', component: TaskbackComponent},
 
-      {path:"findall", component:FindAllUsersComponent},
+      //{path:"findall", component:FindAllUsersComponent},
     ]},
 
   {
@@ -100,7 +108,17 @@ const routes: Routes = [
       component: AllTemplatBackComponent,children:[
         { path: 'findProjects', component:FindAllProjectsComponent },
         { path: 'projectchart', component:ProjectChartComponent },
-        { path: 'kanban-task', component: KanbanBoardComponent},
+        { path: 'kanbanback', component: KanbanboardbackComponent},
+        { path: 'taskback', component: TaskbackComponent},
+        { path: 'gantt', component: AppGanttChartComponent},
+        { path: 'Todolist', component: TodolistComponent},
+        { path: 'detailback', component: DetailprojectbackComponent},
+        { path: 'emplyeestat', component: PMstatisticComponent},
+        { path: 'taskpiechart/:projectId', component: PiecharttaskComponent},
+
+
+
+
   
   
       ]

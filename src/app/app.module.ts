@@ -13,11 +13,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MatTableModule } from '@angular/material/table';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpClientModule } from '@angular/common/http';
-import { EventComponent } from './FrontOffice/Pages/event/event.component';
 import { FindAllJobOffersComponent } from './FrontOffice/pages/JobOffer/find-all-job-offers/find-all-job-offers.component';
 import { WishlistComponent } from './FrontOffice/pages/JobOffer/wishlist/wishlist.component';
 import { CommonModule, DatePipe } from "@angular/common";
@@ -25,12 +24,13 @@ import { CommonModule, DatePipe } from "@angular/common";
 import { NgbDatepickerModule, NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatSidenavModule } from "@angular/material/sidenav";
 import { MatToolbarModule } from "@angular/material/toolbar";
-import { MatRippleModule } from '@angular/material/core';
+import {  MatRippleModule } from '@angular/material/core';
 import { MatMenuModule } from "@angular/material/menu";
 import { FeatherModule } from 'angular-feather';
 import { allIcons } from 'angular-feather/icons';
 import { httpInterceptorProviders } from './Helpers/http-request-interceptor';
 import { LoginComponent } from './BackOffice/Pages/login/login.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import {SidebarBackComponent} from "./BackOffice/sidebar-back/sidebar-back.component";
 import {NavbarBackComponent} from "./BackOffice/navbar-back/navbar-back.component";
@@ -61,7 +61,15 @@ import { ProjectChartComponent } from './BackOffice/Pages/Project/project-chart/
 
 
 import {FullCalendarModule} from "@fullcalendar/angular";
-
+import { EventComponent } from './FrontOffice/pages/event/event.component';
+import { TaskbackComponent } from './BackOffice/Pages/Task/taskback/taskback.component';
+import { KanbanboardbackComponent } from './BackOffice/Pages/Task/kanbanboardback/kanbanboardback.component';
+import { AppGanttChartComponent } from './BackOffice/Pages/Task/app-gantt-chart/app-gantt-chart.component';
+import { TodolistComponent } from './BackOffice/Pages/Task/todolist/todolist.component';
+import {MatSortModule} from '@angular/material/sort';
+import { DetailprojectbackComponent } from './BackOffice/Pages/Project/detailprojectback/detailprojectback.component';
+import { PMstatisticComponent } from './BackOffice/Pages/Task/pmstatistic/pmstatistic.component';
+import { PiecharttaskComponent } from './BackOffice/Pages/Task/piecharttask/piecharttask.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -96,6 +104,13 @@ import {FullCalendarModule} from "@fullcalendar/angular";
     UsersuggestinfoComponent,
     FindAllProjectsComponent,
     ProjectChartComponent,
+    TaskbackComponent,
+    KanbanboardbackComponent,
+    AppGanttChartComponent,
+    TodolistComponent,
+    DetailprojectbackComponent,
+    PMstatisticComponent,
+    PiecharttaskComponent,
 
   ],
   imports: [
@@ -135,6 +150,10 @@ import {FullCalendarModule} from "@fullcalendar/angular";
    ChartModule,
 
     FullCalendarModule,
+    MatSortModule,
+    MatTableModule,
+    MatCheckboxModule,
+    
 
   ],
   providers: [httpInterceptorProviders,DatePipe],
