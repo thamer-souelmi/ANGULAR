@@ -7,7 +7,6 @@ import { TS_Status } from "../../../Models/TS_Status";
 import { TypeTS } from "../../../Models/TypeTS";
 import { throwError} from "rxjs";
 import { catchError } from "rxjs/operators";
-import { NgxMaterialTimepickerComponent } from 'ngx-material-timepicker';
 
 @Component({
   selector: 'app-training-session',
@@ -25,8 +24,6 @@ export class TrainingSessionComponent implements OnInit {
   private modalRef?: NgbModalRef;
   typeTSOptions = Object.values(TypeTS);
   tsStatusOptions = Object.values(TS_Status);
-  @ViewChild('startTimePicker') startTimePicker!: NgxMaterialTimepickerComponent;
-  @ViewChild('finishTimePicker') finishTimePicker!: NgxMaterialTimepickerComponent;
 
   constructor(
     private formBuilder: FormBuilder,
