@@ -1,0 +1,86 @@
+<head>
+  
+  <!-- Favicon -->
+  <link href="/assets/FrontOffice/img/favicon.ico" rel="icon">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+
+  <!-- Google Web Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Icon Font Stylesheet -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+  <!-- Libraries Stylesheet -->
+  <link href="/assets/FrontOffice/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+  <link href="/assets/FrontOffice/lib/animate/animate.min.css" rel="stylesheet">
+
+  <!-- Customized Bootstrap Stylesheet -->
+  <link href="/assets/FrontOffice/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Template Stylesheet -->
+  <link href="/assets/FrontOffice/css/style.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha384-..." crossorigin="anonymous">
+</head>
+
+
+<nav class="navbar">
+   
+  <li><h3>Tasks</h3></li>
+  <ul class="pos">
+    
+  <li ><a  href="/Projectback/taskback">List</a></li>
+  <li><a href="/Projectback/kanbanback">Kanban Board</a></li>
+  <li><a href="#">Gantt</a></li>
+  <li><a href="/Projectback/Todolist">To-Do-List</a></li>
+  
+</ul>
+<li class="buttons-wrapper">
+  <button mat-raised-button
+          matTooltip="Job offers Statistics" style="background-color: #08718e; color: white;"  (click)="navigateToStatistics()">
+    <i class="fa fa-line-chart"></i>
+  </button>
+</li>
+</nav>
+<br>
+<div class="table-responsive"> <!-- Utilisation de la classe table-responsive pour permettre le défilement horizontal sur les petits écrans -->
+  <table matSort (matSortChange)="sortData($event)" class="table table-bordered table-hover"> <!-- Ajout de classes pour ajouter des bordures et un style de survol -->
+  
+    <thead class="thead-dark"> <!-- Utilisation de la classe thead-dark pour un fond sombre sur les en-têtes -->
+    <tr>
+      <th>Subject</th>
+      <th mat-sort-header="startdateProject">Start Date</th>
+      <th mat-sort-header="enddateProject">End Date</th>
+      <th mat-sort-header="projectManager">Assigned To</th>
+    </tr>
+  </thead>
+  <tbody *ngFor="let project of sortedData">
+    <tr>
+      <td  (click)="toggleTasks(project)">
+        <strong class="table table-striped table-hover" style="box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2) ;background-color: #FAD7A0;">{{ project.projectName }}</strong>
+      </td>
+      <td>{{ project.startdateProject }}</td>
+      <td>{{ project.enddateProject }}</td>
+    <td><span >
+       <i class="fa fa-user mr-1 green-icon"></i> 
+      {{ project.projectManager.firstname }} {{ project.projectManager.lastname }}
+    </span></td>
+    </tr>
+    <ng-container *ngIf="selectedProject === project && selectedProjectTasks">
+      <tr *ngFor="let task of selectedProjectTasks">
+        <td>{{ task.taskDescription }}</td>
+        <td>{{ task.startDateTask }}</td>
+        <td>{{ task.dueDateTask }}</td>
+           <td><span >
+            <i class="fa fa-user mr-1 bleu-icon"></i>
+            {{ task.employeeTask.firstname }} {{ task.employeeTask.lastname }} 
+          </span></td>
+      </tr>
+    </ng-container>
+  </tbody>
+</table>
+</div>
+
+

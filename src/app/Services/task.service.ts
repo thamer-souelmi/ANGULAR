@@ -31,7 +31,7 @@ export class TaskService {
   }
 
   UpdateTask(t:Task):Observable<Task>{
-    return this.myHttp.put<Task>(this.urlTaskCrud +'/Task/UpdateTask' ,t);
+    return this.myHttp.put<Task>(`${this.urlTaskCrud}/Task/UpdateTask`,t);
   }
 
   deleteTask(id:number):Observable<void>{

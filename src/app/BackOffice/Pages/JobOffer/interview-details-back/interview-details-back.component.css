@@ -1,0 +1,36 @@
+.interview-card {
+  max-width: 400px;
+  margin: auto; /* Center the card */
+  margin-top: 20px; /* Add some space from the top */
+  border: 1px solid #ccc; /* Add a border */
+  border-radius: 5px; /* Add rounded corners */
+}
+
+.card-header {
+  background-color: #f0f0f0; /* Light gray background for the header */
+  padding: 10px;
+  border-bottom: 1px solid #ccc; /* Add a bottom border */
+}
+
+.card-body {
+  padding: 10px;
+}
+
+.card-body p {
+  margin: 5px 0; /* Add some space between paragraphs */
+}
+.buttons-wrapper {
+  position: fixed;
+  top: 50%;
+  right: 20px; /* Adjust the distance from the right side as needed */
+  display: flex;
+  flex-direction: column;
+  z-index: 1000; /* Ensure the buttons appear on top of other content */
+}
+
+.buttons-wrapper button {
+  padding: 20px 20px; /* Adjust the padding to increase the button size */
+  font-size: 18px; /* Adjust the font size to increase the button text size */
+  border-radius: 10px; /* Adjust the border-radius for rounded corners */
+  margin-bottom: 10px; /* Adjust the spacing between buttons as needed */
+}
