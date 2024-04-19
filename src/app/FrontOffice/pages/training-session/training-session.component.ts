@@ -3,6 +3,11 @@ import { TrainingSessionService } from "../../../Services/TrainingSession.servic
 import { TrainingSession } from "../../../Models/TrainingSession";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
+import { TS_Status } from "../../../Models/TS_Status";
+import { TypeTS } from "../../../Models/TypeTS";
+import { throwError} from "rxjs";
+import { catchError } from "rxjs/operators";
+import { NgxMaterialTimepickerComponent } from 'ngx-material-timepicker';
 
 @Component({
   selector: 'app-training-session',
@@ -18,6 +23,10 @@ export class TrainingSessionComponent implements OnInit {
   @ViewChild('editTrainingSessionModal') editTrainingSessionModal!: ElementRef;
   @ViewChild('deleteConfirmationModal') deleteConfirmationModal!: ElementRef;
   private modalRef?: NgbModalRef;
+  typeTSOptions = Object.values(TypeTS);
+  tsStatusOptions = Object.values(TS_Status);
+  @ViewChild('startTimePicker') startTimePicker!: NgxMaterialTimepickerComponent;
+  @ViewChild('finishTimePicker') finishTimePicker!: NgxMaterialTimepickerComponent;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -31,9 +40,10 @@ export class TrainingSessionComponent implements OnInit {
       Topic: ['', Validators.required],
       Capacity: ['', [Validators.required, Validators.min(1)]],
       Place: ['', Validators.required],
-      typeTS: [null, Validators.required],
-      tsStatus: [null, Validators.required],
+      typeTS: [TypeTS.ONLINE, Validators.required], // Set default values or bind to selections
+      tsStatus: [TS_Status.PLANNED, Validators.required],
     });
+
 
     this.updateTrainingSessionForm = this.formBuilder.group({
       title: ['', Validators.required],
@@ -49,44 +59,48 @@ export class TrainingSessionComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadTrainingSessions();
+
   }
 
   loadTrainingSessions(): void {
     this.trainingSessionService.findAllRegistrationTS().subscribe({
       next: (sessions) => {
         this.trainingSessions = sessions;
+
       },
       error: (err) => console.error('Error loading training sessions', err)
     });
   }
-    addTrainingSession(): void {
-      console.log('Trying to add training session:', this.newTrainingSessionForm.value);
 
-      if (this.newTrainingSessionForm.valid) {
-      console.log('Form is valid, proceeding to add...');
-      const newTrainingSession: TrainingSession = this.newTrainingSessionForm.value;
-      this.trainingSessionService.addTrainingSession(newTrainingSession).subscribe({
+  addTrainingSession(): void {
+    if (this.newTrainingSessionForm.valid) {
+      const formData = this.newTrainingSessionForm.value;
+      const newTrainingSession: TrainingSession = {
+        ...formData
+      };
+
+      console.log('Form data being sent:', newTrainingSession);
+
+      this.trainingSessionService.addTrainingSession(newTrainingSession).pipe(
+        catchError((error) => {
+          console.error('Error adding training session:', error);
+          alert('Failed to add training session: ' + (error.error.message || 'Unknown error'));
+          return throwError(() => new Error('Error adding training session'));
+        })
+      ).subscribe({
         next: () => {
           console.log('Training session added successfully.');
           this.loadTrainingSessions();
           this.modalRef?.close();
           this.newTrainingSessionForm.reset();
         },
-        error: (err) => {
-          console.error('Error adding training session', err);
-        }
+        error: (error) => console.error('Error while adding training session:', error)
       });
     } else {
       console.error('Form is invalid:', this.newTrainingSessionForm);
-      Object.keys(this.newTrainingSessionForm.controls).forEach(key => {
-        const controlErrors = this.newTrainingSessionForm.get(key)?.errors;
-        if (controlErrors) {
-          console.error('Control', key, 'has errors:', controlErrors);
-        }
-      });
+      this.newTrainingSessionForm.markAllAsTouched(); // Ensure all fields are touched to show validation errors.
     }
   }
-
 
   selectTrainingSession(session: TrainingSession): void {
     this.selectedTrainingSession = session;
@@ -122,6 +136,8 @@ export class TrainingSessionComponent implements OnInit {
   }
 
   openModal(content: any): void {
-    this.modalRef = this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
+    this.modalRef = this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'});
   }
+
 }
+
