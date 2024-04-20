@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { Chart } from 'angular-highcharts';
 import { Task } from 'src/app/Models/task';
@@ -15,7 +16,8 @@ export class PiecharttaskComponent implements OnInit {
 
   constructor(
     private taskService: TaskService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    
   ) {}
 
   ngOnInit(): void {
@@ -66,4 +68,5 @@ export class PiecharttaskComponent implements OnInit {
       }]
     });
   }
+
 }

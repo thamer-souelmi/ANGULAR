@@ -169,7 +169,8 @@ import { GetAllProjectComponent } from './FrontOffice/pages/Project/get-all-proj
     MatCheckboxModule,
     
     MatCardModule,
-    MatGridListModule
+    MatGridListModule,
+    
 
   ],
   providers: [httpInterceptorProviders,DatePipe],
