@@ -1,0 +1,19 @@
+/* map.component.css */
+.map-container {
+    position: relative;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 30px;
+}
+
+.map-frame {
+    height: 30%;
+    width: 20%;
+}
+
+#map {
+   height: 200px;
+   width: 200px;
+}

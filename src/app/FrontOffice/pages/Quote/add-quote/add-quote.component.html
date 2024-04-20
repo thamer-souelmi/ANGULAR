@@ -1,0 +1,60 @@
+<div class="container">
+    <h2>Add Quote To offer</h2>
+    <form [formGroup]="QuoteForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="projectOffer">Select Project Offer:</label>
+        <select class="form-control" id="projectOffer" formControlName="projectofferquoteOfferId">
+          <option *ngFor="let projectOffer of projectOffers" [value]="projectOffer.offerId">{{projectOffer.projectTitle}}</option>
+         </select>
+        <div *ngIf="QuoteForm.get('projectOffer')?.hasError('required') && QuoteForm.get('projectOffer')?.touched">
+           Project Offer is required.
+        </div>
+       </div>
+       
+      <div class="form-group">
+        <label for="totalamount">totalamount:</label>
+        <input type="number" class="form-control" id="totalamount" formControlName="totalamount" required>
+        <div *ngIf="QuoteForm.get('totalamount')?.hasError('required') && QuoteForm.get('totalamount')?.touched">
+          totalamount is required.
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="issuanceDate">issuanceDate Date:</label>
+        <input type="date" class="form-control" id="issuanceDate" formControlName="issuanceDate" required>
+        <div *ngIf="QuoteForm.get('issuanceDate')?.hasError('required') && QuoteForm.get('issuanceDate')?.touched">
+          issuanceDate is required.
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label for="unitprice">unitprice:</label>
+        <input type="number" class="form-control" id="unitprice" formControlName="unitprice" required>
+        <div *ngIf="QuoteForm.get('unitprice')?.hasError('required') && QuoteForm.get('unitprice')?.touched">
+          unitprice is required.
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label for="quantity">quantity:</label>
+        <input  type="number" class="form-control" id="quantity" formControlName="quantity" required>
+        <div *ngIf="QuoteForm.get('quantity')?.hasError('required') && QuoteForm.get('quantity')?.touched">
+          quantity is required.
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label for="description">Description:</label>
+        <textarea class="form-control" id="description" formControlName="description" required></textarea>
+        <div *ngIf="QuoteForm.get('description')?.hasError('required') && QuoteForm.get('description')?.touched">
+          Description is required.
+        </div>
+      </div>
+      <!-- <app-map [quoteDescription]="QuoteForm.get('description')?.value"></app-map> -->
+  
+      <ngx-recaptcha2 #captchaElem [siteKey]="siteKey" formControlName="recaptcha">
+      </ngx-recaptcha2>
+      <button type="submit" class="btn btn-primary" [disabled]="!QuoteForm.valid">Add</button>
+      <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
+    </form>
+  </div>
+  

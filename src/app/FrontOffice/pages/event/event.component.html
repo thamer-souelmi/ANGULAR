@@ -1,0 +1,389 @@
+<!--warning add -->
+<div class="modal fade" #warningSuccessModal tabindex="-1" aria-labelledby="warningSuccessModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="warningSuccessModalLabel">Notification</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        {{ warningMessage }}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--warning add -->
+<!-- Confirmation Modal -->
+<div #deleteConfirmationModal class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteConfirmationModalLabel">Confirm Deletion</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete this activity?
+      </div>
+      <div class="modal-footer">
+        <!-- Use btn and btn-outline-secondary classes for the No button -->
+        <button type="button" class="btn-edit" data-bs-dismiss="modal">No</button>
+        <!-- Use btn and btn-danger classes for the Yes button -->
+        <button type="button" class="btn-delete" (click)="confirmDeletion()">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Confirmation Modal -->
+
+
+<div class="container mt-3">
+  <h2>Events</h2>
+  <br>
+  <div class="row">
+    <div class="col">
+      <button class="btn btn-add-activity" data-bs-toggle="modal" data-bs-target="#addEventModal">
+        <i class="bi bi-plus"></i>
+      </button>
+    </div>
+    <div class="col">
+      <button  class="btn btn-calender" data-bs-toggle="modal" data-bs-target="#calendarModal">
+        <i class="bi bi-calendar3"></i>
+      </button>
+    </div>
+  </div>
+  <!--  <div class="container mt-3">-->
+  <!--    <input type="text" class="form-control mb-3" placeholder="Search events..." [(ngModel)]="searchTerm" (ngModelChange)="filterEvents()">-->
+  <!--  </div>-->
+  <mat-form-field appearance="outline" class="w-100 mb-4">
+    <mat-label>Search activities</mat-label>
+    <input matInput [(ngModel)]="searchTerm" (ngModelChange)="filterEvents()">
+  </mat-form-field>
+  <!-- Event Cards Layout -->
+  <div class="row">
+    <div class="col-md-4" *ngFor="let event of events">
+      <div class="card event-card shadow-sm mb-4">
+        <div class="card-body">
+          <h5 class="card-title">{{ event.event_name }}</h5>
+
+          <p class="card-text">
+            {{ expandedDescriptions[event.eventId] ? event.event_description : (event.event_description | slice:0:100) }}...
+            <button *ngIf="event.event_description.length > 100" class="btn btn-link p-0" (click)="toggleDescription(event)">
+              {{ expandedDescriptions[event.eventId] ? 'Read Less' : 'Read More' }}
+            </button>
+          </p>
+          <div class="event-meta mb-2">
+            <small class="text-muted"><i class="bi bi-calendar-event-fill"></i> {{ event.event_date | date:'mediumDate' }}</small>
+            <small class="text-muted float-end"><i class="bi bi-geo-alt-fill"></i> {{ event.place }}</small>
+
+          </div>
+          <!-- Total Average Rating -->
+          <div class="average-rating">
+            <strong>Total Average Rating:</strong>
+            <span *ngIf="event.averageRating !== undefined" class="badge text-dark">
+    {{ event.averageRating | number:'1.1-2' }}
+              <span class="stars">
+      <i *ngFor="let star of getStars(event.averageRating)" class="bi"
+         [ngClass]="{
+          'bi-star-fill': star.value === 'full',
+          'bi-star-half': star.value === 'half',
+          'bi-star': star.value === 'empty',
+          'text-danger': star.color === 'red',
+          'text-warning': star.color === 'yellow',
+          'text-success': star.color === 'green'
+        }"></i>
+    </span>
+  </span>
+          </div>
+          <div class="event-feedbacks mt-3">
+            <h5>Feedbacks</h5>
+            <button class="btn btn-link p-0" (click)="toggleFeedbacks(event.eventId)">
+              {{ expandedFeedbacks[event.eventId] ? 'Hide Feedbacks' : 'Show Feedbacks' }}
+            </button>
+            <div *ngIf="expandedFeedbacks[event.eventId]">
+              <div *ngFor="let feedback of filterFeedbacks(event.feedbacks)" class="list-group-item list-group-item-action flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-between">
+                  <small class="text-muted">{{ feedback.FeedBack_date | date:'short' }}</small>
+                </div>
+                <p>{{ feedback.description }}</p>
+              </div>
+            </div>
+
+            <ng-template #noFeedbacks>
+              <div class="alert alert-info" role="alert">
+                No feedbacks yet. Be the first to provide feedback!
+              </div>
+            </ng-template>
+          </div>
+          <div class="card-footer bg-white d-flex justify-content-around align-items-center">
+            <!-- Feedback button with primary action styling -->
+            <button type="button" class="btn btn-primary btn-sm"  data-bs-toggle="modal"  (click)="openFeedbackModal(event.eventId)">Feedback</button>
+
+            <!-- Edit and Delete with secondary action styling -->
+            <div>
+              <!-- Bouton Edit -->
+              <button type="button" class="btn btn-edit btn-sm mx-1" (click)="showUpdateModal(event)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                  <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                  <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                </svg>
+                Edit
+              </button>
+
+              <!-- Bouton Delete -->
+              <button type="button" class="btn btn-delete btn-sm mx-1" (click)="askDeleteConfirmation(event.eventId)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                  <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                  <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+                </svg>
+                Delete
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Add Event Modal -->
+<div #mapModal class="modal fade" id="addEventModal" tabindex="-1"  role="dialog" aria-labelledby="addEventModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addEventModalLabel">Add New Event</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="newEventForm" (ngSubmit)="addEvent()">
+          <div class="mb-3">
+            <label for="event_name" class="form-label">Event Name</label>
+            <input type="text" class="form-control" id="event_name" formControlName="event_name">
+            <div *ngIf="newEventForm.get('event_name')?.touched && newEventForm.get('event_name')?.invalid" class="text-danger">
+              Event name is required.
+            </div>
+
+          </div>
+          <div class="mb-3">
+            <label for="event_date" class="form-label">Event Date</label>
+            <input type="date" class="form-control" id="event_date" formControlName="event_date">
+            <div *ngIf="newEventForm.get('event_date')?.touched && newEventForm.get('event_date')?.invalid" class="text-danger">
+              Event date is required .
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="place" class="form-label">Place</label>
+            <input type="text" class="form-control" id="place" formControlName="place">
+            <br>
+            <!--            <input type="text" [(ngModel)]="searchQuery" (input)="onSearchChange($event)" placeholder="Search for a location...">-->
+            <!--            <button (click)="searchLocation()">Search</button>-->
+
+            <div>
+              <input type="text" [(ngModel)]="searchQuery" placeholder="Search for a location">
+              <button (click)="searchLocation(searchQuery)">Search</button>
+            </div>            <div id="map" #mapContainer style="height: 400px;"></div>
+            <div *ngIf="errorMessage" class="alert alert-danger">
+              {{ errorMessage }}
+            </div>
+
+            <div *ngIf="newEventForm.get('place')?.touched && newEventForm.get('place')?.invalid" class="text-danger">
+              Event place is required .
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="event_description" class="form-label">Description</label>
+            <textarea class="form-control" id="event_description" formControlName="event_description"></textarea>
+            <div *ngIf="newEventForm.get('event_description')?.touched && newEventForm.get('event_description')?.invalid" class="text-danger">
+              Event date is required .
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" [disabled]="!newEventForm.valid">Add Event</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Update Event Modal -->
+<div #updateEventModal class="modal fade" id="updateEventModal" tabindex="-1" aria-labelledby="updateEventModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="updateEventModalLabel">Update Event</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="updateEventForm" (ngSubmit)="onUpdateEvent()">
+          <div class="mb-3">
+            <label for="event_name" class="form-label">Event Name</label>
+            <input type="text" class="form-control" id="event_name" formControlName="event_name">
+          </div>
+          <div class="mb-3">
+            <label for="event_date" class="form-label">Event Date</label>
+            <input type="date" class="form-control" id="event_date" formControlName="event_date">
+          </div>
+          <div class="mb-3">
+            <label for="place" class="form-label">Place</label>
+            <input type="text" class="form-control" id="place" formControlName="place" placeholder="Address">
+            <br>
+            <!--            <input type="text" class="form-control" [(ngModel)]="locationQuery"-->
+            <!--                   [ngModelOptions]="{standalone: true}" placeholder="Search for a location"-->
+            <!--                   (keydown.enter)="$event.preventDefault(); searchLocation(locationQuery, 'update')">-->
+
+            <div id="updateMap" #updateMapContainer style="height: 400px;"></div>
+            <div *ngIf="errorMessage" class="alert alert-danger">
+              {{ errorMessage }}
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="event_description" class="form-label">Description</label>
+            <textarea class="form-control" id="event_description" formControlName="event_description"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" [disabled]="!updateEventForm.valid">Update Event</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!--<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#calendarModal">-->
+<!--  <i class="bi bi-calendar3"></i></button>-->
+<!-- calendar-->
+<!-- Modal for Event Calendar -->
+<div #calendarModal class="modal fade" id="calendarModal" tabindex="-1" aria-labelledby="calendarModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="calendarModalLabel">Event Calendar </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- FullCalendar Component -->
+        <full-calendar #calendar [options]="calendarOptions"></full-calendar>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Pagination controls -->
+<div class="paginator-container">
+  <button class="paginator-button"
+          [disabled]="currentPage === 0"
+          (click)="previousPage()">
+    Previous
+  </button>
+
+  <!-- Angular Material Paginator -->
+  <mat-paginator [length]="totalItems"
+                 [pageSize]="pageSize"
+                 [pageIndex]="currentPage"
+                 [pageSizeOptions]="[6, 9, 12]"
+                 (page)="changePage($event)"
+                 showFirstLastButtons>
+  </mat-paginator>
+
+  <button class="paginator-button"
+          [disabled]="currentPage >= (totalItems / pageSize) - 1"
+          (click)="nextPage()">
+    Next
+  </button>
+</div>
+<!--<div class="modal fade" id="eventDetailsModal" tabindex="-1" aria-labelledby="eventDetailsModalLabel" aria-hidden="true">-->
+<!--  <div class="modal-dialog modal-lg">-->
+<!--    <div class="modal-content">-->
+<!--      <div class="modal-header">-->
+<!--        <h5 class="modal-title" id="eventDetailsModalLabel">{{ selectedEventDetails?.event_name }}</h5>-->
+<!--        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
+<!--      </div>-->
+<!--      <div class="modal-body">-->
+<!--        &lt;!&ndash; Les détails de votre événement ici &ndash;&gt;-->
+<!--        <p>Date: {{ selectedEventDetails?.event_date | date: 'longDate' }}</p>-->
+<!--        <p>Lieu: {{ selectedEventDetails?.place }}</p>-->
+<!--        <p>Description: {{ selectedEventDetails?.event_description }}</p>-->
+<!--        &lt;!&ndash; etc. &ndash;&gt;-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+<!-- Add Feedback Modal -->
+<ng-template #feedbackModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Give Feedback</h4>
+    <!-- Affichage du nom de l'événement -->
+    <h5 class="modal-title">{{ event?.event_name }}</h5>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <div>FeedBack : </div>
+    <textarea [(ngModel)]="feedbackText" placeholder="Enter your feedback"></textarea>
+
+    <!-- Star rating component -->
+    <div class="star-rating">
+      <mat-icon id="star_{{i}}" *ngFor="let _ of [1, 2, 3, 4, 5]; let i = index"
+                (click)="setRating(i + 1)"
+                [ngClass]="{'selected': i < feedbackNote}">
+        star
+      </mat-icon>
+    </div>
+    <br>
+    <!-- Feedback form or textarea -->
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="handleFeedbackSubmission()">Submit Feedback</button>
+    <button type="button" class="btn btn-secondary" (click)="modal.close('Cancel click')">Close</button>
+  </div>
+</ng-template>
+
+<!-- Event Details Modal Template -->
+<!-- Event Details Modal Template -->
+<ng-template #eventDetailsTemplate  let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title">{{ selectedEventDetails ? selectedEventDetails.event_name : 'Event Details' }}</h5>
+    <button type="button" class="btn-close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body" *ngIf="selectedEventDetails">
+    <dl class="row">
+      <dt class="col-sm-3">Date:</dt>
+      <dd class="col-sm-9">{{ selectedEventDetails.event_date | date:'mediumDate' }}</dd>
+
+      <dt class="col-sm-3">Location:</dt>
+      <dd class="col-sm-9">{{ selectedEventDetails.place }}</dd>
+      <!--      <div #mapDetailContainer style="height: 300px;"></div> &lt;!&ndash; Container for the map &ndash;&gt;-->
+
+
+      <dt class="col-sm-3">Description:</dt>
+      <dd class="col-sm-9">
+        {{ selectedEventDetails.event_description ? (expandedDescriptions[selectedEventDetails.eventId] ? selectedEventDetails.event_description : (selectedEventDetails.event_description | slice:0:150)) : '' }}
+        <button *ngIf="selectedEventDetails.event_description && selectedEventDetails.event_description.length > 150" class="btn btn-link p-0"
+                (click)="toggleDescriptionD(selectedEventDetails.eventId)">
+          {{ expandedDescriptions[selectedEventDetails.eventId] ? 'Read Less' : 'Read More' }}
+        </button>
+      </dd>
+
+      <div *ngIf="selectedEventDetails.averageRating !== undefined">
+        <dt class="col-sm-3">Average Rating:</dt>
+        <dd class="col-sm-9">
+          {{ selectedEventDetails.averageRating | number:'1.1-2' }}
+        </dd>
+
+      </div>
+    </dl>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-secondary" (click)="modal.close('Close click')">Close</button>
+  </div>
+</ng-template>
+
+
+
+<link
+  rel="stylesheet"
+  href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+  integrity="sha512-xodZBNTCvLukpRyV/2ZotsarW4v4ppg/t9Sb9tK6CukL8jWJaaEo9g5PjEMFK4XJdkIj3/Dw5FRU5yefwFL1jg=="
+  crossorigin=""
+/>

@@ -1,0 +1,39 @@
+<h1>Project offers</h1>
+<full-calendar class="custom-calendar" [events]="projectofferscal" [options]="calendarOptions"
+  (dateClick)="handleDayClick($event)" (eventClick)="handleEventClick($event)">
+</full-calendar>
+
+<!-- 
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>description</th>
+      <th>projectTitle</th>
+      <th>status</th>
+      <th>postedDate</th>
+
+
+    </tr>
+  </thead>
+  <input type="text" [(ngModel)]="searchText" (input)="filterProjectOffers()" placeholder="Search project offers">
+
+  <tbody>
+    <tr *ngFor="let projectOffer of projectoffers | appFilter: searchText ">
+      <td>{{projectOffer.description}}</td>
+      <td>{{projectOffer.projectTitle}}</td>
+      <td>{{projectOffer.status}}</td>
+      <td>{{projectOffer.postedDate}}</td>
+      <td>
+        <button class="btn btn-danger" (click)="deleteProjectOffer(projectOffer.offerId)">Delete</button>
+      </td>
+      <td>
+        <button class="btn btn-primary" (click)="updateProjectOffer(projectOffer.offerId)">Update</button>
+      </td>
+
+
+    </tr>
+  </tbody>
+
+  <button class="btn btn-success float-right" (click)="navigateToAddPROJECTOffer()">Add project Offer</button>
+
+</table> -->

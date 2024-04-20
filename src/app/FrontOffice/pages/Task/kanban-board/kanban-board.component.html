@@ -1,0 +1,50 @@
+<div class="container">
+    <header>
+      <h1>Kanban Board</h1>
+      <h2>Your board</h2>
+    </header>
+    <div class="add-task-container">
+        <button class="btn btn-sm btn-success" (click)="openAddTaskModal()">
+          <i class="bi bi-plus"></i> 
+      </button>
+      </div>
+    <div class="flex">
+      <div *ngFor="let section of ['TODO', 'INPROGRESS', 'COMPLETED', 'CANCELLED']" class="section"
+           [cdkDropListData]="filterTasksBySection(section)" 
+           cdkDropList 
+           (cdkDropListDropped)="handleDrop($event, section)">
+           <div class="section-header">
+           
+          <span class="title">{{ section }}</span>
+        </div>
+        <div *ngFor="let task of filterTasksBySection(section)" 
+             class="story" 
+             cdkDrag [cdkDragData]="task">
+             <div class="task-details">
+              <button mat-icon-button class="edit-icon" (click)="openEditTaskModal(task)">
+                  <mat-icon class="mat-icon-small">edit</mat-icon>
+              </button>
+              <span>{{ task.taskname }}</span>
+          </div>
+          <span>{{ task.taskDescription }}</span>
+          <span class="priority-label"
+          [ngClass]="{
+                'high-priority': task.priority === Priority.HIGH,
+                'medium-priority': task.priority === Priority.MEDUIM,
+                'low-priority': task.priority === Priority.LOW
+              }">
+        {{ task.priority }}
+    </span>
+
+    <ngx-avatars class="avatar-icon" name="John Doe" size="30" bgColor="#049565" [round]="true"></ngx-avatars>
+    <!-- <ngx-avatars class="avatar-icon" [name]="task.employeeTask.firstname + ' ' + task.employeeTask.lastname" size="30" bgColor="#049565" [round]="true"></ngx-avatars>
+-->
+
+        </div>
+
+  
+        
+      </div>
+    </div>
+  </div>
+  

@@ -1,0 +1,22 @@
+/* custom-snack-bar.component.css */
+.custom-snack-bar {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px; /* Add some bottom margin between notifications */
+  }
+  
+  .circle-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #1f77b4; /* You can adjust the background color */
+    margin-right: 10px;
+  }
+  
+  .content {
+    flex: 1;
+  }
+  

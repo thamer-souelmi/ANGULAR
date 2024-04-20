@@ -1,0 +1,40 @@
+<button class="btn btn-primary " (click)="createNewTask()" >
+    <i class="bi bi-plus"></i> 
+  </button>
+  <button class="btn suggestions-button" (click)="openFormsuggestModal()">
+    <i class="bi bi-lightbulb"></i> Suggestions
+  </button>
+  
+<div class="container">
+    
+    <div class="column" *ngFor="let priority of priorities">
+        <div class="column-inner">
+      <h2 class="priority-title">{{ priority }} Priority</h2>
+      <div class="story-container">
+        <div *ngFor="let task of tasks">
+          <ng-container *ngIf="task.priority.toString() === priority">
+            
+            <div class="story"  [ngClass]="getPriorityClass(task.priority.toString())">
+              <h3>{{ task.taskname }}</h3>
+              <p>{{ task.taskDescription }}</p>
+              <div class="date-info">
+                <span class="date-icon"><i class="fa fa-calendar"></i></span>
+                <p class="date-text">{{ task.startDateTask | date }}</p>
+                <p>--</p>
+                <p class="date-text">{{ task.dueDateTask | date }}</p>
+              </div>
+              <div class="button-container">
+                <button class="edit-button" (click)="updateTask(task)">
+                    <i class="bi-pencil"></i>
+                  </button>
+                <button  class="btn btn-sm btn-danger ms-auto me-1" (click)="deleteTask(task.taskid)">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse } from "@angular/common/http";
+import {HttpClient, HttpErrorResponse, HttpParams} from "@angular/common/http";
 import { Observable, throwError } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { Activity } from "../Models/Activity";
@@ -85,4 +85,17 @@ export class ActivityService {
     return throwError(
       'Something bad happened; please try again later.');
   }
+
+  searchActivities(keywords?: string, startDate?: string, endDate?: string): Observable<Activity[]> {
+    let params = new HttpParams();
+    if (keywords) params = params.append('keywords', keywords);
+    if (startDate) params = params.append('startDate', startDate);
+    if (endDate) params = params.append('endDate', endDate);
+
+    return this.http.get<Activity[]>(`${this.ActivityUrl}api/activities/search`, { params });
+  }
+  findAllActivitiesWithoutPagination(): Observable<Activity[]> {
+    return this.http.get<Activity[]>(`${this.ActivityUrl}all`); // Assurez-vous que l'URL est correcte
+  }
+
 }

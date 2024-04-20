@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import {Observable} from "rxjs";
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { map, shareReplay } from 'rxjs/operators';
+import {StorageService} from "../../Services/storage.service";
+import {AuthService} from "../../Services/auth.service";
+import {Router} from "@angular/router";
 interface sidebarMenu {
   link: string;
   icon: string;
@@ -20,7 +23,9 @@ export class SidebarBackComponent {
       map(result => result.matches),
       shareReplay()
     );
-  constructor(private breakpointObserver: BreakpointObserver) { }
+  constructor(private breakpointObserver: BreakpointObserver,private storageService: StorageService,
+              private authService: AuthService, private router : Router) { }
+
   sidebarMenu: sidebarMenu[] = [
     {
       link: "/",
@@ -28,19 +33,19 @@ export class SidebarBackComponent {
       menu: "Dashboard",
     },
     {
-      link: "/button",
+      link: "/back/dataflow",
       icon: "disc",
-      menu: "Buttons",
+      menu: "Data Flow",
     },
     {
-      link: "/forms",
+      link: "/back/projectofferflow",
       icon: "layout",
-      menu: "Forms",
+      menu: "Project Offer Flow",
     },
     {
-      link: "/alerts",
+      link: "/back/inactiveprojectoffer",
       icon: "info",
-      menu: "Alerts",
+      menu: "Inactive P.O",
     },
     {
       link: "/grid-list",
@@ -109,4 +114,16 @@ export class SidebarBackComponent {
     },
   ]
 
+  logout(): void {
+    this.authService.logout().subscribe({
+      next: res => {
+        console.log(res);
+        this.storageService.clean();
+        this.router.navigate(['']);
+      },
+      error: err => {
+        console.log(err);
+      }
+    });
+  }
 }

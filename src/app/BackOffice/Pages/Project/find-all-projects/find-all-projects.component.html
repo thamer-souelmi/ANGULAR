@@ -1,0 +1,28 @@
+<div class="content-wrapper" style="margin-top: 60px;">
+    <h2 class="text-center mb-4" style="color: #049565;">Project Listing</h2> <!-- Titre au milieu de la liste de projets -->
+    <div class="table-responsive"> <!-- Utilisation de la classe table-responsive pour permettre le défilement horizontal sur les petits écrans -->
+        <table class="table table-bordered table-hover"> <!-- Ajout de classes pour ajouter des bordures et un style de survol -->
+            <thead class="thead-dark"> <!-- Utilisation de la classe thead-dark pour un fond sombre sur les en-têtes -->
+                <tr>
+                    <th>Project ID</th>
+                    <th>Project Name</th>
+                    <th>Project Description</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let project of listProjects">
+                    <td>{{ project.projectId }}</td>
+                    <td>{{ project.projectName }}</td>
+                    <td>{{ project.projectDescription }}</td>
+                    <td>{{ project.startdateProject }}</td>
+                    <td>{{ project.enddateProject }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+  <br>
+  <br>
+  <!-- <app-project-chart></app-project-chart> -->
+</div>

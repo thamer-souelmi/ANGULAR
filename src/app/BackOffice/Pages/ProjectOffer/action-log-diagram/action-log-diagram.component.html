@@ -1,0 +1,10 @@
+<div>
+    <select [(ngModel)]="selectedEntityId">
+      <option *ngFor="let entity of entityIds" [value]="entity.id">{{ entity.label }}</option>
+    </select>
+    <button (click)="navigateToNextSvg()">Next</button>
+  </div>
+  <div #actionLogDiagram style="width: 100%; height: 100%;">
+    <!-- SVG will be appended here -->
+  </div>
+  

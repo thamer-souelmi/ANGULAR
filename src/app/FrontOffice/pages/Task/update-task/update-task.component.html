@@ -1,0 +1,68 @@
+<div class="modal-container">
+    <div class="modal-header">
+      <h2>Update Task</h2>
+    </div>   
+     <div class="modal-body" style="max-height: 600px; overflow-y: auto;">
+        <form (ngSubmit)="onSubmit()" #taskForm="ngForm">
+          <br>
+          <div class="form-group">
+            <label for="taskName">Task Name:</label>
+            <input type="text" id="taskName" name="taskName" [(ngModel)]="task.taskname" class="form-control" required minlength="5">
+            <div *ngIf="taskForm.controls['taskName'].invalid && (taskForm.controls['taskName'].dirty || taskForm.controls['taskName'].touched)">
+              <div class="text-danger" *ngIf="taskForm.controls['taskName'].errors?.['required']">Task Name is required.</div>
+              <div class="text-danger" *ngIf="taskForm.controls['taskName'].errors?.['minlength']">Task Name must be at least 5 characters long.</div>
+            </div>
+          </div>
+          <br>
+          <div class="form-group">
+            <label for="taskDescription">Description:</label>
+            <textarea id="taskDescription" name="taskDescription" [(ngModel)]="task.taskDescription" class="form-control" required minlength="15"></textarea>
+            <div *ngIf="taskForm.controls['taskDescription'].invalid && (taskForm.controls['taskDescription'].dirty || taskForm.controls['taskDescription'].touched)">
+              <div class="text-danger" *ngIf="taskForm.controls['taskDescription'].errors?.['required']">Description is required.</div>
+              <div class="text-danger" *ngIf="taskForm.controls['taskDescription'].errors?.['minlength']">Description must be at least 15 characters long.</div>
+            </div>
+          </div>
+          <br>
+          <div class="form-group">
+            <label for="startDate">Start Date:</label>
+            <input type="date" id="startDate" name="startDate" [(ngModel)]="task.startDateTask" class="form-control" required>
+            <div *ngIf="taskForm.controls['startDateTask'].invalid && (taskForm.controls['startDateTask'].dirty || taskForm.controls['startDateTask'].touched)">
+              <div class="text-danger" *ngIf="taskForm.controls['startDateTask'].errors?.['required']">Start Date is required.</div>
+              <div class="text-danger" *ngIf="!isValidStartDate()">Start Date must be today or later.</div>
+            </div>
+          </div>
+          <br>
+          <div class="form-group">
+            <label for="endDate">Due Date:</label>
+            <input type="date" id="endDate" name="endDate" [(ngModel)]="task.dueDateTask" class="form-control" required>
+            <div *ngIf="taskForm.controls['dueDateTask'].invalid && (taskForm.controls['dueDateTask'].dirty || taskForm.controls['dueDateTask'].touched)">
+              <div class="text-danger" *ngIf="taskForm.controls['dueDateTask'].errors?.['required']">Due Date is required.</div>
+              <div class="text-danger" *ngIf="!isValidEndDate()">Due Date must be later than Start Date.</div>
+            </div>
+          </div>
+          <br>
+          <div class="form-group">
+            <label for="priority">Priority:</label>
+            <select id="priority" name="priority" [(ngModel)]="task.priority" class="form-control" required>
+              <option *ngFor="let priority of priorityOptions" [value]="priority">{{ priority }}</option>
+            </select>
+          </div>
+          <br>
+          <div class="form-group">
+            <label for="taskStatus">Status:</label>
+            <select id="taskStatus" name="taskStatus" [(ngModel)]="task.taskStatus" class="form-control" required>
+              <option *ngFor="let status of statuses" [value]="status">{{ status }}</option>
+            </select>
+          </div>
+          <br>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary" [disabled]="taskForm.invalid || !isValidStartDate() || !isValidEndDate()">Edit</button>
+            <button type="button" class="btn btn-secondary" (click)="onClose()">Cancel</button>
+          </div>
+          <br>
+        </form>
+        <br>
+      </div>
+    
+  </div>
+  

@@ -1,0 +1,11 @@
+<div class="container">
+    <h2>Attendance Declaration</h2>
+    <form (ngSubmit)="submitAttendance()">
+      <div class="form-group">
+        <label for="presence">Presence:</label>
+        <input type="checkbox" id="presence" [(ngModel)]="attendance.presence" name="presence">
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+  
