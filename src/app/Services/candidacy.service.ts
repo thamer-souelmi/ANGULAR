@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpRequest, HttpEvent } from '@angular/common/http';
+import {HttpClient, HttpRequest, HttpEvent, HttpHeaders} from '@angular/common/http';
 import { Candidacy } from '../Models/candidacy';
 import { Observable } from 'rxjs';
 
@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class CandidacyService {
   urlCandidacy: string = "http://localhost:8082/candidacy";
-urlRecommender:string="http://127.0.0.1:5000/";
+// urlRecommender:string="http://127.0.0.1:5000/";
   findAllCandidacies(): Observable<Candidacy[]> {
     return this.myHttp.get<Candidacy[]>(this.urlCandidacy + '/findAllCandidacies');
   }
@@ -66,9 +66,14 @@ urlRecommender:string="http://127.0.0.1:5000/";
     const url = `${this.urlCandidacy}/mostQualifiedCandidatesStatistics`;
     return this.myHttp.get<any[]>(url);
   }
+  // sendRequirements(requirements: any) {
+  //   const url = `${this.urlRecommender}`; // Update the URL to point to your Flask server
+  //   return this.http.post<any>(url, requirements); // Pass requirements as the second argument
+  // }
   sendRequirements(requirements: any) {
-    const url = `${this.urlRecommender}`; // Update the URL to point to your Flask server
-    return this.http.post<any>(url, requirements); // Pass requirements as the second argument
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+
+    return this.http.post<any>('http://127.0.0.1:5000/', requirements, { headers: headers });
   }
 
 }

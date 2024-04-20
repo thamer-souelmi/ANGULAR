@@ -158,6 +158,7 @@ import { GetAllProjectComponent } from './FrontOffice/pages/Project/get-all-proj
     ProjectDetailsComponent,
     ProjectCalendarModalComponent,
     GetAllProjectComponent,
+
   ],
   imports: [
     BrowserModule,
