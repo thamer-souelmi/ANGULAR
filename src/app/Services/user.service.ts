@@ -45,14 +45,14 @@ getCompetentUsers(): Observable<User[]> {
   return this.http.get<User[]>(`${this.baseUrl}/competentUsers`);
 }
 
-
+private baseUrlf : string = 'http://localhost:8082/user';
 
   upload(file: File): Observable<HttpEvent<any>> {
     const formData: FormData = new FormData();
 
     formData.append('file', file);
 
-    const req = new HttpRequest('POST', `${this.baseUrl}/files/upload`, formData, {
+    const req = new HttpRequest('POST', `${this.baseUrlf}/files/upload`, formData, {
       reportProgress: true,
       responseType: 'json'
     });
@@ -61,15 +61,17 @@ getCompetentUsers(): Observable<User[]> {
   }
 
   getFiles(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/files`);
+    return this.http.get(`${this.baseUrlf}/files`);
   }
   getFile(filename: string): Observable<HttpResponse<Blob>> {
-    const url = `${this.baseUrl}/files/${filename}`;
+    const url = `${this.baseUrlf}/files/${filename}`;
     return this.http.get(url, {
       responseType: 'blob',
       observe: 'response' // To access full response including headers
     });
   }
 
-
+  getUserByEmail(email: string): Observable<User> {
+    return this.http.get<User>(`${this.baseUrl}/email/${email}`);
+  }
 }

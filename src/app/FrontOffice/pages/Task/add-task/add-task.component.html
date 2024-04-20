@@ -1,4 +1,4 @@
-<!-- add-task.component.html -->
+<!--
 <div class="modal-container">
     <div class="modal-header">
       <h2>Add New Task</h2>
@@ -17,7 +17,7 @@
         <br>
         <div class="form-group">
           <label for="taskDescription">Task Description:</label>
-          <textarea id="taskDescription" [(ngModel)]="newTask.taskDescription" name="taskDescription" class="form-control" required minlength="15"></textarea>
+         <textarea id="taskDescription" [(ngModel)]="newTask.taskDescription" name="taskDescription" class="form-control" required minlength="15"></textarea>
           <div *ngIf="taskForm.controls['taskDescription'].invalid && (taskForm.controls['taskDescription'].dirty || taskForm.controls['taskDescription'].touched)">
             <div class="text-danger" *ngIf="taskForm.controls['taskDescription'].errors?.['required']">Description is required.</div>
             <div class="text-danger" *ngIf="taskForm.controls['taskDescription'].errors?.['minlength']">Description must be at least 15 characters long.</div>
@@ -29,7 +29,7 @@
           <input type="date" id="startDateTask" [(ngModel)]="newTask.startDateTask" name="startDateTask" class="form-control" required>
           <div *ngIf="taskForm.controls['startDateTask'].invalid && (taskForm.controls['startDateTask'].dirty || taskForm.controls['startDateTask'].touched)">
             <div class="text-danger" *ngIf="taskForm.controls['startDateTask'].errors?.['required']">Start Date is required.</div>
-            <!-- Ajoutez ici des validations supplémentaires pour la date de début si nécessaire -->
+            
           </div>
         </div>
         <br>
@@ -76,4 +76,4 @@
       </form>
     </div>
   </div>
-  
+-->

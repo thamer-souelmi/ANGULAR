@@ -1,0 +1,239 @@
+.container {
+    text-align: center;
+  }
+  
+  .btn-primary {
+    background-color: #049565;
+    color: white;
+  }
+  
+  .project-list {
+    margin: 20px auto;
+    display: flex; /* Use flexbox for layout */
+    flex-wrap: wrap; /* Wrap items onto multiple lines */
+    width: 80%;
+  }
+  
+  .project-item {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin: 10px; /* Add space between items */
+    width: calc(33% - 20px); /* Calculate width based on 3 columns */
+    text-align: center; /* Center content within each block */
+    position: relative; /* Allow positioning of overlay title */
+    
+    
+
+  }
+  .project-item mat-icon {
+    display: flex; 
+    justify-content: space-between;
+    margin-left: auto; 
+    opacity: 0.2;
+  }
+  
+  .project-item h3 {
+    font-size: 18px;
+    margin-bottom: 5px; 
+  }
+  
+  .project-item p {
+    font-size: 14px;
+    margin-bottom: 10px; 
+  }
+  
+  .btn-info {
+    background-color: #17a2b8;
+    color: white;
+  }
+  
+  img {
+    width: 20px;
+    margin-right: 10px;
+  }
+  .mat-paginator {
+    display: block;
+  }
+  h2 {
+    animation: fadeInDown 1s ease-out forwards;
+    text-align: center;
+    font-size: 2.5rem;
+    color: #08718e;
+    font-weight: 500; /* Adjust weight as necessary */
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 2px; /* Slightly more spaced */
+    position: relative;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1); /* Subtle text-shadow for depth */
+    transition: text-shadow 0.3s ease; /* Smooth transition for shadow */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Example font */
+  }
+  h2::after {
+    content: '';
+    display: block;
+    margin: 0 auto;
+    height: 3px;
+    width: 100px;
+    background: #08718e;
+    border-radius: 2px;
+    margin-top: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: width 0.3s ease; /* Transition for hover effect */
+  }
+  
+  /* Hover effect for the underline */
+  h2:hover::after {
+    width: 150px; /* Underline grows on hover */
+  }
+  .btn-add-activity {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    background-color: #08718e;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 0.25rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    transition: all 0.3s ease-in-out;
+  }
+  .btn-calender {
+    position: fixed;
+    right: 130px;
+    bottom: 20px;
+    background-color: #08718e;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 0.25rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    transition: all 0.3s ease-in-out;
+  }
+  .job-offer-container {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(250px, 1fr)); /* Display 3 cards in a line */
+    gap: 20px; /* Adjust the gap between cards */
+  }
+  
+  .btn-icon {
+    font-size: 1rem; /* Adjust the font size as needed */
+    padding: 0.5rem 1rem; /* Adjust the padding to increase button size */
+    border-radius: 30px; /* Make the buttons oval with larger borders */
+  }
+  
+  
+  h2 {
+    animation: fadeInDown 1s ease-out forwards;
+    text-align: center;
+    font-size: 2.5rem;
+    color: #08718e;
+    font-weight: 500; /* Adjust weight as necessary */
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 2px; /* Slightly more spaced */
+    position: relative;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1); /* Subtle text-shadow for depth */
+    transition: text-shadow 0.3s ease; /* Smooth transition for shadow */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Example font */
+  }
+  h2::after {
+    content: '';
+    display: block;
+    margin: 0 auto;
+    height: 3px;
+    width: 100px;
+    background: #08718e;
+    border-radius: 2px;
+    margin-top: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: width 0.3s ease; /* Transition for hover effect */
+  }
+  
+  /* Hover effect for the underline */
+  h2:hover::after {
+    width: 150px; /* Underline grows on hover */
+  }
+  .buttons-wrapper {
+    position: fixed;
+    top: 50%;
+    right: 20px; /* Adjust the distance from the right side as needed */
+    display: flex;
+    flex-direction: column;
+    z-index: 1000; /* Ensure the buttons appear on top of other content */
+  }
+  
+  .buttons-wrapper button {
+    padding: 20px 20px; /* Adjust the padding to increase the button size */
+    font-size: 18px; /* Adjust the font size to increase the button text size */
+    border-radius: 10px; /* Adjust the border-radius for rounded corners */
+    margin-bottom: 10px; /* Adjust the spacing between buttons as needed */
+  }
+  /* Modal Backdrop */
+  .modal-backdrop {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1040;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.6); /* Darker backdrop for better focus on modal */
+  }
+  
+  /* Modal Content */
+  .modal-content {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    z-index: 1050;
+    padding: 1.5rem;
+    border-radius: 0.3rem;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: auto; /* Auto-width based on content, with a max-width */
+    max-width: 90%; /* Don't let the modal become too wide on large screens */
+    background: #fff; /* Modal background */
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4); /* Stronger shadow for modal */
+  }
+  
+  /* Modal Header */
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  
+  /* Modal Title */
+  .modal-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  
+  /* Close Button */
+  .close {
+    background: none;
+    border: none;
+    font-size: 1.25rem;
+    cursor: pointer;
+  }
+  
+  /* Modal Footer */
+  .modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1rem;
+  }
+  
+  /* Close Button in Modal Footer */
+  .modal-footer .btn-secondary {
+    color: #333;
+    background-color: #e4e4e4;
+    border-color: #d3d3d3;
+  }
+  

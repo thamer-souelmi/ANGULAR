@@ -14,6 +14,7 @@ export class JobOffer {
   maxsalary!: number;
   jobNature!:JobNature;
   jobCategory!:JobCategory;
+  candidacyCount?: number; // Define candidacyCount as optional property
+
+
 }
-
-
