@@ -1,7 +1,22 @@
 <div class="container mt-3">
   <!-- Button to Add New Training Session -->
   <button class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#addTrainingSessionModal">Add New Training Session</button>
-
+  <div class="row">
+    <div class="col">
+      <button class="btn-add-activity" data-bs-toggle="modal" data-bs-target="#addTrainingSessionModal">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
+        </svg>
+      </button>
+    </div>
+<!--    <div class="col">-->
+<!--      <button  class=" btn-calender" data-bs-toggle="modal" data-bs-target="#calendarModal">-->
+<!--        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar-heart" viewBox="0 0 16 16">-->
+<!--          <path fill-rule="evenodd" d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4zM1 14V4h14v10a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1m7-6.507c1.664-1.711 5.825 1.283 0 5.132-5.825-3.85-1.664-6.843 0-5.132"/>-->
+<!--        </svg>      </button>-->
+<!--    </div>-->
+  </div>
+  <!-- Training Session Cards Display -->
   <!-- Training Session Cards Display -->
   <div class="row">
     <div class="col-md-4" *ngFor="let session of trainingSessions">
@@ -18,7 +33,6 @@
       </div>
     </div>
   </div>
-</div>
 
 <!-- Add Training Session Modal -->
 <div class="modal fade" id="addTrainingSessionModal" tabindex="-1" aria-labelledby="addTrainingSessionModalLabel" aria-hidden="true">
@@ -31,18 +45,68 @@
       <div class="modal-body">
         <form [formGroup]="newTrainingSessionForm">
           <!-- Form fields for adding a training session -->
-          <input type="text" class="form-control mb-2" placeholder="Title" formControlName="title">
-          <input type="date" class="form-control mb-2" formControlName="start_Date">
-          <input type="date" class="form-control mb-2" formControlName="Finish_Date">
-          <input type="text" class="form-control mb-2" placeholder="Topic" formControlName="Topic">
-          <input type="number" class="form-control mb-2" placeholder="Capacity" formControlName="Capacity">
-          <input type="text" class="form-control mb-2" placeholder="Place" formControlName="Place">
-          <!-- Additional fields can be added as needed -->
+          <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input type="text" class="form-control" id="title" formControlName="title" [ngClass]="{ 'invalid-input': newTrainingSessionForm.get('title')?.invalid && newTrainingSessionForm.get('title')?.touched }">
+            <div *ngIf="newTrainingSessionForm.get('title')?.invalid && newTrainingSessionForm.get('title')?.touched" class="text-danger">
+              Title is required.
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="start_Date" class="form-label">Start Date</label>
+            <input type="datetime-local" class="form-control" id="start_Date" formControlName="start_Date">
+            <!-- Add validation message for start date if necessary -->
+          </div>
+
+          <div class="mb-3">
+            <label for="Finish_Date" class="form-label">Finish Date</label>
+            <input type="datetime-local" class="form-control" id="Finish_Date" formControlName="Finish_Date">
+            <!-- Add validation message for finish date if necessary -->
+          </div>
+
+          <div class="mb-3">
+            <label for="Topic" class="form-label">Topic</label>
+            <input type="text" class="form-control" id="Topic" formControlName="Topic" [ngClass]="{ 'invalid-input': newTrainingSessionForm.get('Topic')?.invalid && newTrainingSessionForm.get('Topic')?.touched }">
+            <div *ngIf="newTrainingSessionForm.get('Topic')?.invalid && newTrainingSessionForm.get('Topic')?.touched" class="text-danger">
+              Topic is required.
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="Place" class="form-label">Place</label>
+            <input type="text" class="form-control" id="Place" formControlName="Place" [ngClass]="{ 'invalid-input': newTrainingSessionForm.get('Place')?.invalid && newTrainingSessionForm.get('Place')?.touched }">
+            <div *ngIf="newTrainingSessionForm.get('Place')?.invalid && newTrainingSessionForm.get('Place')?.touched" class="text-danger">
+              Place is required.
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="Capacity" class="form-label">Capacity</label>
+            <input type="number" class="form-control" id="Capacity" formControlName="Capacity" [ngClass]="{ 'invalid-input': newTrainingSessionForm.get('Capacity')?.invalid && newTrainingSessionForm.get('Capacity')?.touched }">
+            <div *ngIf="newTrainingSessionForm.get('Capacity')?.invalid && newTrainingSessionForm.get('Capacity')?.touched" class="text-danger">
+              <div *ngIf="newTrainingSessionForm.get('Capacity')?.errors?.['required']">Capacity is required.</div>
+              <div *ngIf="newTrainingSessionForm.get('Capacity')?.errors?.['min']">Capacity must be at least 1.</div>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="typeTS" class="form-label">Type</label>
+            <select class="form-control" id="typeTS" formControlName="typeTS">
+              <option *ngFor="let type of typeTSOptions" [value]="type">{{ type }}</option>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label for="tsStatus" class="form-label">Status</label>
+            <select class="form-control" id="tsStatus" formControlName="tsStatus">
+              <option *ngFor="let status of tsStatusOptions" [value]="status">{{ status }}</option>
+            </select>
+          </div>
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-success" (click)="addTrainingSession()">Add</button>
+        <button type="button" class="btn btn-edit" (click)="addTrainingSession()">Add</button>
       </div>
     </div>
   </div>
@@ -93,4 +157,5 @@
       </div>
     </div>
   </div>
+</div>
 </div>

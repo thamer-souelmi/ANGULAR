@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-wishlist',
@@ -9,6 +10,7 @@ export class WishlistComponent implements OnInit {
   wishlist: any[] = [];
   currentPage: number = 1; // Current page
   itemsPerPage: number = 4; // Items per page
+  constructor(private toastr: ToastrService) {} // Inject ToastrService
 
   ngOnInit() {
     // Retrieve wishlist from local storage on component initialization
@@ -38,14 +40,25 @@ export class WishlistComponent implements OnInit {
     this.wishlist = this.wishlist.filter(item => item !== jobOffer);
     // Save the updated wishlist to local storage
     this.saveWishlist();
+    // Show success notification
+    this.toastr.warning('Job offer removed from wishlist!', 'Removed');
   }
 
   clearWishlist() {
-    // Clear the entire wishlist
-    this.wishlist = [];
-    // Save the updated wishlist to local storage
-    this.saveWishlist();
+    // Check if the wishlist is already empty
+    if (this.wishlist.length === 0) {
+      // If the wishlist is already empty, show an info notification
+      this.toastr.info('Wishlist is already empty!', 'Info');
+    } else {
+      // Clear the entire wishlist
+      this.wishlist = [];
+      // Save the updated wishlist to local storage
+      this.saveWishlist();
+      // Show success notification
+      this.toastr.error('Wishlist cleared successfully!', 'Cleared');
+    }
   }
+
   onPageChange(pageNumber: number) {
     this.currentPage = pageNumber;
   }

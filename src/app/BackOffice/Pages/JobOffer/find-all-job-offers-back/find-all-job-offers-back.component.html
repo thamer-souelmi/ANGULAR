@@ -1,0 +1,91 @@
+<!--&lt;!&ndash; Details Modal &ndash;&gt;-->
+<!--<div class="modal-backdrop" *ngIf="isDetailsModalOpen" (click)="closeDetailsModal()">-->
+<!--  <div class="modal-content" (click)="$event.stopPropagation()">-->
+<!--    <div class="modal-header">-->
+<!--      <h4 class="modal-title">Job offer Details</h4>-->
+<!--      <button type="button" class="btn-close" aria-label="Close" (click)="closeDetailsModal()">-->
+<!--        <i class="fas fa-times"></i>-->
+<!--      </button>-->
+
+<!--    </div>-->
+<!--    &lt;!&ndash; Modal Body &ndash;&gt;-->
+<!--    <div class="modal-body" *ngIf="selectedJobOfferDetails">-->
+<!--      <p><strong>Experience:</strong> {{ selectedJobOfferDetails.experience }}</p>-->
+<!--      <p><strong>Job Location:</strong> {{ selectedJobOfferDetails.jobLocation }}</p>-->
+<!--      <p><strong>Description:</strong> {{ selectedJobOfferDetails.description }}</p>-->
+<!--      <p><strong>Posted Date:</strong> {{ selectedJobOfferDetails.postedDate | date:'mediumDate' }}</p>-->
+<!--      &lt;!&ndash; Add more fields as necessary &ndash;&gt;-->
+<!--    </div>-->
+
+<!--    <div class="modal-footer">-->
+<!--      <button type="button" class="btn btn-secondary" (click)="closeDetailsModal()">Close</button>-->
+
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha384-..." crossorigin="anonymous">
+<h2>JOB Listing</h2>
+<br>
+<br>
+<div class="buttons-wrapper">
+<button mat-raised-button
+        matTooltip="Job offers Statistics" class="btn btn-primary mt-2" style="background-color: #08718e; color: white;" (click)="navigateToStatistics()">
+  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bar-chart-line" viewBox="0 0 16 16">
+    <path d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1zm1 12h2V2h-2zm-3 0V7H7v7zm-5 0v-3H2v3z"/>
+  </svg>
+</button>
+</div>
+<!-- Search -->
+<div style="display: flex; align-items: center; margin-bottom: 20px;">
+  <button mat-raised-button
+          matTooltip="Show Most recent Job offers" class="btn btn-secondary" style="height: 40px; font-size: 16px; background-color: #049565; border-color: #049565; border-radius: 10px;" (click)="sortByMostRecent()">
+   <i class="fas fa-filter"></i> Most Recent
+  </button>
+  <button mat-raised-button
+          matTooltip="Show most Applied on Job offers" class="btn btn-secondary" style="height: 40px; font-size: 16px; margin-left: 10px; background-color: #fb6d1c; border-color: #fb6d1c; border-radius: 10px;" (click)="sortByMostApplied()">
+  <i class="fas fa-filter"></i> Most Applied
+  </button>
+  <div class="single_field" style="flex: 1; margin-left: 10px;">
+    <input type="search" [(ngModel)]="searchtext" name="search" id="form1" class="form-control" placeholder="Search keyword" style="width: 100%; height: 40px; padding: 8px 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px;">
+  </div>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-md-4 mb-4" *ngFor="let jobOffer of jobOffers | filterJob:searchtext">
+      <div class="card" style="background-color: white;">
+        <div class="card-body">
+          <h4 class="card-title">{{ jobOffer.titleJobOffer }}</h4>
+          <h5 class="card-subtitle mb-2 text-muted text-end">Posted Date: {{ jobOffer.postedDate | date }}</h5>
+          <br>
+          <br>
+          <p class="card-text">
+            <strong><i class="fas fa-calendar"></i> Application Deadline:</strong> {{ jobOffer.applicationDeadLine | date }}
+          </p>
+          <p class="card-text">
+            <strong><i class="fas fa-users"></i> Vacancy:</strong> {{ jobOffer.vacancy }}
+          </p>
+          <br>
+          <div class="card-title d-flex justify-content-between justify-content-end">
+          <button mat-raised-button
+                  matTooltip="Show more Job offer Details" class="btn btn-success btn-icon" (click)="openDetailModal(jobOffer)" style="background-color: #049565;">
+            <i class="fas fa-eye" style="color: white;"></i>
+          </button>
+          <div class="d-flex justify-content-end">
+            <a mat-raised-button
+               matTooltip="Show related Candidacies" [routerLink]="['/findAllJobCandidaciesBack', jobOffer.jobOffer_id]" class="btn btn-primary btn-icon" style="background-color: #fb6d1c;">
+              <i class="fas fa-users" style="color: white;"></i>
+            </a>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<mat-paginator [length]="jobOffers.length"
+               [pageSize]="pageSize"
+               [pageSizeOptions]="pageSizeOptions"
+               (page)="onPageChange($event)">
+</mat-paginator>

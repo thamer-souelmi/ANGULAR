@@ -27,4 +27,13 @@ export class InterviewService {
   deleteInterview(id: number): Observable<void> {
     return this.myHttp.delete<void>(`${this.urlIntrview}/deleteInterviewById/${id}`);
   }
+  getSuccessRate(): Observable<Map<string, number>> {
+    return this.myHttp.get<Map<string, number>>(`${this.urlIntrview}/success-rate`);
+  }
+  findAllInterviewsWithCandidateNamesAndEmail(): Observable<Interview[]> {
+    return this.myHttp.get<Interview[]>(`${this.urlIntrview}/findAllInterviewsWithCandidateNamesAndEmail`);
+  }
+  findInterviewsByCandidacyId(candidacyId: number): Observable<Interview[]> {
+    return this.myHttp.get<Interview[]>(`${this.urlIntrview}/findInterviewsByCandidacyId/${candidacyId}`);
+  }
 }

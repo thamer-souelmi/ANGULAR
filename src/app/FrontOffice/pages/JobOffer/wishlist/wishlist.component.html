@@ -23,7 +23,8 @@
 
       <div class="job_listing_area plus_padding" style="background-color: white;">
         <div *ngIf="wishlist.length > 0" class="wishlist-actions d-flex justify-content-end">
-          <button (click)="clearWishlist()" class="btn btn-danger clear-wishlist-btn buttons-wrapper">
+          <button mat-raised-button
+                  matTooltip="Clear wishlist" (click)="clearWishlist()" class="btn btn-danger clear-wishlist-btn buttons-wrapper">
             <i class="fa fa-trash"></i>
           </button>
         </div>
@@ -52,7 +53,8 @@
                   </div>
                   <div class="jobs_right">
                     <div class="apply_now">
-                      <button (click)="removeFromWishlist(jobOffer)" class="btn heart_mark remove-from-wishlist btn-danger"> <i class="fa fa-trash"></i> </button>
+                      <button mat-raised-button
+                              matTooltip="Remove from wishlist"(click)="removeFromWishlist(jobOffer)" class="btn heart_mark remove-from-wishlist btn-danger"> <i class="fa fa-trash"></i> </button>
                       <!-- Add a button/link to view the job offer details -->
                       <a [routerLink]="['/JobOffer/job-offer-details', jobOffer.jobOffer_id]" class="boxed-btn3">Apply Now</a>
                     </div>
