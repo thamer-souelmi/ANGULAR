@@ -39,7 +39,7 @@ import {NavbarBackComponent} from "./BackOffice/navbar-back/navbar-back.componen
 import {FooterBackComponent} from "./BackOffice/footer-back/footer-back.component";
 import {AllTemplatBackComponent} from "./BackOffice/all-templat-back/all-templat-back.component";
 import { FindAllJobCandidaciesComponent } from './FrontOffice/pages/JobOffer/find-all-job-candidacies/find-all-job-candidacies.component';
-import { ToastrModule } from 'ngx-toastr';
+import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { FindAllJobOffersBackComponent } from './BackOffice/Pages/JobOffer/find-all-job-offers-back/find-all-job-offers-back.component';
 import { MatCardModule } from '@angular/material/card';
 import { FindAllJobCandidaciesBackComponent } from './BackOffice/Pages/JobOffer/find-all-job-candidacies-back/find-all-job-candidacies-back.component';
@@ -181,6 +181,12 @@ import { GetAllProjectComponent } from './FrontOffice/pages/Project/get-all-proj
     MatRippleModule,
     MatMenuModule,
     MatSnackBarModule,
+    ToastrModule.forRoot({
+      timeOut:2000,
+      progressBar:true,
+      progressAnimation:"increasing",
+      preventDuplicates:true
+    }),
     MatButtonModule,
     FeatherModule.pick(allIcons),
     BrowserAnimationsModule,
@@ -215,7 +221,8 @@ import { GetAllProjectComponent } from './FrontOffice/pages/Project/get-all-proj
     MatCheckboxModule,
 
     MatCardModule,
-    MatGridListModule
+    MatGridListModule,
+    
 
   ],
   providers: [httpInterceptorProviders,DatePipe],
