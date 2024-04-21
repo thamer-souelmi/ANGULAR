@@ -15,8 +15,8 @@ export class TrainingSessionService {
     return this.http.get<TrainingSession[]>(`${this.TrainingSessionUrl}findAllTrainingSession`);
   }
 
-  findOneTrainingSession(TS_id: number): Observable<TrainingSession> {
-    return this.http.get<TrainingSession>(`${this.TrainingSessionUrl}findOneTrainingSession/${TS_id}`);
+  findOneTrainingSession(ts_id: number): Observable<TrainingSession> {
+    return this.http.get<TrainingSession>(`${this.TrainingSessionUrl}findOneTrainingSession/${ts_id}`);
   }
 
   addTrainingSession(trainingSession: TrainingSession): Observable<TrainingSession> {
@@ -30,7 +30,8 @@ export class TrainingSessionService {
   UpdateTrainingSession(trainingSession: TrainingSession): Observable<TrainingSession> {
     return this.http.put<TrainingSession>(`${this.TrainingSessionUrl}UpdateTrainingSession`, trainingSession);
   }
-  deleteTrainingSessionById(TS_id: number): Observable<void>{
-    return this.http.delete<void>(`${this.TrainingSessionUrl}deleteTrainingSessionById/${TS_id}`);
+  deleteTrainingSessionById(ts_id: number): Observable<void> {
+    return this.http.delete<void>(`${this.TrainingSessionUrl}deleteTrainingSessionById/${ts_id}`);
   }
+
 }

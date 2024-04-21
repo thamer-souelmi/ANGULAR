@@ -1,5 +1,9 @@
+
 <div class="container mt-3">
-  <!-- Button to Add New Training Session -->
+  <h2>Training Session</h2>
+  <br>
+  <div class="row">
+    <div class="col">  <!-- Button to Add New Training Session -->
   <button class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#addTrainingSessionModal">Add New Training Session</button>
   <div class="row">
     <div class="col">
@@ -19,21 +23,31 @@
   <!-- Training Session Cards Display -->
   <!-- Training Session Cards Display -->
   <div class="row">
-    <div class="col-md-4" *ngFor="let session of trainingSessions">
-      <div class="card mb-4">
-        <div class="card-body">
-          <h5 class="card-title">{{ session.title }}</h5>
+    <div class="col-md-4" *ngFor="let session of trainingSessions" >
+      <div class="card mb-4"  style="border-radius: 30px!important" >
+
+
+        <div class="card-body" >
+          <h5 class="card-title" >{{ session.title }}</h5>
+
           <h6 class="card-subtitle mb-2 text-muted">{{ session.start_Date | date:'mediumDate' }} to {{ session.Finish_Date | date:'mediumDate' }}</h6>
           <p class="card-text">Topic: {{ session.Topic }}</p>
           <p class="card-text">Place: {{ session.Place }}</p>
           <p class="card-text">Capacity: {{ session.Capacity }}</p>
-          <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editTrainingSessionModal" (click)="selectTrainingSession(session)">Edit</button>
-          <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteTrainingSessionModal" (click)="selectTrainingSession(session)">Delete</button>
         </div>
+        <button class="btn btn-transparent" data-bs-toggle="modal" data-bs-target="#editTrainingSessionModal" (click)="selectTrainingSession(session)">
+          <i class="bi bi-pencil"></i>edit
+        </button>
+        <button class="btn btn-transparent"  data-bs-toggle="modal" data-bs-target="#deleteTrainingSessionModal" (click)="openDeleteModal(session,selectedTrainingSession?.ts_id)">
+          <i class="bi bi-trash"></i>       delete   </button>
+
+
+
+
       </div>
     </div>
   </div>
-
+</div>
 <!-- Add Training Session Modal -->
 <div class="modal fade" id="addTrainingSessionModal" tabindex="-1" aria-labelledby="addTrainingSessionModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -73,13 +87,13 @@
             </div>
           </div>
 
-          <div class="mb-3">
-            <label for="Place" class="form-label">Place</label>
-            <input type="text" class="form-control" id="Place" formControlName="Place" [ngClass]="{ 'invalid-input': newTrainingSessionForm.get('Place')?.invalid && newTrainingSessionForm.get('Place')?.touched }">
-            <div *ngIf="newTrainingSessionForm.get('Place')?.invalid && newTrainingSessionForm.get('Place')?.touched" class="text-danger">
-              Place is required.
-            </div>
-          </div>
+<!--          <div class="mb-3">-->
+<!--            <label for="Place" class="form-label">Place</label>-->
+<!--            <input type="text" class="form-control" id="Place" formControlName="Place" [ngClass]="{ 'invalid-input': newTrainingSessionForm.get('Place')?.invalid && newTrainingSessionForm.get('Place')?.touched }">-->
+<!--            <div *ngIf="newTrainingSessionForm.get('Place')?.invalid && newTrainingSessionForm.get('Place')?.touched" class="text-danger">-->
+<!--              Place is required.-->
+<!--            </div>-->
+<!--          </div>-->
 
           <div class="mb-3">
             <label for="Capacity" class="form-label">Capacity</label>
@@ -92,10 +106,20 @@
 
           <div class="mb-3">
             <label for="typeTS" class="form-label">Type</label>
-            <select class="form-control" id="typeTS" formControlName="typeTS">
+            <select class="form-control" id="typeTS" formControlName="typeTS" (change)="onTypeChange()">
               <option *ngFor="let type of typeTSOptions" [value]="type">{{ type }}</option>
             </select>
           </div>
+
+          <!-- This part will only show if the type is OFFLINE -->
+          <div class="mb-3" *ngIf="showPlaceField">
+            <label for="Place" class="form-label">Place</label>
+            <input type="text" class="form-control" id="Place" formControlName="Place">
+            <div *ngIf="newTrainingSessionForm.get('Place')?.invalid && newTrainingSessionForm.get('Place')?.touched" class="text-danger">
+              Place is required.
+            </div>
+          </div>
+
 
           <div class="mb-3">
             <label for="tsStatus" class="form-label">Status</label>

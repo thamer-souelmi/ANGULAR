@@ -96,6 +96,8 @@ import { ProjectFormComponent } from './FrontOffice/pages/Project/project-form/p
 import { ProjectDetailsComponent } from './FrontOffice/pages/Project/project-details/project-details.component';
 import { ProjectCalendarModalComponent } from './FrontOffice/pages/Project/project-calendar-modal/project-calendar-modal.component';
 import { GetAllProjectComponent } from './FrontOffice/pages/Project/get-all-project/get-all-project.component';
+import { RoomComponent } from './BackOffice/Pages/room/room.component';
+import {BsDropdownModule} from "ngx-bootstrap/dropdown";
 
 
 @NgModule({
@@ -158,6 +160,7 @@ import { GetAllProjectComponent } from './FrontOffice/pages/Project/get-all-proj
     ProjectDetailsComponent,
     ProjectCalendarModalComponent,
     GetAllProjectComponent,
+    RoomComponent,
 
   ],
   imports: [
@@ -215,6 +218,7 @@ import { GetAllProjectComponent } from './FrontOffice/pages/Project/get-all-proj
 
     AvatarModule,
    ChartModule,
+    BsDropdownModule.forRoot(),
 
     FullCalendarModule,
     MatSortModule,
