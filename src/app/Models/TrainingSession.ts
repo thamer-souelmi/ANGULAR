@@ -5,7 +5,7 @@ import {FeedBack} from "./FeedBack";
 import {TS_Status} from "./TS_Status";
 
 export class TrainingSession {
-  TS_id!: number;
+  ts_id!: number;
   title!: string;
   start_Date!: string;
   Finish_Date!: string;

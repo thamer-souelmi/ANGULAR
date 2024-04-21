@@ -14,23 +14,44 @@
   --button-hover-red: #c82333;
 }
 
-.card {
-  border: 0;
+div.card {
+  width: 300px;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  border-radius: 20px; /* !important removed for cleaner code unless necessary */
+  border: 1px solid dodgerblue; /* Ensure this color is correct */
+  background-color: #fff; /* Ensures background is not transparent */
 }
 
-.card-header {
-  background-color: var(--color-dark-blue);
+/* Ensure the border-radius is applied consistently */
+div.card * {
+  border-radius: 30px;
+
+}
+div.card-header {
+  background-color: white;
+
   color: #fff;
+  border-bottom-left-radius: 0px!important;
+  border-bottom-right-radius: 0px!important;
+
+
 }
 
 
 .card-body {
   background-color: #fff;
-  border-left: 5px solid var(--color-soft-green);
+
+
+
 }
 
-.card-footer {
-  background-color: var(--color-light-blue);
+div.card-footer {
+ background-color: white;
+  border-top-left-radius: 0px!important;
+  border-top-right-radius: 0px!important;
+
+
+
 }
 
 .btn-outline-secondary {

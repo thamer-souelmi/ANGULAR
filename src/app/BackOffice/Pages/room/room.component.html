@@ -1,0 +1,74 @@
+<div class="container">
+  <h2>Manage Rooms</h2>
+  <button class="btn btn-primary" (click)="openAddRoomModal()">Add Room</button>
+  <table class="table">
+    <thead>
+    <tr>
+      <th>Name</th>
+      <th>Capacity</th>
+      <th>Available</th>
+      <th>Equipment</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let room of rooms">
+      <td>{{ room.nameRoom }}</td>
+      <td>{{ room.capacityRoom }}</td>
+      <td>{{ room.available ? 'Yes' : 'No' }}</td>
+      <td>{{ room.equipmentR.join(', ') }}</td>
+      <td>
+        <button class="btn btn-info" (click)="openEditRoomModal(room)">Edit</button>
+        <button class="btn btn-danger" (click)="onDelete(room.id!)">Delete</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Add/Edit Room Modal -->
+<ng-template #roomFormModal let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title">{{ editMode ? 'Edit Room' : 'Add Room' }}</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="roomForm" (ngSubmit)="onSubmit()">
+      <div class="mb-3">
+        <label for="name_room">Name:</label>
+        <input type="text" class="form-control" id="name_room" formControlName="name" required>
+      </div>
+      <div class="mb-3">
+        <label for="capacity_room">Capacity:</label>
+        <input type="number" class="form-control" id="capacity_room" formControlName="capacity" required>
+      </div>
+      <div class="mb-3">
+        <label for="available">Available:</label>
+        <input type="checkbox" id="available" formControlName="available">
+      </div>
+      <div class="mb-3">
+        <label for="equipmentr">Equipment:</label>
+        <select multiple class="form-control" id="equipmentr" formControlName="equipment">
+          <option *ngFor="let equipment of equipmentOptions" [ngValue]="equipment">{{ equipment }}</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary" [disabled]="roomForm.invalid">{{ editMode ? 'Save' : 'Add' }}</button>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">Cancel</button>
+  </div>
+</ng-template>
+<ng-template #deleteConfirm let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title">Confirm Deletion</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    Are you sure you want to delete this room?
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="confirmDelete(modal)">Delete</button>
+    <button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">Cancel</button>
+  </div>
+</ng-template>
