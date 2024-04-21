@@ -11,11 +11,12 @@ import { DatePipe } from '@angular/common';
 import {Candidacy} from "../../../../Models/candidacy";
 import {Observable} from "rxjs"; // Import the pipe
 import { forkJoin } from 'rxjs';
-import { ToastrService } from 'ngx-toastr';
+
 import {UpdateJobOfferComponent} from "../update-job-offer/update-job-offer.component";
 import {MatDialog} from "@angular/material/dialog";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
+import { ToastrService } from 'ngx-toastr';
 
 
 
@@ -58,7 +59,7 @@ export class FindAllJobOffersComponent implements OnInit, AfterViewInit {
   private candidacies!: Candidacy[];
   constructor(private js: JobOfferService, private router: Router,private formBuilder: FormBuilder,private dialog: MatDialog,
               private cdr: ChangeDetectorRef,
-              private ngZone: NgZone,private route: ActivatedRoute,private candidacyService: CandidacyService,private toastr: ToastrService,) {
+              private ngZone: NgZone,private route: ActivatedRoute,private candidacyService: CandidacyService,private toastr: ToastrService) {
     this.jobOfferForm = this.formBuilder.group({
       titleJobOffer: ['', Validators.required],
       description: ['', Validators.required],

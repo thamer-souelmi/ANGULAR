@@ -5,7 +5,7 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 declare var createGoogleEvent: any;
 import * as bootstrap from 'bootstrap';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
+
 import {FullCalendarComponent} from "@fullcalendar/angular";
 import interactionPlugin from "@fullcalendar/interaction";
 import dayGridPlugin from "@fullcalendar/daygrid";
@@ -16,6 +16,8 @@ import {InterviewCalendarComponent} from "../../Interview/interview-calendar/int
 import {
   CandiadateLinkedInDetailsComponent
 } from "../candiadate-linked-in-details/candiadate-linked-in-details.component";
+import { ToastrService } from 'ngx-toastr';
+
 
 @Component({
   selector: 'app-find-all-job-candidacies',

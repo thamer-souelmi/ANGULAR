@@ -51,8 +51,8 @@
       </div>
       <!-- <app-map [quoteDescription]="QuoteForm.get('description')?.value"></app-map> -->
   
-      <ngx-recaptcha2 #captchaElem [siteKey]="siteKey" formControlName="recaptcha">
-      </ngx-recaptcha2>
+      <!-- <ngx-recaptcha2 #captchaElem [siteKey]="siteKey" formControlName="recaptcha">
+      </ngx-recaptcha2> -->
       <button type="submit" class="btn btn-primary" [disabled]="!QuoteForm.valid">Add</button>
       <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
     </form>
