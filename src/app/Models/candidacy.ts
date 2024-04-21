@@ -15,6 +15,7 @@ export class Candidacy {
   country!:string;
   educationHistory!:string;
   jobOfferId!: number; // Add jobOfferId property if it exists
+  archived?: boolean;
 
 
 }

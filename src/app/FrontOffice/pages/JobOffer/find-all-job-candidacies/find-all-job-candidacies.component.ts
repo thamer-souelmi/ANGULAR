@@ -107,7 +107,9 @@ export class FindAllJobCandidaciesComponent implements OnInit{
     console.log('Loading candidacies for Job Offer ID:', jobOfferId);
     this.c.getAllCandidaciesByJobOfferId(jobOfferId)
       .subscribe(candidacies => {
-        this.candidacies = candidacies;
+// Assuming `candidacies` is an array of Candidacy objects
+        this.candidacies = candidacies.filter(candidacy => !candidacy.archived);
+        console.log( "hiiiii",this.candidacies)
       }, error => {
         console.error('Error fetching candidacies:', error);
         // Handle error appropriately, e.g., show error message to user
@@ -149,8 +151,11 @@ export class FindAllJobCandidaciesComponent implements OnInit{
       // Display toastr notification based on the candidacy status
       if (status === -1) {
         this.toastr.error('Candidate Rejected !', 'Oops');
+        window.location.reload();
+
       } else if (status === 2) {
         this.toastr.success('Candidate Hired !', 'Success');
+
       }
       else if (status === 1) {
         this.toastr.info('Candidate Selected for Interview !', 'Success');
@@ -199,10 +204,10 @@ export class FindAllJobCandidaciesComponent implements OnInit{
       spring: 4,
       'C++': 3,
       'C#': 0,
-      candidate: 5 // Assuming you want to send a value of 1 for the number of candidates
+      candidate: 2 // Assuming you want to send a value of 1 for the number of candidates
     };
 
-    this.recommendationService.sendRequirements(requirements).subscribe(
+    this.c.sendRequirements(requirements).subscribe(
       (response) => {
         console.log('Response from server:', response);
         // Handle the response from the server as needed
