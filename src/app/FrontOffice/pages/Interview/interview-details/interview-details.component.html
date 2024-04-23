@@ -15,6 +15,7 @@
       <p><b>Start Date:</b> {{ interview.dateInterview | date }}</p>
       <br>
       <div class="modal-footer">
+        <button type="button" class="btn btn-success" (click)="openJitsiMeeting()">Start Meeting</button> <!-- Add this button -->
         <button type="button" class="btn btn-primary" (click)="openUpdateModal()">Edit</button>
         <button type="button" class="btn btn-secondary" (click)="onClose()">Cancel</button>
       </div>

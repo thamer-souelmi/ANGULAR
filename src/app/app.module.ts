@@ -96,6 +96,7 @@ import { ProjectFormComponent } from './FrontOffice/pages/Project/project-form/p
 import { ProjectDetailsComponent } from './FrontOffice/pages/Project/project-details/project-details.component';
 import { ProjectCalendarModalComponent } from './FrontOffice/pages/Project/project-calendar-modal/project-calendar-modal.component';
 import { GetAllProjectComponent } from './FrontOffice/pages/Project/get-all-project/get-all-project.component';
+import { JitsiComponent } from './FrontOffice/pages/Interview/jitsi/jitsi.component';
 
 
 @NgModule({
@@ -158,6 +159,7 @@ import { GetAllProjectComponent } from './FrontOffice/pages/Project/get-all-proj
     ProjectDetailsComponent,
     ProjectCalendarModalComponent,
     GetAllProjectComponent,
+    JitsiComponent,
 
   ],
   imports: [
