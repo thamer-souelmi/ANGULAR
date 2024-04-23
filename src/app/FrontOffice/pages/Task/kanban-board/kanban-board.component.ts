@@ -6,8 +6,8 @@ import { TaskStatus } from 'src/app/Models/task-status';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { MatDialog } from '@angular/material/dialog';
 import { AddTaskComponent } from '../add-task/add-task.component';
-import { UpdateTaskComponent } from '../update-task/update-task.component';
 import { Priority } from 'src/app/Models/priority';
+import { UpdateTaskComponent } from 'src/app/FrontOffice/pages/Task/update-task/update-task.component';
 
 @Component({
   selector: 'app-kanban-board',

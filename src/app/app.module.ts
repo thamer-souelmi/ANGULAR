@@ -39,7 +39,7 @@ import {NavbarBackComponent} from "./BackOffice/navbar-back/navbar-back.componen
 import {FooterBackComponent} from "./BackOffice/footer-back/footer-back.component";
 import {AllTemplatBackComponent} from "./BackOffice/all-templat-back/all-templat-back.component";
 import { FindAllJobCandidaciesComponent } from './FrontOffice/pages/JobOffer/find-all-job-candidacies/find-all-job-candidacies.component';
-import { ToastrModule } from 'ngx-toastr';
+import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { FindAllJobOffersBackComponent } from './BackOffice/Pages/JobOffer/find-all-job-offers-back/find-all-job-offers-back.component';
 import { MatCardModule } from '@angular/material/card';
 import { FindAllJobCandidaciesBackComponent } from './BackOffice/Pages/JobOffer/find-all-job-candidacies-back/find-all-job-candidacies-back.component';
@@ -97,6 +97,8 @@ import { ProjectDetailsComponent } from './FrontOffice/pages/Project/project-det
 import { ProjectCalendarModalComponent } from './FrontOffice/pages/Project/project-calendar-modal/project-calendar-modal.component';
 import { GetAllProjectComponent } from './FrontOffice/pages/Project/get-all-project/get-all-project.component';
 import { JitsiComponent } from './FrontOffice/pages/Interview/jitsi/jitsi.component';
+import { RoomComponent } from './BackOffice/Pages/room/room.component';
+import {BsDropdownModule} from "ngx-bootstrap/dropdown";
 
 
 @NgModule({
@@ -160,6 +162,7 @@ import { JitsiComponent } from './FrontOffice/pages/Interview/jitsi/jitsi.compon
     ProjectCalendarModalComponent,
     GetAllProjectComponent,
     JitsiComponent,
+    RoomComponent,
 
   ],
   imports: [
@@ -184,6 +187,12 @@ import { JitsiComponent } from './FrontOffice/pages/Interview/jitsi/jitsi.compon
     MatRippleModule,
     MatMenuModule,
     MatSnackBarModule,
+    ToastrModule.forRoot({
+      timeOut:2000,
+      progressBar:true,
+      progressAnimation:"increasing",
+      preventDuplicates:true
+    }),
     MatButtonModule,
     FeatherModule.pick(allIcons),
     BrowserAnimationsModule,
@@ -211,6 +220,7 @@ import { JitsiComponent } from './FrontOffice/pages/Interview/jitsi/jitsi.compon
 
     AvatarModule,
    ChartModule,
+    BsDropdownModule.forRoot(),
 
     FullCalendarModule,
     MatSortModule,
@@ -218,7 +228,8 @@ import { JitsiComponent } from './FrontOffice/pages/Interview/jitsi/jitsi.compon
     MatCheckboxModule,
 
     MatCardModule,
-    MatGridListModule
+    MatGridListModule,
+    
 
   ],
   providers: [httpInterceptorProviders,DatePipe],
