@@ -23,6 +23,7 @@ import {
   styleUrls: ['./find-all-job-candidacies.component.css']
 })
 export class FindAllJobCandidaciesComponent implements OnInit{
+  recommendationResponse: string = ''; // Variable to store recommendation response
   candidacystatus: number = 0;
   @ViewChild('myModal') myModal!: ElementRef;
   selectedCandidacy: Candidacy | null = null; // Variable to store selected candidacy
@@ -207,10 +208,28 @@ export class FindAllJobCandidaciesComponent implements OnInit{
       candidate: 2 // Assuming you want to send a value of 1 for the number of candidates
     };
 
+    // this.c.sendRequirements(requirements).subscribe(
+    //   (response) => {
+    //     console.log('Response from server:', response);
+    //     // Handle the response from the server as needed
+    //   },
+    //   (error) => {
+    //     console.error('Error sending requirements:', error);
+    //     // Handle errors
+    //   }
+    // );
     this.c.sendRequirements(requirements).subscribe(
       (response) => {
         console.log('Response from server:', response);
-        // Handle the response from the server as needed
+        // Format the response array
+        const formattedResponse = response.map((item: any, index: number) => `${index + 1}.${item[1]}:${item[0]}`);
+        // Join the formatted response array into a single string with line breaks
+        const formattedResponseString = formattedResponse.join('\n');
+        // Store the formatted response in recommendationResponse variable
+        this.recommendationResponse = formattedResponseString;
+        // Open the response modal
+        const responseModal = new bootstrap.Modal(document.getElementById('responseModal')!);
+        responseModal.show();
       },
       (error) => {
         console.error('Error sending requirements:', error);
