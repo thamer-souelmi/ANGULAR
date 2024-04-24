@@ -1084,25 +1084,55 @@ export class EventComponent implements OnInit,AfterViewInit {
       className: 'my-custom-icon'
     });
   }
+  // private saveLocation(latitude: number, longitude: number): void {
+  //   const geocodeUrl = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`;
+  //
+  //   this.http.get<any>(geocodeUrl).subscribe(data => {
+  //     // Supposons que le champ 'place' dans le formulaire est utilisé pour stocker le nom de l'emplacement
+  //     const locationName = data.display_name; // Ou utilisez un autre chemin dans l'objet data selon le format de réponse
+  //
+  //     this.newEventForm.patchValue({
+  //       place: locationName, // Mettez à jour le nom de l'emplacement dans le formulaire
+  //       latitude: latitude,
+  //       longitude: longitude
+  //     });
+  //
+  //     console.log("Location name updated:", locationName);
+  //     // Note: Pas besoin d'appeler un service ici si le formulaire sera soumis pour sauvegarder l'événement
+  //   }, error => {
+  //     console.error("Error fetching location name", error);
+  //   });
+  // }
   private saveLocation(latitude: number, longitude: number): void {
-    const geocodeUrl = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`;
+    // Using environment variables to manage API URLs is a good practice.
+    const geocodeUrl = `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=jsonv2`;
 
-    this.http.get<any>(geocodeUrl).subscribe(data => {
-      // Supposons que le champ 'place' dans le formulaire est utilisé pour stocker le nom de l'emplacement
-      const locationName = data.display_name; // Ou utilisez un autre chemin dans l'objet data selon le format de réponse
+    console.log('Latitude:', latitude);
+    console.log('Longitude:', longitude);
 
-      this.newEventForm.patchValue({
-        place: locationName, // Mettez à jour le nom de l'emplacement dans le formulaire
-        latitude: latitude,
-        longitude: longitude
-      });
+    this.http.get<any>(geocodeUrl).subscribe({
+      next: (data) => {
+        // Extract address components from the response
+        const { city, postcode, road, suburb, town } = data.address;
 
-      console.log("Location name updated:", locationName);
-      // Note: Pas besoin d'appeler un service ici si le formulaire sera soumis pour sauvegarder l'événement
-    }, error => {
-      console.error("Error fetching location name", error);
+        // Format display location with checks for undefined values
+        const displayLocation = `${road ? `${road}, ` : ''}${suburb ? `${suburb}, ` : ''}${postcode ? `${postcode}, ` : ''}${city || town}`;
+
+        // Updating form values
+        this.newEventForm.patchValue({
+          place: displayLocation,  // Update the location display using the formatted string
+          latitude: latitude,
+          longitude: longitude
+        });
+
+        console.log("Location name updated:", displayLocation);
+      },
+      error: (error) => {
+        console.error("Error fetching location name", error);
+      }
     });
   }
+
   openFeedbackModal(eventId: number): void {
     this.selectedEventId = eventId;
     this.feedbackModalRef = this.modalService.open(this.feedbackModal, { centered: true });

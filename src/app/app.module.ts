@@ -98,6 +98,7 @@ import { ProjectCalendarModalComponent } from './FrontOffice/pages/Project/proje
 import { GetAllProjectComponent } from './FrontOffice/pages/Project/get-all-project/get-all-project.component';
 import { RoomComponent } from './BackOffice/Pages/room/room.component';
 import {BsDropdownModule} from "ngx-bootstrap/dropdown";
+import {JoinPipe} from "./join.pipe";
 
 
 @NgModule({
@@ -161,6 +162,8 @@ import {BsDropdownModule} from "ngx-bootstrap/dropdown";
     ProjectCalendarModalComponent,
     GetAllProjectComponent,
     RoomComponent,
+    JoinPipe
+
   ],
   imports: [
     BrowserModule,

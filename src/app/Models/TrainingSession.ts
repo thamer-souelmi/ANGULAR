@@ -3,20 +3,22 @@ import {User} from "./User";
 import {RegistrationTS} from "./RegistrationTS";
 import {FeedBack} from "./FeedBack";
 import {TS_Status} from "./TS_Status";
+import {Room} from "./Room";
+import {PlaceType} from "./placeType";
 
-export class TrainingSession {
-  ts_id!: number;
-  title!: string;
-  start_Date!: string;
-  Finish_Date!: string;
-  Topic!: string;
-  Capacity!: number;
-  Place!: string;
-  typeTS!: TypeTS;
-  tsStatus!: TS_Status ;
-  user!:User;
-  registationtss!:RegistrationTS[];
-  FeedBacks!: FeedBack[];
-
-
+export interface TrainingSession {
+  ts_id?: number;
+  title: string;
+  start_date: Date;
+  finish_date: Date;
+  topic: string;
+  place: string;
+  capacity: number;
+  typeTS: TypeTS;
+  tsStatus: TS_Status;
+  user?: User;
+  registrationtss?: RegistrationTS[];
+  feedbacks?: FeedBack[];
+  room?: Room;
+  placeType: PlaceType;
 }
