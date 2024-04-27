@@ -51,6 +51,15 @@ import { PMstatisticComponent } from './BackOffice/Pages/Task/pmstatistic/pmstat
 import { PiecharttaskComponent } from './BackOffice/Pages/Task/piecharttask/piecharttask.component';
 
 import {ActivityBComponent} from "./BackOffice/Pages/activity-b/activity-b.component";
+import { FindAllJobOffersComponent } from './FrontOffice/Pages/JobOffer/find-all-job-offers/find-all-job-offers.component';
+import { ForgotPasswordComponent } from './BackOffice/Pages/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './BackOffice/Pages/reset-password/reset-password.component';
+import { UpdateUserComponent } from './BackOffice/Pages/update-user/update-user.component';
+import { UserDetailComponent } from './BackOffice/Pages/user-detail/user-detail.component';
+import { AddUserComponent } from './BackOffice/Pages/add-user/add-user.component';
+import { LeavesComponent } from './BackOffice/Pages/leaves/leaves.component';
+import { LeavesDetailsComponent } from './BackOffice/Pages/leaves-details/leaves-details.component';
+import { LeaveComponent } from './FrontOffice/Pages/leave/leave.component';
 import {TrainingSessionComponent} from "./FrontOffice/pages/training-session/training-session.component";
 
 import { FindAllJobOffersComponent } from './FrontOffice/pages/JobOffer/find-all-job-offers/find-all-job-offers.component';
@@ -66,6 +75,11 @@ const routes: Routes = [
 
   },
   {
+    path: "reset",
+    component: ForgotPasswordComponent,
+
+  },
+  { path: 'reset/:token', component: ResetPasswordComponent },
     path:"trainigSession", component:AllTemplateFrontComponent,
     children:[
       {path:"trainigSession", component:TrainingSessionComponent}
@@ -99,6 +113,13 @@ const routes: Routes = [
       {path:"activityB",component:ActivityBComponent},
       {path:"findall", component:FindAllUsersComponent},
 
+      {path:"updateprofile/:", component:UpdateUserComponent},
+      {path:"userdetails/:id", component:UserDetailComponent},
+      {path:"adduser", component:AddUserComponent},
+      {path:"leaves", component:LeavesComponent},
+      {path:"leavedetails/:id", component:LeavesDetailsComponent},
+
+
     ]},
 
 
@@ -107,6 +128,7 @@ const routes: Routes = [
     component: AllTemplateFrontComponent,
     children:[
       {path:"home", component:HomeFrontComponent },
+      {path:"leave", component:LeaveComponent},
     ]
   },
   {
@@ -160,6 +182,9 @@ const routes: Routes = [
       component: AllTemplatBackComponent,children:[
         { path: 'findProjects', component:FindAllProjectsComponent },
         { path: 'projectchart', component:ProjectChartComponent },
+        { path: 'kanban-task', component: KanbanBoardComponent},
+
+
         { path: 'kanbanback', component: KanbanboardbackComponent},
         { path: 'taskback', component: TaskbackComponent},
         { path: 'gantt', component: AppGanttChartComponent},
