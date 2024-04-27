@@ -1,0 +1,74 @@
+<head>
+  
+    <!-- Favicon -->
+    <link href="/assets/FrontOffice/img/favicon.ico" rel="icon">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+  
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+  
+    <!-- Libraries Stylesheet -->
+    <link href="/assets/FrontOffice/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="/assets/FrontOffice/lib/animate/animate.min.css" rel="stylesheet">
+  
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="/assets/FrontOffice/css/bootstrap.min.css" rel="stylesheet">
+  
+    <!-- Template Stylesheet -->
+    <link href="/assets/FrontOffice/css/style.css" rel="stylesheet">
+  </head>
+<nav class="navbar">
+   
+    <li><h3>Tasks</h3></li>
+    <ul class="pos">
+      
+    <li ><a  href="/Projectback/taskback">List</a></li>
+    <li><a href="/Projectback/kanbanback">Kanban Board</a></li>
+    <li><a href="#">Gantt</a></li>
+    <li><a href="/Projectback/Todolist">To-Do-List</a></li>
+
+  </ul>
+</nav>
+<br>
+<div class="container">
+
+    <h1>To-Do List</h1>
+
+    <hr>
+    <form (ngSubmit)="onSubmit(taskForm)" #taskForm="ngForm">
+        <div class="form-group">
+            <label for="task">Task</label>
+            <input type="text" class="form-control" id="task" placeholder="Enter task" ngModel name="task" required>
+            <small *ngIf="taskForm.invalid && taskForm.dirty" id="errorMessage" class="form-text text-danger">Required
+                field</small>
+        </div>
+
+        <button [disabled]="taskForm.invalid" id="submitButton" type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+    <hr>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Task</th>
+                <th scope="col">Completed</th>
+                <th scope="col">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let t of taskArray; index as i">
+                <td>{{t.taskName}}</td>
+                <td><input (change)="onCheck(i)" id="myCheckbox" type="checkbox"></td>
+                <td><button class="btn btn-danger btn-sm" (click)="onDelete(i)">Delete</button></td>
+            </tr>
+
+        </tbody>
+    </table>
+</div>

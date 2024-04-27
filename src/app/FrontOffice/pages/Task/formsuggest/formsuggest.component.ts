@@ -4,6 +4,7 @@ import { User } from 'src/app/Models/User';
 import { TaskService } from 'src/app/Services/task.service';
 import { UserService } from 'src/app/Services/user.service';
 import { UsersuggestinfoComponent } from '../usersuggestinfo/usersuggestinfo.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-formsuggest',
@@ -14,7 +15,7 @@ export class FormsuggestComponent implements OnInit {
   users: User[] = [];
   tasksCount: number = 0;
   isAvailable: boolean = false;
-  constructor(private userService: UserService,private dialogRef: MatDialogRef<FormsuggestComponent>,private taskService: TaskService,private dialog: MatDialog) { }
+  constructor(private userService: UserService,private dialogRef: MatDialogRef<FormsuggestComponent>,private taskService: TaskService,private router: Router,private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.userService.getCompetentUsers().subscribe(users => {
@@ -37,5 +38,7 @@ export class FormsuggestComponent implements OnInit {
         }
     });
 }
-
+navigateToStatistics() {
+  this.router.navigate(['Projectback/emplyeestat']);
+}
 }

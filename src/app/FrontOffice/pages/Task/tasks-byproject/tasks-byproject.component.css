@@ -106,4 +106,12 @@
     top:-50px;
     font-size: 1rem;
   }
-  
+  table {
+    width: 100%;
+  }
+  .mat-column-select {
+    overflow: initial;
+  }
+  .status {
+    text-align: center;
+  }

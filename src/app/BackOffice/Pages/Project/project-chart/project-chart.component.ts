@@ -45,10 +45,10 @@ export class ProjectChartComponent implements OnInit{
     const categories = distinctYears.map(year => year.toString()); 
     this.chart = new Chart({
       chart: {
-        type: 'xrange' 
+        type: 'line' 
       },
       title: {
-        text: 'Number of projects carried out per year'
+        text: 'projects peer year'
       },
       xAxis: {
         type: 'category', 
@@ -63,7 +63,7 @@ export class ProjectChartComponent implements OnInit{
         }
       },
       series: [{ 
-        type: 'xrange',
+        type: 'line',
         name: 'Finalised projects',
         data: data
       }],

@@ -28,6 +28,12 @@ import {FeedBackService} from "src/app/Services/FeedBack.service";
 import {FeedBack} from "src/app/Models/FeedBack";
 import { EventColor } from 'calendar-utils';
 import {CalendarEvent, CalendarView} from "angular-calendar";
+import {RegistrationEventService} from "../../../Services/RegistrationEvent.service";
+import {EmailService} from "../../../Services/email.service";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {Icon, Marker} from "leaflet";
+import * as https from "https";
+import axios from "axios";
 // import bootstrapPlugin from '@fullcalendar/bootstrap';
 
 const colors: Record<string, EventColor> = {
@@ -37,12 +43,13 @@ const colors: Record<string, EventColor> = {
   },
 };
 
+
 @Component({
   selector: 'app-event',
   templateUrl: './event.component.html',
   styleUrls: ['./event.component.css']
 })
-export class EventComponent  implements OnInit,AfterViewInit {
+export class EventComponent implements OnInit,AfterViewInit {
   events: Event[] = [];
   view: CalendarView = CalendarView.Month;
   CalendarView = CalendarView;
@@ -64,6 +71,8 @@ export class EventComponent  implements OnInit,AfterViewInit {
   currentPage = 0;
   pageSize = 6;
   searchTerm: string = '';
+  test: string = 'bl';
+
   searchControl = new FormControl('');
   allEvents: any[] = [];
   @ViewChild('addEventModal') addEventModal!: ElementRef;
@@ -111,7 +120,7 @@ export class EventComponent  implements OnInit,AfterViewInit {
   private mapTimeout: any;
   errorMessage: string = '';
   private map: L.Map | null = null;
-  searchQuery: string = '';
+  static userId: number = 1; // Assuming a default user ID
   constructor(
     private modalService: NgbModal,
     private eventService: EventService,
@@ -121,7 +130,11 @@ export class EventComponent  implements OnInit,AfterViewInit {
     private route: ActivatedRoute,
     private location: Location,
     private http: HttpClient,
-    private feedbackService: FeedBackService
+    private feedbackService: FeedBackService,
+    private RegistrationEventService :RegistrationEventService,
+    private EmailService: EmailService,
+    private snackBar: MatSnackBar
+
   ) {
     this.latitude = 0;
     this.longitude = 0;
@@ -176,8 +189,25 @@ export class EventComponent  implements OnInit,AfterViewInit {
       });
     }
   }
+  private addMarker(lat: number, lng: number): void {
+    if (!this.map) {
+      console.error('Map instance is not initialized.');
+      return;
+    }
+
+    const customIcon = this.getCustomIcon();
+    L.marker([lat, lng], { icon: customIcon }).addTo(this.map);
+  }
 
 
+  getCustomMarker() {
+    return L.divIcon({
+      className: 'custom-marker',
+      html: '<div class="custom-marker-shadow"></div>',
+      iconSize: [12, 12], // Size of the icon
+      iconAnchor: [6, 6] // Anchor point relative to icon size
+    });
+  }
   adjustCalendar(): void {
     if (this.calendarComponent && this.calendarComponent.getApi()) {
       this.calendarComponent.getApi().updateSize(); // Assurez-vous que cette méthode existe dans la version de FullCalendar que vous utilisez
@@ -214,7 +244,146 @@ export class EventComponent  implements OnInit,AfterViewInit {
       setTimeout(() => calendarApi.updateSize(), 150); // Un léger délai assure que le modal est complètement affiché
     }
   }
+  // registerEvent(eventId: number): void {
+  //   if (EventComponent.userId) {
+  //     this.RegistrationEventService.registerForEvent(eventId, EventComponent.userId)
+  //       .subscribe({
+  //         next: (response) => {
+  //           console.log('Registration successful:', response.message);
+  //           this.EmailService.sendConfirmationEmail(EventComponent.userId, eventId).subscribe({
+  //             next: (emailResponse) => {
+  //               console.log('Email sent successfully:', emailResponse.message);
+  //               this.showModalWithMessage("Registration and email confirmation sent successfully!");
+  //             },
+  //             error: (emailError) => {
+  //               console.error('Failed to send email:', emailError.error.message);
+  //               this.showModalWithMessage("Registration successful but failed to send confirmation email.");
+  //             }
+  //           });
+  //         },
+  //         error: (error) => {
+  //           if (error.status === 409) {
+  //             console.log('User is already registered for this event:', error.error.message);
+  //             this.showModalWithMessage(error.error.message || "User is already registered for this event");
+  //           }
+  //         }
+  //       });
+  //   } else {
+  //     console.error('User ID not available');
+  //     this.showModalWithMessage("User ID not available");
+  //   }
 
+  // registerEvent(eventId: number): void {
+  //   if (EventComponent.userId) {
+  //     this.RegistrationEventService.registerForEvent(eventId, EventComponent.userId)
+  //       .subscribe(
+  //         () => {
+  //           // Handle successful registration
+  //           console.log('Registration successful');
+  //           this.showModalWithMessage("Registration successful") ;
+  //
+  //         },
+  //         error => {
+  //           if (error.status === 409) {
+  //             // User is already registered for the event
+  //             console.log('User is already registered for this event');
+  //             this.showModalWithMessage("User is already registered for this event") ;
+  //           } else {
+  //             // Handle other errors
+  //             console.error('An error occurred:', error);
+  //           }
+  //         }
+  //       );
+  //   } else {
+  //     console.error('User ID not available');
+  //     this.showModalWithMessage("User ID not available") ;
+  //   }
+  //
+  // }
+  //
+  //
+  // registerEvent(eventId: number): void {
+  //   if (EventComponent.userId) {
+  //     this.RegistrationEventService.registerForEvent(eventId, EventComponent.userId).subscribe(
+  //       () => {
+  //         // Handle successful registration
+  //         console.log('Registration successful');
+  //         this.showSnackbar('Registration successful');
+  //       },
+  //       error => {
+  //         if (error.status === 409) {
+  //           // User is already registered for the event
+  //           console.log('User is already registered for this event');
+  //           this.showSnackbar('User is already registered for this event');
+  //         } else {
+  //           // Handle other errors
+  //           console.error('An error occurred:', error);
+  //           this.showSnackbar('An error occurred');
+  //         }
+  //       }
+  //     );
+  //   } else {
+  //     console.error('User ID not available');
+  //     this.showSnackbar('User ID not available');
+  //   }
+  // }
+  registerEvent(eventId: number): void {
+    if (EventComponent.userId) {
+      this.RegistrationEventService.registerForEvent(eventId, EventComponent.userId).subscribe(
+        () => {
+          // Handle successful registration
+          console.log('Registration successful');
+          this.showSnackbar('Registration successful', 'green'); // Green color for successful registration
+        },
+        error => {
+          if (error.status === 409) {
+            // User is already registered for the event
+            console.log('User is already registered for this event');
+            this.showSnackbar('User is already registered for this event', 'orange'); // Orange color for existing registration
+          } else {
+            // Handle other errors
+            console.error('An error occurred:', error);
+            this.showSnackbar('An error occurred', 'red'); // Red color for errors
+          }
+        }
+      );
+    } else {
+      console.error('User ID not available');
+      this.showSnackbar('User ID not available', 'red'); // Red color for errors
+    }
+  }
+
+  showSnackbar(message: string, color: string): void {
+    // Create a snackbar element
+    const snackbar = document.createElement('div');
+    snackbar.textContent = message;
+
+    // Apply styles for the specified color
+    snackbar.style.backgroundColor = color;
+    snackbar.style.color = 'white';
+    snackbar.style.padding = '10px';
+    snackbar.style.borderRadius = '5px';
+    snackbar.style.position = 'fixed';
+    snackbar.style.bottom = '20px';
+    snackbar.style.left = '50%';
+    snackbar.style.transform = 'translateX(-50%)';
+    snackbar.style.zIndex = '9999';
+
+    // Append snackbar to the body
+    document.body.appendChild(snackbar);
+
+    // Automatically hide the snackbar after 3 seconds
+    setTimeout(() => {
+      snackbar.remove();
+    }, 3000);
+  }
+
+
+  // private showSnackbar(message: string): void {
+  //   this.snackBar.open(message, 'Close', {
+  //     duration: 3000 // Duration in milliseconds
+  //   });
+  // }
   initEventMap(latitude: number, longitude: number): void {
     // Make sure the container is empty before creating a new map
     if (this.mapDetailContainer && this.mapDetailContainer.nativeElement) {
@@ -475,62 +644,55 @@ export class EventComponent  implements OnInit,AfterViewInit {
     this.locationSuggestions = []; // Clear suggestions
   }
 
-  searchLocation(query: string): void {
-    if (!query.trim()) {
-      // Handle empty input
-      alert('Please enter a search term.');
+  // searchLocation(query: string, context: 'add' | 'update'): void {
+  //   const url = `https://nominatim.openstreetmap.org/search?format=json&q={searchTerm}`;
+  //   this.http.get<any[]>(url).subscribe(results => {
+  //     this.errorMessage = '';
+  //     if (results.length > 0) {
+  //       // Traitez les résultats
+  //       // Assurez-vous d'ajuster le traitement des résultats selon le format attendu
+  //     } else {
+  //       console.log('No results found');
+  //       this.errorMessage = 'No results found. Please try a different search.';
+  //     }
+  //     this.cdr.detectChanges();
+  //   }, error => {
+  //     console.error('Error during the search:', error);
+  //     this.errorMessage = 'An error occurred during the search. Please try again.';
+  //     this.cdr.detectChanges();
+  //   });
+  // }
+
+
+
+
+
+  searchLocation(locationQuery: string, context: 'add' | 'update'): void {
+    console.log("Current querysssss: ", locationQuery);
+    if (!locationQuery.trim()) {
+      console.log('Search query is empty.');
       return;
     }
 
-    // The Nominatim search URL
-    const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`;
+    const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(locationQuery)}`;
+    axios.get<any[]>(url).then(response => {
+      const results = response.data;
+      if (this.map) {
+        this.map.eachLayer(layer => {
+          if (layer instanceof L.Marker) {
+            this.map!.removeLayer(layer);
+          }
+        });
 
-    // Perform the HTTP request to the geocoding service
-    this.http.get<any[]>(url).subscribe(results => {
-      if (results && results.length > 0) {
-        // Assume the first result is the desired one
-        const { lat, lon } = results[0];
-
-        // Update the map view and place a marker
-        this.map?.setView([lat, lon], 13);
-        L.marker([lat, lon]).addTo(this.map!)
-          .bindPopup(results[0].display_name)
-          .openPopup();
-      } else {
-        // Handle no results found
-        alert('No results found for the search term. Please try another query.');
+        results.forEach(result => {
+          const { lat, lon, display_name } = result;
+          L.marker([lat, lon]).addTo(this.map!).bindPopup(display_name || 'Unknown location').openPopup();
+        });
       }
-    }, error => {
-      // Handle errors from the geocoding service
-      console.error('Geocoding error:', error);
-      alert('An error occurred during the search. Please try again.');
+    }).catch(error => {
+      console.error('Error during the search:', error);
     });
   }
-
-  // searchLocation(context: 'add' | 'update'): void {
-  //   if (!this.searchQuery) {
-  //     console.log('Search query is empty.');
-  //     return;
-  //   }
-  //
-  //   // Assuming this.eventService.searchLocation is implemented correctly
-  //   this.eventService.searchLocation(this.searchQuery, context).subscribe(results => {
-  //     if (this.map) {
-  //       this.map.eachLayer(layer => {
-  //         if (layer instanceof L.Marker) {
-  //           this.map!.removeLayer(layer);
-  //         }
-  //       });
-  //
-  //       results.forEach((result: any) => {
-  //         const { lat, lon, display_name } = result;
-  //         L.marker([lat, lon]).addTo(this.map!).bindPopup(display_name || 'Unknown location').openPopup();
-  //       });
-  //     }
-  //   }, error => {
-  //     console.error('Error during the search:', error);
-  //   });
-  // }
 
   onSearchChange(event: Event): void {
     const latitude = event.place; // Access latitude directly
@@ -855,8 +1017,6 @@ export class EventComponent  implements OnInit,AfterViewInit {
       this.updateMap.on('click', (e: L.LeafletMouseEvent) => {
         console.log('Map clicked', e.latlng);
         const {lat, lng} = e.latlng;
-
-        // Make sure there's a map to add the marker to
         if (this.updateMap) {
           // Remove the existing marker if it exists
           if (this.marker) {
@@ -864,7 +1024,7 @@ export class EventComponent  implements OnInit,AfterViewInit {
           }
 
           // Add a new marker to the map at the clicked location
-          this.marker = L.marker([lat, lng]).addTo(this.updateMap);
+          this.marker = new L.Marker(e.latlng, { icon: this.getCustomIcon() }).addTo(this.updateMap);
 
           // Perform reverse geocoding to get the address
           const geocodeUrl = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`;
@@ -903,41 +1063,103 @@ export class EventComponent  implements OnInit,AfterViewInit {
       maxZoom: 19,
       attribution: '© OpenStreetMap contributors'
     }).addTo(this.map);
-    this.map.on('click', (e) => {
 
+    this.map.on('click', async (e) => {
       if (this.marker && this.map) {
         this.map.removeLayer(this.marker);
       }
 
-      const {lat, lng} = e.latlng;
+      const { lat, lng } = e.latlng;
       if (this.map) {
-        this.marker = L.marker([lat, lng]).addTo(this.map);
+        if (this.marker) {
+          this.marker.remove(); // Remove existing marker
+        }
+        this.marker = new L.Marker(e.latlng, { icon: this.getCustomIcon() }).addTo(this.map);
       }
 
+      try {
+        const geocodeUrl = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=jsonv2`;
+        const response = await axios.get(geocodeUrl);
+        const address = response.data.address;
+        const { state,  county,  amenity,postcode } = address;
 
-      this.saveLocation(lat, lng);
+        // Format display location with checks for undefined values
+        const displayLocation = `${amenity },${county ? `${county}, ` :''}${postcode ? `${postcode}, ` : ''}${state } `;
+
+        // Update the form or state with the new location and coordinates
+        this.newEventForm.patchValue({
+          place: displayLocation,  // Update the location display using the formatted string
+          latitude: lat,
+          longitude: lng
+        });
+
+        console.log("Location name updated:", address);
+      } catch (error) {
+        console.error('Error fetching location name:', error);
+      }
     });
   }
 
+
+
+
+  getCustomIcon(): L.Icon {
+    return <Icon>L.divIcon({
+      html: '<i class="fas fa-map-marker-alt" style="color: red; font-size: 24px;"></i>',
+      iconSize: L.point(30, 42),
+      iconAnchor: L.point(15, 42),
+      className: 'my-custom-icon'
+    });
+  }
+  // private saveLocation(latitude: number, longitude: number): void {
+  //   const geocodeUrl = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`;
+  //
+  //   this.http.get<any>(geocodeUrl).subscribe(data => {
+  //     // Supposons que le champ 'place' dans le formulaire est utilisé pour stocker le nom de l'emplacement
+  //     const locationName = data.display_name; // Ou utilisez un autre chemin dans l'objet data selon le format de réponse
+  //
+  //     this.newEventForm.patchValue({
+  //       place: locationName, // Mettez à jour le nom de l'emplacement dans le formulaire
+  //       latitude: latitude,
+  //       longitude: longitude
+  //     });
+  //
+  //     console.log("Location name updated:", locationName);
+  //     // Note: Pas besoin d'appeler un service ici si le formulaire sera soumis pour sauvegarder l'événement
+  //   }, error => {
+  //     console.error("Error fetching location name", error);
+  //   });
+  // }
   private saveLocation(latitude: number, longitude: number): void {
-    const geocodeUrl = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`;
+    // Using environment variables to manage API URLs is a good practice.
+    const geocodeUrl = `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=jsonv2`;
 
-    this.http.get<any>(geocodeUrl).subscribe(data => {
-      // Supposons que le champ 'place' dans le formulaire est utilisé pour stocker le nom de l'emplacement
-      const locationName = data.display_name; // Ou utilisez un autre chemin dans l'objet data selon le format de réponse
+    console.log('Latitude:', latitude);
+    console.log('Longitude:', longitude);
 
-      this.newEventForm.patchValue({
-        place: locationName, // Mettez à jour le nom de l'emplacement dans le formulaire
-        latitude: latitude,
-        longitude: longitude
-      });
+    this.http.get<any>(geocodeUrl).subscribe({
+      next: (data) => {
+        // Extract address components from the response
+        const { city, postcode, road, suburb, town } = data.address;
 
-      console.log("Location name updated:", locationName);
-      // Note: Pas besoin d'appeler un service ici si le formulaire sera soumis pour sauvegarder l'événement
-    }, error => {
-      console.error("Error fetching location name", error);
+        // Format display location with checks for undefined values
+        const displayLocation = `${road ? `${road}, ` : ''}${suburb ? `${suburb}, ` : ''}${postcode ? `${postcode}, ` : ''}${city || town}`;
+
+        // Updating form values
+        this.newEventForm.patchValue({
+          place: displayLocation,  // Update the location display using the formatted string
+          latitude: latitude,
+          longitude: longitude
+        });
+
+        console.log("Location name updated:", displayLocation);
+      },
+      error: (error) => {
+        console.error("Error fetching location name", error);
+      }
     });
   }
+
   openFeedbackModal(eventId: number): void {
     this.selectedEventId = eventId;
     this.feedbackModalRef = this.modalService.open(this.feedbackModal, { centered: true });
@@ -1085,4 +1307,5 @@ export class EventComponent  implements OnInit,AfterViewInit {
 
 
 }
+
 

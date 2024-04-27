@@ -2,7 +2,7 @@
 <div *ngIf="isExporting" class="notification">
   Téléchargement en cours...
 </div>
-<button  class="btn btn-add-activityExcell mb-3 float-right" data-bs-toggle="modal" (click)="exportAllActivitiesToExcel()"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-spreadsheet" viewBox="0 0 16 16">
+<button  class=" btn-add-activityExcell mb-3 float-right" data-bs-toggle="modal" (click)="exportAllActivitiesToExcel()"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-spreadsheet" viewBox="0 0 16 16">
   <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V9H3V2a1 1 0 0 1 1-1h5.5zM3 12v-2h2v2zm0 1h2v2H4a1 1 0 0 1-1-1zm3 2v-2h3v2zm4 0v-2h3v1a1 1 0 0 1-1 1zm3-3h-3v-2h3zm-7 0v-2h3v2z"/>
 </svg></button>
 
@@ -48,9 +48,10 @@
   <h2>Activity</h2>
   <div class="row">
     <div class="col">
-      <button class="btn btn-add-activity mb-3 float-right" data-bs-toggle="modal" data-bs-target="#addActivityModal">
-        <i class="bi bi-plus"></i>
-      </button>
+      <button  class="btn btn-add-activity mb-3 float-right" data-bs-toggle="modal" data-bs-target="#addActivityModal" >
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
+        </svg>      </button>
     </div>
     <mat-form-field appearance="outline" class="w-100 mb-4">
       <mat-label>Search activities</mat-label>
@@ -108,8 +109,8 @@
               Edit
             </button>
 
-            <button class="btn btn-delete btn-sm mx-1" (click)="askDeleteConfirmation(activity.activity_id)" style="color: var(--color-bright-orange);">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+            <button type="button" class="btn btn-delete btn-sm mx-1" (click)="askDeleteConfirmation(activity.activity_id)" >
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                 <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
                 <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
               </svg>

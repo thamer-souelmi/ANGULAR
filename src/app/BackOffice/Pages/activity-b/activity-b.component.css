@@ -184,3 +184,6 @@ body {
 .btn-icon:hover::after {
   display: block;
 }
+.custom-width {
+  width: 300px; /* Remplacez cette valeur par la longueur souhaitée */
+}

@@ -7,57 +7,90 @@ import { AllTemplateFrontComponent } from './FrontOffice/all-template-front/all-
 import { FooterFrontComponent} from "./FrontOffice/footer-front/footer-front.component";
 import { HeaderFrontComponent} from "./FrontOffice/header-front/header-front.component";
 import { HomeFrontComponent } from './FrontOffice/home-front/home-front.component';
-import { ActivityComponentF } from './FrontOffice/Pages/activity/activity.component';
+import { ActivityComponentF } from './FrontOffice/pages/activity/activity.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MatTableModule } from '@angular/material/table';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpClientModule } from '@angular/common/http';
-import { EventComponent } from './FrontOffice/Pages/event/event.component';
-import { FindAllJobOffersComponent } from './FrontOffice/Pages/JobOffer/find-all-job-offers/find-all-job-offers.component';
-import { WishlistComponent } from './FrontOffice/Pages/JobOffer/wishlist/wishlist.component';
+import { FindAllJobOffersComponent } from './FrontOffice/pages/JobOffer/find-all-job-offers/find-all-job-offers.component';
+import { WishlistComponent } from './FrontOffice/pages/JobOffer/wishlist/wishlist.component';
+
 import { CommonModule, DatePipe } from "@angular/common";
 // import { FullCalendarModule } from '@fullcalendar/angular';
 import { NgbDatepickerModule, NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatSidenavModule } from "@angular/material/sidenav";
 import { MatToolbarModule } from "@angular/material/toolbar";
-import { MatRippleModule } from "@angular/material/core";
+import {  MatRippleModule } from '@angular/material/core';
 import { MatMenuModule } from "@angular/material/menu";
 import { FeatherModule } from 'angular-feather';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { allIcons } from 'angular-feather/icons';
 import { httpInterceptorProviders } from './Helpers/http-request-interceptor';
 import { LoginComponent } from './BackOffice/Pages/login/login.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import {SidebarBackComponent} from "./BackOffice/sidebar-back/sidebar-back.component";
 import {NavbarBackComponent} from "./BackOffice/navbar-back/navbar-back.component";
 import {FooterBackComponent} from "./BackOffice/footer-back/footer-back.component";
 import {AllTemplatBackComponent} from "./BackOffice/all-templat-back/all-templat-back.component";
+import { FindAllJobCandidaciesComponent } from './FrontOffice/pages/JobOffer/find-all-job-candidacies/find-all-job-candidacies.component';
+import { ToastrModule, ToastrService } from 'ngx-toastr';
+import { FindAllJobOffersBackComponent } from './BackOffice/Pages/JobOffer/find-all-job-offers-back/find-all-job-offers-back.component';
+import { MatCardModule } from '@angular/material/card';
+import { FindAllJobCandidaciesBackComponent } from './BackOffice/Pages/JobOffer/find-all-job-candidacies-back/find-all-job-candidacies-back.component';
+import { StatisticsComponent } from './BackOffice/Pages/JobOffer/statistics/statistics.component';
+import { StatisticsCandidaciesComponent } from './BackOffice/Pages/JobOffer/statistics-candidacies/statistics-candidacies.component';
+import { StatisticsInterviewComponent } from './BackOffice/Pages/JobOffer/statistics-interview/statistics-interview.component';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import { QuizComponent } from "./FrontOffice/pages/Quiz/quiz/quiz.component";
+import { InterviewCalendarComponent } from './FrontOffice/pages/Interview/interview-calendar/interview-calendar.component';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { InterviewDetailsComponent } from './FrontOffice/pages/Interview/interview-details/interview-details.component';
+import { UpdateInterviewComponent } from './FrontOffice/pages/Interview/update-interview/update-interview.component';
+import { InterviewDetailsBackComponent } from './BackOffice/Pages/JobOffer/interview-details-back/interview-details-back.component';
+import { UpdateJobOfferComponent } from './FrontOffice/pages/JobOffer/update-job-offer/update-job-offer.component';
+import { CandiadateLinkedInDetailsComponent } from './FrontOffice/pages/JobOffer/candiadate-linked-in-details/candiadate-linked-in-details.component';
+import { JobOfferDetailsBackComponent } from './BackOffice/Pages/JobOffer/job-offer-details-back/job-offer-details-back.component';
+import { CandidateLinkedInDetailsBackComponent } from './BackOffice/Pages/JobOffer/candidate-linked-in-details-back/candidate-linked-in-details-back.component';
 import {FindAllUsersComponent} from "./BackOffice/Pages/find-all-users/find-all-users.component";
-import { FilterJobPipe } from './FrontOffice/Pages/JobOffer/filter-job.pipe';
+import { FilterJobPipe } from './FrontOffice/pages/JobOffer/filter-job.pipe';
 
 import {NgxCaptchaModule} from "ngx-captcha";
-import { UpdateprojectComponent } from './FrontOffice/Pages/Project/updateproject/updateproject.component';
+import { UpdateprojectComponent } from './FrontOffice/pages/Project/updateproject/updateproject.component';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
-import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
-import { TasksByprojectComponent } from './FrontOffice/Pages/Task/tasks-byproject/tasks-byproject.component';
-import { UpdateTaskComponent } from './FrontOffice/Pages/Task/update-task/update-task.component';
-import { KanbanBoardComponent } from './FrontOffice/Pages/Task/kanban-board/kanban-board.component';
+import { TasksByprojectComponent } from './FrontOffice/pages/Task/tasks-byproject/tasks-byproject.component';
+import { UpdateTaskComponent } from './FrontOffice/pages/Task/update-task/update-task.component';
+import { KanbanBoardComponent } from './FrontOffice/pages/Task/kanban-board/kanban-board.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import { AvatarModule } from 'ngx-avatars';
-import { FormsuggestComponent } from './FrontOffice/Pages/Task/formsuggest/formsuggest.component';
-import { UsersuggestinfoComponent } from './FrontOffice/Pages/Task/usersuggestinfo/usersuggestinfo.component';
+import { FormsuggestComponent } from './FrontOffice/pages/Task/formsuggest/formsuggest.component';
+import { UsersuggestinfoComponent } from './FrontOffice/pages/Task/usersuggestinfo/usersuggestinfo.component';
 import { FindAllProjectsComponent } from './BackOffice/Pages/Project/find-all-projects/find-all-projects.component';
 import { ChartModule } from 'angular-highcharts';
 import { ProjectChartComponent } from './BackOffice/Pages/Project/project-chart/project-chart.component';
 
 
 import {FullCalendarModule} from "@fullcalendar/angular";
-import { ActivityBComponent } from './BackOffice/Pages/activity-b/activity-b.component';
+import { EventComponent } from './FrontOffice/pages/event/event.component';
+import { TaskbackComponent } from './BackOffice/Pages/Task/taskback/taskback.component';
+import { KanbanboardbackComponent } from './BackOffice/Pages/Task/kanbanboardback/kanbanboardback.component';
+import { AppGanttChartComponent } from './BackOffice/Pages/Task/app-gantt-chart/app-gantt-chart.component';
+import { TodolistComponent } from './BackOffice/Pages/Task/todolist/todolist.component';
+import {MatSortModule} from '@angular/material/sort';
+import { DetailprojectbackComponent } from './BackOffice/Pages/Project/detailprojectback/detailprojectback.component';
+import { PMstatisticComponent } from './BackOffice/Pages/Task/pmstatistic/pmstatistic.component';
+import { PiecharttaskComponent } from './BackOffice/Pages/Task/piecharttask/piecharttask.component';import { ActivityBComponent } from './BackOffice/Pages/activity-b/activity-b.component';
+import { RegistrationBComponent } from './BackOffice/Pages/registration-b/registration-b.component';
+import {MatSnackBarModule} from "@angular/material/snack-bar";
+import {
+  TrainingSessionComponent} from './FrontOffice/pages/training-session/training-session.component';
+import {MatGridListModule} from "@angular/material/grid-list";
 import { EventBComponent } from './BackOffice/Pages/event-b/event-b.component';
 import { ProjectFormComponent } from './FrontOffice/Pages/Project/project-form/project-form.component';
 import { ProjectDetailsComponent } from './FrontOffice/Pages/Project/project-details/project-details.component';
@@ -72,6 +105,10 @@ import { LeavesComponent } from './BackOffice/Pages/leaves/leaves.component';
 import { LeavesDetailsComponent } from './BackOffice/Pages/leaves-details/leaves-details.component';
 import { AddLeaveComponent } from './BackOffice/Pages/add-leave/add-leave.component';
 import { LeaveComponent } from './FrontOffice/Pages/leave/leave.component';
+import { JitsiComponent } from './FrontOffice/pages/Interview/jitsi/jitsi.component';
+import { RoomComponent } from './BackOffice/Pages/room/room.component';
+import {BsDropdownModule} from "ngx-bootstrap/dropdown";
+import {JoinPipe} from "./join.pipe";
 
 
 @NgModule({
@@ -91,6 +128,22 @@ import { LeaveComponent } from './FrontOffice/Pages/leave/leave.component';
     NavbarBackComponent,
     FooterBackComponent,
     AllTemplatBackComponent,
+    FindAllJobCandidaciesComponent,
+    FindAllJobOffersBackComponent,
+    FindAllJobCandidaciesBackComponent,
+    StatisticsComponent,
+    StatisticsCandidaciesComponent,
+    StatisticsInterviewComponent,
+    QuizComponent,
+    InterviewCalendarComponent,
+    InterviewDetailsComponent,
+    UpdateInterviewComponent,
+    InterviewDetailsBackComponent,
+    UpdateJobOfferComponent,
+    CandiadateLinkedInDetailsComponent,
+    JobOfferDetailsBackComponent,
+    CandidateLinkedInDetailsBackComponent,
+
     LoginComponent,
     FindAllUsersComponent,
     FilterJobPipe,
@@ -101,6 +154,16 @@ import { LeaveComponent } from './FrontOffice/Pages/leave/leave.component';
     UsersuggestinfoComponent,
     FindAllProjectsComponent,
     ProjectChartComponent,
+    TaskbackComponent,
+    KanbanboardbackComponent,
+    AppGanttChartComponent,
+    TodolistComponent,
+    DetailprojectbackComponent,
+    PMstatisticComponent,
+    PiecharttaskComponent,
+    RegistrationBComponent,
+    TrainingSessionComponent,
+
     TasksByprojectComponent,
     KanbanBoardComponent,
     EventBComponent,
@@ -117,6 +180,12 @@ import { LeaveComponent } from './FrontOffice/Pages/leave/leave.component';
     LeavesDetailsComponent,
     AddLeaveComponent,
     LeaveComponent,
+
+    JitsiComponent,
+    RoomComponent,
+    JoinPipe
+
+
   ],
   imports: [
     BrowserModule,
@@ -139,8 +208,26 @@ import { LeaveComponent } from './FrontOffice/Pages/leave/leave.component';
     MatToolbarModule,
     MatRippleModule,
     MatMenuModule,
+    MatSnackBarModule,
+    ToastrModule.forRoot({
+      timeOut:2000,
+      progressBar:true,
+      progressAnimation:"increasing",
+      preventDuplicates:true
+    }),
     MatButtonModule,
     FeatherModule.pick(allIcons),
+    BrowserAnimationsModule,
+    ToastrModule.forRoot({
+      timeOut:2000,
+      progressBar:true,
+      progressAnimation:"increasing",
+      preventDuplicates:true
+    }), // ToastrModule added
+    MatCardModule,
+    NgxChartsModule,
+    MatTooltipModule,
+    FullCalendarModule,
     FormsModule,
     HttpClientModule,
     NgbModule,
@@ -150,12 +237,22 @@ import { LeaveComponent } from './FrontOffice/Pages/leave/leave.component';
       useFactory: adapterFactory,
 
     }),
+
     DragDropModule,
 
     AvatarModule,
    ChartModule,
+    BsDropdownModule.forRoot(),
 
-    FullCalendarModule
+    FullCalendarModule,
+    MatSortModule,
+    MatTableModule,
+    MatCheckboxModule,
+
+    MatCardModule,
+    MatGridListModule,
+
+
   ],
   providers: [httpInterceptorProviders,DatePipe],
   bootstrap: [AppComponent],

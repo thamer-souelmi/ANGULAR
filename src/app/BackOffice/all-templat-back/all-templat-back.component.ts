@@ -28,6 +28,7 @@ export class AllTemplatBackComponent  implements OnInit {
     else if (!isAdmin) {
       this.router.navigate(['home']);
     } 
+
   }
 }
 

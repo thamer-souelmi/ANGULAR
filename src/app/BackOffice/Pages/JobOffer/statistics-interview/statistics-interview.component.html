@@ -1,0 +1,15 @@
+<h2>Interview Success Rate</h2>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <ngx-charts-bar-vertical
+        [view]="[500, 400]"
+        [results]="chartDataInterview"
+        [legend]="true"
+        [legendPosition]="legendPosition.Right"
+        [gradient]="false"
+        (select)="onSelect($event)">
+      </ngx-charts-bar-vertical>
+    </div>
+  </div>
+</div>

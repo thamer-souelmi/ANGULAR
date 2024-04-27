@@ -1,6 +1,6 @@
-export enum  TS_Status {
-  PLANNED =0,
-  ONGOING=1,
-  COMPLETED=2,
-  CANCELED=3
+export enum TS_Status {
+  PLANNED = "PLANNED",
+  COMPLETED = "COMPLETED",
+  CANCELED = "CANCELED",
+  ONGOING = "ONGOING"
 }

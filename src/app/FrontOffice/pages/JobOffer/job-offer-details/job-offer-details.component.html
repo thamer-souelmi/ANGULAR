@@ -1,0 +1,362 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha384-..." crossorigin="anonymous">
+<link rel="stylesheet" href="/assets/FrontOffice/JobOffer/css/owl.carousel.min.css">
+<link rel="stylesheet" href="/assets/FrontOffice/JobOffer/css/magnific-popup.css">
+<link rel="stylesheet" href="/assets/FrontOffice/JobOffer/css/font-awesome.min.css">
+<link rel="stylesheet" href="/assets/FrontOffice/JobOffer/css/themify-icons.css">
+<link rel="stylesheet" href="/assets/FrontOffice/JobOffer/css/nice-select.css">
+<link rel="stylesheet" href="/assets/FrontOffice/JobOffer/css/flaticon.css">
+<link rel="stylesheet" href="/assets/FrontOffice/JobOffer/css/gijgo.css">
+<link rel="stylesheet" href="/assets/FrontOffice/JobOffer/css/animate.min.css">
+<link rel="stylesheet" href="/assets/FrontOffice/JobOffer/css/slicknav.css">
+<link rel="stylesheet" href="/assets/FrontOffice/JobOffer/css/style.css">
+
+<h2>{{ jobOffer.titleJobOffer }} Details</h2>
+<div class="job_details_area">
+  <div class="container" >
+    <div class="row">
+      <div class="col-lg-8"style="border: 1px solid #049565;">
+        <div class="job_details_header">
+          <div class="single_jobs white-bg d-flex justify-content-between">
+            <div class="jobs_left d-flex align-items-center">
+              <div class="thumb">
+                <img src="/assets/FrontOffice/JobOffer/img/svg_icon/1.svg" alt="">
+              </div>
+              <div class="jobs_conetent">
+                <h4>{{ jobOffer.titleJobOffer }}</h4>
+                <div class="links_locat d-flex align-items-center">
+                  <div class="location">
+                    <p> <i class="fa fa-map-marker"></i> {{ jobOffer.jobLocation }}</p>
+                  </div>
+                  <div class="location">
+                    <p> <i class="fa fa-clock-o"></i> {{ jobOffer.jobNature }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="jobs_right">
+              <div class="apply_now">
+                <a class="heart_mark" (click)="addToWishlist(jobOffer)"> <i class="fas fa-heart"></i> </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="descript_wrap white-bg">
+          <div class="single_wrap">
+            <h4>Job description</h4>
+            <p>{{ jobOffer.description }}</p>
+          </div>
+          <div class="single_wrap">
+            <h4>Required Skills</h4>
+            <ul>
+              <li>{{ jobOffer.requiredSkills }}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="job_sumary" style="border: 1px solid #049565;">
+          <div class="summery_header">
+            <h3>Job Summary</h3>
+          </div>
+          <div class="job_content">
+            <ul>
+              <li>Published on: <span>{{ jobOffer.postedDate }}</span></li>
+              <li>Vacancy: <span>{{ jobOffer.vacancy }} positions</span></li>
+              <li>Experience: <span>{{ jobOffer.experience }} </span></li>
+              <li>Salary: <span>[{{ jobOffer.minsalary }}-{{ jobOffer.maxsalary }}]TND</span> </li>
+              <li>Location: <span>{{ jobOffer.jobLocation }}</span></li>
+              <li>Job Nature: <span>{{ jobOffer.jobNature }}</span></li>
+              <li>Job Category: <span>{{ jobOffer.jobCategory }}</span></li>
+              <li>Application Deadline: <span>{{ jobOffer.applicationDeadLine }}</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="share-btn-container">
+          <a href="https://www.facebook.com/sharer/sharer.php?u=[http://localhost:4200/JobOffer/job-offer-details]" class="facebook-btn">
+            <i class="fab fa-facebook"></i>
+          </a>
+
+          <a href="https://twitter.com/share?url=[post-url]&text=[post-title]" class="twitter-btn">
+            <i class="fab fa-twitter"></i>
+          </a>
+
+          <a href="https://www.pinterest.com/pin/create/button/?url={http://localhost:4200/JobOffer/job-offer-details}&description={description (optional)}" class="pinterest-btn">
+            <i class="fab fa-pinterest"></i>
+          </a>
+
+          <a href="https://www.linkedin.com/sharing/share-offsite/?url={http://localhost:4200/JobOffer/job-offer-details}" class="linkedin-btn">
+            <i class="fab fa-linkedin"></i>
+          </a>
+
+          <a href="https://wa.me/?text=[I found this job offer interesting] [http://localhost:4200/JobOffer/job-offer-details]" class="whatsapp-btn">
+            <i class="fab fa-whatsapp"></i>
+          </a>
+        </div>
+        <!--                        </ul>-->
+
+        <!--                    </div>-->
+      </div>
+
+    </div>
+  </div>
+</div>
+<div class="container">
+  <h2>Apply Now</h2>
+  <br>
+  <br>
+  <form [formGroup]="candidacyForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="candidateName">Candidate Name:</label>
+      <input type="text" class="form-control" id="candidateName" formControlName="candidateName" #candidateNameInput required style="border-color: {{ candidacyForm.get('candidateName')?.touched && candidacyForm.get('candidateName')?.invalid ? 'red' : '' }}">
+      <div *ngIf="candidacyForm.get('candidateName')?.hasError('required') && candidacyForm.get('candidateName')?.touched" class="text-danger">
+        Candidate Name is required.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input type="email" class="form-control" id="email" formControlName="email" #emailInput required style="border-color: {{ candidacyForm.get('email')?.touched && candidacyForm.get('email')?.invalid ? 'red' : '' }}">
+      <div *ngIf="candidacyForm.get('email')?.hasError('required') && candidacyForm.get('email')?.touched" class="text-danger">
+        Email is required.
+      </div>
+      <div *ngIf="candidacyForm.get('email')?.hasError('email') && candidacyForm.get('email')?.touched" class="text-danger">
+        Please enter a valid email address.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="link">Portfolio Link:</label>
+      <input type="text" class="form-control" id="link" formControlName="link" #linkInput required style="border-color: {{ candidacyForm.get('link')?.touched && candidacyForm.get('link')?.invalid ? 'red' : '' }}">
+      <div *ngIf="candidacyForm.get('link')?.hasError('required') && candidacyForm.get('link')?.touched" class="text-danger">
+        Portfolio Link is required.
+      </div>
+      <div *ngIf="candidacyForm.get('link')?.hasError('pattern') && candidacyForm.get('link')?.touched" class="text-danger">
+        Please enter a valid URL format.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="linkedin">LinkedIn Profile:</label>
+      <input type="text" class="form-control" id="linkedin" formControlName="linkedin" #linkedinInput required style="border-color: {{ candidacyForm.get('linkedin')?.touched && candidacyForm.get('linkedin')?.invalid ? 'red' : '' }}">
+      <div *ngIf="candidacyForm.get('linkedin')?.hasError('required') && candidacyForm.get('linkedin')?.touched" class="text-danger">
+        LinkedIn Profile is required.
+      </div>
+      <div *ngIf="candidacyForm.get('linkedin')?.hasError('pattern') && candidacyForm.get('linkedin')?.touched" class="text-danger">
+        Please enter a valid LinkedIn profile URL it shoud end with /.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="github">GitHub Account:</label>
+      <input type="text" class="form-control" id="github" formControlName="github" #githubInput required style="border-color: {{ candidacyForm.get('github')?.touched && candidacyForm.get('github')?.invalid ? 'red' : '' }}">
+      <div *ngIf="candidacyForm.get('github')?.hasError('required') && candidacyForm.get('github')?.touched" class="text-danger">
+        GitHub Account is required.
+      </div>
+      <div *ngIf="candidacyForm.get('github')?.hasError('pattern') && candidacyForm.get('github')?.touched" class="text-danger">
+        Please enter a valid GitHub account URL.
+      </div>
+    </div>
+
+
+    <div class="form-group">
+      <label class="btn btn-default p-0">
+        <label for="file">CV / Cover Letter:</label>
+        <input type="file" accept=".pdf,.doc,.docx" multiple (change)="selectFiles($event)" />
+      </label>
+    </div>
+
+    <div class="form-group text-center">
+      <button type="submit" class="btn btn-primary" [disabled]="!candidacyForm.valid" style="background-color: #049565; border-color: #049565;">
+        Apply Now
+      </button>
+    </div>
+
+  </form>
+</div>
+<br>
+<br>
+
+
+<script src="/assets/FrontOffice/JobOffer/js/owl.carousel.min.js"></script>
+<script src="/assets/FrontOffice/JobOffer/js/isotope.pkgd.min.js"></script>
+<script src="/assets/FrontOffice/JobOffer/js/ajax-form.js"></script>
+<script src="/assets/FrontOffice/JobOffer/js/waypoints.min.js"></script>
+<script src="/assets/FrontOffice/JobOffer/js/imagesloaded.pkgd.min.js"></script>
+<script src="/assets/FrontOffice/JobOffer/js/scrollIt.js"></script>
+<script src="/assets/FrontOffice/JobOffer/js/wow.min.js"></script>
+<script src="/assets/FrontOffice/JobOffer/js/nice-select.min.js"></script>
+<script src="/assets/FrontOffice/JobOffer/js/plugins.js"></script>
+<script src="/assets/FrontOffice/JobOffer/js/range.js"></script>
+<script src="/assets/FrontOffice/JobOffer/js/contact.js"></script>
+<script src="/assets/FrontOffice/JobOffer/js/mail-script.js"></script>
+<script src="/assets/FrontOffice/JobOffer/js/main.js"></script>
+<style>
+  .toolbar {
+    background-color: #f2f2f2;
+    padding: 8px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+  }
+
+  .toolbar button {
+    background-color: #e7e7e7;
+    border: none;
+    color: #333;
+    padding: 6px 12px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+
+  .toolbar select,
+  .toolbar input[type="color"] {
+    margin: 4px 2px;
+    padding: 4px;
+    font-size: 14px;
+    border-radius: 4px;
+    border: none;
+  }
+
+  #editor {
+    width: 100%;
+    min-height: 300px;
+    border: 1px solid #ccc;
+    padding: 8px;
+    border-radius: 4px;
+    font-size: 16px;
+    outline: none;
+  }
+  /* Content */
+
+  .content {
+    padding: 8px 90px;
+    font-family: "Roboto", sans-serif;
+  }
+
+  .content p {
+    line-height: 1.9;
+  }
+
+  .content img {
+    max-height: 500px;
+  }
+
+  /* Share Buttons */
+
+  .share-btn-container {
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    position: fixed;
+    top: 50%;
+    right: 0; /* Positioning to the right side */
+    transform: translateY(-50%);
+  }
+
+  .share-btn-container a i {
+    font-size: 32px;
+  }
+
+  .share-btn-container a {
+    margin: 12px 0;
+    transition: 500ms;
+  }
+
+  .share-btn-container a:hover {
+    transform: scale(1.2);
+  }
+
+  .share-btn-container .fa-facebook {
+    color: #3b5998;
+  }
+
+  .share-btn-container .fa-twitter {
+    color: #1da1f2;
+  }
+
+  .share-btn-container .fa-linkedin {
+    color: #0077b5;
+  }
+
+  .share-btn-container .fa-pinterest {
+    color: #bd081c;
+  }
+
+  .share-btn-container .fa-whatsapp {
+    color: #25d366;
+  }
+
+  /* Media Queries */
+
+  @media (max-width: 550px) {
+    .content {
+      padding: 8px 32px;
+    }
+
+    .share-btn-container {
+      transform: unset;
+      top: unset;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      flex-direction: row;
+      box-shadow: 4px 0 8px rgba(0, 0, 0, 0.3);
+      padding: 16px 0;
+      justify-content: center;
+    }
+
+    .share-btn-container a {
+      margin: 0 32px;
+    }
+  }
+</style>
+<script>
+  const facebookBtn = document.querySelector(".facebook-btn");
+  const twitterBtn = document.querySelector(".twitter-btn");
+  const pinterestBtn = document.querySelector(".pinterest-btn");
+  const linkedinBtn = document.querySelector(".linkedin-btn");
+  const whatsappBtn = document.querySelector(".whatsapp-btn");
+
+  function init() {
+    const pinterestImg = document.querySelector(".pinterest-img");
+
+    let postUrl = encodeURI(document.location.href);
+    let postTitle = encodeURI("Hi everyone, please check this out, this is an interesting job offer ");
+    let postImg = encodeURI(pinterestImg.src);
+
+    facebookBtn.setAttribute(
+      "href",
+      `https://www.facebook.com/sharer.php?u=${postUrl}`
+    );
+
+    twitterBtn.setAttribute(
+      "href",
+      `https://twitter.com/share?url=${postUrl}&text=${postTitle}`
+    );
+
+    pinterestBtn.setAttribute(
+      "href",
+      `https://pinterest.com/pin/create/bookmarklet/?media=${postImg}&url=${postUrl}&description=${postTitle}`
+    );
+
+    linkedinBtn.setAttribute(
+      "href",
+      `https://www.linkedin.com/shareArticle?url=${postUrl}&title=${postTitle}`
+    );
+
+    whatsappBtn.setAttribute(
+      "href",
+      `https://wa.me/?text=${postTitle} ${postUrl}`
+    );
+  }
+
+  init();
+</script>
+
