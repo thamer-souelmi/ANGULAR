@@ -127,5 +127,6 @@ sliceFrom = 0;
   navigateToStatistics() {
     this.router.navigate(['/Projectback/projectchart']);
   }
+  
 
 }
