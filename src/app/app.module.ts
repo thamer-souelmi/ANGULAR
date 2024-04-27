@@ -99,6 +99,7 @@ import { GetAllProjectComponent } from './FrontOffice/pages/Project/get-all-proj
 import { JitsiComponent } from './FrontOffice/pages/Interview/jitsi/jitsi.component';
 import { RoomComponent } from './BackOffice/Pages/room/room.component';
 import {BsDropdownModule} from "ngx-bootstrap/dropdown";
+import {JoinPipe} from "./join.pipe";
 
 
 @NgModule({
@@ -163,6 +164,8 @@ import {BsDropdownModule} from "ngx-bootstrap/dropdown";
     GetAllProjectComponent,
     JitsiComponent,
     RoomComponent,
+    JoinPipe
+
 
   ],
   imports: [
@@ -229,7 +232,7 @@ import {BsDropdownModule} from "ngx-bootstrap/dropdown";
 
     MatCardModule,
     MatGridListModule,
-    
+
 
   ],
   providers: [httpInterceptorProviders,DatePipe],
