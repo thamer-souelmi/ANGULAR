@@ -54,8 +54,12 @@ export class TrainingSessionComponent implements OnInit {
       tsStatus: ['', Validators.required],
       place: [''],  // No validators, can be null
       room: [''],  // No validators, can be null
-      placeType: ['']  // No validators, can be null
+      placeType: [''],  // No validators, can be null
+      target_audience: [''],  // No validators, can be null
+      session_outline: [''],  // No validators, can be null
+      expected_outcomes: [''],  // No validators, can be null
     });
+
 
 
 
@@ -166,37 +170,148 @@ export class TrainingSessionComponent implements OnInit {
 //       this.newTrainingSessionForm.markAllAsTouched(); // Ensure all fields are touched to show validation errors.
 //     }
 //   }
+//   addTrainingSession(): void {
+//     if (this.newTrainingSessionForm.valid) {
+//
+//       const formData = this.newTrainingSessionForm.getRawValue();
+//       console.log('Form Data:', formData);
+//       console.log('Submitting this data to server:', JSON.stringify(formData));
+//
+//       // Adjust logic for determining room ID requirement
+//       formData.roomId = (formData.typeTS !== TypeTS.ONLINE && formData.placeType === 'INTERNAL' && formData.room) ? formData.room.id : null;
+//
+//       // Log what's being sent to the backend
+//       console.log('Submitting with Room ID:', formData.roomId);
+//
+//       this.trainingSessionService.addTrainingSession(formData, formData.roomId).subscribe({
+//         next: () => {
+//           this.toaster.success('Training session added successfully');
+//           this.modalService.dismissAll();
+//           this.newTrainingSessionForm.reset();
+//           setTimeout(() => {
+//             window.location.reload();
+//           }, 1000); // Delay the reload for 1 second to ensure all messages are shown
+//         },
+//         error: (error) => {
+//           console.error('Error when trying to add session:', error);
+//           // Improved error handling to extract server response
+//           const errorMsg = error.error?.message || 'Unknown error';
+//           console.error('Error Details:', errorMsg);
+//           this.toaster.error(`Error adding training session: ${errorMsg}`);
+//         }
+//       });
+//     } else {
+//       console.error('Form is invalid:', this.newTrainingSessionForm.value);
+//       this.newTrainingSessionForm.markAllAsTouched();
+//       this.toaster.error('Please complete all required fields.');
+//     }
+//   }
+
+  // addTrainingSession(): void {
+  //   if (this.newTrainingSessionForm.valid) {
+  //     const formData = this.newTrainingSessionForm.getRawValue();
+  //     console.log('Form Data:', formData);
+  //
+  //     // Format the data according to the server's expectations
+  //     const requestData = {
+  //       title: formData.title,
+  //       target_audience: formData.target_audience,
+  //       session_outline: formData.session_outline,
+  //       expected_outcomes: formData.expected_outcomes,
+  //       start_date: formData.start_date,
+  //       finish_date: formData.finish_date,
+  //       topic: formData.topic,
+  //       place: formData.placeType === 'EXTERNAL' ? 'ONLINE' : formData.place,
+  //       capacity: formData.capacity,
+  //       typeTS: formData.placeType === 'EXTERNAL' ? 'ONLINE' : 'OFFLINE',
+  //       tsStatus: 'PLANNED',
+  //       placeType: formData.placeType
+  //     };
+  //
+  //     console.log('Submitting this data to server:', requestData);
+  //
+  //     // Determine room ID requirement
+  //     const roomId = (formData.placeType !== 'EXTERNAL' && formData.room) ? formData.room.id : null;
+  //
+  //     if (roomId == null) {
+  //       // Use the service without room when room ID is null
+  //       this.trainingSessionService.addTrainingSessionWithoutRoom(requestData).subscribe(
+  //         data => this.handleResponse(data),
+  //         error => this.handleError(error)
+  //       );
+  //     } else {
+  //       // Use the service with room when room ID is not null
+  //       this.trainingSessionService.addTrainingSessionWithRoom(requestData, roomId).subscribe(
+  //         data => this.handleResponse(data),
+  //         error => this.handleError(error)
+  //       );
+  //     }
+  //   } else {
+  //     console.error('Form is invalid:', this.newTrainingSessionForm.value);
+  //     this.newTrainingSessionForm.markAllAsTouched();
+  //     this.toaster.error('Please complete all required fields.');
+  //   }
+  // }
+
+
   addTrainingSession(): void {
     if (this.newTrainingSessionForm.valid) {
       const formData = this.newTrainingSessionForm.getRawValue();
       console.log('Form Data:', formData);
 
-      // Determine if a room ID is needed based on session type
-      if (formData.typeTS === TypeTS.ONLINE || formData.placeType !== 'INTERNAL') {
-        formData.roomId = null; // No room ID needed for online or external sessions
-      } else {
-        formData.roomId = formData.room?.id; // Get the room ID if the room is defined
-      }
+      // Determine the correct values for 'place' and 'typeTS' based on 'placeType'
+      let place = formData.placeType === 'EXTERNAL' ? 'ONLINE' : formData.place;
+      let typeTS = formData.placeType === 'EXTERNAL' ? 'ONLINE' : formData.typeTS;
 
-      // Proceed only if a room ID is set or not needed
-      if (formData.roomId || formData.typeTS === TypeTS.ONLINE || formData.placeType !== 'INTERNAL') {
-        this.trainingSessionService.addTrainingSession(formData, formData.roomId).subscribe({
-          next: () => {
+      const requestData = {
+        title: formData.title,
+        target_audience: formData.target_audience || null, // Ensuring optional fields are not sent as undefined
+        session_outline: formData.session_outline || null,
+        expected_outcomes: formData.expected_outcomes || null,
+        start_date: formData.start_date,
+        finish_date: formData.finish_date,
+        topic: formData.topic,
+        place: place || null,  // Handle the case where place might be undefined or not required
+        capacity: formData.capacity,
+        typeTS: typeTS,
+        tsStatus: formData.tsStatus,
+        placeType: formData.placeType || null // Handle the case where placeType might be undefined
+      };
+
+      console.log('Submitting this data to server:', requestData);
+
+      // Determine if a room ID is needed based on the placeType
+      const roomId = (formData.placeType === 'INTERNAL' && formData.room) ? formData.room.id : null;
+
+      // Choose the correct endpoint based on the room ID presence
+      if (roomId == null) {
+        this.trainingSessionService.addTrainingSessionWithoutRoom(requestData).subscribe(
+          data => {
+            console.log('Training session added successfully:', data);
             this.toaster.success('Training session added successfully');
             this.modalService.dismissAll();
             this.newTrainingSessionForm.reset();
-            // Reload the page to reflect new changes
-            setTimeout(() => {
-              window.location.reload();
-            }, 1000); // Delay the reload for 1 second to ensure all messages are shown
+            this.loadTrainingSessions();
           },
-          error: (error) => {
+          error => {
             console.error('Error when trying to add session:', error);
-            this.toaster.error('Error adding training session: ' + (error.error.message || 'Unknown error'));
+            this.toaster.error(`Error adding training session: ${error.error?.message || 'Unknown error'}`);
           }
-        });
+        );
       } else {
-        this.toaster.error('No valid room selected for internal session.');
+        this.trainingSessionService.addTrainingSessionWithRoom(requestData, roomId).subscribe(
+          data => {
+            console.log('Training session added successfully with room:', data);
+            this.toaster.success('Training session added successfully with room');
+            this.modalService.dismissAll();
+            this.newTrainingSessionForm.reset();
+            this.loadTrainingSessions();
+          },
+          error => {
+            console.error('Error when trying to add session with room:', error);
+            this.toaster.error(`Error adding training session with room: ${error.error?.message || 'Unknown error'}`);
+          }
+        );
       }
     } else {
       console.error('Form is invalid:', this.newTrainingSessionForm.value);
@@ -205,16 +320,21 @@ export class TrainingSessionComponent implements OnInit {
     }
   }
 
-  onRoomSelect() {
-    // Here you get the value from the form and check if it's not null
-    const room: Room | null = this.newTrainingSessionForm.get('room')?.value ?? null;
-    if (room) {
-      this.selectedRoom = room;
-    } else {
-      // Handle the case when no room is selected or the value is null
-      this.selectedRoom = null;
-    }
+
+  private handleResponse(data: TrainingSession): void {
+    console.log('Server Response:', data);
+    this.toaster.success('Training session added successfully');
+    this.modalService.dismissAll();
+    this.newTrainingSessionForm.reset();
+    setTimeout(() => window.location.reload(), 1000);
   }
+
+  private handleError(error: any): void {
+    console.error('Error when trying to add session:', error);
+    const errorMsg = error.error?.message || 'Unknown error';
+    this.toaster.error(`Error adding training session: ${errorMsg}`);
+  }
+
   openRoomDetailsModal() {
     if (this.selectedRoom) {
       // Logic to open modal goes here

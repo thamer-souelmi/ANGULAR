@@ -13,10 +13,35 @@
   --button-hover-green: #218838;
   --button-hover-red: #c82333;
 }
-
 .card {
-  border: 0;
+  flex: 0 1 calc(33.333% - 1rem); /* Adjust the basis and subtraction for margin */
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 2rem !important; /* Ensures that the bottom margin is applied */
+  box-sizing: border-box; /* Add this to include padding and border in the element's total width and height */
 }
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem; /* Space between cards */
+  justify-content: space-between; /* Even spacing */
+  align-items: stretch; /* Stretch cards to fill the container */
+  margin: 1rem 0; /* Top and bottom margin for the container */
+}
+
+
+/*.card-container .card:not(:first-child) {*/
+/*  margin-top: 2rem;*/
+
+/*}*/
+
+/* Assurez-vous que la carte prend tout l'espace disponible moins l'écart défini */
+/*.card-container .col-md-4 {*/
+/*  flex: 1 0 calc(33.33% - 2rem); !* Adaptation de la largeur en soustrayant l'espace entre les cartes *!*/
+/*  display: flex;*/
+/*  justify-content: center;*/
+/*}*/
 
 .card-header {
   background-color: var(--color-dark-blue);
@@ -27,10 +52,15 @@
 .card-body {
   background-color: #fff;
   border-left: 5px solid var(--color-soft-green);
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .card-footer {
   background-color: var(--color-light-blue);
+  margin-top: auto;
+
 }
 
 .btn-outline-secondary {
@@ -245,7 +275,10 @@ h2:hover::after {
   color: gold;
 }
 .event-card {
-  transition: transform .2s; /* Animation */
+  transition: transform .2s;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .event-card:hover {
@@ -273,7 +306,11 @@ h2:hover::after {
 }
 
 .event-card .card-body {
-  flex: 1; /* Stretch card body to take available space */
+  flex: 1; /* Permet au corps de la carte de se dilater et de remplir l'espace disponible */
+  display: flex; /* Affichage flex pour permettre à l'intérieur de s'étendre verticalement */
+  flex-direction: column; /* Alignement du contenu du haut vers le bas */
+  justify-content: space-between; /* Espacement du contenu de manière égale */
+
 }
 
 .read-more {
@@ -630,11 +667,20 @@ textarea:focus {
   visibility: visible;
   color: black;
 }
-
 @media (max-width: 768px) {
-  .btn {
-    padding: 0.25rem 0.5rem;
-    font-size: 0.875rem;
-    gap: 0.25rem;
+  .card {
+    flex-basis: calc(100% - 1rem); /* Full width minus margin on small screens */
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .card {
+    flex-basis: calc(50% - 1rem); /* Half width minus margin on medium screens */
+  }
+}
+
+@media (min-width: 1025px) {
+  .card {
+    flex-basis: calc(33.333% - 1rem); /* One third minus margin on large screens */
   }
 }

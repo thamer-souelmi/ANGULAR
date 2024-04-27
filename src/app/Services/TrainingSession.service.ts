@@ -10,6 +10,11 @@ import {Room} from "../Models/Room";
 })
 export class TrainingSessionService {
   private TrainingSessionUrl: string = 'http://localhost:8082/TrainingSession-TrainingSession/';
+  httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json'
+    })
+  };
 
   constructor(private http: HttpClient) { }
 
@@ -30,47 +35,64 @@ export class TrainingSessionService {
         })
       );
   }
-
-  // findAllRegistrationTS(): Observable<TrainingSession[]> {
-  //   return this.http.get<TrainingSession[]>(this.TrainingSessionUrl + 'findAllTrainingSession', { responseType: 'json' })
-  //     .pipe(
-  //       catchError((error: HttpErrorResponse) => {
-  //         if (error.error instanceof ErrorEvent) {
-  //           // Client-side or network error
-  //           console.error("Client-side error:", error.error.message);
-  //         } else {
-  //           // Backend returned an unsuccessful response code
-  //           console.error(`Backend returned code ${error.status}, body was: `, error.error);
-  //         }
-  //         return throwError(() => new Error('Error fetching training sessions, unable to load data.'));
-  //       })
-  //     );
-  // }
-
-
-
   findOneTrainingSession(ts_id: number): Observable<TrainingSession> {
     return this.http.get<TrainingSession>(`${this.TrainingSessionUrl}findOneTrainingSession/${ts_id}`);
   }
 
-  addTrainingSession(sessionData: any, roomId: number): Observable<any> {
-    const url = `${this.TrainingSessionUrl}addTrainingSession/${roomId}`;
-    return this.http.post(url, sessionData, {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    }).pipe(
-      catchError(this.handleError)
-    );
+  // addTrainingSession(sessionData: any, roomId?: number): Observable<any> {
+  //   const url = roomId ? `${this.TrainingSessionUrl}addTrainingSession/${roomId}` : `${this.TrainingSessionUrl}addTrainingSession`;
+  //
+  //   return this.http.post(url, sessionData, {
+  //     headers: new HttpHeaders({
+  //       'Content-Type': 'application/json'
+  //     })
+  //   }).pipe(
+  //     catchError(error => {
+  //       console.error('Error occurred:', error);
+  //       return throwError(() => new Error('An error occurred while sending data to the server.'));
+  //     })
+  //   );
+  // }
+  // addTrainingSessionWithoutRoom(sessionData: TrainingSession): Observable<TrainingSession> {
+  //   return this.http.post<TrainingSession>(`${this.TrainingSessionUrl}addTrainingSession`, sessionData);
+  // }
+  // addTrainingSessionWithRoom(sessionData: TrainingSession, roomId: number): Observable<TrainingSession> {
+  //   const url = `${this.TrainingSessionUrl}addTrainingSession/${roomId}`;
+  //   return this.http.post<TrainingSession>(url, sessionData);
+  // }
+
+  addTrainingSessionWithRoom(trainingSession: any, roomId: number): Observable<any> {
+    const url = `${this.TrainingSessionUrl}with-room/${roomId}`;
+    return this.http.post<any>(url, trainingSession, this.httpOptions)
+      .pipe(
+        catchError(error => {
+          console.error('Failed to add training session with room:', error);
+          return throwError(() => new Error('Failed to send request'));
+        })
+      );
   }
-  private handleError(error: any) {
+
+  addTrainingSessionWithoutRoom(sessionData: any) {
+    console.log('Sending data:', JSON.stringify(sessionData));
+    return this.http.post(`${this.TrainingSessionUrl}without-room`, sessionData, this.httpOptions)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+
+  private handleError(error: HttpErrorResponse) {
     let errorMessage = 'Unknown error!';
-    if (error) {
-      errorMessage = `Error: ${error.message}`;
+    if (error.error instanceof ErrorEvent) {
+      console.error('A client-side or network error occurred:', error.error.message);
+    } else {
+      console.error(`Backend returned code ${error.status}, body was: `, error.error);
+      errorMessage = `Error: ${error.status}, ${error.message}`;
     }
     console.error(errorMessage);
     return throwError(() => new Error(errorMessage));
   }
+
 
   UpdateTrainingSession(trainingSession: TrainingSession): Observable<TrainingSession> {
     return this.http.put<TrainingSession>(`${this.TrainingSessionUrl}UpdateTrainingSession`, trainingSession);

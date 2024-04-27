@@ -68,8 +68,8 @@
 .badge-online { background-color: #11966e; color: white; border: 1px solid #11966e; }
 .badge-offline { background-color: #3c7ea5; color: white; border: 1px solid #3c7ea5; }
 .badge-canceled { background-color: red; color: white; border: 1px solid red; }
-.badge-completed { background-color: #08718e; color: white; border: 1px solid #08718e; }
-.badge-ongoing { background-color: #fa7022; color: white; border: 1px solid #fa7022; }
+.badge-completed { background-color: #fa7022; color: white; border: 1px solid #fa7022; }
+.badge-ongoing { background-color: #08718e; color: white; border: 1px solid #08718e; }
 .badge-planned { background-color: #63a5ac; color: white; border: 1px solid #63a5ac; }
 
 .badges-container {
@@ -827,3 +827,4 @@ textarea:focus {
     width: calc(100% - 30px); /* Full width on extra small screens */
   }
 }
+/* styles.css */

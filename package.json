@@ -29,6 +29,7 @@
     "angular-calendar": "^0.31.0",
     "angular-feather": "^6.5.1",
     "angular-highcharts": "^16.0.0",
+    "axios": "^1.6.8",
     "bootstrap": "^5.3.3",
     "calendar-utils": "^0.10.4",
     "date-fns": "^3.6.0",

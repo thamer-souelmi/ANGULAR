@@ -110,7 +110,20 @@
               Topic is required.
             </div>
           </div>
+          <div class="mb-3">
+            <label for="target_audience" class="form-label">Target Audience</label>
+            <input type="text" class="form-control" id="target_audience" formControlName="target_audience">
+          </div>
 
+          <div class="mb-3">
+            <label for="session_outline" class="form-label">Session Outline</label>
+            <textarea class="form-control" id="session_outline" formControlName="session_outline" rows="3"></textarea>
+          </div>
+
+          <div class="mb-3">
+            <label for="expected_outcomes" class="form-label">Expected Outcomes</label>
+            <textarea class="form-control" id="expected_outcomes" formControlName="expected_outcomes" rows="3"></textarea>
+          </div>
 <!--          <div class="mb-3">-->
 <!--            <label for="Place" class="form-label">Place</label>-->
 <!--            <input type="text" class="form-control" id="Place" formControlName="Place" [ngClass]="{ 'invalid-input': newTrainingSessionForm.get('Place')?.invalid && newTrainingSessionForm.get('Place')?.touched }">-->
@@ -247,6 +260,10 @@
         <dt class="col-sm-4">Title:</dt>
         <dd class="col-sm-8">{{ selectedTrainingSession?.title }}</dd>
       </ng-container>
+      <ng-container *ngIf="selectedTrainingSession?.topic">
+        <dt class="col-sm-4">Topic:</dt>
+        <dd class="col-sm-8">{{ selectedTrainingSession?.topic }}</dd>
+      </ng-container>
 
       <ng-container *ngIf="selectedTrainingSession?.start_date">
         <dt class="col-sm-4">Start Date:</dt>
@@ -258,14 +275,19 @@
         <dd class="col-sm-8">{{ selectedTrainingSession?.finish_date | date: 'medium' }}</dd>
       </ng-container>
 
-      <ng-container *ngIf="selectedTrainingSession?.topic">
-        <dt class="col-sm-4">Topic:</dt>
-        <dd class="col-sm-8">{{ selectedTrainingSession?.topic }}</dd>
+      <ng-container *ngIf="selectedTrainingSession?.expected_outcomes">
+        <dt class="col-sm-4">Expected outcomes:</dt>
+        <dd class="col-sm-8">{{ selectedTrainingSession?.expected_outcomes }}</dd>
       </ng-container>
 
-      <ng-container *ngIf="selectedTrainingSession?.place">
-        <dt class="col-sm-4">Place:</dt>
-        <dd class="col-sm-8">{{ selectedTrainingSession?.place }}</dd>
+      <ng-container *ngIf="selectedTrainingSession?.target_audience">
+        <dt class="col-sm-4">Expected outcomes:</dt>
+        <dd class="col-sm-8">{{ selectedTrainingSession?.target_audience }}</dd>
+      </ng-container>
+
+      <ng-container *ngIf="selectedTrainingSession?.session_outline">
+        <dt class="col-sm-4">Expected outcomes:</dt>
+        <dd class="col-sm-8">{{ selectedTrainingSession?.session_outline }}</dd>
       </ng-container>
 
       <ng-container *ngIf="selectedTrainingSession?.capacity">
@@ -277,10 +299,14 @@
         <dt class="col-sm-4">Type:</dt>
         <dd class="col-sm-8">{{ selectedTrainingSession?.typeTS }}</dd>
       </ng-container>
+      <ng-container *ngIf="selectedTrainingSession?.placeType">
+        <dt class="col-sm-4">Place Type:</dt>
+        <dd class="col-sm-8">{{ selectedTrainingSession?.placeType }}</dd>
+      </ng-container>
 
-      <ng-container *ngIf="selectedTrainingSession?.tsStatus">
-        <dt class="col-sm-4">Status:</dt>
-        <dd class="col-sm-8">{{ selectedTrainingSession?.tsStatus }}</dd>
+      <ng-container *ngIf="selectedTrainingSession?.place">
+        <dt class="col-sm-4">Place:</dt>
+        <dd class="col-sm-8">{{ selectedTrainingSession?.place }}</dd>
       </ng-container>
 
       <ng-container *ngIf="selectedTrainingSession?.room?.nameRoom">
@@ -288,10 +314,14 @@
         <dd class="col-sm-8">{{ selectedTrainingSession?.room?.nameRoom }}</dd>
       </ng-container>
 
-      <ng-container *ngIf="selectedTrainingSession?.placeType">
-        <dt class="col-sm-4">Place Type:</dt>
-        <dd class="col-sm-8">{{ selectedTrainingSession?.placeType }}</dd>
+      <ng-container *ngIf="selectedTrainingSession?.tsStatus">
+        <dt class="col-sm-4">Status:</dt>
+        <dd class="col-sm-8">{{ selectedTrainingSession?.tsStatus }}</dd>
       </ng-container>
+
+
+
+
     </dl>
   </div>
   <div class="modal-footer">

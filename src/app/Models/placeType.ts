@@ -1,5 +1,6 @@
 
+
 export enum PlaceType {
-  INTERNAL = "INTERNAL",
-  EXTERNAL = "EXTERNAL"
+  EXTERNAL = "EXTERNAL",
+  INTERNAL = "INTERNAL"
 }
