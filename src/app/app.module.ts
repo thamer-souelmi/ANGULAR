@@ -63,6 +63,15 @@ import { ProjectFormComponent } from './FrontOffice/Pages/Project/project-form/p
 import { ProjectDetailsComponent } from './FrontOffice/Pages/Project/project-details/project-details.component';
 import { ProjectCalendarModalComponent } from './FrontOffice/Pages/Project/project-calendar-modal/project-calendar-modal.component';
 import { GetAllProjectComponent } from './FrontOffice/Pages/Project/get-all-project/get-all-project.component';
+import { ForgotPasswordComponent } from './BackOffice/Pages/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './BackOffice/Pages/reset-password/reset-password.component';
+import { UpdateUserComponent } from './BackOffice/Pages/update-user/update-user.component';
+import { UserDetailComponent } from './BackOffice/Pages/user-detail/user-detail.component';
+import { AddUserComponent } from './BackOffice/Pages/add-user/add-user.component';
+import { LeavesComponent } from './BackOffice/Pages/leaves/leaves.component';
+import { LeavesDetailsComponent } from './BackOffice/Pages/leaves-details/leaves-details.component';
+import { AddLeaveComponent } from './BackOffice/Pages/add-leave/add-leave.component';
+import { LeaveComponent } from './FrontOffice/Pages/leave/leave.component';
 
 
 @NgModule({
@@ -84,7 +93,7 @@ import { GetAllProjectComponent } from './FrontOffice/Pages/Project/get-all-proj
     AllTemplatBackComponent,
     LoginComponent,
     FindAllUsersComponent,
-    FilterJobPipe, 
+    FilterJobPipe,
     FindAllUsersComponent ,
     FilterJobPipe,
     ActivityBComponent,
@@ -99,6 +108,15 @@ import { GetAllProjectComponent } from './FrontOffice/Pages/Project/get-all-proj
     ProjectDetailsComponent,
     ProjectCalendarModalComponent,
     GetAllProjectComponent,
+    ForgotPasswordComponent,
+    ResetPasswordComponent,
+    UpdateUserComponent,
+    UserDetailComponent,
+    AddUserComponent,
+    LeavesComponent,
+    LeavesDetailsComponent,
+    AddLeaveComponent,
+    LeaveComponent,
   ],
   imports: [
     BrowserModule,
