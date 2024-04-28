@@ -112,6 +112,8 @@ import { RegistrationBComponent } from './BackOffice/Pages/registration-b/regist
 import {
   TrainingSessionComponent} from './FrontOffice/pages/training-session/training-session.component';
 import {MatGridListModule} from "@angular/material/grid-list";
+import { ScreenshotComponent } from './FrontOffice/pages/screenshot/screenshot.component';
+import { ScreenshotDisplayComponent } from './BackOffice/Pages/screenshot-display/screenshot-display.component';
 
 
 
@@ -205,6 +207,8 @@ import {MatGridListModule} from "@angular/material/grid-list";
     ProjectDetailsComponent,
     ProjectCalendarModalComponent,
     GetAllProjectComponent,
+    ScreenshotComponent,
+    ScreenshotDisplayComponent,
   ],
   imports: [
     BrowserModule,

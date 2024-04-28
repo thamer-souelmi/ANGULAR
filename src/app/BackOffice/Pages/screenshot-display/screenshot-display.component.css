@@ -1,0 +1,26 @@
+
+
+
+  .container {
+    max-width: 65%; /* Ensure it spans the entire width */
+  }
+  
+  /* Adjust the width of the carousel images */
+  .carousel-inner img {
+    max-width: 100%; /* Adjust as needed */
+    height: auto; /* Maintain aspect ratio */
+  }
+
+  .landing-box {
+    background-color: #d4edda; /* Green background color */
+    border-color: #c3e6cb; /* Green border color */
+    border-radius: 0.25rem; /* Rounded corners */
+    border: 1px solid transparent; /* Border style */
+    padding: 1rem; /* Padding */
+    margin-bottom: 1rem; /* Margin */
+  }
+  
+  .landing-box p {
+    margin: 0; /* Remove default margin for paragraphs */
+  }
+  

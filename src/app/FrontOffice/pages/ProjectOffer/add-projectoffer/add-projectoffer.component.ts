@@ -29,6 +29,8 @@ export class AddProjectofferComponent {
     this.ProjectOfferForm = this.formBuilder.group({
       projectTitle: ['', Validators.required],
       description: ['', Validators.required],
+      companyname: ['', Validators.required],
+      companyemail: ['', Validators.required],
       status: ['PENDING', Validators.required],
       postedDate: [this.data.date], // Initialize with the passed date
 

@@ -22,6 +22,8 @@ export class UpdateProjectofferComponent implements  OnInit{
   constructor( private route: ActivatedRoute,private router: Router,private formBuilder: FormBuilder, private po: ProjectOfferService, private location: Location) {
     this.ProjectOfferForm = this.formBuilder.group({
       projectTitle: ['', Validators.required],
+      companyemail: ['', Validators.required],
+      companyname: ['', Validators.required],
       description: ['', Validators.required],
       status: ['', Validators.required],
       postedDate: [new Date()],
@@ -46,6 +48,8 @@ export class UpdateProjectofferComponent implements  OnInit{
         this.ProjectOfferForm.patchValue(
           {
             projectTitle: projectOffer.projectTitle,
+            companyemail:projectOffer.companyemail,
+            companyname:projectOffer.companyname,
             description: projectOffer.description,
             status: projectOffer.status,
             postedDate: projectOffer.postedDate,

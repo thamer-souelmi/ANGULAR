@@ -27,6 +27,24 @@
       </div>
   
       <div class="form-group">
+        <label for="companyemail">companyemail:</label>
+        <input class="form-control" id="companyemail" formControlName="companyemail" required>
+        <div
+          *ngIf="ProjectOfferForm.get('companyemail')?.hasError('required') && ProjectOfferForm.get('companyemail')?.touched">
+          companyemail is required.
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="companyname">companyname:</label>
+        <input class="form-control" id="companyname" formControlName="companyname" required>
+        <div
+          *ngIf="ProjectOfferForm.get('companyname')?.hasError('required') && ProjectOfferForm.get('companyname')?.touched">
+          companyname is required.
+        </div>
+      </div>
+
+
+      <div class="form-group">
         <label for="description">Description:</label>
         <textarea class="form-control" id="description" formControlName="description" required></textarea>
         <div

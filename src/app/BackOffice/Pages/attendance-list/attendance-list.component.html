@@ -1,28 +1,27 @@
-<h2>Attendance List</h2>
-<table>
-    <thead>
-        <tr>
-            <th>Attendance ID</th>
-            <th>Presence</th>
-            <th>Approved</th>
-            <th>Reason</th>
-            <th>Type</th>
-            <th>Date</th>
+<div class="container">
+  <h2>Attendance Declaration</h2>
 
-            <th>Employee</th>
-            <th>Admin</th>
-        </tr>
+  <table class="attendance-table">
+    <thead>
+      <tr>
+        <th>Attendance ID</th>
+        <th>Presence</th>
+        <th>Start Time</th>
+        <th>End Time</th>
+        <th>Worked Hours</th>
+        <th>Employee</th>
+      </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let attendance of attendanceList">
-            <td (dblclick)="editField($event, 'attendenceId', attendance)">{{ attendance.attendenceId }}</td>
-            <td (dblclick)="editField($event, 'presence', attendance)">{{ attendance.presence }}</td>
-            <td (dblclick)="editField($event, 'approved', attendance)">{{ attendance.approved }}</td>
-            <td (dblclick)="editField($event, 'reason', attendance)">{{ attendance.reason }}</td>
-            <td (dblclick)="editField($event, 'typeAttendance', attendance)">{{ attendance.typeAttendance }}</td>
-            <td>{{ attendance.date }}</td>
-            <td (dblclick)="editField($event, 'employee', attendance)">{{ attendance.employee?.lastname }}</td>
-            <td (dblclick)="editField($event, 'admin', attendance)">{{ attendance.admin?.firstname }}</td>
-        </tr>
+      <tr *ngFor="let attendance of attendanceList">
+        <td>{{ attendance.attendenceId }}</td>
+        <td>{{ attendance.presence }}</td>
+        <td>{{ attendance.start }}</td>
+        <td>{{ attendance.end }}</td>
+        <td>{{ attendance.workedHours }}</td>
+        <td>{{ attendance.employee?.firstname }} {{ attendance.employee?.lastname }}</td>
+      </tr>
     </tbody>
-</table>
+  </table>
+
+</div>

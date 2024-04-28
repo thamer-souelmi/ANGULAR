@@ -101,7 +101,7 @@
               "src/assets"
             ],
             "styles": [
-              "node_modules/ngx-toastr/toastr.css" ,
+              "node_modules/ngx-toastr/toastr.css",
               "node_modules/angular-calendar/css/angular-calendar.css",
               "src/styles.css",
               "src/assets/BackOffice/styles/style.scss"

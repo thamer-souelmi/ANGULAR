@@ -10,6 +10,8 @@ export enum ProjectOfferStatus {
       projectTitle!: string;
       description!: string;
       postedDate!: Date
+      companyname!:String; // New attribute
+      companyemail!:String; // New attribute
       status!: ProjectOfferStatus;
   
       constructor() {

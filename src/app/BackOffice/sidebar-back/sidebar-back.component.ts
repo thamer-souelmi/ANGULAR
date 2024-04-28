@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {Observable} from "rxjs";
+import {Observable, Subscription} from "rxjs";
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { map, shareReplay } from 'rxjs/operators';
 import {StorageService} from "../../Services/storage.service";
@@ -29,7 +29,6 @@ export class SidebarBackComponent {
     ngOnInit(): void {
       this.name= this.storageService.getUserS.name;
       console.log("Name in sidebar "+this.name);
-     
 
     }
   constructor(private breakpointObserver: BreakpointObserver,private storageService: StorageService,
@@ -55,6 +54,16 @@ export class SidebarBackComponent {
       link: "/back/inactiveprojectoffer",
       icon: "info",
       menu: "Inactive P.O",
+    },
+    {
+      link: "/back/screenshots",
+      icon: "eye",
+      menu: "Activity Tracking",
+    },
+    {
+      link: "/back/atte",
+      icon: "clock",
+      menu: "Attendance",
     },
     {
       link: "/grid-list",

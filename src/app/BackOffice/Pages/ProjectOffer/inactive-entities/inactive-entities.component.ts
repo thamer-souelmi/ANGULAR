@@ -23,30 +23,30 @@ export class InactiveEntitiesComponent implements OnInit {
 
   ngOnInit(): void {
     this.fetchInactiveEntityIds(); // Fetch inactive entity IDs when component initializes
-    this.inactiveProjectOffers.subscribe(offers => {
-      if (offers && offers.length > 0) {
-        offers.forEach((projectOffer, index) => {
-          setTimeout(() => {
-            this.showInactiveProjectOffer(projectOffer);
-          }, index * 6000); // Show each offer with a 5-second delay
-        });
-      }
-    });
+    // this.inactiveProjectOffers.subscribe(offers => {
+    //   if (offers && offers.length > 0) {
+    //     offers.forEach((projectOffer, index) => {
+    //       setTimeout(() => {
+    //         this.showInactiveProjectOffer(projectOffer);
+    //       }, index * 6000); // Show each offer with a 5-second delay
+    //     });
+    //   }
+    // });
   }
 
-  showInactiveProjectOffer(projectOffer: ProjectOffer): void {
-    const snackBarRef = this.snackBar.openFromComponent(CustomSnackBarComponent, {
-      duration: 5000, // Display the notification for 5 seconds
-      data: { icon: 'notifications', title: projectOffer.projectTitle, message: projectOffer.description },
-      panelClass: ['custom-snack-bar'] // Add custom panel class to style the snack bar
-    });
+  // showInactiveProjectOffer(projectOffer: ProjectOffer): void {
+  //   const snackBarRef = this.snackBar.openFromComponent(CustomSnackBarComponent, {
+  //     duration: 5000, // Display the notification for 5 seconds
+  //     data: { icon: 'notifications', title: projectOffer.projectTitle, message: projectOffer.description },
+  //     panelClass: ['custom-snack-bar'] // Add custom panel class to style the snack bar
+  //   });
 
-    // Handle click on the snack bar to view content
-    snackBarRef.onAction().subscribe(() => {
-      // Dismiss the snack bar when action button is clicked
-      snackBarRef.dismiss();
-    });
-  }
+  //   // Handle click on the snack bar to view content
+  //   snackBarRef.onAction().subscribe(() => {
+  //     // Dismiss the snack bar when action button is clicked
+  //     snackBarRef.dismiss();
+  //   });
+  // }
 
   fetchInactiveEntityIds(): void {
     this.inactiveEntityIds = this.actionLogService.getInactiveEntityIds();

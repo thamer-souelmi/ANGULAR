@@ -1,0 +1,35 @@
+<!-- <div *ngFor="let imagePath of screenshots">
+    <img [src]="imagePath" alt="Screenshot">
+  </div>
+   -->
+
+   <!-- screenshot-display.component.html -->
+<!-- <div *ngFor="let imagePath of screenshots">
+    <img [src]="imagePath" alt="Screenshot" width="50%" length="50%">
+</div> -->
+
+
+<div class="container">
+    <select class="form-select" (change)="onSelectUser($event)">
+      <option *ngFor="let user of users ?? []" [value]="user.userId">{{ user.firstname }}</option>
+    </select>
+    <div *ngIf="screenshots.length === 0" class="landing-box">
+        No image to display
+      </div>
+    <div *ngIf="screenshots.length > 0" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        <div *ngFor="let imagePath of screenshots; let i = index" class="carousel-item" [ngClass]="{ 'active': i === 0 }">
+          <img [src]="imagePath" class="d-block w-100" alt="Screenshot">
+        </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target=".carousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target=".carousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+  </div>
+  

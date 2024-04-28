@@ -64,6 +64,7 @@ import { UpdateQuoteComponent } from './FrontOffice/pages/Quote/update-quote/upd
 import { GetQuotesComponent } from './FrontOffice/pages/Quote/get-quotes/get-quotes.component';
 import { AddQuoteComponent } from './FrontOffice/pages/Quote/add-quote/add-quote.component';
 import { UpdateProjectofferComponent } from './FrontOffice/pages/ProjectOffer/update-projectoffer/update-projectoffer.component';
+import { ScreenshotDisplayComponent } from './BackOffice/Pages/screenshot-display/screenshot-display.component';
 
 
 
@@ -94,11 +95,15 @@ const routes: Routes = [
       { path: 'inactiveprojectoffer', component: InactiveEntitiesComponent },
 
 
+
       {path:"findall", component:FindAllUsersComponent},
 
       { path: 'dataflow', component: DataFlowLineageComponent },
       { path: 'projectofferflow', component: ActionLogDiagramComponent },
       { path: 'atte', component: AttendanceListComponent },
+      { path: 'atte', component: AttendanceListComponent },
+      { path: 'screenshots', component: ScreenshotDisplayComponent },
+
 
 
       {path: "findAllJobOffersback", component: FindAllJobOffersBackComponent},

@@ -1,11 +1,13 @@
 <div class="container">
-    <h2>Attendance Declaration</h2>
-    <form (ngSubmit)="submitAttendance()">
-      <div class="form-group">
-        <label for="presence">Presence:</label>
-        <input type="checkbox" id="presence" [(ngModel)]="attendance.presence" name="presence">
-      </div>
-      <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
-  </div>
+  <!-- <h2>Attendance Tracking</h2> -->
+
+  <button (click)="startAttendance()" [disabled]="timerActive">Start Hours Count</button>
+  <!-- <app-screenshot></app-screenshot> -->
+
+  <div *ngIf="startAttendanceSuccess" class="success-message">Attendance started successfully.</div>
   
+  <button (click)="stopTimer()" [disabled]="!timerActive">Stop</button>
+  <div *ngIf="stopAttendanceSuccess" class="success-message">Attendance stopped successfully.</div>
+  
+  <div id="timer">{{ formattedTime }}</div> 
+</div>

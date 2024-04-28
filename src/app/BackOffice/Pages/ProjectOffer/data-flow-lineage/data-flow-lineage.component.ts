@@ -8,8 +8,9 @@ import { Observable, forkJoin, switchMap } from 'rxjs';
 import { symbol } from 'd3-shape'; // Adjust the path accordingly
 import { timeMinute } from 'd3-time';
 import { Path } from 'd3-path';
-import { MatSnackBarConfig, MatSnackBar } from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarConfig, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { ActionLogService } from 'src/app/Services/action-log.service';
+import { CustomSnackBarComponent } from '../custom-snack-bar/custom-snack-bar.component';
 
 
 interface NodeDatum extends d3.SimulationNodeDatum {
@@ -68,13 +69,32 @@ export class DataFlowLineageComponent implements OnInit {
       })
     );
   }
+  // showInactiveProjectOffer(projectOffer: ProjectOffer): void {
+  //   const config = new MatSnackBarConfig();
+  //   config.horizontalPosition = 'end'; // Align snack bar to the right
+  //   config.verticalPosition = 'top'; // Align snack bar to the top
+  //   const snackBarRef = this.snackBar.open(`Project Title: ${projectOffer.projectTitle}`, 'Dismiss', {
+  //     duration: 5000, // Display the notification for 5 seconds
+  //     data: { icon: 'notifications', title: projectOffer.projectTitle, message: projectOffer.description },
+  //     ...config // Merge custom configuration with default configuration
+  //   });
+
+  //   // Handle click on the snack bar to view content
+  //   snackBarRef.onAction().subscribe(() => {
+  //     // Implement the action when the user clicks on the snack bar
+  //     console.log('SnackBar clicked');
+  //   });
+  // }
+
+
+  //notif using component customsnackbar : 
   showInactiveProjectOffer(projectOffer: ProjectOffer): void {
     const config = new MatSnackBarConfig();
     config.horizontalPosition = 'end'; // Align snack bar to the right
     config.verticalPosition = 'top'; // Align snack bar to the top
-    const snackBarRef = this.snackBar.open(`Project Title: ${projectOffer.projectTitle}`, 'Dismiss', {
+    const message = `⌛ Project Title: ${projectOffer.projectTitle}\n${projectOffer.description}`; // Include clock icon in message
+    const snackBarRef = this.snackBar.open(message, 'Dismiss', {
       duration: 5000, // Display the notification for 5 seconds
-      data: { icon: 'notifications', title: projectOffer.projectTitle, message: projectOffer.description },
       ...config // Merge custom configuration with default configuration
     });
 
@@ -84,6 +104,7 @@ export class DataFlowLineageComponent implements OnInit {
       console.log('SnackBar clicked');
     });
   }
+  //notif useing component : 
 
   //notification AFK
   fetchDataAndGenerateDiagram() {

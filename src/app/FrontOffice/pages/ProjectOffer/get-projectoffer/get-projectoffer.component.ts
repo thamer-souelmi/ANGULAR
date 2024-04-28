@@ -46,9 +46,9 @@ export class GetProjectofferComponent {
     // });
   }
   
-  updateProjectOffer(projectofferid: number) {
-    this.router.navigate(['/projectoffer/update-project-offer', projectofferid]);
-  }
+  // updateProjectOffer(projectofferid: number) {
+  //   this.router.navigate(['/projectoffer/update-project-offer', projectofferid]);
+  // }
   filterProjectOffers(): void {
     if (!this.searchText || this.searchText.trim().length === 0) {
       // If searchText is empty or only contains whitespace, reset projectoffers to its original state
@@ -76,12 +76,10 @@ export class GetProjectofferComponent {
       window.location.href = eventInfo.event.url;
     }
   }
-
-
+  
   ngOnInit() {
     this.getallprojectoffer();
   }
-
 
   deleteProjectOffer(projectofferid: number) {
     if (confirm('Are you sure you want to delete this job offer?')) {

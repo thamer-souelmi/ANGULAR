@@ -1,17 +1,33 @@
-.attendance-cards {
-    display: flex;
-    flex-wrap: wrap;
-  }
+.attendance-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.attendance-table th, .attendance-table td {
+  padding: 8px;
+  border: 1px solid #ddd;
+}
+
+.attendance-table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+.attendance-table tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.attendance-table tbody tr:hover {
+  background-color: #ddd;
+}
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+h2 {
+  color: #333;
+  font-size: x-large;
   
-  .attendance-card {
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 10px;
-    margin: 10px;
-    width: 200px; /* Adjust as needed */
-  }
-  
-  .card-item {
-    margin-bottom: 5px;
-  }
-  
+}

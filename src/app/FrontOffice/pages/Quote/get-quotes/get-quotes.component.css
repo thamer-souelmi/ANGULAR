@@ -82,4 +82,26 @@ box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);}
   tr:hover {
     background-color: #F2B705;
   }
-  
+  .card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+   }
+   
+   .quote-card {
+    margin: 10px;
+    width: calc(33% - 20px); /* Ajustez la largeur en fonction de vos besoins */
+   }
+   
+   @media (max-width: 768px) {
+    .quote-card {
+       width: calc(50% - 20px);
+    }
+   }
+   
+   @media (max-width: 480px) {
+    .quote-card {
+       width: 100%;
+    }
+   }
+   

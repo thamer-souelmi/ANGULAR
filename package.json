@@ -42,6 +42,7 @@
     "file-saver": "^2.0.5",
     "highcharts": "^11.4.1",
     "html2canvas": "^1.4.1",
+    "image-capture": "^0.4.0",
     "jspdf": "^2.5.1",
     "jspdf-html2canvas": "^1.5.2",
     "leaflet": "^1.9.4",

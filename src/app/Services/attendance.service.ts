@@ -1,28 +1,58 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { Attendance } from '../Models/Attendance';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AttendanceService {
-  private baseUrl = 'http://localhost:8082/attendance'; // Update with your backend base URL
+  private baseUrl = 'http://localhost:8082/attendance';
+  private startTimeKey = 'attendanceStartTime';
+
 
   constructor(private http: HttpClient) { }
 
-  // Method to add attendance
-  addAttendance(attendance: Attendance): Observable<Attendance> {
-    return this.http.post<Attendance>(`${this.baseUrl}/add`, attendance);
+  getStartTime(): number | null {
+    const startTime = localStorage.getItem(this.startTimeKey);
+    return startTime ? parseInt(startTime, 10) : null;
   }
 
-  // Method to fetch attendance data
-  getAttendance(): Observable<Attendance[]> {
+  setStartTime(startTime: number): void {
+    localStorage.setItem(this.startTimeKey, startTime.toString());
+  }
+
+  clearStartTime(): void {
+    localStorage.removeItem(this.startTimeKey);
+  }
+
+  getAllAttendances(): Observable<Attendance[]> {
     return this.http.get<Attendance[]>(`${this.baseUrl}/all`);
   }
 
-  updateAttendance(attendance: Attendance): Observable<Attendance> {
-    const url = `${this.baseUrl}/update/${attendance.attendenceId}`; // Assuming 'attendanceId' is the primary key
-    return this.http.put<Attendance>(url, attendance);
+  startAttendance(userId: number): Observable<number> { // Modifié pour retourner le type number
+    return this.http.post<number>(`${this.baseUrl}/start?userId=${userId}`, null).pipe(
+      tap(response => console.log('Start Attendance Response:', response))
+    );
+  }
+
+  addAttendance(userId: number, attendance: Attendance): Observable<Attendance> {
+    return this.http.post<Attendance>(`${this.baseUrl}/add/${userId}`, attendance);
+  }
+
+  updateAttendance(attendanceId: number, attendance: Attendance): Observable<Attendance> {
+    return this.http.put<Attendance>(`${this.baseUrl}/update/${attendanceId}`, attendance);
+  }
+
+  getAttendanceById(attendanceId: number): Observable<Attendance> {
+    return this.http.get<Attendance>(`${this.baseUrl}/get/${attendanceId}`);
+  }
+
+  deleteAttendance(attendanceId: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/remove/${attendanceId}`);
+  }
+
+  endAttendance(attendanceId: number): Observable<void> {
+    return this.http.post<void>(`${this.baseUrl}/end/${attendanceId}`, null);
   }
 }
