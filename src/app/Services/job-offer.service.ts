@@ -24,8 +24,8 @@ export class JobOfferService {
     return this.myHttp.get<JobOffer>(`${this.urlJobOffer}/getJobOffer/${jobId}`);
   }
 
-  updateJobOffer(jobOffer: JobOffer): Observable<void> {
-    return this.myHttp.put<void>(`${this.urlJobOffer}/updateJobOffer`, jobOffer);
+  updateJobOffer(jobOfferId: number,jobOffer: JobOffer): Observable<void> {
+    return this.myHttp.put<void>(`${this.urlJobOffer}/updateJobOffer${jobOfferId}`, jobOffer);
   }
   // updateJobOffer(jobOfferId: number, jobOffer: JobOffer): Observable<JobOffer> {
   //   return this.myHttp.put<JobOffer>(`${this.urlJobOffer}/${jobOfferId}`, jobOffer);
