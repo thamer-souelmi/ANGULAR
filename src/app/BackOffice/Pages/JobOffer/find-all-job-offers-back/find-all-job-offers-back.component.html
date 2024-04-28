@@ -53,7 +53,7 @@
 </div>
 <div class="container">
   <div class="row">
-    <div class="col-md-4 mb-4" *ngFor="let jobOffer of jobOffers | filterJob:searchtext">
+    <div class="col-md-4 mb-4" *ngFor="let jobOffer of getPaginatedItems() | filterJob:searchtext">
       <div class="card" style="background-color: white;">
         <div class="card-body">
           <h4 class="card-title">{{ jobOffer.titleJobOffer }}</h4>
@@ -74,7 +74,7 @@
           </button>
           <div class="d-flex justify-content-end">
             <a mat-raised-button
-               matTooltip="Show related Candidacies" [routerLink]="['/findAllJobCandidaciesBack', jobOffer.jobOffer_id]" class="btn btn-primary btn-icon" style="background-color: #fb6d1c;">
+               matTooltip="Show related Candidacies" [routerLink]="['/back/findAllJobCandidaciesBack', jobOffer.jobOffer_id]" class="btn btn-primary btn-icon" style="background-color: #fb6d1c;">
               <i class="fas fa-users" style="color: white;"></i>
             </a>
           </div>
@@ -84,8 +84,22 @@
     </div>
   </div>
 </div>
-<mat-paginator [length]="jobOffers.length"
-               [pageSize]="pageSize"
-               [pageSizeOptions]="pageSizeOptions"
-               (page)="onPageChange($event)">
-</mat-paginator>
+<br>
+<br>
+<!-- Pagination controls -->
+<div class="d-flex justify-content-center">
+  <div class="pagination">
+    <button class="btn btn-primary" (click)="onPageChange(currentPage - 1)" [disabled]="currentPage === 1">
+      <i class="fa fa-chevron-left"></i> <!-- Left arrow icon -->
+    </button>
+    <!-- Display page numbers -->
+    <ng-container *ngFor="let page of getPaginationNumbers()">
+      <button class="btn btn-primary" [class.active]="page === currentPage" (click)="onPageChange(page)">
+        {{ page }}
+      </button>
+    </ng-container>
+    <button class="btn btn-primary" (click)="onPageChange(currentPage + 1)" [disabled]="currentPage === getTotalPages()">
+      <i class="fa fa-chevron-right"></i> <!-- Right arrow icon -->
+    </button>
+  </div>
+</div>

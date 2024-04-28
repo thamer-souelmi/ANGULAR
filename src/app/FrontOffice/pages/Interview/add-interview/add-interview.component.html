@@ -1,0 +1,50 @@
+<div class="modal-container">
+  <div class="modal-header">
+    <h2>Add Interview</h2>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="interviewForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="candidateName">Select Candidate:</label>
+        <select class="form-control" id="candidateName" formControlName="candidateName">
+          <!-- interview.html -->
+          <option *ngFor="let candidate of candidates" [value]="candidate.candidacy_id">{{ candidate.candidateName }}</option>
+        </select>
+        <div *ngIf="interviewForm.get('candidateName')?.invalid && interviewForm.get('candidateName')?.touched">
+          Candidate Name is required.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="dateInterview">Interview Date:</label>
+        <input type="date" class="form-control" id="dateInterview" formControlName="dateInterview">
+        <div *ngIf="interviewForm.get('dateInterview')?.invalid && interviewForm.get('dateInterview')?.touched">
+          Interview Date is required.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="statusInterview">Interview Status:</label>
+        <select class="form-control" id="statusInterview" formControlName="statusInterview">
+          <option value="0">Scheduled</option>
+          <option value="1">In Progress</option>
+          <option value="2">Completed</option>
+          <option value="3">Canceled</option>
+        </select>
+        <div *ngIf="interviewForm.get('statusInterview')?.invalid && interviewForm.get('statusInterview')?.touched">
+          Interview Status is required.
+        </div>
+      </div>
+
+<!--      <div class="form-group">-->
+<!--        <label for="passed">Passed:</label>-->
+<!--        <input type="checkbox" class="form-control" id="passed" formControlName="passed">-->
+<!--      </div>-->
+
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" [disabled]="!interviewForm.valid">Add Interview</button>
+        <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>

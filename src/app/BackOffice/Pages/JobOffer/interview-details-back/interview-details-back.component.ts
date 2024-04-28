@@ -42,6 +42,6 @@ export class InterviewDetailsBackComponent implements OnInit{
       });
   }
   navigateToStatistics() {
-    this.route.navigate(['/statisticsInterviews']);
+    this.route.navigate(['/back/statisticsInterviews']);
   }
 }

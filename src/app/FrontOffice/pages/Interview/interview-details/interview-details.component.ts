@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dial
 import {  Router } from '@angular/router';
 import { Interview } from 'src/app/Models/interview';
 import {UpdateInterviewComponent} from "../update-interview/update-interview.component";
+import { JitsiComponent } from '../jitsi/jitsi.component'; // Import the JitsiComponent
 
 @Component({
   selector: 'app-interview-details',
@@ -29,6 +30,18 @@ export class InterviewDetailsComponent implements OnInit{
     });
 
     dialogRef.afterClosed().subscribe(result => {
+    });
+  }
+  // Function to open the Jitsi meeting
+  openJitsiMeeting(): void {
+    const dialogRef = this.dialog.open(JitsiComponent, {
+      width: '900px', // Adjust width and height as needed
+      height: '500px',
+      data: { interview: this.interview }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      // Handle any actions after the meeting is closed
     });
   }
 
