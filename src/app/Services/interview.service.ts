@@ -7,33 +7,36 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class InterviewService {
-  urlIntrview: string = "http://localhost:8082/Interview";
+  urlInterview: string = "http://localhost:8082/Interview";
 
 
   constructor(private myHttp: HttpClient) { }
   findAllInterviews(): Observable<Interview[]> {
-    return this.myHttp.get<Interview[]>(this.urlIntrview + '/findAllInterviews');
+    return this.myHttp.get<Interview[]>(this.urlInterview + '/findAllInterviews');
   }
-  addInterview(interview: Interview): Observable<Interview> {
-    return this.myHttp.post<Interview>(this.urlIntrview + '/addInterview', interview);
+  // addInterview(interview: Interview): Observable<Interview> {
+  //   return this.myHttp.post<Interview>(this.urlInterview + '/addInterview', interview);
+  // }
+  addInterview(candidacyId: number, interview: Interview): Observable<Interview> {
+    return this.myHttp.post<Interview>(`${this.urlInterview}/addInterview/${candidacyId}`, interview);
   }
   getInterview(id: number): Observable<Interview> {
-    return this.myHttp.get<Interview>(`${this.urlIntrview}/getInterview/${id}`);
+    return this.myHttp.get<Interview>(`${this.urlInterview}/getInterview/${id}`);
   }
 
   updateInterview(id: Interview): Observable<void> {
-    return this.myHttp.put<void>(`${this.urlIntrview}/updateInterview`, id);
+    return this.myHttp.put<void>(`${this.urlInterview}/updateInterview`, id);
   }
   deleteInterview(id: number): Observable<void> {
-    return this.myHttp.delete<void>(`${this.urlIntrview}/deleteInterviewById/${id}`);
+    return this.myHttp.delete<void>(`${this.urlInterview}/deleteInterviewById/${id}`);
   }
   getSuccessRate(): Observable<Map<string, number>> {
-    return this.myHttp.get<Map<string, number>>(`${this.urlIntrview}/success-rate`);
+    return this.myHttp.get<Map<string, number>>(`${this.urlInterview}/success-rate`);
   }
   findAllInterviewsWithCandidateNamesAndEmail(): Observable<Interview[]> {
-    return this.myHttp.get<Interview[]>(`${this.urlIntrview}/findAllInterviewsWithCandidateNamesAndEmail`);
+    return this.myHttp.get<Interview[]>(`${this.urlInterview}/findAllInterviewsWithCandidateNamesAndEmail`);
   }
   findInterviewsByCandidacyId(candidacyId: number): Observable<Interview[]> {
-    return this.myHttp.get<Interview[]>(`${this.urlIntrview}/findInterviewsByCandidacyId/${candidacyId}`);
+    return this.myHttp.get<Interview[]>(`${this.urlInterview}/findInterviewsByCandidacyId/${candidacyId}`);
   }
 }

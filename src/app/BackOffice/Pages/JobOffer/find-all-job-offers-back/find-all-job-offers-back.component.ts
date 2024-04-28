@@ -22,8 +22,8 @@ import {JobOfferDetailsBackComponent} from "../job-offer-details-back/job-offer-
 export class FindAllJobOffersBackComponent implements OnInit, AfterViewInit{
   jobOffers: JobOffer[] = [];
   searchtext:any;
-  pageSizeOptions: number[] = [4, 8, 16];
-  pageSize: number = 16;
+  currentPage: number = 1; // Current page
+  itemsPerPage: number = 6; // Items per page
   selectedJobOfferDetails: JobOffer | null = null;
   private jobOfferDetailsModalRef: NgbModalRef | undefined;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -44,14 +44,27 @@ export class FindAllJobOffersBackComponent implements OnInit, AfterViewInit{
   }
 
   ngAfterViewInit() {
-    // Set the paginator after the view initialization
-    this.paginator.pageSize = this.pageSize;
-    this.paginator.pageSizeOptions = this.pageSizeOptions;
+
   }
 
+  onPageChange(pageNumber: number) {
+    this.currentPage = pageNumber;
+  }
 
-  onPageChange(event: any) {
-    this.pageSize = event.pageSize;
+  getPaginatedItems() {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    return this.jobOffers.slice(startIndex, startIndex + this.itemsPerPage);
+  }
+  getTotalPages(): number {
+    return Math.ceil(this.jobOffers.length / this.itemsPerPage);
+  }
+  getPaginationNumbers(): number[] {
+    const totalPages = this.getTotalPages();
+    const pagesArray = [];
+    for (let i = 1; i <= totalPages; i++) {
+      pagesArray.push(i);
+    }
+    return pagesArray;
   }
 
 
@@ -97,7 +110,7 @@ export class FindAllJobOffersBackComponent implements OnInit, AfterViewInit{
     return this.candidacyService.countCandidaciesByJobOfferId(jobOffer.jobOffer_id);
   }
   navigateToStatistics() {
-    this.router.navigate(['/statisticsHR']);
+    this.router.navigate(['/back/statisticsHR']);
   }
   // openDetailsModal(activity: JobOffer): void {
   //   console.log('Selected Job Offer ID:', activity.jobOffer_id); // Log the ID of the selected job offer

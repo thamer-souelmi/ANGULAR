@@ -106,6 +106,12 @@ import { LeavesDetailsComponent } from './BackOffice/Pages/leaves-details/leaves
 import { AddLeaveComponent } from './BackOffice/Pages/add-leave/add-leave.component';
 import { LeaveComponent } from './FrontOffice/Pages/leave/leave.component';
 import { JitsiComponent } from './FrontOffice/pages/Interview/jitsi/jitsi.component';
+import { AddInterviewComponent } from './FrontOffice/pages/Interview/add-interview/add-interview.component';
+import { FindAllQuizComponent } from './BackOffice/Pages/Quiz/find-all-quiz/find-all-quiz.component';
+import { ChunkPipe } from './BackOffice/Pages/Quiz/chunk.pipe';
+import { MatBadgeModule } from '@angular/material/badge';
+import { AddQuizQuestionComponent } from './BackOffice/Pages/Quiz/add-quiz-question/add-quiz-question.component';
+import { EditQuizQuestionComponent } from './BackOffice/Pages/Quiz/edit-quiz-question/edit-quiz-question.component';
 import { RoomComponent } from './BackOffice/Pages/room/room.component';
 import {BsDropdownModule} from "ngx-bootstrap/dropdown";
 import {JoinPipe} from "./join.pipe";
@@ -182,6 +188,11 @@ import {JoinPipe} from "./join.pipe";
     LeaveComponent,
 
     JitsiComponent,
+    AddInterviewComponent,
+    FindAllQuizComponent,
+    ChunkPipe,
+    AddQuizQuestionComponent,
+    EditQuizQuestionComponent,
     RoomComponent,
     JoinPipe
 
@@ -251,6 +262,7 @@ import {JoinPipe} from "./join.pipe";
 
     MatCardModule,
     MatGridListModule,
+    MatBadgeModule
 
 
   ],

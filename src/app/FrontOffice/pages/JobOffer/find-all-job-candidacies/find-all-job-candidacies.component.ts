@@ -16,13 +16,17 @@ import {InterviewCalendarComponent} from "../../Interview/interview-calendar/int
 import {
   CandiadateLinkedInDetailsComponent
 } from "../candiadate-linked-in-details/candiadate-linked-in-details.component";
+import {AddInterviewComponent} from "../../Interview/add-interview/add-interview.component";
+import {DatePipe} from "@angular/common";
 
 @Component({
   selector: 'app-find-all-job-candidacies',
   templateUrl: './find-all-job-candidacies.component.html',
-  styleUrls: ['./find-all-job-candidacies.component.css']
+  styleUrls: ['./find-all-job-candidacies.component.css'],
+  providers: [DatePipe]
 })
 export class FindAllJobCandidaciesComponent implements OnInit{
+  searchtext:any;
   recommendationResponse: string = ''; // Variable to store recommendation response
   candidacystatus: number = 0;
   @ViewChild('myModal') myModal!: ElementRef;
@@ -41,7 +45,8 @@ export class FindAllJobCandidaciesComponent implements OnInit{
 
   candidacies: Candidacy[] = [];
   appointmentForm!: FormGroup;
-
+  currentPage: number = 1; // Current page
+  itemsPerPage: number = 6; // Items per page
   constructor(private c: CandidacyService, private fb: FormBuilder, private route: ActivatedRoute, private router: Router, private toastr: ToastrService,private http: HttpClient,private recommendationService: RecommendationService,public dialog: MatDialog) {
     this.appointmentForm = this.fb.group({
       appointmentTime: ['', Validators.required],
@@ -251,5 +256,34 @@ export class FindAllJobCandidaciesComponent implements OnInit{
     dialogRef.afterClosed().subscribe(result => {
       // Handle modal close event if needed
     });
+  }
+  addInterviewModal() {
+    const dialogRef = this.dialog.open(AddInterviewComponent, {
+      width: '500px',
+      data: { /* any data you want to pass to the modal */ }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      // Logic to handle modal close event if needed
+    });
+  }
+  onPageChange(pageNumber: number) {
+    this.currentPage = pageNumber;
+  }
+
+  getPaginatedItems() {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    return this.candidacies.slice(startIndex, startIndex + this.itemsPerPage);
+  }
+  getTotalPages(): number {
+    return Math.ceil(this.candidacies.length / this.itemsPerPage);
+  }
+  getPaginationNumbers(): number[] {
+    const totalPages = this.getTotalPages();
+    const pagesArray = [];
+    for (let i = 1; i <= totalPages; i++) {
+      pagesArray.push(i);
+    }
+    return pagesArray;
   }
 }
