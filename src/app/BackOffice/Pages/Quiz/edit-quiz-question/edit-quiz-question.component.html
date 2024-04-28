@@ -10,7 +10,7 @@
         <mat-label>Option {{ i + 1 }}</mat-label>
         <input matInput [(ngModel)]="option.answer" name="option{{ i }}" required>
       </mat-form-field>
-      <mat-checkbox [(ngModel)]="option.isCorrect">Correct Answer</mat-checkbox>
+      <mat-checkbox [(ngModel)]="option.correct">Correct Answer</mat-checkbox>
     </div>
   </form>
 </mat-dialog-content>

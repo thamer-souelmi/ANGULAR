@@ -69,4 +69,22 @@ h2:hover::after {
   margin: 0 5px; /* Adjust as needed */
 }
 
+.pagination .btn {
+  border-radius: 50%; /* Make the buttons circular */
+  padding: 10px 15px; /* Adjust padding to ensure numbers are centered */
+  font-size: 14px; /* Adjust font size as needed */
+  background-color: #0a8bae; /* Set the background color */
+  border-color: #ffffff; /* Set the border color */
+  color: white; /* Set the text color */
+}
+
+.pagination .btn.active {
+  background-color: #086d88; /* Change the background color of the active page number */
+  color: white; /* Change the text color of the active page number */
+}
+
+.pagination .btn:not(.active):hover {
+  background-color: #0a8bae; /* Change the background color on hover */
+  border-color: #086d88; /* Change the border color on hover */
+}
 

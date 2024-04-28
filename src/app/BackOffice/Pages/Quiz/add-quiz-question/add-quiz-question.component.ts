@@ -14,10 +14,10 @@ export class AddQuizQuestionComponent {
     questionId: 0,
     question: '',
     options: [
-      { answer: '', isCorrect: false },
-      { answer: '', isCorrect: false },
-      { answer: '', isCorrect: false },
-      { answer: '', isCorrect: false }
+      { answer: '', correct: false },
+      { answer: '', correct: false },
+      { answer: '', correct: false },
+      { answer: '', correct: false }
     ]
   };
   constructor(
