@@ -54,6 +54,7 @@ import {ActivityBComponent} from "./BackOffice/Pages/activity-b/activity-b.compo
 import {TrainingSessionComponent} from "./FrontOffice/pages/training-session/training-session.component";
 
 import { FindAllJobOffersComponent } from './FrontOffice/pages/JobOffer/find-all-job-offers/find-all-job-offers.component';
+import {FindAllQuizComponent} from "./BackOffice/Pages/Quiz/find-all-quiz/find-all-quiz.component";
 
 
 
@@ -87,7 +88,7 @@ const routes: Routes = [
       {path: 'statisticsCandidacies', component: StatisticsCandidaciesComponent},
       {path: 'statisticsInterviews', component: StatisticsInterviewComponent},
       {path: 'findInterviewBack/:id', component: InterviewDetailsBackComponent},
-
+      {path: 'findQuiz', component: FindAllQuizComponent},
 
 
       { path: 'taskback', component: TaskbackComponent},

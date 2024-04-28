@@ -1,0 +1,21 @@
+<h2 mat-dialog-title>Add Quiz Question</h2>
+<div mat-dialog-content>
+  <mat-form-field>
+    <mat-label>Question</mat-label>
+    <input matInput placeholder="Enter the question" [(ngModel)]="question.question" required>
+    <mat-error *ngIf="isQuestionEmpty()">Question is required</mat-error>
+  </mat-form-field>
+
+  <div *ngFor="let option of question.options; let i = index" class="option-input">
+    <mat-form-field class="option-answer">
+      <mat-label>Option {{ i + 1 }}</mat-label>
+      <input matInput placeholder="Enter the option" [(ngModel)]="option.answer" required>
+      <mat-error *ngIf="isOptionEmpty(option)">Option is required</mat-error>
+    </mat-form-field>
+    <mat-checkbox class="option-correct" [(ngModel)]="option.isCorrect">Is Correct</mat-checkbox>
+  </div>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button (click)="submitQuestion()" [disabled]="isFormInvalid()" cdkFocusInitial>Submit</button>
+</div>

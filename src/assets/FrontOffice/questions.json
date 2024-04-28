@@ -109,4 +109,27 @@
       }
     ]
   }
+,
+  {
+    "questionId": 6,
+    "question": "Which of the following is NOT a primary function of an operating system?",
+    "options": [
+      {
+        "answer": "Managing hardware resources",
+        "correct": false
+      },
+      {
+        "answer": "Running applications",
+        "correct": false
+      },
+      {
+        "answer": "Creating and managing files",
+        "correct": false
+      },
+      {
+        "answer": "Playing music",
+        "correct": true
+      }
+    ]
+  }
 ]

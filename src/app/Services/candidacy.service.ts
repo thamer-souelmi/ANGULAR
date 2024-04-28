@@ -21,8 +21,8 @@ export class CandidacyService {
     submissionDate: any;
     email: any;
     candidacystatus: any
-  }): Observable<Candidacy> {
-    return this.myHttp.post<Candidacy>(this.urlCandidacy + '/addCandidacy', candidate);
+  }, id: number): Observable<Candidacy> {
+    return this.http.post<Candidacy>(`${this.urlCandidacy}/addCandidacy?id=${id}`, candidate);
   }
 
   constructor(private myHttp:HttpClient,private http:HttpClient) { }
@@ -54,10 +54,10 @@ export class CandidacyService {
     const updateUrl = `${this.urlCandidacy}/updateCandidacyStatus`;
     return this.myHttp.put<Candidacy>(updateUrl, candidacy);
   }
-  verifyEmail(email: string): Observable<any> {
-    const apiUrl = `https://api.proofy.io/verifyaddr?aid=60118&key=TgMZZ2TTg7G1tDjsSpWPnJUg&email=${email}`;
-    return this.myHttp.get(apiUrl);
-  }
+  // verifyEmail(email: string): Observable<any> {
+  //   const apiUrl = `https://api.proofy.io/verifyaddr?aid=60118&key=TgMZZ2TTg7G1tDjsSpWPnJUg&email=${email}`;
+  //   return this.myHttp.get(apiUrl);
+  // }
   getCandidateStatisticsByCountry(): Observable<any[]> {
     const url = `${this.urlCandidacy}/candidateStatisticsByCountry`;
     return this.myHttp.get<any[]>(url);

@@ -97,6 +97,12 @@ import { ProjectDetailsComponent } from './FrontOffice/pages/Project/project-det
 import { ProjectCalendarModalComponent } from './FrontOffice/pages/Project/project-calendar-modal/project-calendar-modal.component';
 import { GetAllProjectComponent } from './FrontOffice/pages/Project/get-all-project/get-all-project.component';
 import { JitsiComponent } from './FrontOffice/pages/Interview/jitsi/jitsi.component';
+import { AddInterviewComponent } from './FrontOffice/pages/Interview/add-interview/add-interview.component';
+import { FindAllQuizComponent } from './BackOffice/Pages/Quiz/find-all-quiz/find-all-quiz.component';
+import { ChunkPipe } from './BackOffice/Pages/Quiz/chunk.pipe';
+import { MatBadgeModule } from '@angular/material/badge';
+import { AddQuizQuestionComponent } from './BackOffice/Pages/Quiz/add-quiz-question/add-quiz-question.component';
+import { EditQuizQuestionComponent } from './BackOffice/Pages/Quiz/edit-quiz-question/edit-quiz-question.component';
 
 
 @NgModule({
@@ -160,6 +166,11 @@ import { JitsiComponent } from './FrontOffice/pages/Interview/jitsi/jitsi.compon
     ProjectCalendarModalComponent,
     GetAllProjectComponent,
     JitsiComponent,
+    AddInterviewComponent,
+    FindAllQuizComponent,
+    ChunkPipe,
+    AddQuizQuestionComponent,
+    EditQuizQuestionComponent,
 
   ],
   imports: [
@@ -218,7 +229,8 @@ import { JitsiComponent } from './FrontOffice/pages/Interview/jitsi/jitsi.compon
     MatCheckboxModule,
 
     MatCardModule,
-    MatGridListModule
+    MatGridListModule,
+    MatBadgeModule
 
   ],
   providers: [httpInterceptorProviders,DatePipe],
