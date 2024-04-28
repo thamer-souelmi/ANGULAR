@@ -83,7 +83,7 @@ export class RoomComponent implements OnInit {
         capacityRoom: formData.capacity,
         available: formData.available,
         equipmentR: formData.equipment,
-        TrainingSessions: []  // Provide a default empty array
+        trainingSessions: []  // Provide a default empty array
       };
 
       if (this.editMode) {

@@ -9,6 +9,8 @@ import {HttpEventType, HttpResponse} from "@angular/common/http";
 import {ActivatedRoute, Router} from "@angular/router";
 import * as XLSX from 'xlsx'
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import { AddUserComponent } from '../add-user/add-user.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-find-all-users',
@@ -41,7 +43,6 @@ export class FindAllUsersComponent {
   currentPage: number = 1; // Current page
   itemsPerPage: number = 1; // Items per page
   userForm: FormGroup;
-    siteKey: string= "6Lcom7kpAAAAAArX67LiteQ0DxzZg-CCyjkEHVZL";
   @ViewChild('myModal') myModal!: ElementRef;
   @ViewChild('warningSuccessModal') warningSuccessModal!: ElementRef;
   warningMessage: string = '';
@@ -50,7 +51,8 @@ export class FindAllUsersComponent {
   constructor(private userService: UserService, private router: Router,private formBuilder: FormBuilder,
               private cdr: ChangeDetectorRef,
               private userauth : AuthService,
-              private ngZone: NgZone,private route: ActivatedRoute) {
+              private ngZone: NgZone,private route: ActivatedRoute,
+              private dialog: MatDialog) {
     this.userForm = this.formBuilder.group({
       firstname: ['', Validators.required],
       lastname: ['', Validators.required],
@@ -76,6 +78,7 @@ export class FindAllUsersComponent {
       users => {
         this.users = users;
         this.users.forEach(user => {
+          // Load the user's image
           this.getImage(user.image);
         });
       },
@@ -86,11 +89,11 @@ export class FindAllUsersComponent {
   }
   editUser(userId: number) {
     // Navigate to the Edit User route with the user ID as a parameter
-    this.router.navigate(['/admin/updateuser', userId]);
+    this.router.navigate(['/back/updateuser', userId]);
   }
   details(userId: number) {
     // Navigate to the Edit User route with the user ID as a parameter
-    this.router.navigate(['/admin/userdetails', userId]);
+    this.router.navigate(['/back/userdetails', userId]);
   }
   delete(userId: number) {
     if (confirm('Are you sure you want to delete this User?')) {
@@ -226,26 +229,74 @@ export class FindAllUsersComponent {
   }
 
   readExcel(event: any): void {
-    let file = event.target.files[0];
-    let fileReader = new FileReader();
-
+    const file = event.target.files[0];
+    
+    // Check if a file is selected
+    if (!file) {
+      console.error('No file selected.');
+      return;
+    }
+  
+    // Check if the selected file is an Excel file
+    const allowedFileTypes = ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.ms-excel'];
+    if (!allowedFileTypes.includes(file.type)) {
+      console.error('Invalid file type. Please select an Excel file.');
+      return;
+    }
+  
+    // Proceed with reading the Excel file
+    const fileReader = new FileReader();
+  
     fileReader.onload = (e) => {
-      var workBook = XLSX.read(fileReader.result, { type: 'binary' });
-      var sheetNames = workBook.SheetNames;
-      this.ExcelData = XLSX.utils.sheet_to_json(workBook.Sheets[sheetNames[0]]);
-      console.log(this.ExcelData);
-
-      // Send Excel data to backend to save users
-      this.userService.saveUsers(this.ExcelData).subscribe(
-        response => {
-          console.log('Users saved successfully:', response);
-        },
-        error => {
-          console.error('Error saving users:', error);
-        }
-      );
+      const workBook = XLSX.read(fileReader.result, { type: 'binary' });
+      const sheetNames = workBook.SheetNames;
+      const excelData = XLSX.utils.sheet_to_json(workBook.Sheets[sheetNames[0]]);
+      console.log(excelData);
+  
+      // Check if the Excel data contains user objects
+      if (this.isUserDataValid(excelData)) {
+        // Send Excel data to backend to save users
+        this.userService.saveUsers(excelData).subscribe(
+          response => {
+            console.log('Users saved successfully:', response);
+          },
+          error => {
+            console.error('Error saving users:', error);
+          }
+        );
+      } else {
+        console.error('Invalid data format. Please make sure the Excel file contains user objects.');
+      }
     };
-
+  
     fileReader.readAsBinaryString(file);
+  }
+  
+  isUserDataValid(data: any[]): boolean {
+    // Check if the data array contains at least one object with properties expected for a user object
+    if (data.length === 0) {
+      return false;
+    }
+    
+    const firstItem = data[0];
+    // Assuming a user object has properties like 'name', 'email', 'username', etc.
+    return Object.keys(firstItem).includes('email') && 
+         Object.keys(firstItem).includes('firstname') && 
+         Object.keys(firstItem).includes('lastname') && 
+         Object.keys(firstItem).includes('password') && 
+         Object.keys(firstItem).includes('adresse') && 
+         Object.keys(firstItem).includes('birthdate') && 
+         Object.keys(firstItem).includes('phonenumber') && 
+         Object.keys(firstItem).includes('gender')   /* Add more properties as needed */;
+  }
+  createNewTask(): void {
+    const dialogRef = this.dialog.open(AddUserComponent, {
+      width: '500px'
+    });
+  
+    dialogRef.afterClosed().subscribe(result   => {
+      if (result) {
+      }
+    });
   }
 }

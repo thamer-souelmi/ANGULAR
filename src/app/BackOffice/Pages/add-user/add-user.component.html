@@ -1,0 +1,81 @@
+
+<div class="modal-container">
+    <div class="modal-header">
+      <h2>Add New User</h2>
+    </div>
+    <div class="modal-body" style="max-height: 600px; overflow-y: auto;">
+      <form (ngSubmit)="onSubmit()" #taskForm="ngForm">
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" [(ngModel)]="newUser.email" name="email" class="form-control" required minlength="5">
+            <div *ngIf="taskForm.controls['email'].invalid && (taskForm.controls['email'].dirty || taskForm.controls['email'].touched)">
+                <div class="text-danger" *ngIf="taskForm.controls['email'].errors?.['email']">Please enter a valid email address.</div>
+              <div class="text-danger" *ngIf="taskForm.controls['email'].errors?.['required']">Email is required.</div>
+
+            </div>
+          </div>
+          <br>
+        <div class="form-group">
+          <label for="firstname">First Name:</label>
+          <input type="text" id="firstname" [(ngModel)]="newUser.firstname" name="firstname" class="form-control" required minlength="5">
+          <div *ngIf="taskForm.controls['firstname'].invalid && (taskForm.controls['firstname'].dirty || taskForm.controls['firstname'].touched)">
+            <div class="text-danger" *ngIf="taskForm.controls['firstname'].errors?.['required']">First Name is required.</div>
+            <div class="text-danger" *ngIf="taskForm.controls['firstname'].errors?.['minlength']">First Name must be at least 5 characters long.</div>
+          </div>
+        </div>
+        <br>
+        <div class="form-group">
+            <label for="lastname">Last Name:</label>
+            <input type="text" id="lastname" [(ngModel)]="newUser.lastname" name="lastname" class="form-control" required minlength="5">
+            <div *ngIf="taskForm.controls['lastname'].invalid && (taskForm.controls['lastname'].dirty || taskForm.controls['lastname'].touched)">
+                <div class="text-danger" *ngIf="taskForm.controls['lastname'].errors?.['required']">Last Name is required.</div>
+                <div class="text-danger" *ngIf="taskForm.controls['lastname'].errors?.['minlength']">Last Name must be at least 5 characters long.</div>
+            </div>
+        </div>
+        <br>
+      
+        <div class="form-group">
+            <label for="adresse">Address:</label>
+            <input type="text" id="adresse" [(ngModel)]="newUser.adresse" name="adresse" class="form-control" required>
+            <div *ngIf="taskForm.controls['adresse'].invalid && (taskForm.controls['adresse'].dirty || taskForm.controls['adresse'].touched)">
+                <div class="text-danger" *ngIf="taskForm.controls['adresse'].errors?.['required']">Address is required.</div>
+            </div>
+        </div>
+        <br>
+        <div class="form-group">
+            <label for="birthdate">Birth Date:</label>
+            <input type="date" id="birthdate" [(ngModel)]="newUser.birthdate" name="birthdate" class="form-control" required>
+            <div *ngIf="taskForm.controls['birthdate'].invalid && (taskForm.controls['birthdate'].dirty || taskForm.controls['birthdate'].touched)">
+                <div class="text-danger" *ngIf="taskForm.controls['birthdate'].errors?.['required']">Birth Date is required.</div>
+            </div>
+        </div>
+        <br>
+        <div class="form-group">
+            <label for="phonenumber">Phone Number:</label>
+            <input type="number" id="phonenumber" [(ngModel)]="newUser.phonenumber" name="phonenumber" class="form-control" required minlength="10" maxlength="15">
+            <div *ngIf="taskForm.controls['phonenumber'].invalid && (taskForm.controls['phonenumber'].dirty || taskForm.controls['phonenumber'].touched)">
+                <div class="text-danger" *ngIf="taskForm.controls['phonenumber'].errors?.['required']">Phone Number is required.</div>
+                <div class="text-danger" *ngIf="taskForm.controls['phonenumber'].errors?.['minlength']">Phone Number must be at least 10 characters long.</div>
+                <div class="text-danger" *ngIf="taskForm.controls['phonenumber'].errors?.['maxlength']">Phone Number cannot exceed 15</div>
+            </div>
+        </div>
+        <br>
+        <div class="form-group">
+            <label for="gender">Gender:</label>
+            <select id="gender" [(ngModel)]="newUser.gender" name="gender" class="form-control" required>
+                <option value="MALE">Male</option>
+                <option value="FEMALE">Female</option>
+            </select>
+            <div *ngIf="taskForm.controls['gender'].invalid && (taskForm.controls['gender'].dirty || taskForm.controls['gender'].touched)">
+                <div class="text-danger">Gender is required.</div>
+            </div>
+        </div>
+        <br>
+
+        <div class="modal-footer"> 
+            <button type="submit" class="btn btn-primary" [disabled]="taskForm.invalid">Add Task</button>
+            <button type="button" class="btn btn-secondary" (click)="onClose()">Cancel</button>
+        </div>
+      </form>
+    </div>
+</div>

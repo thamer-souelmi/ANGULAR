@@ -13,6 +13,7 @@ export class ForgotPasswordComponent {
   newPassword: string="";
   resetSuccess: boolean=false;
   resetError: boolean=false;
+  siteKey: string= "6Lcom7kpAAAAAArX67LiteQ0DxzZg-CCyjkEHVZL";
 
   constructor(private passwordResetService: UserService) { }
 

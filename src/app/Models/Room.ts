@@ -14,5 +14,7 @@ export class Room {
   capacityRoom!: number;
   available!: boolean;
   equipmentR!: Equipment[];
-  TrainingSessions?: TrainingSession[];
+  trainingSessions?: TrainingSession[];
+
+
 }
