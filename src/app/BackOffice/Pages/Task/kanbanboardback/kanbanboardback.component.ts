@@ -66,7 +66,17 @@ export class KanbanboardbackComponent implements OnInit {
       let previousStatus: TaskStatus = movedTask.taskStatus;
       let newStatus: TaskStatus = this.convertToTaskStatus(dropSection);
       console.log('Previous Status:', previousStatus);
-      newStatus= TaskStatus.INPROGRESS
+     /*if (movedTask.taskStatus == 1){
+      newStatus= TaskStatus.CANCELLED
+
+     }
+     */
+     
+     newStatus= TaskStatus.INPROGRESS
+     newStatus= TaskStatus.CANCELLED
+
+      
+      
       console.log('New Status:', newStatus);
 
       if (previousStatus !== newStatus) {

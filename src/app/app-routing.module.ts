@@ -55,6 +55,7 @@ import {TrainingSessionComponent} from "./FrontOffice/pages/training-session/tra
 
 import { FindAllJobOffersComponent } from './FrontOffice/pages/JobOffer/find-all-job-offers/find-all-job-offers.component';
 import {FindAllQuizComponent} from "./BackOffice/Pages/Quiz/find-all-quiz/find-all-quiz.component";
+import {RoomComponent} from "./BackOffice/Pages/room/room.component";
 
 
 
@@ -90,7 +91,7 @@ const routes: Routes = [
       {path: 'findInterviewBack/:id', component: InterviewDetailsBackComponent},
       {path: 'findQuiz', component: FindAllQuizComponent},
 
-
+      {path:'room',component: RoomComponent},
       { path: 'taskback', component: TaskbackComponent},
 
       //{path:"findall", component:FindAllUsersComponent},

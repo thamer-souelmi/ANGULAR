@@ -59,6 +59,11 @@
     getRelatedRegistrations(eventId: number): Observable<RegistrationEvent[]> {
       return this.http.get<RegistrationEvent[]>(`${this.EventUrl}/getRelatedRegistrations/${eventId}`);
     }
+    getAddress(lat: number, lon: number) {
+      // Using the proxy endpoint
+      const url = `/api/reverse?format=json&lat=${lat}&lon=${lon}`;
+      return this.http.get(url);
+    }
 
 
     searchEvents(query: string): Observable<Event[]> {
@@ -76,5 +81,14 @@
     }
     updateEventAverageRating(eventId: number): Observable<any> {
       return this.http.put(`${this.EventUrl}/${eventId}/updateAverageRating`, {});
+    }
+    getReverseGeocode1(lat: number, lon: number): Observable<any> {
+      const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+      const targetUrl = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`;
+      return this.http.get(`${proxyUrl}${targetUrl}`);
+    }
+    getReverseGeocode(lat: number, lon: number): Observable<any> {
+      const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`;
+      return this.http.get(url);
     }
   }
