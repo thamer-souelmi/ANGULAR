@@ -1,0 +1,43 @@
+<div class="customizer-wrap" [class.open]="isOpen">
+  <div class="customizer-links" (click)="openCustomizer()">
+    <app-feather-icons [icon]="'settings'"></app-feather-icons>
+  </div>
+  <div class="customizer-contain custom-scrollbar">
+    <div class="setting-back" (click)="closeCustomizer()">
+      <app-feather-icons [icon]="'x'"></app-feather-icons>
+    </div>
+    <div class="layouts-settings">
+      <div class="customizer-title">
+        <h6 [class]="divClass">Layout type</h6>
+      </div>
+      <div class="option-setting">
+        <span>Light</span>
+        <label class="switch">
+          <input type="checkbox" name="chk1" value="selected" class="setting-check" (change)="changeThemeColor(themeColor)" [(ngModel)]="themeColor"/><span class="switch-state"></span>
+        </label>
+        <span>Dark</span>
+      </div>
+    </div>
+    <div class="layouts-settings">
+      <div class="customizer-title">
+        <h6 [class]="divClass">Layout Direction</h6>
+      </div>
+      <div class="option-setting">
+        <span>LTR</span>
+        <label class="switch">
+          <input type="checkbox" name="chk2" value="option" class="setting-check1" (change)="changedDirection(themeDirection)" [(ngModel)]="themeDirection"/><span class="switch-state"></span>
+        </label>
+        <span>RTL</span>
+      </div>
+    </div>
+    <div class="layouts-settings">
+      <div class="customizer-title">
+        <h6 [class]="divClass">Unlimited Color</h6>
+      </div>
+      <div class="option-setting unlimited-color-layout">
+        <input id="ColorPicker" type="color" name="Default"  (change)="changedColor1(themeColor1)" [(ngModel)]="themeColor1"/>
+        <input *ngIf="themeColor2" id="ColorPicker" type="color" name="Default" (change)="changedColor2(themeColor2)" [(ngModel)]="themeColor2"/>
+      </div>
+    </div>
+  </div>
+</div>

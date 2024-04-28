@@ -44,3 +44,48 @@ select[multiple] {
   height: auto;
   min-height: 6em;
 }
+.arrow-button {
+  background-color: transparent; /* Make the button background transparent */
+  border: none; /* Remove border */
+  color: #007bff; /* Bootstrap primary blue, adjust color as needed */
+  font-size: 16px; /* Adjust icon size */
+  padding: 8px 16px; /* Padding around the icon */
+  display: inline-flex; /* Center the icon within the button */
+  align-items: center; /* Center the icon vertically */
+  justify-content: center; /* Center the icon horizontally */
+}
+
+.arrow-button:disabled {
+  color: #ccc; /* Light grey for disabled state */
+}
+
+.arrow-button:hover {
+  background-color: #e8e8e8; /* Light grey background on hover */
+  cursor: pointer; /* Pointer cursor on hover */
+}
+/* CSS to position the emoji picker next to the input field */
+.input-emoji-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.emoji-picker-container {
+  position: absolute;
+  left: 100%; /* Position to the right of the input field */
+  top: 0;
+  transform: translateX(10px); /* Add some space between the field and the picker */
+  z-index: 1000;
+}
+
+:host ::ng-deep .mat-form-field-flex {
+  align-items: center;
+}
+
+:host ::ng-deep .mat-form-field-suffix {
+  position: relative; /* Adjust if needed */
+}
+
+:host ::ng-deep .mat-form-field-wrapper {
+  padding-right: 2rem; /* Space for the suffix */
+}

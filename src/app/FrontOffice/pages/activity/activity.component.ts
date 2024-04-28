@@ -16,7 +16,15 @@ import {Location} from "@angular/common";
 import * as bootstrap from 'bootstrap';
 import {NgbModal, NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
 import { enableProdMode } from '@angular/core';
-import {AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators} from "@angular/forms";
+import {
+  AbstractControl,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ValidationErrors,
+  ValidatorFn,
+  Validators
+} from "@angular/forms";
 import {Router} from "@angular/router";
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { ExportExcelService } from 'src/app/Services/ExportExcel.service';
@@ -64,6 +72,8 @@ export class ActivityComponentF implements OnInit {
   expandedDescriptions: { [key: number]: boolean } = {};
   @ViewChild('searchResultsModal') searchResultsModal!: TemplateRef<any>;
   isExporting = false;
+  showDescriptionEmojiPicker = false;
+  showUpdateEmojiPicker = false;
 
   searchKeywords: string = '';
   searchStartDate: string = '';
@@ -103,6 +113,8 @@ export class ActivityComponentF implements OnInit {
     // this.initializeForms();
 
   }
+
+
   shouldShowDateRangeError(): boolean {
     const form = this.activityForm;
     const startTimeFilled = !!form.get('startTime')?.value;
@@ -128,9 +140,30 @@ export class ActivityComponentF implements OnInit {
       this.isExporting = false; // Assurez-vous de réinitialiser l'état même en cas d'erreur
     });
   }
+  toggleDescriptionEmojiPicker() {
+    this.showDescriptionEmojiPicker = !this.showDescriptionEmojiPicker;
+  }
+
+  addEmojiToDescription(event: any) {
+    const emoji = event.emoji.native;
+    const control = this.activityForm.get('description');
+    if (control) {
+      control.setValue(control.value + emoji);
+    }
+  }
 
 
+  toggleUpdateEmojiPicker(): void {
+    this.showUpdateEmojiPicker = !this.showUpdateEmojiPicker;
+  }
 
+  addEmojiToUpdateDescription(event: any) {
+    const emoji = event.emoji.native;
+    const control = this.updateActivityForm.get('description');
+    if (control) {
+      control.setValue(control.value + emoji);
+    }
+  }
   toggleDescription(activityId: number): void {
     this.expandedDescriptions[activityId] = !this.expandedDescriptions[activityId];
   }

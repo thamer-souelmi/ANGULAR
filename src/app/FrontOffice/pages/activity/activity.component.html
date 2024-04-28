@@ -161,19 +161,33 @@
             <div class="form-group">
               <label for="activity_name">Activity Name:</label>
               <input type="text" class="form-control" id="activity_name" formControlName="activity_name" required>
+
               <div *ngIf="activityForm.get('activity_name')?.touched && activityForm.get('activity_name')?.invalid" class="text-danger">
                 Activity Name is required.
               </div>
 
             </div>
-
-            <div class="form-group">
-              <label for="description">Description:</label>
-              <textarea class="form-control" id="description" formControlName="description" required></textarea>
-              <div *ngIf="activityForm.get('description')?.hasError('required') && activityForm.get('description')?.touched" class="text-danger">
-                Description is required.
+            <div class="input-emoji-container">
+              <div class="form-group">
+                <label for="description">Description:</label>
+                <div class="textarea-container">
+                  <textarea matInput class="form-control" id="description" formControlName="description" required></textarea>
+                  <button mat-icon-button class="emoji-button" (click)="toggleDescriptionEmojiPicker()">
+                    <mat-icon>insert_emoticon</mat-icon>
+                  </button>
+                </div>
+                <div *ngIf="showDescriptionEmojiPicker" class="emoji-picker-container">
+                  <emoji-mart title="Choisissez un emoji" (emojiClick)="addEmojiToDescription($event)"></emoji-mart>
+                </div>
+                <div *ngIf="activityForm.get('description')?.hasError('required') && activityForm.get('description')?.touched" class="text-danger">
+                  Description is required.
+                </div>
               </div>
             </div>
+
+
+
+
 
             <div class="form-group">
               <label for="startTime">Start Time:</label>
@@ -230,10 +244,20 @@
             <input type="text" class="form-control" id="activity_name" formControlName="activity_name">
           </div>
           <!-- Description -->
-          <div class="form-group">
+          <div class="form-group emoji-input-container">
             <label for="description">Description:</label>
-            <textarea class="form-control" id="description" formControlName="description"></textarea>
+            <div class="input-group">
+              <textarea class="form-control" id="description" formControlName="description"></textarea>
+              <button type="button" class="emoji-button" (click)="toggleUpdateEmojiPicker()">
+                <mat-icon>insert_emoticon</mat-icon>
+              </button>
+            </div>
+            <div *ngIf="showUpdateEmojiPicker" class="emoji-picker-container">
+              <emoji-mart title="Choisissez un emoji" (emojiClick)="addEmojiToUpdateDescription($event)"></emoji-mart>
+            </div>
           </div>
+
+
           <!-- Start Time -->
           <div class="form-group">
             <label for="startTime">Start Time:</label>
