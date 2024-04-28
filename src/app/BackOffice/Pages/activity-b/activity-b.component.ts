@@ -35,7 +35,9 @@ export class ActivityBComponent implements OnInit {
   selectedActivity: Activity | null = null;
   @ViewChild('detailsModal') detailsModal!: TemplateRef<any>;
   isDetailsModalOpen: boolean = false;
-
+  p: number = 1;  // Page number
+  page: number = 0;
+  size: number = 10;
   constructor(
     private activityService: ActivityService,
     private eventService: EventService,
@@ -108,14 +110,25 @@ export class ActivityBComponent implements OnInit {
       next: (data) => {
         this.activities = data.content;
         this.totalActivities = data.totalElements;
-        this.applyFilter(); // Reapply the filter to update the list
+        this.filteredActivities = this.activities;
+        this.applyFilter();
       },
       error: (error) => {
         console.error('Error loading activities:', error);
       }
     });
   }
+  nextPage(): void {
+    this.page++;
+    this.loadActivities();
+  }
 
+  previousPage(): void {
+    if (this.page > 0) {
+      this.page--;
+      this.loadActivities();
+    }
+  }
   loadEvents(): void {
     this.eventService.findAllEvent(this.currentPage, this.pageSize).subscribe(response => {
       console.log('Events from DB:', response.content); // Log the received events

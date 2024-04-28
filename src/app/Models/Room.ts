@@ -4,8 +4,11 @@ export enum Equipment {
   Projector = "Projector",
   Whiteboard = "Whiteboard",
   VideoConference = "Video Conference",
-  Computer = "Computer",
-  SpeakerSystem = "Speaker System"
+  Computer = "Computers",
+  SpeakerSystem = "Speaker System",
+Smartboard="Smartboard",
+  highSpeedInternetAccess="High Speed Internet Access",
+  AirConditioningorClimateControl ="Air Conditioning or Climate Control"
 }
 
 export class Room {

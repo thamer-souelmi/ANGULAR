@@ -115,6 +115,10 @@ import { EditQuizQuestionComponent } from './BackOffice/Pages/Quiz/edit-quiz-que
 import { RoomComponent } from './BackOffice/Pages/room/room.component';
 import {BsDropdownModule} from "ngx-bootstrap/dropdown";
 import {JoinPipe} from "./join.pipe";
+import {NgxPaginationModule} from "ngx-pagination";
+import { CustomizerComponent } from './customizer/customizer.component';
+import {PickerComponent, PickerModule} from "@ctrl/ngx-emoji-mart";
+import {EmojiModule} from "@ctrl/ngx-emoji-mart/ngx-emoji";
 
 
 @NgModule({
@@ -194,7 +198,8 @@ import {JoinPipe} from "./join.pipe";
     AddQuizQuestionComponent,
     EditQuizQuestionComponent,
     RoomComponent,
-    JoinPipe
+    JoinPipe,
+    CustomizerComponent
 
 
   ],
@@ -221,19 +226,19 @@ import {JoinPipe} from "./join.pipe";
     MatMenuModule,
     MatSnackBarModule,
     ToastrModule.forRoot({
-      timeOut:2000,
-      progressBar:true,
-      progressAnimation:"increasing",
-      preventDuplicates:true
+      timeOut: 2000,
+      progressBar: true,
+      progressAnimation: "increasing",
+      preventDuplicates: true
     }),
     MatButtonModule,
     FeatherModule.pick(allIcons),
     BrowserAnimationsModule,
     ToastrModule.forRoot({
-      timeOut:2000,
-      progressBar:true,
-      progressAnimation:"increasing",
-      preventDuplicates:true
+      timeOut: 2000,
+      progressBar: true,
+      progressAnimation: "increasing",
+      preventDuplicates: true
     }), // ToastrModule added
     MatCardModule,
     NgxChartsModule,
@@ -252,7 +257,7 @@ import {JoinPipe} from "./join.pipe";
     DragDropModule,
 
     AvatarModule,
-   ChartModule,
+    ChartModule,
     BsDropdownModule.forRoot(),
 
     FullCalendarModule,
@@ -262,6 +267,10 @@ import {JoinPipe} from "./join.pipe";
 
     MatCardModule,
     MatGridListModule,
+    NgxPaginationModule,
+    EmojiModule,
+    PickerComponent,
+
     MatBadgeModule
 
 
