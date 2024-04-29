@@ -28,6 +28,7 @@ import {
 import {Router} from "@angular/router";
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { ExportExcelService } from 'src/app/Services/ExportExcel.service';
+import {ToastrService} from "ngx-toastr";
 
 export const dateRangeValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
   const group = control as FormGroup;
@@ -89,6 +90,7 @@ export class ActivityComponentF implements OnInit {
     private modalService: NgbModal,
     private renderer: Renderer2,
     private exportExcelService: ExportExcelService,
+    private toaster : ToastrService,
 
   )
   {
@@ -128,7 +130,7 @@ export class ActivityComponentF implements OnInit {
     this.activityServiceF.findAllActivitiesWithoutPagination().subscribe(activities => {
       if (activities && activities.length > 0) {
         this.exportExcelService.exportToExcel(activities, 'ToutesLesActivites');
-        this.showModalWithMessage('Le téléchargement est en cours.....');
+        this.toaster.success('Le téléchargement est en cours.....');
       } else {
         console.log("Aucune activité à exporter.");
         // Afficher une notification à l'utilisateur si nécessaire
@@ -226,11 +228,11 @@ export class ActivityComponentF implements OnInit {
   confirmDeletion(): void {
     this.activityServiceF.deleteActivity(this.activityIdToDelete).subscribe({
       next: () => {
-        this.showModalWithMessage('Activity deleted successfully!');
+        this.toaster.success('Activity deleted successfully!');
         this.loadActivitiesFront(this.currentPage, this.pageSize); // Refresh the activities list
       },
       error: () => {
-        this.showModalWithMessage('Error deleting the activity. Please try again.');
+        this.toaster.error('Error deleting the activity. Please try again.');
       }
     });
 
@@ -296,12 +298,7 @@ export class ActivityComponentF implements OnInit {
     this.loadActivitiesFront(this.currentPage, this.pageSize);
   }
 
-  goBack() {
-    this.location.back();
-  }
-  updateActivity(activity_id: number): void {
-    this.router.navigate([`/ActivityF/updateActivityF/${activity_id}`]);
-  }
+
 
   // deleteActivity(activity_id : number): void {
   //   console.log('Activity ID:', activity_id );
@@ -347,7 +344,7 @@ export class ActivityComponentF implements OnInit {
 
       if (activity.event && activity.event.eventId) {
         console.log('Activity to add:', activity);
-        this.showModalWithMessage('Activity added successfully!');
+        this.toaster.success('Activity added successfully!');
 
         this.activityServiceF.addActivity(activity, activity.event.eventId).subscribe(
           (addedActivity: Activity) => {
@@ -360,7 +357,7 @@ export class ActivityComponentF implements OnInit {
           },
           error => {
             console.error('Error adding activity:', error);
-            this.showModalWithMessage('Error adding activity. Please try again.');
+            this.toaster.error('Error adding activity. Please try again.');
 
           }
         );
@@ -376,7 +373,7 @@ export class ActivityComponentF implements OnInit {
 
         this.activityServiceF.updateActivity(updatedActivity, formValues.event).subscribe(
           () => {
-            alert('Activity updated successfully.');
+            this.toaster.success('Activity updated successfully.');
             this.router.navigate(['/ActivityF/getActivityF']);
           });
       } else {
@@ -403,11 +400,11 @@ export class ActivityComponentF implements OnInit {
 
           // Rechargez les activités et affichez le message de succès
           this.loadActivitiesFront(this.currentPage, this.pageSize);
-          this.showModalWithMessage('Activity updated successfully!');
+          this.toaster.success('Activity updated successfully!');
         },
         error: (error) => {
           console.error('Error updating activity', error);
-          this.showModalWithMessage('Error updating activity. Please try again.');
+          this.toaster.error('Error updating activity. Please try again.');
         }
       });
     } else {

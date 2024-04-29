@@ -7,7 +7,7 @@ import * as L from 'leaflet';
 import html2canvas from 'html2canvas';
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { Activity } from "src/app/Models/Activity";
-import {forkJoin, of, Subject} from "rxjs";
+import {forkJoin, Observable, of, Subject} from "rxjs";
 import {catchError, debounceTime, distinctUntilChanged, map} from "rxjs/operators";
 import * as _ from 'lodash';
 import {icon, Marker} from "leaflet";
@@ -28,8 +28,8 @@ function formatDate(date: Date | string): string {
 })
 export class EventBComponent implements OnInit {
   events: Event[] = [];
-  currentPage = 0;
-  pageSize = 10;
+  currentPage = 1;
+
   @ViewChild('activities') activitiesElement!: ElementRef;
   @ViewChild('eventModal') eventModal!: TemplateRef<any>;
   private dialogRef!: MatDialogRef<any>;
@@ -40,7 +40,11 @@ export class EventBComponent implements OnInit {
   isDetailsModalOpen: boolean = false;
   @ViewChild('map') mapContainer!: ElementRef;
   map!: L.Map;
-  p: number = 1;  // Page number
+  page: number = 0;
+  size: number = 5;
+  loading: boolean = false;
+  totalPages=5;
+  totalItems: number = 0;
 
   constructor(
     private eventService: EventService,
@@ -60,6 +64,26 @@ export class EventBComponent implements OnInit {
     this.loadEvents();
   }
 
+  onPageSizeChange(): void {
+    this.currentPage = 1; // Reset to the first page
+    this.loadEvents(); // Reload data with the new page size
+  }
+  nextPage(): void {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.loadEvents(); // Load events for the next page
+    }
+  }
+
+  previousPage(): void {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.loadEvents(); // Load events for the previous page
+    }
+  }
+
+
+
   closeDetailsModal(): void {
     this.isDetailsModalOpen = false; // Set the modal to close
   }
@@ -78,37 +102,46 @@ export class EventBComponent implements OnInit {
   }
 
   loadEvents(): void {
-    this.eventService.findAllEvent(this.currentPage, this.pageSize).subscribe({
+    this.eventService.findAllEvent(this.currentPage - 1, this.size).subscribe({
       next: (response) => {
         this.events = response.content;
-
-        // Fetch activities for each event here
-        const eventsWithActivities = this.events.map(event => {
-          return this.eventService.getRelatedActivities(event.eventId).pipe(
-            map(activities => {
-              event.Activitys = activities; // Assign activities to the event
-              return event;
-            }),
-            catchError(error => {
-              console.error('Error fetching activities for event:', event.eventId, error);
-              return of(event); // Return the event without activities in case of an error
-            })
-          );
-        });
-
-        // Combine all observables and assign the results back to the filteredEvents
-        forkJoin(eventsWithActivities).subscribe(completeEvents => {
-          this.filteredEvents = completeEvents;
-          this.applyFilter(); // Apply the filter once the events and activities are loaded
-          this.cdr.detectChanges(); // Trigger change detection if needed
-        });
+        this.totalItems = response.totalElements;
+        this.totalPages = Math.ceil(this.totalItems / this.size);
+        this.filteredEvents = this.events;
+        this.cdr.detectChanges(); // Update the view
       },
-      error: (error) => {
-        console.error('Error loading events:', error);
+      error: (error) => console.error('Error loading events:', error)
+    });
+  }
+
+  fetchActivitiesForEvents(): void {
+    const eventsWithActivities = this.events.map(event => this.fetchActivityForEvent(event));
+
+    forkJoin(eventsWithActivities).subscribe({
+      next: (completeEvents) => {
+        this.filteredEvents = completeEvents;
+        this.applyFilter(); // Apply filter once the events and activities are loaded
+      },
+      error: (error) => console.error('Error fetching activities for all events:', error),
+      complete: () => {
+        this.loading = false; // Update loading state
+        this.cdr.detectChanges(); // Trigger change detection if needed
       }
     });
   }
 
+  fetchActivityForEvent(event: Event): Observable<Event> {
+    return this.eventService.getRelatedActivities(event.eventId).pipe(
+      map(activities => {
+        event.Activitys = activities;
+        return event;
+      }),
+      catchError(error => {
+        console.error(`Error fetching activities for event ${event.eventId}:`, error);
+        return of(event); // Return the event without activities in case of an error
+      })
+    );
+  }
   async generateReportPDF(): Promise<void> {
     const pdf = new jsPDF();
     const margins = { top: 30, left: 20, bottom: 30, right: 20 };

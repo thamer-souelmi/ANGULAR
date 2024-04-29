@@ -5,7 +5,7 @@
   </mat-form-field>
 </div>
 <div class="card-container">
-  <div *ngFor="let event of filteredEvents| paginate: { itemsPerPage: 10, currentPage: p }" class="card">
+  <div *ngFor="let event of filteredEvents | paginate: { itemsPerPage: size, currentPage: currentPage, totalItems: totalItems }" class="card">
 
     <div class="card-body">
       <h5 class="card-title">{{ event.event_name }}</h5>
@@ -65,7 +65,14 @@
     </button>
   </mat-dialog-content>
 </ng-template>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
-<div class="pagination-container">
-  <pagination-controls (pageChange)="p = $event" class="pagination-controls"></pagination-controls>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">  <div class="d-flex justify-content-center align-items-center mt-3">
+  <!-- Pagination controls -->
+  <div class="pagination-settings">
+    <button (click)="previousPage()" [disabled]="currentPage === 1">Previous</button>
+    <span>Page {{ currentPage }} of {{ totalPages }}</span>
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
+  </div>
+
+
+
 </div>
