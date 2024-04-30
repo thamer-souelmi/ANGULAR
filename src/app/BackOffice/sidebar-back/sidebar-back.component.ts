@@ -26,12 +26,22 @@ export class SidebarBackComponent {
     );
     user : User = new User;
     name : String = "";
+    id : number = 0;
+    userId1 : number = 10;
     ngOnInit(): void {
-      this.name= this.storageService.getUserS.name;
-      console.log("Name in sidebar "+this.name);
-     
-
+      this.id = this.storageService.getUser().id ;
+      this.storageService.getUserById(this.id).subscribe(
+        (user: User) => {
+          this.user = user; 
+          this.name= this.user.firstname ;
+        },
+        error => {
+          console.error('Error fetching user:', error);
+        }
+      );
+  
     }
+  
   constructor(private breakpointObserver: BreakpointObserver,private storageService: StorageService,
               private authService: AuthService, private router : Router) { }
 
@@ -42,85 +52,12 @@ export class SidebarBackComponent {
       menu: "Dashboard",
     },
     {
-      link: "/button",
-      icon: "disc",
-      menu: "Buttons",
+      link: "/back/leaves",
+      icon: "home",
+      menu: "Leaves",
     },
-    {
-      link: "/forms",
-      icon: "layout",
-      menu: "Forms",
-    },
-    {
-      link: "/alerts",
-      icon: "info",
-      menu: "Alerts",
-    },
-    {
-      link: "/grid-list",
-      icon: "file-text",
-      menu: "Grid List",
-    },
-    {
-      link: "/menu",
-      icon: "menu",
-      menu: "Menus",
-    },
-    {
-      link: "/table",
-      icon: "grid",
-      menu: "Tables",
-    },
-    {
-      link: "/expansion",
-      icon: "divide-circle",
-      menu: "Expansion Panel",
-    },
-    {
-      link: "/chips",
-      icon: "award",
-      menu: "Chips",
-    },
-    {
-      link: "/tabs",
-      icon: "list",
-      menu: "Tabs",
-    },
-    {
-      link: "/progress",
-      icon: "bar-chart-2",
-      menu: "Progress Bar",
-    },
-    {
-      link: "/toolbar",
-      icon: "voicemail",
-      menu: "Toolbar",
-    },
-    {
-      link: "/progress-snipper",
-      icon: "loader",
-      menu: "Progress Snipper",
-    },
-    {
-      link: "/tooltip",
-      icon: "bell",
-      menu: "Tooltip",
-    },
-    {
-      link: "/snackbar",
-      icon: "slack",
-      menu: "Snackbar",
-    },
-    {
-      link: "/slider",
-      icon: "sliders",
-      menu: "Slider",
-    },
-    {
-      link: "/slide-toggle",
-      icon: "layers",
-      menu: "Slide Toggle",
-    },
+  
+   
   ]
 
   logout(): void {
@@ -134,5 +71,9 @@ export class SidebarBackComponent {
         console.log(err);
       }
     });
+  }
+  editUser(userId: number) {
+    // Navigate to the Edit User route with the user ID as a parameter
+    this.router.navigate(['/back/updateprofile', userId]);
   }
 }

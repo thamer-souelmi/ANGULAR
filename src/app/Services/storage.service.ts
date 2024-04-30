@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {CookieService} from "ngx-cookie-service";
+import { Observable } from 'rxjs';
+import { User } from '../Models/User';
 const USER_KEY = 'auth-user';
 
 @Injectable({
@@ -27,6 +29,11 @@ export class StorageService {
       return JSON.parse(user);
     }
     return {};
+  }
+
+  private baseUrl : string = 'http://localhost:8082/user';
+  getUserById(userId: number): Observable<User> {
+    return this.http.get<User>(`${this.baseUrl}/retrieveOneUser/${userId}`);
   }
   public getUserS(): any {
     const userString = localStorage.getItem(USER_KEY);
