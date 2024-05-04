@@ -79,7 +79,6 @@ export class JobOfferDetailsComponent implements OnInit {
       },
       (error) => {
         console.error('Error adding job offer to wishlist', error);
-        // Handle error scenario
       }
     );
   }
@@ -90,13 +89,11 @@ export class JobOfferDetailsComponent implements OnInit {
     }
     this.candidacyService.addCandidate(newc).subscribe(
       response => {
-        // Handle success, if needed
         console.log('candidate added successfully:', response);
         this.candidacyForm.reset();
 
       },
       error => {
-        // Handle error
         console.error('Error adding candidate:', error);
       }
     );

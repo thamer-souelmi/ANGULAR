@@ -62,5 +62,7 @@ export class TaskService {
     return this.myHttp.get<boolean>(`${this.urlTaskCrud}/Task/available?userId=${userId}`);
   }
 
-
+  searchTasks(keyword: string): Observable<Task[]> {
+    return this.myHttp.get<Task[]>(`${this.urlTaskCrud }/Task/searchTasks?keyword=${keyword}`);
+  }
 }

@@ -1,77 +1,104 @@
-<button class="btn btn-primary " (click)="createNewTask()" >
+
+
+<div class="d-flex justify-content-end mb-3">
+  <button  class="btn btn-add-activity" (click)="createNewTask()">
     <i class="bi bi-plus"></i> 
   </button>
-  <button class="btn suggestions-button" (click)="openFormsuggestModal()">
+  <div >
+   
+    <button mat-raised-button
+            matTooltip="Show Suggestions" class="btn btn-add-activity" style=" position: fixed; right: 130px; bottom: 20px; height: 55px; font-size: 20px; margin-left: 900px; background-color: #fb6d1c; border-color: #fb6d1c; border-radius: 10px;" (click)="openFormsuggestModal()">
+    <i class="bi bi-lightbulb"></i>
+    </button>
+   
+  </div>
+</div>
+  <!--<button class="btn suggestions-button" (click)="openFormsuggestModal()">
     <i class="bi bi-lightbulb"></i> Suggestions
   </button>
-  
-  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+-->
+  <h2>Tasks</h2>
 
-    <!-- Checkbox Column -->
-    <ng-container matColumnDef="select">
-      <th mat-header-cell *matHeaderCellDef>
-        <mat-checkbox (change)="$event ? masterToggle() : null"
-                      [checked]="selection.hasValue() && isAllSelected()"
-                      [indeterminate]="selection.hasValue() && !isAllSelected()"
-                      [aria-label]="checkboxLabel()">
-        </mat-checkbox>
-      </th>
-      <td mat-cell *matCellDef="let row">
-        <mat-checkbox (click)="$event.stopPropagation()"
-                      (change)="$event ? selection.toggle(row) : null"
-                      [checked]="selection.isSelected(row)"
-                      [aria-label]="checkboxLabel(row)">
-        </mat-checkbox>
-      </td>
-    </ng-container>
-  
-
-    <!-- Task Name Column -->
-    <ng-container matColumnDef="taskName">
-      <th mat-header-cell *matHeaderCellDef> Task Name </th>
-      <td mat-cell *matCellDef="let element"> {{ element.taskname }} </td>
-    </ng-container>
-  
-    <!-- Task Status Column -->
-    <ng-container matColumnDef="taskStatus">
-      <th mat-header-cell *matHeaderCellDef> Status </th>
-      <td mat-cell *matCellDef="let element" > <p class="status" class=" badge badge-dark rounded-pill" style="background-color: #ffc107 !important;"><b>Status:</b>{{ element.taskStatus }}</p> </td>
-    </ng-container>
-  
-    <!-- Assigned To Column -->
-    <ng-container matColumnDef="assignedTo">
-      <th mat-header-cell *matHeaderCellDef> Assigned To </th>
-      <td mat-cell *matCellDef="let element"> {{ element.employeeTask.firstname }} </td>
-    </ng-container>
-  
-    <!-- Start Date Column -->
-    <ng-container matColumnDef="startDateTask">
-      <th mat-header-cell *matHeaderCellDef> Start Date </th>
-      <td mat-cell *matCellDef="let element"> {{ element.startDateTask }} </td>
-    </ng-container>
-  
-    <!-- End Date Column -->
-    <ng-container matColumnDef="endDateTask">
-      <th mat-header-cell *matHeaderCellDef> End Date </th>
-      <td mat-cell *matCellDef="let element"> {{ element.dueDateTask }} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="delete">
-      <th mat-header-cell *matHeaderCellDef></th>
-      <td mat-cell *matCellDef="let row">
-        <button mat-icon-button style=" color:#F44336" (click)="deleteTask(row.taskid)" *ngIf="showDeleteIcon(row)">
-          <mat-icon>delete</mat-icon>
-        </button>
-        <button mat-icon-button style=" color:#049565" (click)="updateTask(row)" *ngIf="showEditIcon(row)">
-          <mat-icon>edit</mat-icon>
-        </button>
-      </td>
-    </ng-container>
+<br>
+ 
+  <div class="col-md-10 offset-md-5">
+    <div class="input-group mb-3">
+      <div class="search">
+        <input placeholder="Search..." type="text" [(ngModel)]="searchtext" >
+        <button type="submit" >Go</button>
+      </div>
+    </div>
+  </div>
+     
+    <div id="dataTable" class="table-responsive">
+      <div class="mat-elevation-z8">
+      <table class="table mt-3 table-striped" matSort (matSortChange)="sortData($event)"  style="width:100%" >
+        
+<thead>
+          <tr role="row">
+            <th></th>
+            <th >Task Description</th>
+            <th >Status</th>
+            <th  >Priority</th>
+            <th mat-sort-header="quantity">Assigned To</th>
+            <th mat-sort-header="unitPrice">Start Date</th>
+            <th mat-sort-header="totalAmount">Deadline</th>
+            <th ></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr  *ngFor="let task of getDisplayedProjects() | filtertaskpipe:searchtext "  (click)="onRowClick(task)"style="cursor: pointer;">
+<td></td>
+            <td>{{ task.taskDescription }}</td>
+            <td><span class="badge badge-online " *ngIf="task.taskStatus === 'INPROGRESS'">ONGOING</span>
+              <span class="badge badge-planned" *ngIf="task.taskStatus === 'TODO'">PLANNED</span>
+              <span class="badge badge-offline" *ngIf="task.taskStatus === 'CANCELLED'">CANCELED</span>
+              <span class="badge badge-completed" *ngIf="task.taskStatus === 'COMPLETED'">COMPLETED</span>
+            </td>
+            <td >  
+              <span class="badge badge-online " *ngIf="task.priority === 'LOW'">LOW</span>
+              <span class="badge badge-planned" *ngIf="task.priority === 'MEDUIM'">MEDUIM</span>
+              <span class="badge badge-offline" *ngIf="task.priority === 'HIGH'">HIGH</span>
+            
+            
+            
+            </td>
+            <td><ul class="team-members">
+              <li>
+                <a data-bs-toggle="tooltip" [title]="task.employeeTask ? (task.employeeTask.firstname + ' ' + task.employeeTask.lastname) : 'Unknown'">
+                  <img src="assets/BackOffice/profiles/avatar-16.jpg" class="task-avatar" width="24" height="24" alt="User Image">
+              </a>              </li>
+              </ul></td>
+            <td>{{ task.startDateTask | date}}</td>
+            <td>{{ task.dueDateTask | date }}</td>
+            <td >
+              <button mat-icon-button style=" color: #fb6d1c"*ngIf="selectedInvoice === task" (click)="updateTask(task)">
+              <mat-icon *ngIf="showEditIcon(task)">edit</mat-icon>
+            </button>
+            <button mat-icon-button style=" color:#F44336"*ngIf="selectedInvoice === task" (click)="deleteTask(task.taskid)" >
+              <mat-icon *ngIf="showDeleteIcon(task)">delete</mat-icon>
+            </button>
     
-    
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"
-        (click)="selection.toggle(row)">
-    </tr>
-  </table>
+          </td>
+            
+            
+          </tr>
+        </tbody>
+      </table>
+      <mat-paginator [pageSizeOptions]="[2, 4, 6]"
+      showFirstLastButtons
+      >
+</mat-paginator>
+  </div>
+    </div>
+
+
+
+
+
+
+
+  
+  <!--MONTAHE-->
+  <br>
   

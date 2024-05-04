@@ -96,6 +96,20 @@ import { ProjectFormComponent } from './FrontOffice/pages/Project/project-form/p
 import { ProjectDetailsComponent } from './FrontOffice/pages/Project/project-details/project-details.component';
 import { ProjectCalendarModalComponent } from './FrontOffice/pages/Project/project-calendar-modal/project-calendar-modal.component';
 import { GetAllProjectComponent } from './FrontOffice/pages/Project/get-all-project/get-all-project.component';
+import { GetInvoicebyProjectComponent } from './BackOffice/Pages/Invoice/get-invoiceby-project/get-invoiceby-project.component';
+import { InvoiceFrontComponent } from './FrontOffice/pages/Invoice/invoice-front/invoice-front.component';
+import { AddInvoiceItemComponent } from './FrontOffice/pages/Invoice/add-invoice-item/add-invoice-item.component';
+import { EditInvoiceItemComponent } from './FrontOffice/pages/Invoice/edit-invoice-item/edit-invoice-item.component';
+import { ProjectsbackComponent } from './BackOffice/Pages/Project/projectsback/projectsback.component';
+import { AddlinkComponent } from './BackOffice/Pages/Task/addlink/addlink.component';
+import { MatBadgeModule } from '@angular/material/badge';
+import { TeamsmodalComponent } from './BackOffice/Pages/Project/teamsmodal/teamsmodal.component';
+import { SavelistProjectComponent } from './FrontOffice/pages/Project/savelist-project/savelist-project.component';
+import { ContractbyprojectComponent } from './FrontOffice/pages/contract/contractbyproject/contractbyproject.component';
+import { AddcontractComponent } from './FrontOffice/pages/contract/addcontract/addcontract.component';
+import { GetallcontractsComponent } from './FrontOffice/pages/contract/getallcontracts/getallcontracts.component';
+import { EditContractComponent } from './FrontOffice/pages/contract/edit-contract/edit-contract.component';
+import { FiltertaskpipePipe } from './FrontOffice/pages/Task/filtertaskpipe.pipe';
 
 
 @NgModule({
@@ -158,6 +172,19 @@ import { GetAllProjectComponent } from './FrontOffice/pages/Project/get-all-proj
     ProjectDetailsComponent,
     ProjectCalendarModalComponent,
     GetAllProjectComponent,
+    GetInvoicebyProjectComponent,
+    InvoiceFrontComponent,
+    AddInvoiceItemComponent,
+    EditInvoiceItemComponent,
+    ProjectsbackComponent,
+    AddlinkComponent,
+    TeamsmodalComponent,
+    SavelistProjectComponent,
+    ContractbyprojectComponent,
+    AddcontractComponent,
+    GetallcontractsComponent,
+    EditContractComponent,
+    FiltertaskpipePipe,
   ],
   imports: [
     BrowserModule,
@@ -171,7 +198,7 @@ import { GetAllProjectComponent } from './FrontOffice/pages/Project/get-all-proj
     MatPaginatorModule,
     MatIconModule,
     MatDialogModule,
-    MatTableModule,
+    
     MatButtonModule,
     CommonModule,
     NgbModalModule,
@@ -222,6 +249,9 @@ import { GetAllProjectComponent } from './FrontOffice/pages/Project/get-all-proj
 
     MatCardModule,
     MatGridListModule,
+    MatBadgeModule
+
+
     
 
   ],

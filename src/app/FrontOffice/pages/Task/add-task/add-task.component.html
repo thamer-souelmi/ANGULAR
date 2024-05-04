@@ -56,16 +56,16 @@
         </div>
         <br>
         <div class="form-group">
-          <label for="project">Project:</label>
-          <select id="project" [(ngModel)]="selectedProject" name="project" class="form-control" required>
-            <option *ngFor="let project of projects" [ngValue]="project">{{ project.projectName }}</option>
+          <label for="projetT">Project:</label>
+          <select id="projetT" [(ngModel)]="selectedProject" name="projetT" class="form-control" required>
+            <option *ngFor="let project of projects" [value]="project">{{ project.projectName }}</option>
           </select>
         </div>
         <br>
         <div class="form-group">
-          <label for="Employee">Membre:</label>
-          <select id="Employee" [(ngModel)]="selectedEmployee" name="Employee" class="form-control" required>
-            <option *ngFor="let Employee of employees" [ngValue]="Employee">{{ Employee.firstname }} {{ Employee.lastname }} </option>
+          <label for="employeeTask">Membre:</label>
+          <select id="employeeTask" [(ngModel)]="selectedEmployee" name="employeeTask" class="form-control" required>
+            <option *ngFor="let Employee of employees" [value]="Employee">{{ Employee.firstname }} {{ Employee.lastname }} </option>
           </select>
         </div>
         <br>
@@ -76,4 +76,5 @@
       </form>
     </div>
   </div>
+
 -->

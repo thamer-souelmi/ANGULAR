@@ -1,0 +1,105 @@
+<head>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" 
+rel="stylesheet">
+</head>
+<div class="content-wrapper">
+    <div class="content">			
+        		<div class="invoice-wrapper rounded border bg-white py-5 px-3 px-md-4 px-lg-5 mb-6">
+                    
+                  <div class="d-flex justify-content-between">
+                      <h2 class="text-dark font-weight-medium">Invoice #264648</h2>
+                      <div class="btn-group" >
+                        <div class="col">
+                          <button class="btn-add-activity" data-bs-toggle="modal" data-bs-target="#addEventModal" style="background-color:#049565 ;" (click)="exportToPdf()">
+                              <i class="mdi mdi-content-save"></i></button></div>
+                              <div class="col"> 
+                          <button class=" btn-calender" data-bs-toggle="modal" data-bs-target="#calendarModal"style="background-color:#049565 ;" (click)="exportToExcel()">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-excel" viewBox="0 0 16 16">
+                              <path d="M5.884 6.68a.5.5 0 1 0-.768.64L7.349 10l-2.233 2.68a.5.5 0 0 0 .768.64L8 10.781l2.116 2.54a.5.5 0 0 0 .768-.641L8.651 10l2.233-2.68a.5.5 0 0 0-.768-.64L8 9.219l-2.116-2.54z"/>
+                              <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
+                            </svg></button></div>
+                      </div>
+
+
+                  </div>
+                  <div id="contentToExport" >
+                  <div class="row pt-5">
+                      <div class="col-xl-3 col-lg-4">
+                          <p class="text-dark mb-2">From</p>
+                          <address>
+                              CoConsult
+                              <br> Tunisie, Ariana Soghra, WP9M 3ZZ
+                              <br> Email: Coconsult@gmail.com
+                              <br> Phone: +216 95 392 119
+                          </address>
+                      </div>
+                      <div class="col-xl-3 col-lg-4">
+                          <p class="text-dark mb-2">To</p>
+                          <address>
+                              Company Name
+                              <br> 58 Jamie Ways, North Faye, Q5 5ZP
+                              <br> Email: example@gmail.com
+                              <br> Phone: +91 5264 521 943
+                          </address>
+                      </div>
+                      <div class="col-xl-3 col-lg-4">
+                          <p class="text-dark mb-2">Details</p>
+                          <address>
+                              Project Name:
+                              <span class="text-dark">{{ invoices[0]?.projetInvoice?.projectName }}</span> <!-- Affichage de l'identifiant du projet -->
+                              <br> <span class="text-dark">{{ invoices[0]?.projetInvoice?.startdateProject | date:'mediumDate' }}</span> <!-- Affichage de la date de début du projet -->
+                              
+                          </address>
+                      </div>
+      </div>
+      
+      <div id="dataTable" class="table-responsive">
+        <table class="table mt-3 table-striped" style="width:100%">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Item</th>
+              <th>Description</th>
+              <th>Quantity</th>
+              <th>Unit Cost</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let invoice of invoices; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ invoice.item }}</td>
+              <td>{{ invoice.invoiceDescription }}</td>
+              <td>{{ invoice.quantity }}</td>
+              <td>{{ invoice.unitPrice | currency }}</td>
+              <td>{{ invoice.totalAmount | currency }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="row justify-content-end">
+        <div class="col-lg-5 col-xl-4 col-xl-3 ml-sm-auto">
+          <ul class="list-unstyled mt-4">
+            <li class="mid pb-3 text-dark"> Subtotal
+              <span class="d-inline-block float-right text-default">{{ calculateSubtotal() | currency }}</span>
+            </li>
+            <li class="mid pb-3 text-dark">VAT (10%)
+              <span class="d-inline-block float-right text-default">{{ calculateVat() | currency }}</span>
+            </li>
+            <li class="pb-3 text-dark">Total
+              <span class="d-inline-block float-right">{{ calculateTotal() | currency }}</span>
+            </li>
+            <li class="pb-3 text-dark">
+                <button class="btn btn-link" (click)="convertToCurrency('EUR')">EUR</button>
+                <button class="btn btn-link" (click)="convertToCurrency('USD')">USD</button>
+                <button class="btn btn-link" (click)="convertToCurrency('TND')">TND</button>
+              </li>
+          </ul>
+        </div>
+        </div>
+        
+    </div>
+          <a href="#" class="btn btn-block mt-2 btn-lg btn-primary btn-pill" style="background-color: #fb6d1c; border-color: #fb6d1c;"> Proceed to Payment</a>
+        </div>
+      </div>
+    </div>

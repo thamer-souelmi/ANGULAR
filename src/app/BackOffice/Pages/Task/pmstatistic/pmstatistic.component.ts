@@ -20,7 +20,10 @@ export class PMstatisticComponent implements OnInit {
     private taskService: TaskService,
     private projectService: ProjectService
   ) { }
-
+  ngOnInit(): void {      // a effacerrrrrrr
+    
+  }
+/*
   ngOnInit(): void {
     this.taskService.getAllTasks().subscribe(tasks => {
       this.taskData = tasks;
@@ -93,4 +96,5 @@ export class PMstatisticComponent implements OnInit {
       }]
     });
   }
+  */
 }
