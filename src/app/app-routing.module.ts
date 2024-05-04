@@ -51,9 +51,19 @@ import { PMstatisticComponent } from './BackOffice/Pages/Task/pmstatistic/pmstat
 import { PiecharttaskComponent } from './BackOffice/Pages/Task/piecharttask/piecharttask.component';
 
 import {ActivityBComponent} from "./BackOffice/Pages/activity-b/activity-b.component";
+import { FindAllJobOffersComponent } from './FrontOffice/Pages/JobOffer/find-all-job-offers/find-all-job-offers.component';
+import { ForgotPasswordComponent } from './BackOffice/Pages/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './BackOffice/Pages/reset-password/reset-password.component';
+import { UpdateUserComponent } from './BackOffice/Pages/update-user/update-user.component';
+import { UserDetailComponent } from './BackOffice/Pages/user-detail/user-detail.component';
+import { AddUserComponent } from './BackOffice/Pages/add-user/add-user.component';
+import { LeavesComponent } from './BackOffice/Pages/leaves/leaves.component';
+import { LeavesDetailsComponent } from './BackOffice/Pages/leaves-details/leaves-details.component';
+import { LeaveComponent } from './FrontOffice/Pages/leave/leave.component';
 import {TrainingSessionComponent} from "./FrontOffice/pages/training-session/training-session.component";
 
 import { FindAllJobOffersComponent } from './FrontOffice/pages/JobOffer/find-all-job-offers/find-all-job-offers.component';
+
 import { GetInvoicebyProjectComponent } from './BackOffice/Pages/Invoice/get-invoiceby-project/get-invoiceby-project.component';
 import { InvoiceFrontComponent } from './FrontOffice/pages/Invoice/invoice-front/invoice-front.component';
 import { ProjectsbackComponent } from './BackOffice/Pages/Project/projectsback/projectsback.component';
@@ -62,6 +72,10 @@ import { ContractbyprojectComponent } from './FrontOffice/pages/contract/contrac
 import { AddcontractComponent } from './FrontOffice/pages/contract/addcontract/addcontract.component';
 import { GetallcontractsComponent } from './FrontOffice/pages/contract/getallcontracts/getallcontracts.component';
 import { EditContractComponent } from './FrontOffice/pages/contract/edit-contract/edit-contract.component';
+
+import {FindAllQuizComponent} from "./BackOffice/Pages/Quiz/find-all-quiz/find-all-quiz.component";
+import {RoomComponent} from "./BackOffice/Pages/room/room.component";
+
 
 
 
@@ -73,6 +87,11 @@ const routes: Routes = [
 
   },
   {
+    path: "reset",
+    component: ForgotPasswordComponent,
+
+  },
+  { path: 'reset/:token', component: ResetPasswordComponent },
     path:"trainigSession", component:AllTemplateFrontComponent,
     children:[
       {path:"trainigSession", component:TrainingSessionComponent}
@@ -95,9 +114,9 @@ const routes: Routes = [
       {path: 'statisticsCandidacies', component: StatisticsCandidaciesComponent},
       {path: 'statisticsInterviews', component: StatisticsInterviewComponent},
       {path: 'findInterviewBack/:id', component: InterviewDetailsBackComponent},
+      {path: 'findQuiz', component: FindAllQuizComponent},
 
-
-
+      {path:'room',component: RoomComponent},
       { path: 'taskback', component: TaskbackComponent},
 
       //{path:"findall", component:FindAllUsersComponent},
@@ -105,6 +124,13 @@ const routes: Routes = [
       {path:"EventBack", component:EventBComponent},
       {path:"activityB",component:ActivityBComponent},
       {path:"findall", component:FindAllUsersComponent},
+
+      {path:"updateprofile/:", component:UpdateUserComponent},
+      {path:"userdetails/:id", component:UserDetailComponent},
+      {path:"adduser", component:AddUserComponent},
+      {path:"leaves", component:LeavesComponent},
+      {path:"leavedetails/:id", component:LeavesDetailsComponent},
+
 
     ]},
 
@@ -114,6 +140,7 @@ const routes: Routes = [
     component: AllTemplateFrontComponent,
     children:[
       {path:"home", component:HomeFrontComponent },
+      {path:"leave", component:LeaveComponent},
     ]
   },
   {
@@ -178,6 +205,9 @@ const routes: Routes = [
       component: AllTemplatBackComponent,children:[
         { path: 'findProjects', component:FindAllProjectsComponent },
         { path: 'projectchart', component:ProjectChartComponent },
+        { path: 'kanban-task', component: KanbanBoardComponent},
+
+
         { path: 'kanbanback', component: KanbanboardbackComponent},
         { path: 'taskback/:projectId', component: TaskbackComponent},
         { path: 'gantt', component: AppGanttChartComponent},

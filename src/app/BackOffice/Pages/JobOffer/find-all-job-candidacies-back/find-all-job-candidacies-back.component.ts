@@ -21,6 +21,8 @@ export class FindAllJobCandidaciesBackComponent implements OnInit{
   jobOfferId: number = 0;
   candidacies: Candidacy[] = [];
   searchtext:any;
+  currentPage: number = 1; // Current page
+  itemsPerPage: number = 6; // Items per page
 
   ngOnInit(): void {
     // No need to subscribe to route params here, as it's already done in the constructor
@@ -77,7 +79,7 @@ export class FindAllJobCandidaciesBackComponent implements OnInit{
     });
   }
   navigateToStatistics() {
-    this.router.navigate(['/statisticsCandidacies']);
+    this.router.navigate(['/back/statisticsCandidacies']);
   }
   openDetailModal(candidate: Candidacy) {
     const dialogRef = this.dialog.open(CandidateLinkedInDetailsBackComponent, {
@@ -87,5 +89,24 @@ export class FindAllJobCandidaciesBackComponent implements OnInit{
     dialogRef.afterClosed().subscribe(result => {
       // Handle modal close event if needed
     });
+  }
+  onPageChange(pageNumber: number) {
+    this.currentPage = pageNumber;
+  }
+
+  getPaginatedItems() {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    return this.candidacies.slice(startIndex, startIndex + this.itemsPerPage);
+  }
+  getTotalPages(): number {
+    return Math.ceil(this.candidacies.length / this.itemsPerPage);
+  }
+  getPaginationNumbers(): number[] {
+    const totalPages = this.getTotalPages();
+    const pagesArray = [];
+    for (let i = 1; i <= totalPages; i++) {
+      pagesArray.push(i);
+    }
+    return pagesArray;
   }
 }

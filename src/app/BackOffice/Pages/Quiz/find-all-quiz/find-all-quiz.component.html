@@ -1,0 +1,34 @@
+<br>
+<br>
+<h2>Quiz Questions</h2>
+<br>
+<br>
+<button mat-raised-button (click)="openAddQuizQuestionDialog()">Add Quiz Question</button>
+<br>
+<br>
+<div class="card-container">
+  <ng-container *ngFor="let chunk of quizQuestions | chunk: 4">
+    <div class="card-row">
+      <div *ngFor="let question of chunk" class="flip-card" (click)="flipCard($event.target)">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <h6>{{ question.question }}</h6>
+          </div>
+          <div class="flip-card-back">
+            <ul>
+              <li *ngFor="let option of question.options">
+                {{ option.answer }} - {{ option.isCorrect ? 'Correct' : 'Incorrect' }}
+              </li>
+            </ul>
+            <button mat-mini-fab color="warn" (click)="deleteQuizQuestion(question.questionId)">
+              <mat-icon>delete</mat-icon>
+            </button>
+            <button mat-mini-fab color="primary" (click)="openEditQuizQuestionDialog(question)">
+              <mat-icon>edit</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>

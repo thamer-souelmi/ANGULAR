@@ -26,7 +26,9 @@ export class AllTemplatBackComponent  implements OnInit {
     if (!this.storageService.isLoggedIn())
       this.router.navigate(['']);
     else if (!isAdmin) {
-      this.router.navigate(['home']);    }
+      this.router.navigate(['home']);
+    } 
+
   }
 }
 

@@ -92,6 +92,7 @@ import {
   TrainingSessionComponent} from './FrontOffice/pages/training-session/training-session.component';
 import {MatGridListModule} from "@angular/material/grid-list";
 import { EventBComponent } from './BackOffice/Pages/event-b/event-b.component';
+
 import { ProjectFormComponent } from './FrontOffice/pages/Project/project-form/project-form.component';
 import { ProjectDetailsComponent } from './FrontOffice/pages/Project/project-details/project-details.component';
 import { ProjectCalendarModalComponent } from './FrontOffice/pages/Project/project-calendar-modal/project-calendar-modal.component';
@@ -110,6 +111,30 @@ import { AddcontractComponent } from './FrontOffice/pages/contract/addcontract/a
 import { GetallcontractsComponent } from './FrontOffice/pages/contract/getallcontracts/getallcontracts.component';
 import { EditContractComponent } from './FrontOffice/pages/contract/edit-contract/edit-contract.component';
 import { FiltertaskpipePipe } from './FrontOffice/pages/Task/filtertaskpipe.pipe';
+
+
+import { ForgotPasswordComponent } from './BackOffice/Pages/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './BackOffice/Pages/reset-password/reset-password.component';
+import { UpdateUserComponent } from './BackOffice/Pages/update-user/update-user.component';
+import { UserDetailComponent } from './BackOffice/Pages/user-detail/user-detail.component';
+import { AddUserComponent } from './BackOffice/Pages/add-user/add-user.component';
+import { LeavesComponent } from './BackOffice/Pages/leaves/leaves.component';
+import { LeavesDetailsComponent } from './BackOffice/Pages/leaves-details/leaves-details.component';
+import { AddLeaveComponent } from './BackOffice/Pages/add-leave/add-leave.component';
+import { LeaveComponent } from './FrontOffice/Pages/leave/leave.component';
+import { JitsiComponent } from './FrontOffice/pages/Interview/jitsi/jitsi.component';
+import { AddInterviewComponent } from './FrontOffice/pages/Interview/add-interview/add-interview.component';
+import { FindAllQuizComponent } from './BackOffice/Pages/Quiz/find-all-quiz/find-all-quiz.component';
+import { ChunkPipe } from './BackOffice/Pages/Quiz/chunk.pipe';
+import { AddQuizQuestionComponent } from './BackOffice/Pages/Quiz/add-quiz-question/add-quiz-question.component';
+import { EditQuizQuestionComponent } from './BackOffice/Pages/Quiz/edit-quiz-question/edit-quiz-question.component';
+import { RoomComponent } from './BackOffice/Pages/room/room.component';
+import {BsDropdownModule} from "ngx-bootstrap/dropdown";
+import {JoinPipe} from "./join.pipe";
+import {NgxPaginationModule} from "ngx-pagination";
+import { CustomizerComponent } from './customizer/customizer.component';
+import {PickerComponent, PickerModule} from "@ctrl/ngx-emoji-mart";
+import {EmojiModule} from "@ctrl/ngx-emoji-mart/ngx-emoji";
 
 
 @NgModule({
@@ -172,6 +197,7 @@ import { FiltertaskpipePipe } from './FrontOffice/pages/Task/filtertaskpipe.pipe
     ProjectDetailsComponent,
     ProjectCalendarModalComponent,
     GetAllProjectComponent,
+
     GetInvoicebyProjectComponent,
     InvoiceFrontComponent,
     AddInvoiceItemComponent,
@@ -185,6 +211,29 @@ import { FiltertaskpipePipe } from './FrontOffice/pages/Task/filtertaskpipe.pipe
     GetallcontractsComponent,
     EditContractComponent,
     FiltertaskpipePipe,
+
+    ForgotPasswordComponent,
+    ResetPasswordComponent,
+    UpdateUserComponent,
+    UserDetailComponent,
+    AddUserComponent,
+    LeavesComponent,
+    LeavesDetailsComponent,
+    AddLeaveComponent,
+    LeaveComponent,
+
+    JitsiComponent,
+    AddInterviewComponent,
+    FindAllQuizComponent,
+    ChunkPipe,
+    AddQuizQuestionComponent,
+    EditQuizQuestionComponent,
+    RoomComponent,
+    JoinPipe,
+    CustomizerComponent
+
+
+
   ],
   imports: [
     BrowserModule,
@@ -209,19 +258,19 @@ import { FiltertaskpipePipe } from './FrontOffice/pages/Task/filtertaskpipe.pipe
     MatMenuModule,
     MatSnackBarModule,
     ToastrModule.forRoot({
-      timeOut:2000,
-      progressBar:true,
-      progressAnimation:"increasing",
-      preventDuplicates:true
+      timeOut: 2000,
+      progressBar: true,
+      progressAnimation: "increasing",
+      preventDuplicates: true
     }),
     MatButtonModule,
     FeatherModule.pick(allIcons),
     BrowserAnimationsModule,
     ToastrModule.forRoot({
-      timeOut:2000,
-      progressBar:true,
-      progressAnimation:"increasing",
-      preventDuplicates:true
+      timeOut: 2000,
+      progressBar: true,
+      progressAnimation: "increasing",
+      preventDuplicates: true
     }), // ToastrModule added
     MatCardModule,
     NgxChartsModule,
@@ -240,7 +289,8 @@ import { FiltertaskpipePipe } from './FrontOffice/pages/Task/filtertaskpipe.pipe
     DragDropModule,
 
     AvatarModule,
-   ChartModule,
+    ChartModule,
+    BsDropdownModule.forRoot(),
 
     FullCalendarModule,
     MatSortModule,
@@ -249,10 +299,18 @@ import { FiltertaskpipePipe } from './FrontOffice/pages/Task/filtertaskpipe.pipe
 
     MatCardModule,
     MatGridListModule,
+
     MatBadgeModule
 
 
     
+
+    NgxPaginationModule,
+    EmojiModule,
+    PickerComponent,
+
+
+
 
   ],
   providers: [httpInterceptorProviders,DatePipe],

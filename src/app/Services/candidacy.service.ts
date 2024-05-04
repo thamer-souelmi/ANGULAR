@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpRequest, HttpEvent } from '@angular/common/http';
+import {HttpClient, HttpRequest, HttpEvent, HttpHeaders} from '@angular/common/http';
 import { Candidacy } from '../Models/candidacy';
 import { Observable } from 'rxjs';
 
@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class CandidacyService {
   urlCandidacy: string = "http://localhost:8082/candidacy";
-urlRecommender:string="http://127.0.0.1:5000/";
+// urlRecommender:string="http://127.0.0.1:5000/";
   findAllCandidacies(): Observable<Candidacy[]> {
     return this.myHttp.get<Candidacy[]>(this.urlCandidacy + '/findAllCandidacies');
   }
@@ -21,8 +21,8 @@ urlRecommender:string="http://127.0.0.1:5000/";
     submissionDate: any;
     email: any;
     candidacystatus: any
-  }): Observable<Candidacy> {
-    return this.myHttp.post<Candidacy>(this.urlCandidacy + '/addCandidacy', candidate);
+  }, id: number): Observable<Candidacy> {
+    return this.http.post<Candidacy>(`${this.urlCandidacy}/addCandidacy?id=${id}`, candidate);
   }
 
   constructor(private myHttp:HttpClient,private http:HttpClient) { }
@@ -54,10 +54,10 @@ urlRecommender:string="http://127.0.0.1:5000/";
     const updateUrl = `${this.urlCandidacy}/updateCandidacyStatus`;
     return this.myHttp.put<Candidacy>(updateUrl, candidacy);
   }
-  verifyEmail(email: string): Observable<any> {
-    const apiUrl = `https://api.proofy.io/verifyaddr?aid=60118&key=TgMZZ2TTg7G1tDjsSpWPnJUg&email=${email}`;
-    return this.myHttp.get(apiUrl);
-  }
+  // verifyEmail(email: string): Observable<any> {
+  //   const apiUrl = `https://api.proofy.io/verifyaddr?aid=60118&key=TgMZZ2TTg7G1tDjsSpWPnJUg&email=${email}`;
+  //   return this.myHttp.get(apiUrl);
+  // }
   getCandidateStatisticsByCountry(): Observable<any[]> {
     const url = `${this.urlCandidacy}/candidateStatisticsByCountry`;
     return this.myHttp.get<any[]>(url);
@@ -66,9 +66,15 @@ urlRecommender:string="http://127.0.0.1:5000/";
     const url = `${this.urlCandidacy}/mostQualifiedCandidatesStatistics`;
     return this.myHttp.get<any[]>(url);
   }
+  // sendRequirements(requirements: any) {
+  //   const url = `${this.urlRecommender}`; // Update the URL to point to your Flask server
+  //   return this.http.post<any>(url, requirements); // Pass requirements as the second argument
+  // }
   sendRequirements(requirements: any) {
-    const url = `${this.urlRecommender}`; // Update the URL to point to your Flask server
-    return this.http.post<any>(url, requirements); // Pass requirements as the second argument
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+
+    return this.http.post<any>('http://127.0.0.1:5000', requirements, { headers: headers, withCredentials: true });
   }
+
 
 }

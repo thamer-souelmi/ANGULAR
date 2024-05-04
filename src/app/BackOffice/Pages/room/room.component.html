@@ -1,0 +1,110 @@
+<div class="container">
+  <div class="d-flex justify-content-center mb-5">
+    <mat-form-field appearance="outline" class="w-75 mx-auto">
+      <mat-label>Search rooms</mat-label>
+      <input matInput [(ngModel)]="searchQuery" (ngModelChange)="onSearchQueryChanged($event)">
+    </mat-form-field>
+  </div>
+
+  <h2>Manage Rooms</h2>
+  <button class="btn btn-primary" (click)="openAddRoomModal()">Add Room</button>
+  <table class="table">
+    <thead>
+    <tr>
+      <th>Name</th>
+      <th>Capacity</th>
+      <th>Available</th>
+      <th>Equipment</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let room of filteredRooms">
+      <td>{{ room.nameRoom }}</td>
+      <td>{{ room.capacityRoom }}</td>
+      <td>{{ room.available ? 'Yes' : 'No' }}</td>
+      <td>{{ room.equipmentR.join(', ') }}</td>
+      <td>
+        <button class="btn btn-info" (click)="openEditRoomModal(room)">Edit</button>
+        <button class="btn btn-danger" (click)="onDelete(room.id!)">Delete</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <div class="d-flex justify-content-center align-items-center mt-3">
+    <button class="btn btn-primary me-2" (click)="previousPage()" [disabled]="page === 0">
+      <i class="bi bi-chevron-left"></i>
+    </button>
+    <label for="pageSize" class="me-2">Rooms per page:</label>
+    <select class="form-select me-2" [(ngModel)]="size" (change)="loadRooms()" id="pageSize" style="width: auto;">
+      <option value="5">5</option>
+      <option value="10">10</option>
+      <option value="15">15</option>
+      <option value="20">20</option>
+    </select>
+    <button class="btn btn-primary" (click)="nextPage()" [disabled]="rooms.length < size">
+      <i class="bi bi-chevron-right"></i>
+    </button>
+  </div>
+
+
+</div>
+
+<!-- Add/Edit Room Modal -->
+<ng-template #roomFormModal let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title">{{ editMode ? 'Edit Room' : 'Add Room' }}</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="roomForm" (ngSubmit)="onSubmit()">
+      <div class="mb-3">
+        <div class="input-emoji-container">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Name:</mat-label>
+            <input matInput type="text" formControlName="name" required>
+            <button matSuffix mat-icon-button (click)="toggleEmojiPicker()">
+              <mat-icon>insert_emoticon</mat-icon>
+            </button>
+          </mat-form-field>
+      </div>
+      <!-- Your emoji picker -->
+        <div *ngIf="showEmojiPicker" class="emoji-picker-container">
+          <emoji-mart title="Choisissez un emoji" (emojiClick)="addEmoji($event)"></emoji-mart>
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="capacity_room">Capacity:</label>
+        <input type="number" class="form-control" id="capacity_room" formControlName="capacity" required>
+      </div>
+      <div class="mb-3">
+        <label for="available">Available:</label>
+        <input type="checkbox" id="available" formControlName="available">
+      </div>
+      <div class="mb-3">
+        <label for="equipmentr">Equipment:</label>
+        <select multiple class="form-control" id="equipmentr" formControlName="equipment">
+          <option *ngFor="let equipment of equipmentOptions" [ngValue]="equipment">{{ equipment }}</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary" [disabled]="roomForm.invalid">{{ editMode ? 'Save' : 'Add' }}</button>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">Cancel</button>
+  </div>
+</ng-template>
+<ng-template #deleteConfirm let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title">Confirm Deletion</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    Are you sure you want to delete this room?
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="confirmDelete(modal)">Delete</button>
+    <button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">Cancel</button>
+  </div>
+</ng-template>
+<!--<app-customizer> </app-customizer>-->

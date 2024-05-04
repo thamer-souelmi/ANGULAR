@@ -16,13 +16,18 @@ import {InterviewCalendarComponent} from "../../Interview/interview-calendar/int
 import {
   CandiadateLinkedInDetailsComponent
 } from "../candiadate-linked-in-details/candiadate-linked-in-details.component";
+import {AddInterviewComponent} from "../../Interview/add-interview/add-interview.component";
+import {DatePipe} from "@angular/common";
 
 @Component({
   selector: 'app-find-all-job-candidacies',
   templateUrl: './find-all-job-candidacies.component.html',
-  styleUrls: ['./find-all-job-candidacies.component.css']
+  styleUrls: ['./find-all-job-candidacies.component.css'],
+  providers: [DatePipe]
 })
 export class FindAllJobCandidaciesComponent implements OnInit{
+  searchtext:any;
+  recommendationResponse: string = ''; // Variable to store recommendation response
   candidacystatus: number = 0;
   @ViewChild('myModal') myModal!: ElementRef;
   selectedCandidacy: Candidacy | null = null; // Variable to store selected candidacy
@@ -40,7 +45,8 @@ export class FindAllJobCandidaciesComponent implements OnInit{
 
   candidacies: Candidacy[] = [];
   appointmentForm!: FormGroup;
-
+  currentPage: number = 1; // Current page
+  itemsPerPage: number = 6; // Items per page
   constructor(private c: CandidacyService, private fb: FormBuilder, private route: ActivatedRoute, private router: Router, private toastr: ToastrService,private http: HttpClient,private recommendationService: RecommendationService,public dialog: MatDialog) {
     this.appointmentForm = this.fb.group({
       appointmentTime: ['', Validators.required],
@@ -107,7 +113,9 @@ export class FindAllJobCandidaciesComponent implements OnInit{
     console.log('Loading candidacies for Job Offer ID:', jobOfferId);
     this.c.getAllCandidaciesByJobOfferId(jobOfferId)
       .subscribe(candidacies => {
-        this.candidacies = candidacies;
+// Assuming `candidacies` is an array of Candidacy objects
+        this.candidacies = candidacies.filter(candidacy => !candidacy.archived);
+        console.log( "hiiiii",this.candidacies)
       }, error => {
         console.error('Error fetching candidacies:', error);
         // Handle error appropriately, e.g., show error message to user
@@ -149,8 +157,11 @@ export class FindAllJobCandidaciesComponent implements OnInit{
       // Display toastr notification based on the candidacy status
       if (status === -1) {
         this.toastr.error('Candidate Rejected !', 'Oops');
+        window.location.reload();
+
       } else if (status === 2) {
         this.toastr.success('Candidate Hired !', 'Success');
+
       }
       else if (status === 1) {
         this.toastr.info('Candidate Selected for Interview !', 'Success');
@@ -199,13 +210,31 @@ export class FindAllJobCandidaciesComponent implements OnInit{
       spring: 4,
       'C++': 3,
       'C#': 0,
-      candidate: 5 // Assuming you want to send a value of 1 for the number of candidates
+      candidate: 2 // Assuming you want to send a value of 1 for the number of candidates
     };
 
-    this.recommendationService.sendRequirements(requirements).subscribe(
+    // this.c.sendRequirements(requirements).subscribe(
+    //   (response) => {
+    //     console.log('Response from server:', response);
+    //     // Handle the response from the server as needed
+    //   },
+    //   (error) => {
+    //     console.error('Error sending requirements:', error);
+    //     // Handle errors
+    //   }
+    // );
+    this.c.sendRequirements(requirements).subscribe(
       (response) => {
         console.log('Response from server:', response);
-        // Handle the response from the server as needed
+        // Format the response array
+        const formattedResponse = response.map((item: any, index: number) => `${index + 1}.${item[1]}:${item[0]}`);
+        // Join the formatted response array into a single string with line breaks
+        const formattedResponseString = formattedResponse.join('\n');
+        // Store the formatted response in recommendationResponse variable
+        this.recommendationResponse = formattedResponseString;
+        // Open the response modal
+        const responseModal = new bootstrap.Modal(document.getElementById('responseModal')!);
+        responseModal.show();
       },
       (error) => {
         console.error('Error sending requirements:', error);
@@ -227,5 +256,34 @@ export class FindAllJobCandidaciesComponent implements OnInit{
     dialogRef.afterClosed().subscribe(result => {
       // Handle modal close event if needed
     });
+  }
+  addInterviewModal() {
+    const dialogRef = this.dialog.open(AddInterviewComponent, {
+      width: '500px',
+      data: { /* any data you want to pass to the modal */ }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      // Logic to handle modal close event if needed
+    });
+  }
+  onPageChange(pageNumber: number) {
+    this.currentPage = pageNumber;
+  }
+
+  getPaginatedItems() {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    return this.candidacies.slice(startIndex, startIndex + this.itemsPerPage);
+  }
+  getTotalPages(): number {
+    return Math.ceil(this.candidacies.length / this.itemsPerPage);
+  }
+  getPaginationNumbers(): number[] {
+    const totalPages = this.getTotalPages();
+    const pagesArray = [];
+    for (let i = 1; i <= totalPages; i++) {
+      pagesArray.push(i);
+    }
+    return pagesArray;
   }
 }

@@ -73,13 +73,16 @@
           <h5 class="card-title">{{ event.event_name }}</h5>
 
           <p class="card-text">
-            {{ expandedDescriptions[event.eventId] ? event.event_description : (event.event_description | slice:0:100) }}...
+            {{ expandedDescriptions[event.eventId] ? event.event_description : (event.event_description | slice:0:100) }}
             <button *ngIf="event.event_description.length > 100" class="btn btn-link p-0" (click)="toggleDescription(event)">
               {{ expandedDescriptions[event.eventId] ? 'Read Less' : 'Read More' }}
             </button>
           </p>
           <div class="event-meta mb-2">
             <small class="text-muted"><i class="bi bi-calendar-event-fill"></i> {{ event.event_date | date:'mediumDate' }}</small>
+            <br>
+            <small class="text-muted"><i class="bi bi-calendar-event-fill"></i> {{ event.finishevent_date | date:'mediumDate' }}</small>
+
             <small class="text-muted float-end"><i class="bi bi-geo-alt-fill"></i> {{ event.place }}</small>
 
           </div>
@@ -178,21 +181,30 @@
 
           </div>
           <div class="mb-3">
-            <label for="event_date" class="form-label">Event Date</label>
+            <label for="event_date" class="form-label">Start Date</label>
             <input type="date" class="form-control" id="event_date" formControlName="event_date">
             <div *ngIf="newEventForm.get('event_date')?.touched && newEventForm.get('event_date')?.invalid" class="text-danger">
               Event date is required .
             </div>
           </div>
+          <div class="form-group">
+            <label for="finishevent_date">Finish Date</label>
+            <input type="date" class="form-control" id="finishevent_date" formControlName="finishevent_date">
+          </div>
           <div class="mb-3">
             <label for="place" class="form-label">Place</label>
             <input type="text" class="form-control" id="place" formControlName="place">
             <br>
-            <!--            <input type="text" [(ngModel)]="searchQuery" (input)="onSearchChange($event)" placeholder="Search for a location...">-->
-            <!--            <button (click)="searchLocation()">Search</button>-->
+<!--                        <input type="text" [(ngModel)]="searchQuery" (input)="onSearchChange($event)" placeholder="Search for a location...">-->
+<!--                        <button (click)="searchLocation()">Search</button>-->
+            <input type="text" class="form-control" [(ngModel)]="locationQuery"
+                   [ngModelOptions]="{standalone: true}" placeholder="Search for a location"
+                   (keydown.enter)="$event.preventDefault(); searchLocationForAdd(locationQuery)">
 
-            <!--            <input type="text" [(ngModel)]="locationQuery" placeholder="Search for a location" (change)="searchLocation(locationQuery)">-->
-            <div id="map" #mapContainer style="height: 400px;"></div>
+            <!--            <input id="locationQuery" type="text" placeholder="Entrer une localisation" [(ngModel)]="locationQuerys">-->
+<!--            <button (click)="searchLocation(locationQuerys)">Search</button>-->
+
+            <div id="mapContainer" #addMapContainer style="height: 400px;"></div>
             <div *ngIf="errorMessage" class="alert alert-danger">
               {{ errorMessage }}
             </div>
@@ -201,13 +213,25 @@
               Event place is required .
             </div>
           </div>
-          <div class="mb-3">
-            <label for="event_description" class="form-label">Description</label>
-            <textarea class="form-control" id="event_description" formControlName="event_description"></textarea>
-            <div *ngIf="newEventForm.get('event_description')?.touched && newEventForm.get('event_description')?.invalid" class="text-danger">
-              Event date is required .
+
+          <div class="input-emoji-container">
+            <div class="mb-3">
+              <label for="event_description">Description:</label>
+              <div class="textarea-container">
+                <textarea matInput class="form-control" id="event_description" formControlName="event_description" required></textarea>
+                <button mat-icon-button class="emoji-button" (click)="toggleDescriptionEmojiPicker()">
+                  <mat-icon>insert_emoticon</mat-icon>
+                </button>
+              </div>
+              <div *ngIf="showDescriptionEmojiPicker" class="emoji-picker-container">
+                <emoji-mart title="Choisissez un emoji" (emojiClick)="addEmojiToDescription($event)"></emoji-mart>
+              </div>
+              <div *ngIf="newEventForm.get('event_description')?.touched && newEventForm.get('event_description')?.invalid" class="text-danger">
+                Event description is required .
+              </div>
             </div>
           </div>
+
           <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" [disabled]="!newEventForm.valid">Add Event</button>
         </form>
       </div>
@@ -233,22 +257,45 @@
             <input type="date" class="form-control" id="event_date" formControlName="event_date">
           </div>
           <div class="mb-3">
+            <label for="finishevent_date" class="form-label">Event Date</label>
+            <input type="date" class="form-control" id="finishevent_date" formControlName="finishevent_date">
+          </div>
+          <div class="mb-3">
             <label for="place" class="form-label">Place</label>
             <input type="text" class="form-control" id="place" formControlName="place" placeholder="Address">
             <br>
-                        <input type="text" class="form-control" [(ngModel)]="locationQuery"
-                               [ngModelOptions]="{standalone: true}" placeholder="Search for a location"
-                               (keydown.enter)="$event.preventDefault(); searchLocation(locationQuery, 'update')">
+            <input type="text" class="form-control" [(ngModel)]="locationQuery"
+                   [ngModelOptions]="{standalone: true}" placeholder="Search for a location"
+                   (keydown.enter)="$event.preventDefault(); searchLocationForUpdate(locationQuery)">
 
             <div id="updateMap" #updateMapContainer style="height: 400px;"></div>
             <div *ngIf="errorMessage" class="alert alert-danger">
               {{ errorMessage }}
             </div>
           </div>
-          <div class="mb-3">
-            <label for="event_description" class="form-label">Description</label>
-            <textarea class="form-control" id="event_description" formControlName="event_description"></textarea>
+
+
+          <div class="input-emoji-container">
+            <div class="mb-3">
+              <label for="event_description">Description:</label>
+              <div class="textarea-container">
+                <textarea matInput class="form-control" id="event_description" formControlName="event_description" required></textarea>
+                <button type="button" mat-icon-button class="emoji-button" (click)="toggleUpdateEmojiPicker()">
+                  <mat-icon>insert_emoticon</mat-icon>
+                </button>
+
+              </div>
+              <div *ngIf="showUpdateEmojiPicker" class="emoji-picker-container">
+                <emoji-mart set="apple" (emojiClick)="addEmojiToUpdateDescription($event)"></emoji-mart>
+              </div>
+
+              <div *ngIf="updateEventForm.get('event_description')?.touched && newEventForm.get('event_description')?.invalid" class="text-danger">
+                Event description is required .
+              </div>
+            </div>
           </div>
+
+
           <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" [disabled]="!updateEventForm.valid">Update Event</button>
         </form>
       </div>
@@ -396,3 +443,6 @@
   crossorigin=""
 />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+
+
