@@ -8,6 +8,7 @@ import { ProjectFormComponent } from '../project-form/project-form.component';
 import { ProjectDetailsComponent } from '../project-details/project-details.component';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { ProjectCalendarModalComponent } from '../project-calendar-modal/project-calendar-modal.component';
+import { ToastrService } from 'ngx-toastr';
 
 
 
@@ -23,13 +24,15 @@ export class GetAllProjectComponent implements OnInit,AfterViewInit {
   projects: Project[] = [];
   projectId!: number;
   searchQuery: string = '';
-  pageSize = 6;
+  pageSize = 3;
   pageIndex = 0;
 
 sliceFrom = 0; 
   sliceTo = this.pageSize;
+  wishlist: Project[] = [];
+  // save list
 
-  constructor(private projectService: ProjectService, public dialog: MatDialog,private router: Router) {}
+  constructor(private projectService: ProjectService, public dialog: MatDialog,private router: Router,private toastr: ToastrService) {}
   
   ngOnInit(): void {
     this.getAllProjects(); 
@@ -40,6 +43,32 @@ sliceFrom = 0;
       console.log('Initial sliceFrom:', this.sliceFrom, 'sliceTo:', this.sliceTo); 
       this.sliceProjects();
     });
+    this.loadWishlist();
+
+  }
+  loadWishlist() {
+    const storedWishlist = localStorage.getItem('wishlist');
+    this.wishlist = storedWishlist ? JSON.parse(storedWishlist) : [];
+  }
+  addToWishlist(jobOffer: Project) {
+    if (!this.isInWishlist(jobOffer)) {
+      this.wishlist.push(jobOffer);
+      this.saveWishlist();
+      this.toastr.success('Project saved!', 'Success');
+    } else {
+      this.toastr.info('Project is already saved!', 'Info');
+    }
+  }
+  isInWishlist(jobOffer: Project): boolean {
+    return this.wishlist.some(item => item.projectId === jobOffer.projectId);
+  }
+
+  saveWishlist() {
+    localStorage.setItem('wishlist', JSON.stringify(this.wishlist));
+  }
+  navigateToWishlist() {
+    // Navigate to the WishlistComponent or any route you have for the wishlist
+    this.router.navigate(['/Project/saveproject']);
   }
   onPageChange(event: PageEvent): void {
     this.pageIndex = event.pageIndex;
@@ -110,7 +139,8 @@ sliceFrom = 0;
   viewProjectDetails(project: Project): void {
     console.log("Bouton 'read more' cliqué avec succès !"); 
     const dialogRef = this.dialog.open(ProjectDetailsComponent, {
-      width: 'auto',
+     
+      width: '800px',
       data: { project: project } 
     });
   

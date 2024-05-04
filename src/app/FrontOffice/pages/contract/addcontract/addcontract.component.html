@@ -1,0 +1,58 @@
+  
+<div lass="modal-container">
+  <div class="modal-header">
+    <h2>Add Contract</h2>
+  </div>
+  <div class="modal-body" >
+          <form (ngSubmit)="onSubmit()" #taskForm="ngForm"  >
+        <div class="form-group">
+            <label for="numContract">Contract Number:</label>
+            <input id="numContract" [(ngModel)]="newTask.numContract" name="numContract" class="form-control" required>
+            <div *ngIf="taskForm.controls['numContract'].invalid && (taskForm.controls['numContract'].dirty || taskForm.controls['numContract'].touched)">
+              <div class="text-danger" *ngIf="taskForm.controls['numContract'].errors?.['required']">Required Field</div>
+              <div class="text-danger" *ngIf="!isValidPositiveValue(newTask.numContract)"> Must be strictly positive</div>
+          </div>
+          </div>
+          <br>
+        <div class="form-group">
+          <label for="paymentMethods">Payment Method :</label>
+         <input id="paymentMethods" [(ngModel)]="newTask.paymentMethods" name="paymentMethods" class="form-control" required minlength="3">
+          <div *ngIf="taskForm.controls['paymentMethods'].invalid && (taskForm.controls['paymentMethods'].dirty || taskForm.controls['paymentMethods'].touched)">
+            <div class="text-danger" *ngIf="taskForm.controls['paymentMethods'].errors?.['required']">Required Field</div>
+            <div class="text-danger" *ngIf="taskForm.controls['paymentMethods'].errors?.['minlength']"> Must be at least 3 characters long.</div>
+          </div>
+        </div>
+        <br>
+        <div class="form-group">
+          <label for="startDateContract"> Start Date:</label>
+          <input type="date" id="startDateContract" [(ngModel)]="newTask.startDateContract" name="startDateContract" class="form-control" required>
+          <div *ngIf="taskForm.controls['startDateContract'].invalid && (taskForm.controls['startDateContract'].dirty || taskForm.controls['startDateContract'].touched)">
+            <div class="text-danger" *ngIf="taskForm.controls['startDateContract'].errors?.['required']">Required Field</div>
+            <div class="text-danger" *ngIf="!isValidStartDate()"> Date must be today or later.</div>
+          </div>
+        </div>
+        <br>
+       
+        <div class="form-group">
+            <label for="endDateContract">End Date:</label>
+            <input type="date" id="endDateContract" [(ngModel)]="newTask.endDateContract" name="endDateContract" class="form-control" required>
+            <div *ngIf="taskForm.controls['endDateContract'].invalid && (taskForm.controls['endDateContract'].dirty || taskForm.controls['endDateContract'].touched)">
+              <div class="text-danger" *ngIf="taskForm.controls['endDateContract'].errors?.['required']">Required Field</div>
+              <div class="text-danger" *ngIf="!isValidEndDate()">Must be later than Start Date</div>
+            </div>
+          </div>
+        <br>
+        <div class="form-group">
+          <label for="projetContract">Project:</label>
+          <select id="projetContract" [(ngModel)]="selectedProject" name="projetContract" class="form-control" required>
+            <option *ngFor="let projetContract of projects" [ngValue]="projetContract">{{ projetContract.projectName }}</option>
+          </select>
+        </div>
+        <br>
+        <div class="modal-footer"> 
+          <button type="submit" class="btn btn-primary" [disabled]="taskForm.invalid">Add </button>
+          <button type="button" class="btn btn-secondary" (click)="onClose()">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>

@@ -86,7 +86,6 @@ export class JobOfferDetailsComponent implements OnInit {
       },
       (error) => {
         console.error('Error adding job offer to wishlist', error);
-        // Handle error scenario
       }
     );
   }
@@ -95,6 +94,7 @@ export class JobOfferDetailsComponent implements OnInit {
     if (this.selectedFiles && this.selectedFiles.length > 0) {
       newc.cv = this.selectedFiles[0].name;
     }
+
     if (this.jobId !== null) {
       this.candidacyService.addCandidate(newc, this.jobId).subscribe(
         response => {
@@ -111,6 +111,7 @@ export class JobOfferDetailsComponent implements OnInit {
     } else {
       console.error('Job ID is not available.');
     }
+
 
   }
   selectFiles(event: any): void {

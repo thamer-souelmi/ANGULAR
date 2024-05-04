@@ -1,0 +1,250 @@
+.container {
+    text-align: center;
+  }
+  
+  .btn-primary {
+    background-color: #049565;
+    color: white;
+  }
+  
+  .project-list {
+    margin: 20px auto;
+    display: flex; /* Use flexbox for layout */
+    flex-wrap: wrap; /* Wrap items onto multiple lines */
+    width: 80%;
+  }
+  
+  .project-item {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin: 10px; /* Add space between items */
+    width: calc(33% - 20px); /* Calculate width based on 3 columns */
+    text-align: center; /* Center content within each block */
+    position: relative; /* Allow positioning of overlay title */
+    
+    
+
+  }
+  
+  .project-item mat-icon {
+    display: flex; 
+    justify-content: space-between;
+    margin-left: auto; 
+    opacity: 0.2;
+  }
+  
+  .project-item h3 {
+    font-size: 18px;
+    margin-bottom: 5px; 
+  }
+  
+  .project-item p {
+    font-size: 14px;
+    margin-bottom: 10px; 
+  }
+  
+  .btn-info {
+    background-color: #17a2b8;
+    color: white;
+  }
+  
+  img {
+    width: 20px;
+    margin-right: 10px;
+  }
+  .mat-paginator {
+    display: block;
+  }
+  h2::after {
+    content: '';
+    display: block;
+    margin: 0 auto;
+    height: 3px;
+    width: 100px;
+    background: #08718e;
+    border-radius: 2px;
+    margin-top: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: width 0.3s ease; /* Transition for hover effect */
+  }
+  
+  h2:hover::after {
+    width: 150px; /* Underline grows on hover */
+  }
+  h2 {
+    animation: fadeInDown 1s ease-out forwards;
+    text-align: center;
+    font-size: 2.5rem;
+    color: #08718e;
+    font-weight: 500; /* Adjust weight as necessary */
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 2px; /* Slightly more spaced */
+    position: relative;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1); /* Subtle text-shadow for depth */
+    transition: text-shadow 0.3s ease; /* Smooth transition for shadow */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Example font */
+  }
+  
+  /* Hover effect for the underline */
+ 
+  .btn-add-activity {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    background-color: #08718e;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 0.25rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    transition: all 0.3s ease-in-out;
+  }
+  .btn-calender {
+    position: fixed;
+    right: 130px;
+    bottom: 20px;
+    background-color: #08718e;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 0.25rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    transition: all 0.3s ease-in-out;
+  }
+  .card {
+    max-width: 320px;
+    border-width: 1px;
+    border-color: rgba(219, 234, 254, 1);
+    border-radius: 1rem;
+    background-color: rgba(255, 255, 255, 1);
+    padding: 1rem;
+  }
+  
+  .header {
+    display: flex;
+    align-items: center;
+    grid-gap: 1rem;
+    gap: 1rem;
+  }
+  
+  .icon {
+   
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    right: 20px;
+
+    padding: 1rem;
+   color: #fb6d1c;
+   
+  }
+  
+  .icon svg {
+    height: 2rem;
+    width: 2rem;
+  }
+  
+  .alert {
+    font-weight: 600;
+    color: rgba(107, 114, 128, 1);
+  }
+  
+  .message {
+    margin-top: 1rem;
+    color: rgba(107, 114, 128, 1);
+  }
+  
+  .actions {
+    margin-top: 1.5rem;
+  }
+  
+  .actions a {
+    text-decoration: none;
+  }
+  
+  .mark-as-read, .read {
+    display: inline-block;
+    border-radius: 0.5rem;
+    width: 100%;
+    padding: 0.75rem 1.25rem;
+    text-align: center;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 600;
+  }
+  
+  .read {
+    background-color: #049565;
+    color: #fff; /* Vous pouvez ajuster la couleur du texte selon vos préférences */
+  }
+  
+  .mark-as-read {
+    margin-top: 0.5rem;
+    background-color: rgba(249, 250, 251, 1);
+    color: rgba(107, 114, 128, 1);
+    transition: all .15s ease;
+  }
+  
+  .mark-as-read:hover {
+    background-color: rgb(230, 231, 233);
+  }
+  .btn-icon {
+    font-size: 1rem; /* Adjust the font size as needed */
+    padding: 0.5rem 1rem; /* Adjust the padding to increase button size */
+    border-radius: 30px; /* Make the buttons oval with larger borders */
+  }
+  .save, .see-more {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 5px;
+    padding: 5px;
+  }
+  
+  .save__icon, .see-more__icon {
+    width: 15px;
+    fill: white;
+  }
+  .search {
+    display: inline-block;
+    position: relative;
+  }
+  
+  .search input[type="text"] {
+    width: 200px;
+    padding: 10px;
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .search button[type="submit"] {
+    background-color: #08718e;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    padding: 10px 20px;
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    position: absolute;
+    top: 0;
+    right: 0;
+    transition: .9s ease;
+  }
+  
+  .search button[type="submit"]:hover {
+    transform: scale(1.1);
+    color: rgb(255, 255, 255);
+    background-color: #fb6d1c;
+  }
+  .clear-wishlist-btn:hover {
+    background-color: #d9534f; /* Darker red on hover */
+  }
+  .job_listing_area.plus_padding {
+    background-color: white;
+  }

@@ -92,10 +92,27 @@ import {
   TrainingSessionComponent} from './FrontOffice/pages/training-session/training-session.component';
 import {MatGridListModule} from "@angular/material/grid-list";
 import { EventBComponent } from './BackOffice/Pages/event-b/event-b.component';
-import { ProjectFormComponent } from './FrontOffice/Pages/Project/project-form/project-form.component';
-import { ProjectDetailsComponent } from './FrontOffice/Pages/Project/project-details/project-details.component';
-import { ProjectCalendarModalComponent } from './FrontOffice/Pages/Project/project-calendar-modal/project-calendar-modal.component';
-import { GetAllProjectComponent } from './FrontOffice/Pages/Project/get-all-project/get-all-project.component';
+
+import { ProjectFormComponent } from './FrontOffice/pages/Project/project-form/project-form.component';
+import { ProjectDetailsComponent } from './FrontOffice/pages/Project/project-details/project-details.component';
+import { ProjectCalendarModalComponent } from './FrontOffice/pages/Project/project-calendar-modal/project-calendar-modal.component';
+import { GetAllProjectComponent } from './FrontOffice/pages/Project/get-all-project/get-all-project.component';
+import { GetInvoicebyProjectComponent } from './BackOffice/Pages/Invoice/get-invoiceby-project/get-invoiceby-project.component';
+import { InvoiceFrontComponent } from './FrontOffice/pages/Invoice/invoice-front/invoice-front.component';
+import { AddInvoiceItemComponent } from './FrontOffice/pages/Invoice/add-invoice-item/add-invoice-item.component';
+import { EditInvoiceItemComponent } from './FrontOffice/pages/Invoice/edit-invoice-item/edit-invoice-item.component';
+import { ProjectsbackComponent } from './BackOffice/Pages/Project/projectsback/projectsback.component';
+import { AddlinkComponent } from './BackOffice/Pages/Task/addlink/addlink.component';
+import { MatBadgeModule } from '@angular/material/badge';
+import { TeamsmodalComponent } from './BackOffice/Pages/Project/teamsmodal/teamsmodal.component';
+import { SavelistProjectComponent } from './FrontOffice/pages/Project/savelist-project/savelist-project.component';
+import { ContractbyprojectComponent } from './FrontOffice/pages/contract/contractbyproject/contractbyproject.component';
+import { AddcontractComponent } from './FrontOffice/pages/contract/addcontract/addcontract.component';
+import { GetallcontractsComponent } from './FrontOffice/pages/contract/getallcontracts/getallcontracts.component';
+import { EditContractComponent } from './FrontOffice/pages/contract/edit-contract/edit-contract.component';
+import { FiltertaskpipePipe } from './FrontOffice/pages/Task/filtertaskpipe.pipe';
+
+
 import { ForgotPasswordComponent } from './BackOffice/Pages/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './BackOffice/Pages/reset-password/reset-password.component';
 import { UpdateUserComponent } from './BackOffice/Pages/update-user/update-user.component';
@@ -109,7 +126,6 @@ import { JitsiComponent } from './FrontOffice/pages/Interview/jitsi/jitsi.compon
 import { AddInterviewComponent } from './FrontOffice/pages/Interview/add-interview/add-interview.component';
 import { FindAllQuizComponent } from './BackOffice/Pages/Quiz/find-all-quiz/find-all-quiz.component';
 import { ChunkPipe } from './BackOffice/Pages/Quiz/chunk.pipe';
-import { MatBadgeModule } from '@angular/material/badge';
 import { AddQuizQuestionComponent } from './BackOffice/Pages/Quiz/add-quiz-question/add-quiz-question.component';
 import { EditQuizQuestionComponent } from './BackOffice/Pages/Quiz/edit-quiz-question/edit-quiz-question.component';
 import { RoomComponent } from './BackOffice/Pages/room/room.component';
@@ -181,6 +197,21 @@ import {EmojiModule} from "@ctrl/ngx-emoji-mart/ngx-emoji";
     ProjectDetailsComponent,
     ProjectCalendarModalComponent,
     GetAllProjectComponent,
+
+    GetInvoicebyProjectComponent,
+    InvoiceFrontComponent,
+    AddInvoiceItemComponent,
+    EditInvoiceItemComponent,
+    ProjectsbackComponent,
+    AddlinkComponent,
+    TeamsmodalComponent,
+    SavelistProjectComponent,
+    ContractbyprojectComponent,
+    AddcontractComponent,
+    GetallcontractsComponent,
+    EditContractComponent,
+    FiltertaskpipePipe,
+
     ForgotPasswordComponent,
     ResetPasswordComponent,
     UpdateUserComponent,
@@ -202,6 +233,7 @@ import {EmojiModule} from "@ctrl/ngx-emoji-mart/ngx-emoji";
     CustomizerComponent
 
 
+
   ],
   imports: [
     BrowserModule,
@@ -215,7 +247,7 @@ import {EmojiModule} from "@ctrl/ngx-emoji-mart/ngx-emoji";
     MatPaginatorModule,
     MatIconModule,
     MatDialogModule,
-    MatTableModule,
+    
     MatButtonModule,
     CommonModule,
     NgbModalModule,
@@ -267,11 +299,17 @@ import {EmojiModule} from "@ctrl/ngx-emoji-mart/ngx-emoji";
 
     MatCardModule,
     MatGridListModule,
+
+    MatBadgeModule
+
+
+    
+
     NgxPaginationModule,
     EmojiModule,
     PickerComponent,
 
-    MatBadgeModule
+
 
 
   ],

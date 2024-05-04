@@ -28,6 +28,8 @@ export class DetailprojectbackComponent implements OnInit{
     this.router.navigate(['/Projectback/taskpiechart', projectId]); 
   }
   
-
+  viewAssociatedInvoices(): void {
+    this.router.navigate(['/Projectback/invoice', this.project.projectId]); 
+}
 
 }

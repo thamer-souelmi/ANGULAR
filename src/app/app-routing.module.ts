@@ -63,8 +63,19 @@ import { LeaveComponent } from './FrontOffice/Pages/leave/leave.component';
 import {TrainingSessionComponent} from "./FrontOffice/pages/training-session/training-session.component";
 
 import { FindAllJobOffersComponent } from './FrontOffice/pages/JobOffer/find-all-job-offers/find-all-job-offers.component';
+
+import { GetInvoicebyProjectComponent } from './BackOffice/Pages/Invoice/get-invoiceby-project/get-invoiceby-project.component';
+import { InvoiceFrontComponent } from './FrontOffice/pages/Invoice/invoice-front/invoice-front.component';
+import { ProjectsbackComponent } from './BackOffice/Pages/Project/projectsback/projectsback.component';
+import { SavelistProjectComponent } from './FrontOffice/pages/Project/savelist-project/savelist-project.component';
+import { ContractbyprojectComponent } from './FrontOffice/pages/contract/contractbyproject/contractbyproject.component';
+import { AddcontractComponent } from './FrontOffice/pages/contract/addcontract/addcontract.component';
+import { GetallcontractsComponent } from './FrontOffice/pages/contract/getallcontracts/getallcontracts.component';
+import { EditContractComponent } from './FrontOffice/pages/contract/edit-contract/edit-contract.component';
+
 import {FindAllQuizComponent} from "./BackOffice/Pages/Quiz/find-all-quiz/find-all-quiz.component";
 import {RoomComponent} from "./BackOffice/Pages/room/room.component";
+
 
 
 
@@ -164,6 +175,17 @@ const routes: Routes = [
         { path: 'project/:id', component: ProjectDetailsComponent },
         { path: 'update-project/:id', component: UpdateprojectComponent },
         { path: 'task/:projectId', component: TasksByprojectComponent },
+        { path: 'invoicefront/:projectId', component: InvoiceFrontComponent },
+        { path: 'saveproject', component: SavelistProjectComponent },
+        { path: 'Contract/:projectId', component: ContractbyprojectComponent },
+        { path: 'addcontract', component: AddcontractComponent },
+        { path: 'getallcontracts', component: GetallcontractsComponent },
+
+
+
+
+
+
 
 
 
@@ -187,12 +209,17 @@ const routes: Routes = [
 
 
         { path: 'kanbanback', component: KanbanboardbackComponent},
-        { path: 'taskback', component: TaskbackComponent},
+        { path: 'taskback/:projectId', component: TaskbackComponent},
         { path: 'gantt', component: AppGanttChartComponent},
         { path: 'Todolist', component: TodolistComponent},
         { path: 'detailback', component: DetailprojectbackComponent},
         { path: 'emplyeestat', component: PMstatisticComponent},
         { path: 'taskpiechart/:projectId', component: PiecharttaskComponent},
+        { path: 'invoice/:projectId', component: GetInvoicebyProjectComponent},
+        { path: 'testt', component: ProjectsbackComponent},
+
+
+
 
       ]
     },
