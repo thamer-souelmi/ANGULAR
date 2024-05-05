@@ -38,6 +38,8 @@ import { PickerModule } from '@ctrl/ngx-emoji-mart'
 import {CompressedEmojiData, EmojiData, emojis} from "@ctrl/ngx-emoji-mart/ngx-emoji";
 import {ToastrService} from "ngx-toastr";
 import timeGridPlugin from '@fullcalendar/timegrid';
+import {StorageService} from "../../../Services/storage.service";
+import {throwError} from "rxjs";
 // import {content} from "html2canvas/dist/types/css/property-descriptors/content"; // Correct import for timeGridPlugin
 const colors: Record<string, EventColor> = {
   blue: {
@@ -153,6 +155,7 @@ export class EventComponent implements OnInit,AfterViewInit {
     private EmailService: EmailService,
     private snackBar: MatSnackBar,
     private toaster : ToastrService,
+    private storagService : StorageService
 
   ) {
     this.latitude = 0;
@@ -458,8 +461,8 @@ export class EventComponent implements OnInit,AfterViewInit {
   //   }
   // }
   registerEvent(eventId: number): void {
-    if (EventComponent.userId) {
-      this.RegistrationEventService.registerForEvent(eventId, EventComponent.userId).subscribe(
+    if (this.storagService.getUser().id) {
+      this.RegistrationEventService.registerForEvent(eventId, this.storagService.getUser().id).subscribe(
         () => {
           // Handle successful registration
           console.log('Registration successful');
@@ -539,6 +542,7 @@ export class EventComponent implements OnInit,AfterViewInit {
       console.error('Map container not found.');
     }
   }
+
 
 
 
@@ -1448,37 +1452,44 @@ export class EventComponent implements OnInit,AfterViewInit {
 
   handleFeedbackSubmission(): void {
     if (!this.selectedEventId) {
-      console.error("Event ID is undefined.");
+      console.error("handleFeedbackSubmission: Event ID is undefined.");
       this.toaster.error("Event ID is missing. Unable to submit feedback.");
       return;
     }
 
-    this.feedbackService.addFeedback(this.selectedEventId, this.feedbackText, this.feedbackNote).subscribe({
+    console.log("handleFeedbackSubmission: Submitting feedback for event ID", this.selectedEventId);
+    this.feedbackService.addFeedback(this.selectedEventId, this.feedbackText, this.feedbackNote, this.storagService.getUser().id).subscribe({
       next: (response) => {
-        console.log("Feedback submitted successfully", response);
+        console.log("handleFeedbackSubmission: Feedback submitted successfully", response);
         this.toaster.success("Feedback submitted successfully");
-
 
         // Close the feedback modal
         if (this.feedbackModalRef) {
+          console.log("handleFeedbackSubmission: Closing feedback modal");
           this.feedbackModalRef.close();
           this.cdr.detectChanges();
         }
 
         // Update the average rating for the event
+        console.log("handleFeedbackSubmission: Updating average rating for event ID", this.selectedEventId);
         this.updateAverageRating(this.selectedEventId);
 
         // Reload the page to reflect changes
+        console.log("handleFeedbackSubmission: Reloading page to reflect changes");
         window.location.reload();
       },
       error: (error) => {
-        console.error("Failed to submit feedback", error);
-        this.toaster.error("Failed to submit feedback. Please try again later.");
-        setTimeout(() => this.showModalWithMessage(this.warningMessage), 500);
+        // console.error("handleFeedbackSubmission: Failed to submit feedback", error);
+        // this.toaster.error("Failed to submit feedback. Please try again later.");
+        // setTimeout(() => {
+        //   console.log("handleFeedbackSubmission: Showing warning modal message");
+        //   this.showModalWithMessage(this.warningMessage);
+        // }, 500);
+        console.error("addFeedback: Error submitting feedback", error.message, "Status:", error.status);
+        return throwError(() => new Error('Error submitting feedback: ' + error.message));
       }
     });
   }
-
 
 
 

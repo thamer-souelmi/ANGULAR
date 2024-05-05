@@ -1,27 +1,29 @@
-<h2 mat-dialog-title>Edit Job Offer</h2>
-<mat-dialog-content>
-  <form #jobOfferForm="ngForm" (ngSubmit)="onSubmit()">
-    <mat-form-field>
-      <mat-label>Job Title</mat-label>
-      <input matInput [(ngModel)]="jobOffer.titleJobOffer" name="titleJobOffer" required minlength="5">
-      <mat-error *ngIf="jobOfferForm.controls['titleJobOffer'].invalid && (jobOfferForm.controls['titleJobOffer'].dirty || jobOfferForm.controls['titleJobOffer'].touched)">
-        <div *ngIf="jobOfferForm.controls['titleJobOffer'].errors?.['required']">Job Title is required.</div>
-        <div *ngIf="jobOfferForm.controls['titleJobOffer'].errors?.['minlength']">Job Title must be at least 5 characters long.</div>
-      </mat-error>
-    </mat-form-field>
-    <!-- Add other form fields similarly -->
-    <mat-form-field>
-      <mat-label>Description</mat-label>
-      <textarea matInput [(ngModel)]="jobOffer.description" name="description" required minlength="15"></textarea>
-      <mat-error *ngIf="jobOfferForm.controls['description'].invalid && (jobOfferForm.controls['description'].dirty || jobOfferForm.controls['description'].touched)">
-        <div *ngIf="jobOfferForm.controls['description'].errors?.['required']">Description is required.</div>
-        <div *ngIf="jobOfferForm.controls['description'].errors?.['minlength']">Description must be at least 15 characters long.</div>
-      </mat-error>
-    </mat-form-field>
-    <!-- Add other form fields similarly -->
-  </form>
-</mat-dialog-content>
-<mat-dialog-actions>
-  <button mat-button (click)="onClose()">Cancel</button>
-  <button mat-button color="primary" [disabled]="jobOfferForm.invalid" (click)="onSubmit()">Edit</button>
-</mat-dialog-actions>
+
+
+<!--<h2 mat-dialog-title>Edit Job Offer</h2>-->
+<!--<mat-dialog-content>-->
+<!--  <form #jobOfferForm="ngForm" (ngSubmit)="onSubmit()">-->
+<!--    <mat-form-field>-->
+<!--      <mat-label>Job Title</mat-label>-->
+<!--      <input matInput [(ngModel)]="jobOffer.titleJobOffer" name="titleJobOffer" required minlength="5">-->
+<!--      <mat-error *ngIf="jobOfferForm.controls['titleJobOffer'].invalid && (jobOfferForm.controls['titleJobOffer'].dirty || jobOfferForm.controls['titleJobOffer'].touched)">-->
+<!--        <div *ngIf="jobOfferForm.controls['titleJobOffer'].errors?.['required']">Job Title is required.</div>-->
+<!--        <div *ngIf="jobOfferForm.controls['titleJobOffer'].errors?.['minlength']">Job Title must be at least 5 characters long.</div>-->
+<!--      </mat-error>-->
+<!--    </mat-form-field>-->
+<!--    &lt;!&ndash; Add other form fields similarly &ndash;&gt;-->
+<!--    <mat-form-field>-->
+<!--      <mat-label>Description</mat-label>-->
+<!--      <textarea matInput [(ngModel)]="jobOffer.description" name="description" required minlength="15"></textarea>-->
+<!--      <mat-error *ngIf="jobOfferForm.controls['description'].invalid && (jobOfferForm.controls['description'].dirty || jobOfferForm.controls['description'].touched)">-->
+<!--        <div *ngIf="jobOfferForm.controls['description'].errors?.['required']">Description is required.</div>-->
+<!--        <div *ngIf="jobOfferForm.controls['description'].errors?.['minlength']">Description must be at least 15 characters long.</div>-->
+<!--      </mat-error>-->
+<!--    </mat-form-field>-->
+<!--    &lt;!&ndash; Add other form fields similarly &ndash;&gt;-->
+<!--  </form>-->
+<!--</mat-dialog-content>-->
+<!--<mat-dialog-actions>-->
+<!--  <button mat-button (click)="onClose()">Cancel</button>-->
+<!--  <button mat-button color="primary" [disabled]="jobOfferForm.invalid" (click)="onSubmit()">Edit</button>-->
+<!--</mat-dialog-actions>-->

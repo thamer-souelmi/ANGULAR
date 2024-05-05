@@ -32,16 +32,16 @@ export class SidebarBackComponent {
       this.id = this.storageService.getUser().id ;
       this.storageService.getUserById(this.id).subscribe(
         (user: User) => {
-          this.user = user; 
+          this.user = user;
           this.name= this.user.firstname ;
         },
         error => {
           console.error('Error fetching user:', error);
         }
       );
-  
+
     }
-  
+
   constructor(private breakpointObserver: BreakpointObserver,private storageService: StorageService,
               private authService: AuthService, private router : Router) { }
 
@@ -56,8 +56,8 @@ export class SidebarBackComponent {
       icon: "home",
       menu: "Leaves",
     },
-  
-   
+  //link
+
   ]
 
   logout(): void {

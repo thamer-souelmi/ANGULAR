@@ -51,7 +51,6 @@ import { PMstatisticComponent } from './BackOffice/Pages/Task/pmstatistic/pmstat
 import { PiecharttaskComponent } from './BackOffice/Pages/Task/piecharttask/piecharttask.component';
 
 import {ActivityBComponent} from "./BackOffice/Pages/activity-b/activity-b.component";
-import { FindAllJobOffersComponent } from './FrontOffice/Pages/JobOffer/find-all-job-offers/find-all-job-offers.component';
 import { ForgotPasswordComponent } from './BackOffice/Pages/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './BackOffice/Pages/reset-password/reset-password.component';
 import { UpdateUserComponent } from './BackOffice/Pages/update-user/update-user.component';
@@ -65,6 +64,7 @@ import {TrainingSessionComponent} from "./FrontOffice/pages/training-session/tra
 import { FindAllJobOffersComponent } from './FrontOffice/pages/JobOffer/find-all-job-offers/find-all-job-offers.component';
 import {FindAllQuizComponent} from "./BackOffice/Pages/Quiz/find-all-quiz/find-all-quiz.component";
 import {RoomComponent} from "./BackOffice/Pages/room/room.component";
+import {TrainingSessionBComponent} from "./BackOffice/Pages/training-session-b/training-session-b.component";
 
 
 
@@ -81,6 +81,7 @@ const routes: Routes = [
 
   },
   { path: 'reset/:token', component: ResetPasswordComponent },
+  {
     path:"trainigSession", component:AllTemplateFrontComponent,
     children:[
       {path:"trainigSession", component:TrainingSessionComponent}
@@ -98,6 +99,7 @@ const routes: Routes = [
     children: [
 
       {path: "findAllJobOffersback", component: FindAllJobOffersBackComponent},
+      {path : "trainingSessionB",component: TrainingSessionBComponent},
       {path: 'findAllJobCandidaciesBack/:id', component: FindAllJobCandidaciesBackComponent},
       {path: 'statisticsHR', component: StatisticsComponent},
       {path: 'statisticsCandidacies', component: StatisticsCandidaciesComponent},

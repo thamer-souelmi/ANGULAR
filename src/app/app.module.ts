@@ -53,7 +53,7 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { InterviewDetailsComponent } from './FrontOffice/pages/Interview/interview-details/interview-details.component';
 import { UpdateInterviewComponent } from './FrontOffice/pages/Interview/update-interview/update-interview.component';
 import { InterviewDetailsBackComponent } from './BackOffice/Pages/JobOffer/interview-details-back/interview-details-back.component';
-import { UpdateJobOfferComponent } from './FrontOffice/pages/JobOffer/update-job-offer/update-job-offer.component';
+// import { UpdateJobOfferComponent } from './FrontOffice/pages/JobOffer/update-job-offer/update-job-offer.component';
 import { CandiadateLinkedInDetailsComponent } from './FrontOffice/pages/JobOffer/candiadate-linked-in-details/candiadate-linked-in-details.component';
 import { JobOfferDetailsBackComponent } from './BackOffice/Pages/JobOffer/job-offer-details-back/job-offer-details-back.component';
 import { CandidateLinkedInDetailsBackComponent } from './BackOffice/Pages/JobOffer/candidate-linked-in-details-back/candidate-linked-in-details-back.component';
@@ -92,10 +92,10 @@ import {
   TrainingSessionComponent} from './FrontOffice/pages/training-session/training-session.component';
 import {MatGridListModule} from "@angular/material/grid-list";
 import { EventBComponent } from './BackOffice/Pages/event-b/event-b.component';
-import { ProjectFormComponent } from './FrontOffice/Pages/Project/project-form/project-form.component';
-import { ProjectDetailsComponent } from './FrontOffice/Pages/Project/project-details/project-details.component';
-import { ProjectCalendarModalComponent } from './FrontOffice/Pages/Project/project-calendar-modal/project-calendar-modal.component';
-import { GetAllProjectComponent } from './FrontOffice/Pages/Project/get-all-project/get-all-project.component';
+// import { ProjectFormComponent } from './FrontOffice/Pages/Project/project-form/project-form.component';
+// import { ProjectDetailsComponent } from './FrontOffice/Pages/Project/project-details/project-details.component';
+// import { ProjectCalendarModalComponent } from './FrontOffice/Pages/Project/project-calendar-modal/project-calendar-modal.component';
+// import { GetAllProjectComponent } from './FrontOffice/Pages/Project/get-all-project/get-all-project.component';
 import { ForgotPasswordComponent } from './BackOffice/Pages/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './BackOffice/Pages/reset-password/reset-password.component';
 import { UpdateUserComponent } from './BackOffice/Pages/update-user/update-user.component';
@@ -119,6 +119,18 @@ import {NgxPaginationModule} from "ngx-pagination";
 import { CustomizerComponent } from './customizer/customizer.component';
 import {PickerComponent, PickerModule} from "@ctrl/ngx-emoji-mart";
 import {EmojiModule} from "@ctrl/ngx-emoji-mart/ngx-emoji";
+import {ProjectFormComponent} from "./FrontOffice/pages/Project/project-form/project-form.component";
+import {ProjectDetailsComponent} from "./FrontOffice/pages/Project/project-details/project-details.component";
+import {
+  ProjectCalendarModalComponent
+} from "./FrontOffice/pages/Project/project-calendar-modal/project-calendar-modal.component";
+import {GetAllProjectComponent} from "./FrontOffice/pages/Project/get-all-project/get-all-project.component";
+import { TrainingSessionBComponent } from './BackOffice/Pages/training-session-b/training-session-b.component';
+import {CKEditorModule} from "@ckeditor/ckeditor5-angular";
+import { JitsiMeetComponent } from './jitsi-meet/jitsi-meet.component';
+import { FeedbackStatsChartD3Component } from './feedback-stats-chart-d3/feedback-stats-chart-d3.component';
+// import {UpdateJobOfferComponent} from "./FrontOffice/pages/JobOffer/update-job-offer/update-job-offer.component";
+// import {UpdateJobOfferComponent} from "./FrontOffice/pages/JobOffer/update-job-offer/update-job-offer.component";
 
 
 @NgModule({
@@ -149,7 +161,7 @@ import {EmojiModule} from "@ctrl/ngx-emoji-mart/ngx-emoji";
     InterviewDetailsComponent,
     UpdateInterviewComponent,
     InterviewDetailsBackComponent,
-    UpdateJobOfferComponent,
+    // UpdateJobOfferComponent,
     CandiadateLinkedInDetailsComponent,
     JobOfferDetailsBackComponent,
     CandidateLinkedInDetailsBackComponent,
@@ -199,7 +211,10 @@ import {EmojiModule} from "@ctrl/ngx-emoji-mart/ngx-emoji";
     EditQuizQuestionComponent,
     RoomComponent,
     JoinPipe,
-    CustomizerComponent
+    CustomizerComponent,
+    TrainingSessionBComponent,
+    JitsiMeetComponent,
+    FeedbackStatsChartD3Component
 
 
   ],
@@ -271,7 +286,8 @@ import {EmojiModule} from "@ctrl/ngx-emoji-mart/ngx-emoji";
     EmojiModule,
     PickerComponent,
 
-    MatBadgeModule
+    MatBadgeModule,
+    CKEditorModule
 
 
   ],

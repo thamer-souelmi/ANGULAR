@@ -40,6 +40,31 @@ export const dateRangeValidator: ValidatorFn = (control: AbstractControl): Valid
   }
   return null; // No error if one or both fields are empty
 };
+export function eventDateRangeValidator(eventControlName: string, startControlName: string, finishControlName: string): ValidatorFn {
+  return (formGroup: AbstractControl): ValidationErrors | null => {
+    const event = formGroup.get(eventControlName)?.value as Event;
+    const start = new Date(formGroup.get(startControlName)?.value);
+    const finish = new Date(formGroup.get(finishControlName)?.value);
+
+    if (event && start && finish) {
+      const eventStart = new Date(event.event_date);
+      const eventEnd = new Date(event.finishevent_date);
+      if (start >= eventStart && finish <= eventEnd) {
+        return null;
+      } else {
+        return {
+          eventDateRange: {
+            valid: false,
+            message: `The activity must be within the event period: ${eventStart.toLocaleDateString()} to ${eventEnd.toLocaleDateString()}`
+          }
+        };
+      }
+    }
+    return null;
+  };
+}
+
+
 @Component({
   selector: 'app-activity',
   templateUrl: './activity.component.html',
@@ -100,14 +125,14 @@ export class ActivityComponentF implements OnInit {
       startTime: ['', Validators.required],
       finishTime: ['', Validators.required],
       event: ['', Validators.required]
-    }, { validators: dateRangeValidator });
+    }, { validators: [dateRangeValidator, eventDateRangeValidator('event', 'startTime', 'finishTime')] });
     this.updateActivityForm = this.formBuilder.group({
       activity_name: ['', Validators.required],
       description: ['', Validators.required],
       startTime: ['', Validators.required],
       finishTime: ['', Validators.required],
       event: ['', Validators.required]
-    }, { validators: dateRangeValidator });
+    }, { validators: [dateRangeValidator, eventDateRangeValidator('event', 'startTime', 'finishTime')] });
   }
   ngOnInit(): void {
     this.loadActivitiesFront(this.currentPage, this.pageSize);
@@ -381,6 +406,8 @@ export class ActivityComponentF implements OnInit {
       }
     }
   }
+
+
   onSubmitUpdate(): void {
     if (this.updateActivityForm.valid && this.selectedActivity) {
       const formValues = this.updateActivityForm.value;
