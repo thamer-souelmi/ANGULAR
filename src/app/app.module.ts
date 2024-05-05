@@ -1,6 +1,6 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule} from "@angular/platform-browser";
-import { BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import { BrowserAnimationsModule, provideAnimations} from "@angular/platform-browser/animations";
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AllTemplateFrontComponent } from './FrontOffice/all-template-front/all-template-front.component';
@@ -47,8 +47,7 @@ import { StatisticsComponent } from './BackOffice/Pages/JobOffer/statistics/stat
 import { StatisticsCandidaciesComponent } from './BackOffice/Pages/JobOffer/statistics-candidacies/statistics-candidacies.component';
 import { StatisticsInterviewComponent } from './BackOffice/Pages/JobOffer/statistics-interview/statistics-interview.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
-import { QuizComponent } from "./FrontOffice/pages/Quiz/quiz/quiz.component";
-import { InterviewCalendarComponent } from './FrontOffice/pages/Interview/interview-calendar/interview-calendar.component';
+import { QuizComponent } from './FrontOffice/pages/Quiz/quiz/quiz.component';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { InterviewDetailsComponent } from './FrontOffice/pages/Interview/interview-details/interview-details.component';
 import { UpdateInterviewComponent } from './FrontOffice/pages/Interview/update-interview/update-interview.component';
@@ -88,8 +87,7 @@ import { PMstatisticComponent } from './BackOffice/Pages/Task/pmstatistic/pmstat
 import { PiecharttaskComponent } from './BackOffice/Pages/Task/piecharttask/piecharttask.component';import { ActivityBComponent } from './BackOffice/Pages/activity-b/activity-b.component';
 import { RegistrationBComponent } from './BackOffice/Pages/registration-b/registration-b.component';
 import {MatSnackBarModule} from "@angular/material/snack-bar";
-import {
-  TrainingSessionComponent} from './FrontOffice/pages/training-session/training-session.component';
+import { TrainingSessionComponent } from './FrontOffice/pages/training-session/training-session.component';
 import {MatGridListModule} from "@angular/material/grid-list";
 import { EventBComponent } from './BackOffice/Pages/event-b/event-b.component';
 
@@ -121,8 +119,6 @@ import { AddUserComponent } from './BackOffice/Pages/add-user/add-user.component
 import { LeavesComponent } from './BackOffice/Pages/leaves/leaves.component';
 import { LeavesDetailsComponent } from './BackOffice/Pages/leaves-details/leaves-details.component';
 import { AddLeaveComponent } from './BackOffice/Pages/add-leave/add-leave.component';
-import { LeaveComponent } from './FrontOffice/Pages/leave/leave.component';
-import { JitsiComponent } from './FrontOffice/pages/Interview/jitsi/jitsi.component';
 import { AddInterviewComponent } from './FrontOffice/pages/Interview/add-interview/add-interview.component';
 import { FindAllQuizComponent } from './BackOffice/Pages/Quiz/find-all-quiz/find-all-quiz.component';
 import { ChunkPipe } from './BackOffice/Pages/Quiz/chunk.pipe';
@@ -135,6 +131,17 @@ import {NgxPaginationModule} from "ngx-pagination";
 import { CustomizerComponent } from './customizer/customizer.component';
 import {PickerComponent, PickerModule} from "@ctrl/ngx-emoji-mart";
 import {EmojiModule} from "@ctrl/ngx-emoji-mart/ngx-emoji";
+import {  provideToastr } from 'ngx-toastr';
+import { RecognizeFaceComponent } from './BackOffice/Pages/recognize-face/recognize-face.component';
+import { DashboardComponent } from './BackOffice/Pages/dashboard/dashboard.component';
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+import {JitsiComponent} from "./FrontOffice/pages/Interview/jitsi/jitsi.component";
+import { InterviewCalendarComponent } from './FrontOffice/pages/Interview/interview-calendar/interview-calendar.component';
+import { LeaveComponent } from './FrontOffice/pages/leave/leave.component';
+
+const socketConfig: SocketIoConfig = { url: 'http://localhost:5000', options: {} };
+
+
 
 
 @NgModule({
@@ -172,8 +179,6 @@ import {EmojiModule} from "@ctrl/ngx-emoji-mart/ngx-emoji";
 
     LoginComponent,
     FindAllUsersComponent,
-    FilterJobPipe,
-    FindAllUsersComponent ,
     FilterJobPipe,
     ActivityBComponent,
     FormsuggestComponent,
@@ -230,12 +235,15 @@ import {EmojiModule} from "@ctrl/ngx-emoji-mart/ngx-emoji";
     EditQuizQuestionComponent,
     RoomComponent,
     JoinPipe,
-    CustomizerComponent
+    CustomizerComponent,
 
 
 
+    RecognizeFaceComponent,
+    DashboardComponent,
   ],
   imports: [
+
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
@@ -265,7 +273,6 @@ import {EmojiModule} from "@ctrl/ngx-emoji-mart/ngx-emoji";
     }),
     MatButtonModule,
     FeatherModule.pick(allIcons),
-    BrowserAnimationsModule,
     ToastrModule.forRoot({
       timeOut: 2000,
       progressBar: true,
@@ -273,12 +280,9 @@ import {EmojiModule} from "@ctrl/ngx-emoji-mart/ngx-emoji";
       preventDuplicates: true
     }), // ToastrModule added
     MatCardModule,
-    NgxChartsModule,
+   NgxChartsModule,
     MatTooltipModule,
-    FullCalendarModule,
-    FormsModule,
     HttpClientModule,
-    NgbModule,
     NgxCaptchaModule,
     CalendarModule.forRoot({
       provide: DateAdapter,
@@ -292,15 +296,14 @@ import {EmojiModule} from "@ctrl/ngx-emoji-mart/ngx-emoji";
     ChartModule,
     BsDropdownModule.forRoot(),
 
-    FullCalendarModule,
+    SocketIoModule.forRoot(socketConfig),
+
     MatSortModule,
     MatTableModule,
     MatCheckboxModule,
-
-    MatCardModule,
     MatGridListModule,
 
-    MatBadgeModule
+    MatBadgeModule,
 
 
     
@@ -313,7 +316,8 @@ import {EmojiModule} from "@ctrl/ngx-emoji-mart/ngx-emoji";
 
 
   ],
-  providers: [httpInterceptorProviders,DatePipe],
+  providers: [httpInterceptorProviders,DatePipe,    provideAnimations(), // required animations providers
+  provideToastr(),],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 

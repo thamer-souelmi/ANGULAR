@@ -106,7 +106,8 @@
             "styles": [
               "node_modules/angular-calendar/css/angular-calendar.css",
               "src/styles.css",
-              "src/assets/BackOffice/styles/style.scss"
+              "src/assets/BackOffice/styles/style.scss",
+              "node_modules/leaflet/dist/leaflet.css"
             ],
             "scripts": []
           }

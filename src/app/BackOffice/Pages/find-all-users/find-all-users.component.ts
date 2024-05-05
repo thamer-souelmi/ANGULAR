@@ -11,6 +11,7 @@ import * as XLSX from 'xlsx'
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import { AddUserComponent } from '../add-user/add-user.component';
 import { MatDialog } from '@angular/material/dialog';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-find-all-users',
@@ -52,7 +53,7 @@ export class FindAllUsersComponent {
               private cdr: ChangeDetectorRef,
               private userauth : AuthService,
               private ngZone: NgZone,private route: ActivatedRoute,
-              private dialog: MatDialog) {
+              private dialog: MatDialog,private toastr: ToastrService) {
     this.userForm = this.formBuilder.group({
       firstname: ['', Validators.required],
       lastname: ['', Validators.required],
@@ -71,6 +72,8 @@ export class FindAllUsersComponent {
 
   ngOnInit(){
     this.loadUsers();
+    
+
 
   }
   loadUsers(){
@@ -246,6 +249,7 @@ export class FindAllUsersComponent {
   
     // Proceed with reading the Excel file
     const fileReader = new FileReader();
+    this.toastr.success('Hello world!', 'Toastr fun!');
   
     fileReader.onload = (e) => {
       const workBook = XLSX.read(fileReader.result, { type: 'binary' });
