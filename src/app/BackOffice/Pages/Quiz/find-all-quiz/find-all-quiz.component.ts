@@ -4,6 +4,7 @@ import {QuizService} from "../../../../Services/quiz.service";
 import { MatDialog } from '@angular/material/dialog';
 import {AddQuizQuestionComponent} from "../add-quiz-question/add-quiz-question.component";
 import {EditQuizQuestionComponent} from "../edit-quiz-question/edit-quiz-question.component";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-find-all-quiz',
@@ -12,8 +13,11 @@ import {EditQuizQuestionComponent} from "../edit-quiz-question/edit-quiz-questio
 })
 export class FindAllQuizComponent implements OnInit {
   quizQuestions: QuizQuestion[] = [];
+  currentPage: number = 1; // Current page
+  itemsPerPage: number = 8; // Items per page
+  searchtext:any;
 
-  constructor(private quizService: QuizService, public dialog: MatDialog) { }
+  constructor(private quizService: QuizService, public dialog: MatDialog,private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.quizService.getAllQuizQuestions().subscribe(questions => {
@@ -60,11 +64,14 @@ export class FindAllQuizComponent implements OnInit {
 
   deleteQuizQuestion(questionId: number): void {
     this.quizService.deleteQuizQuestion(questionId).subscribe(() => {
+      this.toastr.success('Quiz question deleted successfully!', 'Success');
       console.log('Quiz question deleted successfully');
       // Refresh the list of quiz questions after deletion
       this.refreshQuizQuestions();
     }, error => {
       console.error('Error deleting quiz question', error);
+      this.toastr.error('Error deleting quiz question!', 'Error');
+
       // Handle error appropriately, e.g., show a message to the user
     });
   }
@@ -85,5 +92,24 @@ export class FindAllQuizComponent implements OnInit {
       // Optionally, refresh the list of quiz questions
       this.fetchQuizQuestions();
     });
+  }
+  onPageChange(pageNumber: number) {
+    this.currentPage = pageNumber;
+  }
+
+  getPaginatedItems() {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    return this.quizQuestions.slice(startIndex, startIndex + this.itemsPerPage);
+  }
+  getTotalPages(): number {
+    return Math.ceil(this.quizQuestions.length / this.itemsPerPage);
+  }
+  getPaginationNumbers(): number[] {
+    const totalPages = this.getTotalPages();
+    const pagesArray = [];
+    for (let i = 1; i <= totalPages; i++) {
+      pagesArray.push(i);
+    }
+    return pagesArray;
   }
 }

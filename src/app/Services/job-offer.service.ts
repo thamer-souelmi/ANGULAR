@@ -17,19 +17,16 @@ export class JobOfferService {
   findAllJobOffers(): Observable<JobOffer[]> {
     return this.myHttp.get<JobOffer[]>(this.urlJobOffer + '/findAllJobOffers');
   }
-  addJobOffer(jobOffer: JobOffer): Observable<JobOffer> {
-    return this.myHttp.post<JobOffer>(this.urlJobOffer + '/addJobOffer', jobOffer);
+  addJobOffer(jobOffer: JobOffer,userId: number): Observable<JobOffer> {
+    return this.myHttp.post<JobOffer>(`${this.urlJobOffer}/addJobOffer/${userId}`, jobOffer);
   }
-  getJobOfferById(jobId: number): Observable<JobOffer> {
-    return this.myHttp.get<JobOffer>(`${this.urlJobOffer}/getJobOffer/${jobId}`);
+  getJobOfferById(jobOfferId: number): Observable<JobOffer> {
+    return this.myHttp.get<JobOffer>(`${this.urlJobOffer}/${jobOfferId}`);
   }
 
-  updateJobOffer(jobOfferId: number,jobOffer: JobOffer): Observable<void> {
-    return this.myHttp.put<void>(`${this.urlJobOffer}/updateJobOffer${jobOfferId}`, jobOffer);
+  updateJobOffer(jobOfferId: number, jobOfferDetails: JobOffer): Observable<JobOffer> {
+    return this.myHttp.put<JobOffer>(`${this.urlJobOffer}/updateJobOffer/${jobOfferId}`, jobOfferDetails);
   }
-  // updateJobOffer(jobOfferId: number, jobOffer: JobOffer): Observable<JobOffer> {
-  //   return this.myHttp.put<JobOffer>(`${this.urlJobOffer}/${jobOfferId}`, jobOffer);
-  // }
 
 
   deleteJobOffer(jobId: number): Observable<void> {

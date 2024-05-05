@@ -126,7 +126,11 @@ import { AddQuizQuestionComponent } from './BackOffice/Pages/Quiz/add-quiz-quest
 import { EditQuizQuestionComponent } from './BackOffice/Pages/Quiz/edit-quiz-question/edit-quiz-question.component';
 import { RoomComponent } from './BackOffice/Pages/room/room.component';
 import {BsDropdownModule} from "ngx-bootstrap/dropdown";
+import { AddMarkComponent } from './FrontOffice/pages/JobOffer/add-mark/add-mark.component';
+import { MatMenu } from '@angular/material/menu';
+
 import {JoinPipe} from "./join.pipe";
+
 import {NgxPaginationModule} from "ngx-pagination";
 import { CustomizerComponent } from './customizer/customizer.component';
 import {PickerComponent, PickerModule} from "@ctrl/ngx-emoji-mart";
@@ -234,9 +238,10 @@ const socketConfig: SocketIoConfig = { url: 'http://localhost:5000', options: {}
     AddQuizQuestionComponent,
     EditQuizQuestionComponent,
     RoomComponent,
+
+    AddMarkComponent,
     JoinPipe,
     CustomizerComponent,
-
 
 
     RecognizeFaceComponent,
@@ -302,8 +307,9 @@ const socketConfig: SocketIoConfig = { url: 'http://localhost:5000', options: {}
     MatTableModule,
     MatCheckboxModule,
     MatGridListModule,
-
     MatBadgeModule,
+    MatMenuModule
+
 
 
     
