@@ -18,6 +18,7 @@ import {
 import {
   StatisticsInterviewComponent
 } from "./BackOffice/Pages/JobOffer/statistics-interview/statistics-interview.component";
+
 import {
   InterviewDetailsBackComponent
 } from "./BackOffice/Pages/JobOffer/interview-details-back/interview-details-back.component";
@@ -27,6 +28,7 @@ import {FindAllUsersComponent} from "./BackOffice/Pages/find-all-users/find-all-
 
 import { FindAllProjectsComponent } from './BackOffice/Pages/Project/find-all-projects/find-all-projects.component';
 import { ProjectChartComponent } from './BackOffice/Pages/Project/project-chart/project-chart.component';
+
 import { TaskbackComponent } from './BackOffice/Pages/Task/taskback/taskback.component';
 import { KanbanboardbackComponent } from './BackOffice/Pages/Task/kanbanboardback/kanbanboardback.component';
 import { AppGanttChartComponent } from './BackOffice/Pages/Task/app-gantt-chart/app-gantt-chart.component';
@@ -36,7 +38,6 @@ import { PMstatisticComponent } from './BackOffice/Pages/Task/pmstatistic/pmstat
 import { PiecharttaskComponent } from './BackOffice/Pages/Task/piecharttask/piecharttask.component';
 
 import {ActivityBComponent} from "./BackOffice/Pages/activity-b/activity-b.component";
-import { FindAllJobOffersComponent } from './FrontOffice/pages/JobOffer/find-all-job-offers/find-all-job-offers.component';
 import { ForgotPasswordComponent } from './BackOffice/Pages/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './BackOffice/Pages/reset-password/reset-password.component';
 import { UpdateUserComponent } from './BackOffice/Pages/update-user/update-user.component';
@@ -44,9 +45,7 @@ import { UserDetailComponent } from './BackOffice/Pages/user-detail/user-detail.
 import { AddUserComponent } from './BackOffice/Pages/add-user/add-user.component';
 import { LeavesComponent } from './BackOffice/Pages/leaves/leaves.component';
 import { LeavesDetailsComponent } from './BackOffice/Pages/leaves-details/leaves-details.component';
-import { LeaveComponent } from './FrontOffice/pages/leave/leave.component';
-
-
+import { LeaveComponent } from './FrontOffice/Pages/leave/leave.component';
 import { GetInvoicebyProjectComponent } from './BackOffice/Pages/Invoice/get-invoiceby-project/get-invoiceby-project.component';
 import { InvoiceFrontComponent } from './FrontOffice/pages/Invoice/invoice-front/invoice-front.component';
 import { ProjectsbackComponent } from './BackOffice/Pages/Project/projectsback/projectsback.component';
@@ -56,8 +55,10 @@ import { AddcontractComponent } from './FrontOffice/pages/contract/addcontract/a
 import { GetallcontractsComponent } from './FrontOffice/pages/contract/getallcontracts/getallcontracts.component';
 import { EditContractComponent } from './FrontOffice/pages/contract/edit-contract/edit-contract.component';
 
+import { FindAllJobOffersComponent } from './FrontOffice/pages/JobOffer/find-all-job-offers/find-all-job-offers.component';
 import {FindAllQuizComponent} from "./BackOffice/Pages/Quiz/find-all-quiz/find-all-quiz.component";
 import {RoomComponent} from "./BackOffice/Pages/room/room.component";
+import {TrainingSessionBComponent} from "./BackOffice/Pages/training-session-b/training-session-b.component";
 
 import { RecognizeFaceComponent } from './BackOffice/Pages/recognize-face/recognize-face.component';
 import { DashboardComponent } from './BackOffice/Pages/dashboard/dashboard.component';
@@ -107,6 +108,7 @@ const routes: Routes = [
     children: [
 
       {path: "findAllJobOffersback", component: FindAllJobOffersBackComponent},
+      {path : "trainingSessionB",component: TrainingSessionBComponent},
       {path: 'findAllJobCandidaciesBack/:id', component: FindAllJobCandidaciesBackComponent},
       {path: 'statisticsHR', component: StatisticsComponent},
       {path: 'statisticsCandidacies', component: StatisticsCandidaciesComponent},

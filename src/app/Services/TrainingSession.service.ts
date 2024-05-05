@@ -4,6 +4,9 @@ import { Injectable } from "@angular/core";
 import {TrainingSession} from "../Models/TrainingSession";
 import {catchError, map, tap} from "rxjs/operators";
 import {Room} from "../Models/Room";
+import {TS_Status} from "../Models/TS_Status";
+import {RegistrationTS} from "../Models/RegistrationTS";
+import {User} from "../Models/User";
 
 @Injectable({
   providedIn: 'root'
@@ -56,9 +59,9 @@ export class TrainingSessionService {
   //   return this.http.post<TrainingSession>(url, sessionData);
   // }
 
-  addTrainingSessionWithRoom(trainingSession: any, roomId: number): Observable<any> {
-    const url = `${this.TrainingSessionUrl}with-room/${roomId}`;
-    return this.http.post<any>(url, trainingSession, this.httpOptions)
+  addTrainingSessionWithRoom(trainingSession: TrainingSession, roomId: number, trainerId: number): Observable<TrainingSession> {
+    const url = `${this.TrainingSessionUrl}with-room/${roomId}/${trainerId}`;
+    return this.http.post<TrainingSession>(url, trainingSession, this.httpOptions)
       .pipe(
         catchError(error => {
           console.error('Failed to add training session with room:', error);
@@ -67,9 +70,10 @@ export class TrainingSessionService {
       );
   }
 
-  addTrainingSessionWithoutRoom(sessionData: any) {
-    console.log('Sending data:', JSON.stringify(sessionData));
-    return this.http.post(`${this.TrainingSessionUrl}without-room`, sessionData, this.httpOptions)
+  addTrainingSessionWithoutRoom(trainingSession: TrainingSession, trainerId: number): Observable<TrainingSession> {
+    const url = `${this.TrainingSessionUrl}without-room/${trainerId}`;
+    console.log('Sending data:', JSON.stringify(trainingSession));
+    return this.http.post<TrainingSession>(url, trainingSession, this.httpOptions)
       .pipe(
         catchError(this.handleError)
       );
@@ -82,7 +86,7 @@ export class TrainingSessionService {
       console.error('A client-side or network error occurred:', error.error.message);
     } else {
       console.error(`Backend returned code ${error.status}, body was: `, error.error);
-      errorMessage = `Error: ${error.status}, ${error.message}`;
+      errorMessage = `Error: ${error.status}, ${error.message}, ${error.error}`;
     }
     console.error(errorMessage);
     return throwError(() => new Error(errorMessage));
@@ -98,4 +102,23 @@ export class TrainingSessionService {
   getAvailableRooms(): Observable<Room[]> {
     return this.http.get<Room[]>(`${this.TrainingSessionUrl}rooms/available`);
   }
+  updateTrainingSessionStatus(sessionId: number, status: TS_Status): Observable<any> {
+    const payload = status; // Send status as a plain string
+    return this.http.patch(`${this.TrainingSessionUrl}${sessionId}/status`, payload, this.httpOptions)
+      .pipe(
+        catchError(this.handleError)
+      );
+
+  }
+
+  getUsersByTrainingSession(sessionId: number): Observable<User[]> {
+    return this.http.get<User[]>(`${this.TrainingSessionUrl}${sessionId}/users`);
+  }
+  registerUserToSession(sessionId: number, userId: number): Observable<RegistrationTS> {
+    return this.http.post<RegistrationTS>(`${this.TrainingSessionUrl}/${sessionId}/register/${userId}`, {});
+  }
+
+
+
+
 }

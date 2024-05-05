@@ -8,7 +8,7 @@
 
 <!-- Cards Container -->
 <div class="card-container">
-  <div *ngFor="let activity of filteredActivities | paginate: { itemsPerPage: 10, currentPage: p }" class="card">
+  <div *ngFor="let activity of filteredActivities" class="card">
 
     <div class="card-body">
       <h5 class="card-title">{{ activity.activity_name }}</h5>
@@ -53,6 +53,11 @@
     </div>
   </div>
 </div>
-<div class="pagination-container">
-  <pagination-controls (pageChange)="p = $event" class="pagination-controls" [maxSize]="5" [itemsPerPage]="pageSize" [totalItems]="totalActivities"></pagination-controls>
+
+<div class="pagination-settings">
+  <button (click)="previousPage()" [disabled]="currentPage === 1">Previous</button>
+  <span>Page {{ currentPage }} of {{ totalPages }}</span>
+  <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
 </div>
+
+

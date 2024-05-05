@@ -43,11 +43,11 @@ export class UserService {
     return this.http.get<User[]>(this.baseUrl + '/employees');
   }
 // malekk
-getCompetentUsers(): Observable<User[]> {
-  return this.http.get<User[]>(`${this.baseUrl}/competentUsers`);
-}
+  getCompetentUsers(): Observable<User[]> {
+    return this.http.get<User[]>(`${this.baseUrl}/competentUsers`);
+  }
 
-private baseUrlf : string = 'http://localhost:8082/user';
+  private baseUrlf : string = 'http://localhost:8082/user';
 
   upload(file: File): Observable<HttpEvent<any>> {
     const formData: FormData = new FormData();
@@ -79,7 +79,7 @@ private baseUrlf : string = 'http://localhost:8082/user';
 
   resetPassword(token: string, newPassword: string): Observable<any> {
     return this.http.put(`${this.baseUrlr}/resetPassword`, { token, newPassword });
-    
+
   }
   resetPassword1(email: string, password: string) {
     return this.http.put('/resetPassword', { email, password });

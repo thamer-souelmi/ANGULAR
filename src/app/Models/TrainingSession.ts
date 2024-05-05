@@ -19,7 +19,8 @@ export interface TrainingSession {
   capacity: number;
   typeTS: TypeTS;               // Ensure enum names match and are used consistently
   tsStatus: TS_Status;          // This needs to match the Java enum name, if exposed as tsStatus in JSON
-  user?: User;                  // Optional if not always included
+  users?: User[];
+  trainerId?: User;
   registrationtss?: RegistrationTS[];
   feedbacks?: FeedBack[];       // Adjust naming to be consistent in pluralization
   room?: Room;
