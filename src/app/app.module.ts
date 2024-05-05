@@ -17,7 +17,6 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpClientModule } from '@angular/common/http';
-import { FindAllJobOffersComponent } from './FrontOffice/pages/JobOffer/find-all-job-offers/find-all-job-offers.component';
 import { WishlistComponent } from './FrontOffice/pages/JobOffer/wishlist/wishlist.component';
 
 import { CommonModule, DatePipe } from "@angular/common";
@@ -92,10 +91,10 @@ import {
   TrainingSessionComponent} from './FrontOffice/pages/training-session/training-session.component';
 import {MatGridListModule} from "@angular/material/grid-list";
 import { EventBComponent } from './BackOffice/Pages/event-b/event-b.component';
-import { ProjectFormComponent } from './FrontOffice/Pages/Project/project-form/project-form.component';
-import { ProjectDetailsComponent } from './FrontOffice/Pages/Project/project-details/project-details.component';
-import { ProjectCalendarModalComponent } from './FrontOffice/Pages/Project/project-calendar-modal/project-calendar-modal.component';
-import { GetAllProjectComponent } from './FrontOffice/Pages/Project/get-all-project/get-all-project.component';
+import { ProjectFormComponent } from './FrontOffice/pages/Project/project-form/project-form.component';
+import { ProjectDetailsComponent } from './FrontOffice/pages/Project/project-details/project-details.component';
+import { ProjectCalendarModalComponent } from './FrontOffice/pages/Project/project-calendar-modal/project-calendar-modal.component';
+import { GetAllProjectComponent } from './FrontOffice/pages/Project/get-all-project/get-all-project.component';
 import { ForgotPasswordComponent } from './BackOffice/Pages/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './BackOffice/Pages/reset-password/reset-password.component';
 import { UpdateUserComponent } from './BackOffice/Pages/update-user/update-user.component';
@@ -114,13 +113,15 @@ import { AddQuizQuestionComponent } from './BackOffice/Pages/Quiz/add-quiz-quest
 import { EditQuizQuestionComponent } from './BackOffice/Pages/Quiz/edit-quiz-question/edit-quiz-question.component';
 import { RoomComponent } from './BackOffice/Pages/room/room.component';
 import {BsDropdownModule} from "ngx-bootstrap/dropdown";
-<<<<<<< HEAD
+
 import { AddMarkComponent } from './FrontOffice/pages/JobOffer/add-mark/add-mark.component';
 import { MatMenu } from '@angular/material/menu';
 
-=======
 import {JoinPipe} from "./join.pipe";
->>>>>>> 5cfeecb50d8ad7544d015bd519b69b0af19ca72d
+import {
+  FindAllJobOffersComponent
+} from "./FrontOffice/pages/JobOffer/find-all-job-offers/find-all-job-offers.component";
+
 
 
 @NgModule({
@@ -134,7 +135,6 @@ import {JoinPipe} from "./join.pipe";
     HomeFrontComponent,
     ActivityComponentF,
     EventComponent,
-    FindAllJobOffersComponent,
     WishlistComponent,
     SidebarBackComponent,
     NavbarBackComponent,
@@ -200,12 +200,10 @@ import {JoinPipe} from "./join.pipe";
     AddQuizQuestionComponent,
     EditQuizQuestionComponent,
     RoomComponent,
-<<<<<<< HEAD
     AddMarkComponent,
-=======
-    JoinPipe
+    JoinPipe,
+    FindAllJobOffersComponent
 
->>>>>>> 5cfeecb50d8ad7544d015bd519b69b0af19ca72d
 
   ],
   imports: [

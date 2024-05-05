@@ -51,7 +51,6 @@ import { PMstatisticComponent } from './BackOffice/Pages/Task/pmstatistic/pmstat
 import { PiecharttaskComponent } from './BackOffice/Pages/Task/piecharttask/piecharttask.component';
 
 import {ActivityBComponent} from "./BackOffice/Pages/activity-b/activity-b.component";
-import { FindAllJobOffersComponent } from './FrontOffice/Pages/JobOffer/find-all-job-offers/find-all-job-offers.component';
 import { ForgotPasswordComponent } from './BackOffice/Pages/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './BackOffice/Pages/reset-password/reset-password.component';
 import { UpdateUserComponent } from './BackOffice/Pages/update-user/update-user.component';
@@ -81,7 +80,7 @@ const routes: Routes = [
 
   },
   { path: 'reset/:token', component: ResetPasswordComponent },
-    path:"trainigSession", component:AllTemplateFrontComponent,
+  {  path:"trainigSession", component:AllTemplateFrontComponent,
     children:[
       {path:"trainigSession", component:TrainingSessionComponent}
     ]
