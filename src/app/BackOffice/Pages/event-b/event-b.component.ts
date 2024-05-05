@@ -40,6 +40,7 @@ export class EventBComponent implements OnInit {
   isDetailsModalOpen: boolean = false;
   @ViewChild('map') mapContainer!: ElementRef;
   map!: L.Map;
+  p: number = 1;  // Page number
 
   constructor(
     private eventService: EventService,

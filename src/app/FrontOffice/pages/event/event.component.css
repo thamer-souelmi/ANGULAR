@@ -14,34 +14,21 @@
   --button-hover-red: #c82333;
 }
 .card {
-  flex: 0 1 calc(33.333% - 1rem); /* Adjust the basis and subtraction for margin */
   display: flex;
   flex-direction: column;
-  margin-bottom: 2rem !important; /* Ensures that the bottom margin is applied */
-  box-sizing: border-box; /* Add this to include padding and border in the element's total width and height */
+  flex: 1 0 calc(33.333% - 1rem); /* Card width: 1/3 of container width minus gap */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Shadow for depth (optional) */
+  margin: 0.5rem; /* Margin around each card */
+  height: 500px; /* Définir une hauteur fixe pour chaque carte */
 }
+
 
 .card-container {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem; /* Space between cards */
-  justify-content: space-between; /* Even spacing */
-  align-items: stretch; /* Stretch cards to fill the container */
-  margin: 1rem 0; /* Top and bottom margin for the container */
+  margin: 0 -0.5rem; /* Adjust margins to center the cards within the container */
 }
-
-
-/*.card-container .card:not(:first-child) {*/
-/*  margin-top: 2rem;*/
-
-/*}*/
-
-/* Assurez-vous que la carte prend tout l'espace disponible moins l'écart défini */
-/*.card-container .col-md-4 {*/
-/*  flex: 1 0 calc(33.33% - 2rem); !* Adaptation de la largeur en soustrayant l'espace entre les cartes *!*/
-/*  display: flex;*/
-/*  justify-content: center;*/
-/*}*/
 
 .card-header {
   background-color: var(--color-dark-blue);
@@ -50,16 +37,14 @@
 
 
 .card-body {
-  background-color: #fff;
-  border-left: 5px solid var(--color-soft-green);
-  flex-grow: 1;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  flex-grow: 1; /* Grow to use available space */
+  padding: 1rem; /* Padding inside the card body */
 }
-
 .card-footer {
   background-color: var(--color-light-blue);
-  margin-top: auto;
 
 }
 
@@ -275,10 +260,14 @@ h2:hover::after {
   color: gold;
 }
 .event-card {
-  transition: transform .2s;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 1s ease-out forwards;
+  animation-delay: var(--animation-delay);
+  flex: 1; /* Stretch card body to take available space */
   display: flex;
   flex-direction: column;
-  height: 100%;
+
 }
 
 .event-card:hover {
@@ -300,18 +289,18 @@ h2:hover::after {
 .rating input {
   display: none;
 }
-.event-card {
-  display: flex;
-  flex-direction: column;
-}
+/*.event-card {*/
+/*  display: flex;*/
+/*  flex-direction: column;*/
+/*}*/
 
-.event-card .card-body {
-  flex: 1; /* Permet au corps de la carte de se dilater et de remplir l'espace disponible */
-  display: flex; /* Affichage flex pour permettre à l'intérieur de s'étendre verticalement */
-  flex-direction: column; /* Alignement du contenu du haut vers le bas */
-  justify-content: space-between; /* Espacement du contenu de manière égale */
+/*.event-card .card-body {*/
+/*  flex: 1; !* Permet au corps de la carte de se dilater et de remplir l'espace disponible *!*/
+/*  display: flex; !* Affichage flex pour permettre à l'intérieur de s'étendre verticalement *!*/
+/*  flex-direction: column; !* Alignement du contenu du haut vers le bas *!*/
+/*  justify-content: space-between; !* Espacement du contenu de manière égale *!*/
 
-}
+/*}*/
 
 .read-more {
   cursor: pointer;
@@ -669,18 +658,146 @@ textarea:focus {
 }
 @media (max-width: 768px) {
   .card {
-    flex-basis: calc(100% - 1rem); /* Full width minus margin on small screens */
+    flex-basis: calc(100% - 2rem); /* Full width minus the gap on small screens */
   }
 }
-
 @media (min-width: 769px) and (max-width: 1024px) {
   .card {
-    flex-basis: calc(50% - 1rem); /* Half width minus margin on medium screens */
+    flex-basis: calc(50% - 2rem); /* Half width minus the gap on medium screens */
   }
 }
 
 @media (min-width: 1025px) {
   .card {
-    flex-basis: calc(33.333% - 1rem); /* One third minus margin on large screens */
+    flex-basis: calc(33.333% - 2rem); /* One third minus the gap on large screens */
+  }
+}
+.input-emoji-container .textarea-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px; /* Adjust to your form spacing */
+}
+
+.input-emoji-container .form-control {
+  flex-grow: 1;
+  padding-right: 2.5rem; /* Make space for the button */
+}
+
+.input-emoji-container .emoji-button {
+  position: absolute;
+  right: 10px; /* Adjust this value as needed to move the button a bit to the left */
+  top: 25px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+
+}
+.input-emoji-container {
+  position: relative;
+}
+
+.input-emoji-container .emoji-picker-container {
+  position: absolute;
+  right: 0;
+  top: 100%; /* Adjust this value as needed to position the picker */
+  z-index: 100;
+}
+
+.emoji-input-container {
+  position: relative;
+}
+
+.input-group {
+  display: flex;
+}
+
+.emoji-button {
+  position: absolute;
+  right: 20px;
+  top: 40px;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.emoji-picker-container {
+  position: absolute;
+  right: 0;
+  top: 100%; /* Adjust this value as needed to position the picker */
+  z-index: 100;
+}
+
+textarea.form-control {
+  padding-right: 40px; /* Make space for emoji button inside textarea */
+}
+
+
+/* Ensure the calendar container has a minimum height */
+.fc-calendar-container {
+  min-height: 500px; /* Adjust as necessary */
+}
+
+/* FullCalendar specific overrides */
+.fc .fc-toolbar.fc-header-toolbar {
+  /* Ensure the toolbar is not collapsed */
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+  background-color: var(--color-navy-blue);
+  color: white;
+}
+
+.fc .fc-toolbar-title {
+  /* Style for the calendar title */
+  font-size: 1.5rem;
+}
+
+.fc .fc-button {
+  /* Style for the calendar buttons */
+  background-color: var(--color-soft-blue);
+  color: white;
+  margin-left: 5px;
+  border: none;
+}
+
+.fc .fc-button:hover {
+  /* Hover state for buttons */
+  background-color: var(--button-hover-dark-blue);
+}
+
+.fc .fc-daygrid-day-top {
+  /* Align the day number to the top */
+  justify-content: start;
+}
+
+.fc .fc-day-today {
+  /* Special styling for the current day */
+  background-color: var(--color-pale-blue);
+}
+
+/* Make sure events are visible and styled */
+.fc .fc-daygrid-event .fc-event-title {
+  /* Ensure text is visible on events */
+  color: white;
+}
+
+/* Responsive design adjustments for FullCalendar */
+@media (max-width: 767px) {
+  .fc .fc-toolbar {
+    /* Stack toolbar items on smaller screens */
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .fc .fc-toolbar.fc-header-toolbar {
+    /* Adjust padding for small screens */
+    padding: 0.5rem;
+  }
+
+  .fc .fc-button-group {
+    /* Ensure button groups don't overflow on small screens */
+    display: flex;
+    flex-wrap: wrap;
   }
 }

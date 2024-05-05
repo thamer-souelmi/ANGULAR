@@ -1,11 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
+import * as _ from 'lodash';
 import { Equipment, Room } from '../../../Models/Room';
 import { RoomService } from '../../../Services/Room.service';
 import {MatDialogRef} from "@angular/material/dialog";
+import {Subject} from "rxjs";
+import {debounceTime, distinctUntilChanged} from "rxjs/operators";
 
 @Component({
   selector: 'app-room',
@@ -21,6 +23,16 @@ export class RoomComponent implements OnInit {
   roomForm!: FormGroup;
   private deleteId: number | null = null;
   @ViewChild('deleteConfirm') deleteConfirmTemplate: any;
+  page: number = 0;
+  size: number = 10;
+  filteredRooms: Room[] = [];  // Array to hold filtered rooms
+  searchTerm: string = '';
+  searchQuery = '';
+  searchChanged: Subject<string> = new Subject<string>();
+  filterModalRef: any; // Reference for the filter modal
+  isAvailable: boolean | null = null;
+  showEmojiPicker = false;
+
   constructor(
     private roomService: RoomService,
     private modalService: NgbModal,
@@ -28,26 +40,101 @@ export class RoomComponent implements OnInit {
     private snackBar: MatSnackBar,
 
   ) {
-    this.initForm();
+    this.searchChanged.pipe(
+      debounceTime(300), // wait 300ms after the last event before emitting last event
+      distinctUntilChanged() // only emit if value is different from previous value
+    ).subscribe(model => {
+      this.searchTerm = model;
+      this.filterRooms();
+   });
+  //   this.roomForm = this.formBuilder.group({
+  //     roomId: ['', Validators.required],
+  //     startDate: ['', Validators.required],
+  //     endDate: ['', Validators.required]
+  //   });
+  //   this.roomForm.get('startDate')!.valueChanges.subscribe(() => this.checkAvailability());
+  //   this.roomForm.get('endDate')!.valueChanges.subscribe(() => this.checkAvailability());
+  //
+      }
+  toggleEmojiPicker() {
+    this.showEmojiPicker = !this.showEmojiPicker;
   }
 
+  addEmoji(event: any) {
+    const emoji = event.emoji.native;
+    const control = this.roomForm.get('name');
+    if (control) {
+      control.setValue(control.value + emoji);
+      // Do not toggle the emoji picker here
+    }
+  }
+  checkAvailability(): void {
+    const roomId = this.roomForm.get('roomId')!.value;
+    const startDate = new Date(this.roomForm.get('startDate')!.value);
+    const endDate = new Date(this.roomForm.get('endDate')!.value);
+
+    if (roomId && startDate && endDate && startDate < endDate) {
+      this.roomService.checkRoomAvailability(roomId, startDate, endDate).subscribe({
+        next: (available) => {
+          this.isAvailable = available;
+          if (!available) {
+            this.snackBar.open('Room is not available for the selected dates.', 'Close', { duration: 3000 });
+          }
+        },
+        error: () => {
+          this.snackBar.open('Failed to check availability.', 'Close', { duration: 3000 });
+        }
+      });
+    }
+  }
   ngOnInit(): void {
     this.loadRooms();
-  }
+    this.setupSearch();
+    this.initForm();
 
+  }
   initForm(): void {
     this.roomForm = this.formBuilder.group({
       name: ['', Validators.required],
       capacity: ['', [Validators.required, Validators.min(1)]],
       available: [false],
-      equipment: [[]] // This should map to the formControlName
+      equipment: [[]],
+    });
+
+    this.roomForm.get('startDate')!.valueChanges.subscribe(() => this.checkAvailability());
+    this.roomForm.get('endDate')!.valueChanges.subscribe(() => this.checkAvailability());
+  }
+
+  setupSearch(): void {
+    this.searchChanged.pipe(
+      debounceTime(300),
+      distinctUntilChanged()
+    ).subscribe(model => {
+      this.searchTerm = model;
+      this.filterRooms();
     });
   }
 
+  applyFilter(): void {
+    let filtered = _.deburr(this.searchQuery.toLowerCase());
+
+    this.filteredRooms = this.rooms.filter(room => {
+      const nameMatch = _.deburr(room.nameRoom.toLowerCase()).includes(filtered);
+      return nameMatch;
+    });
+
+    // If you have a modal for results, handle it here
+    if (this.filterModalRef) {
+      this.filterModalRef.close();
+    }
+  }
+
   loadRooms(): void {
-    this.roomService.getAllRooms().subscribe({
-      next: (rooms) => {
-        this.rooms = rooms;
+    this.roomService.getAllRooms(this.page, this.size).subscribe({
+      next: (response: any) => {
+        this.rooms = response.content;
+        this.filteredRooms = this.rooms; // Ensure this is initially the same
+        console.log('Rooms loaded:', this.rooms);
       },
       error: (error) => {
         console.error('Error fetching rooms:', error);
@@ -56,6 +143,31 @@ export class RoomComponent implements OnInit {
     });
   }
 
+  filterRooms(): void {
+    console.log('Filtering rooms for term:', this.searchTerm);
+    this.filteredRooms = this.rooms.filter(room =>
+      room.nameRoom.toLowerCase().includes(this.searchTerm.toLowerCase())
+    );
+    // this.cdr.detectChanges();
+    console.log('Filtered rooms:', this.filteredRooms);
+  }
+
+  onSearchQueryChanged(value: string): void {
+    this.searchQuery = value; // Update the local variable if needed
+    this.searchChanged.next(value); // Properly trigger the debounced search
+  }
+
+  nextPage(): void {
+    this.page++;
+    this.loadRooms();
+  }
+
+  previousPage(): void {
+    if (this.page > 0) {
+      this.page--;
+      this.loadRooms();
+    }
+  }
   openAddRoomModal(): void {
     this.selectedRoom = new Room(); // Reset selectedRoom
     this.editMode = false;

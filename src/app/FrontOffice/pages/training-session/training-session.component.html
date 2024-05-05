@@ -23,7 +23,7 @@
   <!-- Training Session Cards Display -->
   <!-- Training Session Cards Display -->
       <div class="row">
-        <div class="col-md-4" *ngFor="let session of trainingSessions">
+        <div class="col-md-4" *ngFor= "let session of trainingSessions  ; let i = index" >
 
           <div class="card card-with-badges ">
             <div class="card-body card-custom-body">
@@ -72,6 +72,30 @@
     </div>
   </div>
   </div>
+<!-- Pagination controls -->
+<div class="paginator-container">
+  <button class="paginator-button"
+          [disabled]="currentPage === 0"
+          (click)="previousPage()">
+    Previous
+  </button>
+
+  <!-- Angular Material Paginator -->
+  <mat-paginator [length]="totalItems"
+                 [pageSize]="pageSize"
+                 [pageIndex]="currentPage"
+                 [pageSizeOptions]="[6, 9, 12]"
+                 (page)="changePage($event)"
+                 showFirstLastButtons>
+  </mat-paginator>
+
+  <button class="paginator-button"
+          [disabled]="currentPage >= (totalActivities / pageSize) - 1"
+          (click)="nextPage()">
+    Next
+  </button>
+</div>
+
 <!-- Add Training Session Modal -->
 <div class="modal fade" id="addTrainingSessionModal" tabindex="-1" aria-labelledby="addTrainingSessionModalLabel" aria-hidden="true">
   <div class="modal-dialog">

@@ -101,12 +101,14 @@ export class JobOfferDetailsComponent implements OnInit {
   }
   saveWishlist() {
     localStorage.setItem('wishlist', JSON.stringify(this.wishlist));
+
   }
   onSubmit() {
     const newc: Candidacy = this.candidacyForm.value as Candidacy;
     if (this.selectedFiles && this.selectedFiles.length > 0) {
       newc.cv = this.selectedFiles[0].name;
     }
+
     if (this.jobId !== null) {
       this.candidacyService.addCandidate(newc, this.jobId).subscribe(
         response => {
@@ -126,6 +128,7 @@ export class JobOfferDetailsComponent implements OnInit {
     } else {
       console.error('Job ID is not available.');
     }
+
 
   }
   selectFiles(event: any): void {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { User } from 'src/app/Models/User';
 import { Priority } from 'src/app/Models/priority';
@@ -8,6 +8,7 @@ import { TaskStatus } from 'src/app/Models/task-status';
 import { ProjectService } from 'src/app/Services/project.service';
 import { TaskService } from 'src/app/Services/task.service';
 import { UserService } from 'src/app/Services/user.service';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-add-task',
@@ -15,14 +16,15 @@ import { UserService } from 'src/app/Services/user.service';
   styleUrls: ['./add-task.component.css']
 })
 export class AddTaskComponent implements OnInit {
+  
   projects: Project[] = []; 
   selectedProject!: Project; 
 
-  employees:User[]=[];
+  employeeTask:User[]=[];
   selectedEmployee!: User; 
 
 
-  newTask: Task = new Task(); 
+  newTask: Task = new Task() as Task; 
   taskStatusOptions: string[] = ['TODO', 'INPROGRESS', 'COMPLETED', 'CANCELLED']; 
   selectedTaskStatus: TaskStatus = TaskStatus.TODO; 
   priorityOptions: string[] = ['HIGH', 'MEDIUM', 'LOW'];
@@ -30,8 +32,10 @@ export class AddTaskComponent implements OnInit {
   statusOptions = Object.keys(TaskStatus).map(key => TaskStatus[key as keyof typeof TaskStatus]) ; 
   PpriorityOptions = Object.keys(Priority).map(key => Priority[key as keyof typeof Priority]) ; 
 
+    statuses: string[] = ['TODO', 'INPROGRESS', 'COMPLETED', 'CANCELED'];
 
   constructor(private taskService: TaskService,private projectService: ProjectService, private dialogRef: MatDialogRef<AddTaskComponent>,private userService: UserService) { }
+  @ViewChild('taskForm') taskForm!: NgForm;   
 
   ngOnInit(): void {
     this.loadProjects();
@@ -40,7 +44,7 @@ export class AddTaskComponent implements OnInit {
   }
   loadEmployees(): void {
     this.userService.getEmployeesForTASKS().subscribe(employees =>{
-      this.employees=employees;
+      this.employeeTask=employees;
     });
 
 
@@ -55,7 +59,6 @@ export class AddTaskComponent implements OnInit {
     this.newTask.projetT = this.selectedProject;
     this.newTask.taskStatus = this.selectedTaskStatus;
     this.newTask.priority = this.selectedPriority;
-    this.newTask.projetT = this.selectedProject;
     this.newTask.employeeTask=this.selectedEmployee;
 
 
@@ -72,8 +75,8 @@ export class AddTaskComponent implements OnInit {
     const today = new Date();
     return new Date(this.newTask.startDateTask) >= today;
   }
-  
-  isValidDueDate(): boolean {
+
+  isValidEndDate(): boolean {
     return new Date(this.newTask.dueDateTask) > new Date(this.newTask.startDateTask);
   }
 }

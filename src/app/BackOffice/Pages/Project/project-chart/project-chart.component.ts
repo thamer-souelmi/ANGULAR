@@ -48,7 +48,7 @@ export class ProjectChartComponent implements OnInit{
         type: 'line' 
       },
       title: {
-        text: 'projects peer year'
+        text: 'Project Peer Year'
       },
       xAxis: {
         type: 'category', 
