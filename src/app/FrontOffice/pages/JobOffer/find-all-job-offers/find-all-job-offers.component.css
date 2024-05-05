@@ -61,5 +61,23 @@ h2:hover::after {
 .modal-backdrop {
   opacity: 0.5; /* Adjust the opacity of the modal backdrop */
 }
+.pagination .btn {
+  border-radius: 50%; /* Make the buttons circular */
+  padding: 10px 15px; /* Adjust padding to ensure numbers are centered */
+  font-size: 14px; /* Adjust font size as needed */
+}
 
+.pagination .btn.active {
+  background-color: #086d88; /* Change the background color of the active page number */
+  color: white; /* Change the text color of the active page number */
+}
+.btn-inter {
+  position: fixed;
+  top: 50%; /* Adjust if needed */
+  right: 20px; /* Adjust the distance from the right side as needed */
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  z-index: 1000; /* Ensure it appears on top of other content */
+}
 

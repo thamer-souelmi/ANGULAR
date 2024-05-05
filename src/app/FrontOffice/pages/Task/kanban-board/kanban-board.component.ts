@@ -19,8 +19,7 @@ export class KanbanBoardComponent implements OnInit {
   selectedTask: Task | null = null;
  selectedSection: string = '';
  Priority = Priority;
- priority: string[] = ['HIGH', 'MEDUIM', 'LOW'];
- selectedStory: any;
+   selectedStory: any;
 
   constructor(private taskService: TaskService,private dialog: MatDialog) { }
 
@@ -58,30 +57,42 @@ export class KanbanBoardComponent implements OnInit {
   }
   
   
-  handleDrop(event: CdkDragDrop<Task[]>, dropSection: string): void {
-    console.log('Drop Event:', event);
-    const movedTask: Task = event.item.data;
-  
-    console.log('Moved Task:', movedTask);
-    if (movedTask) {
-      const previousStatus: TaskStatus = movedTask.taskStatus;
-      const newStatus: TaskStatus = this.convertToTaskStatus(dropSection);
-      console.log('Previous Status:', previousStatus);
-      console.log('New Status:', newStatus);
-      if (previousStatus !== newStatus) {
-        movedTask.taskStatus = newStatus;
-        console.log('Task after status update:', movedTask);
-        this.taskService.UpdateTask(movedTask).subscribe(updatedTask => {
-          console.log('Task updated:', updatedTask);
-          this.loadTasks(); 
-        },
-        error => {
-          console.error('Error updating task:', error);
-        });
-      }
-    } else {
-      console.error('No task data available to move');
+  handleDrop(event: any, section: string) {
+    const droppedTask: Task = event.item.data;
+    const previousSection: string = event.previousContainer.id;
+
+    // Mapper la chaîne de caractères de la section à TaskStatus
+    let newStatus: TaskStatus;
+
+    switch (section) {
+      case 'TODO':
+        newStatus = TaskStatus.TODO;
+        break;
+      case 'INPROGRESS':
+        newStatus = TaskStatus.INPROGRESS;
+        break;
+      case 'COMPLETED':
+        newStatus = TaskStatus.COMPLETED;
+        break;
+      case 'CANCELLED':
+        newStatus = TaskStatus.CANCELLED;
+        break;
+      default:
+        throw new Error('Section non reconnue');
     }
+
+    // Mettre à jour la tâche avec la nouvelle section
+    droppedTask.taskStatus = newStatus;
+
+    // Mettre à jour la tâche dans la base de données
+    this.taskService.UpdateTask(droppedTask).subscribe(updatedTask => {
+      console.log('Tâche déplacée avec succès :', updatedTask);
+      // Rafraîchir les données après le déplacement de la carte
+      this.loadTasks();
+    }, error => {
+      console.error('Erreur lors du déplacement de la tâche :', error);
+      // Gérer les erreurs éventuelles
+    });
   }
   
   

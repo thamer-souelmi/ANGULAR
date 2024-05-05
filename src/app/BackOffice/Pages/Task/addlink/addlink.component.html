@@ -1,0 +1,68 @@
+<head>
+  
+    <!-- Favicon -->
+    <link href="/assets/FrontOffice/img/favicon.ico" rel="icon">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+  
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+  
+    <!-- Libraries Stylesheet -->
+    <link href="/assets/FrontOffice/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="/assets/FrontOffice/lib/animate/animate.min.css" rel="stylesheet">
+  
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="/assets/FrontOffice/css/bootstrap.min.css" rel="stylesheet">
+  
+    <!-- Template Stylesheet -->
+    <link href="/assets/FrontOffice/css/style.css" rel="stylesheet">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha384-..." crossorigin="anonymous">
+  
+  </head>
+<div class="modal-container">
+    <div class="modal-header">
+      <h2>Add Link</h2>
+    </div>
+   
+      <div class="modal-body" style="max-height: 600px; overflow-y: auto;">
+      <form (ngSubmit)="onSubmit()" #taskForm="ngForm">
+        
+        <div class="form-group">
+          <label for="source">Source:</label>
+          <input id="source" [(ngModel)]="newTask.source" name="source" class="form-control" required>
+          <div *ngIf="taskForm.controls['source'].invalid && (taskForm.controls['source'].dirty || taskForm.controls['source'].touched)">
+            <div class="text-danger" *ngIf="taskForm.controls['source'].errors?.['required']">source is required.</div>
+            <div class="text-danger" *ngIf="!isValidPositiveValue(newTask.source)">source must be strictly positive.</div>
+        </div>
+        </div>
+        <br>
+        <div class="form-group">
+            <label for="target">Target:</label>
+            <input id="target" [(ngModel)]="newTask.target" name="unitPrice" class="form-control" required>
+            <div *ngIf="taskForm.controls['target'].invalid && (taskForm.controls['target'].dirty || taskForm.controls['target'].touched)">
+                <div class="text-danger" *ngIf="taskForm.controls['target'].errors?.['required']">target Price is required.</div>
+                <div class="text-danger" *ngIf="!isValidPositiveValue(newTask.target)">target Price must be strictly positive.</div>
+            </div>
+          </div>
+        <br>
+        <div class="form-group">
+            <label for="type">Type:</label>
+           <input id="type" [(ngModel)]="newTask.type" name="type" class="form-control">
+            <div *ngIf="taskForm.controls['type'].invalid && (taskForm.controls['type'].dirty || taskForm.controls['type'].touched)">
+              <div class="text-danger" *ngIf="taskForm.controls['type'].errors?.['required']">type is required.</div>
+            </div>
+        </div>
+        <br>
+        <div class="modal-footer"> 
+          <button type="submit" class="btn btn-primary" [disabled]="taskForm.invalid">Add Link</button>
+          <button type="button" class="btn btn-secondary" (click)="onClose()">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>

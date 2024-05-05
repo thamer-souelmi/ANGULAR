@@ -1,6 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Subscription, interval } from 'rxjs';
+import {QuizService} from "../../../../Services/quiz.service";
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-quiz',
   templateUrl: './quiz.component.html',
@@ -20,17 +23,16 @@ export class QuizComponent  implements OnInit{
   subscription: Subscription [] = [];
   correctAnswerCount: number = 0;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private quizService: QuizService, private router: Router) {}
 
 
   ngOnInit(): void {
     this.loadQuestions();
   }
   loadQuestions() {
-    this.http.get("assets/FrontOffice/questions.json").subscribe((res:any)=>{
-      debugger;
+    this.quizService.getAllQuizQuestions().subscribe((res: any) => {
       this.questionsList = res;
-    })
+    });
   }
   nextQuestion() {
     if (this.currentQuestionNo < this.questionsList.length - 1) {
@@ -92,5 +94,9 @@ export class QuizComponent  implements OnInit{
       }
     })
    )
+  }
+  EndQuiz() {
+    // Your existing logic here...
+    this.router.navigate(['/JobOffer/findAllJobOffersfront']);
   }
 }

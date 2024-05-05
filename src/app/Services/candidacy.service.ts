@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpRequest, HttpEvent, HttpHeaders} from '@angular/common/http';
 import { Candidacy } from '../Models/candidacy';
 import { Observable } from 'rxjs';
+import {JobOffer} from "../Models/job-offer";
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +25,12 @@ export class CandidacyService {
   }, id: number): Observable<Candidacy> {
     return this.http.post<Candidacy>(`${this.urlCandidacy}/addCandidacy?id=${id}`, candidate);
   }
-
+  getCandidacyById(id: number): Observable<Candidacy> {
+    return this.myHttp.get<Candidacy>(`${this.urlCandidacy}/${id}`);
+  }
+  getCandidateName(candidacyId: number): Observable<string> {
+    return this.http.get<string>(`${this.urlCandidacy}/candidateName/${candidacyId}`);
+  }
   constructor(private myHttp:HttpClient,private http:HttpClient) { }
 
   upload(file: File): Observable<HttpEvent<any>> {
@@ -50,8 +56,8 @@ export class CandidacyService {
   countCandidaciesByJobOfferId(jobOfferId: number): Observable<number> {
     return this.myHttp.get<number>(`${this.urlCandidacy}/countByJobOfferId/${jobOfferId}`);
   }
-  updateCandidacyStatus(candidacy: Candidacy): Observable<Candidacy> {
-    const updateUrl = `${this.urlCandidacy}/updateCandidacyStatus`;
+  updateCandidacyStatus(candidacy: Candidacy,userId: number): Observable<Candidacy> {
+    const updateUrl = `${this.urlCandidacy}/updateCandidacyStatus/${userId}`;
     return this.myHttp.put<Candidacy>(updateUrl, candidacy);
   }
   // verifyEmail(email: string): Observable<any> {

@@ -1,6 +1,9 @@
 <div class="modal-container">
-    <div class="modal-header">
-      <div class="modal-body">
+  <div class="modal-header">
+    <h2>Add New Project</h2>
+  </div>
+ 
+    <div class="modal-body" style="max-height: 600px; overflow-y: auto;">
           <form (ngSubmit)="onSubmit()" #projectForm="ngForm">
             <br>
   
@@ -53,25 +56,20 @@
               </select>
             </div>
             <br>
-            <div class="form-group">
-            <label for="projectManager">Project Manager:</label>
-<select id="projectManager" [(ngModel)]="selectedmanager" name="projectManager" class="form-control" required>
-  <option *ngFor="let manager of projectManagers" [value]="manager">{{ manager.firstname }} {{ manager.lastname }}</option>
-</select>
-</div>
+      
             <br>
-            <div class="form-group">
+            <!-- <div class="form-group">
               <label class="btn btn-default p-0">
                 <label for="file"> / File:</label>
                 <input type="file" accept=".pdf,.doc,.docx" multiple (change)="selectFiles($event)" />
               </label>
-            </div>
+            </div> -->
             <br>
   
   
     
             <div class="modal-footer"> 
-              <button type="submit" class="btn btn-primary " [disabled]="projectForm.invalid || !isValidStartDate() || !isValidEndDate()">Add</button>
+              <button type="submit" class="btn btn-primary ">Add</button>
               <button type="button" class="btn btn-secondary" (click)="onClose()">Cancel</button>
               <br>
   
@@ -82,5 +80,5 @@
           <br>
         </div>
         </div>
-      </div>
+      
    

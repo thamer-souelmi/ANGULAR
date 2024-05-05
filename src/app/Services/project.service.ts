@@ -21,8 +21,8 @@ export class ProjectService {
     return this.myHttp.get<Project>(this.urlProjectCrud +"/Project/GetProjectbyid?id="+id);
   }
 
-  AddProject(p:Project):Observable<Project>{
-    return this.myHttp.post<Project>(this.urlProjectCrud +'/Project/AddProject' ,p);
+  AddProject(p:Project, id:number):Observable<Project>{
+    return this.myHttp.post<Project>(`${this.urlProjectCrud}/Project/AddProject/${id}` ,p);
   }
 
   UpdateProject(p:Project):Observable<Project>{
