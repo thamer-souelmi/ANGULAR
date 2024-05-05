@@ -1,3 +1,6 @@
+<head>  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha384-..." crossorigin="anonymous">
+</head>
+
 <div class="modal-container">
     <div class="modal-header">
       <h2>Suggestions</h2>
@@ -12,7 +15,10 @@
         </ul>
     </div>
 <div class="modal-footer"> 
-    
+    <button mat-raised-button
+                matTooltip="Job offers Statistics" style="background-color: #08718e; color: white;"  (click)="navigateToStatistics()">
+          <i class="fa fa-line-chart"></i>
+        </button>
     <button type="button" class="btn btn-secondary" (click)="onClose()">Cancel</button>
   </div>
 </div>

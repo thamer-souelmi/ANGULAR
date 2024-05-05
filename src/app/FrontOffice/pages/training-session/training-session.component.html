@@ -1,0 +1,351 @@
+
+<div class="container mt-3">
+  <h2>Training Session</h2>
+  <br>
+  <div class="row">
+    <div class="col">  <!-- Button to Add New Training Session -->
+  <button class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#addTrainingSessionModal">Add New Training Session</button>
+  <div class="row">
+    <div class="col">
+      <button class="btn-add-activity" data-bs-toggle="modal" data-bs-target="#addTrainingSessionModal">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
+        </svg>
+      </button>
+    </div>
+<!--    <div class="col">-->
+<!--      <button  class=" btn-calender" data-bs-toggle="modal" data-bs-target="#calendarModal">-->
+<!--        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar-heart" viewBox="0 0 16 16">-->
+<!--          <path fill-rule="evenodd" d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4zM1 14V4h14v10a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1m7-6.507c1.664-1.711 5.825 1.283 0 5.132-5.825-3.85-1.664-6.843 0-5.132"/>-->
+<!--        </svg>      </button>-->
+<!--    </div>-->
+  </div>
+  <!-- Training Session Cards Display -->
+  <!-- Training Session Cards Display -->
+      <div class="row">
+        <div class="col-md-4" *ngFor="let session of trainingSessions">
+
+          <div class="card card-with-badges ">
+            <div class="card-body card-custom-body">
+              <h5 class="card-title">{{ session.title }}</h5>
+              <h6 class="card-subtitle mb-2 text-muted">
+                {{ session.start_date | date:'mediumDate' }} <strong> To </strong> {{ session.finish_date | date:'mediumDate' }}
+              </h6>
+              <p class="card-text">Topic: {{ session.topic }}</p>
+              <p class="card-text">Capacity: {{ session.capacity }}</p>
+
+              <!-- Inside your card-body div -->
+              <!-- Inside your card-body div -->
+              <div class="badges-container">
+                <span class="badge badge-online " *ngIf="session.typeTS === 'ONLINE'">ONLINE</span>
+                <span class="badge  badge-offline" *ngIf="session.typeTS === 'OFFLINE'">OFFLINE</span>
+                <span class="badge badge-canceled" *ngIf="session.tsStatus === 'CANCELED'">CANCELED</span>
+                <span class="badge badge-completed" *ngIf="session.tsStatus === 'COMPLETED'">COMPLETED</span>
+                <span class="badge badge-ongoing" *ngIf="session.tsStatus === 'ONGOING'">ONGOING</span>
+                <span class="badge badge-planned" *ngIf="session.tsStatus === 'PLANNED'">PLANNED</span>
+              </div>
+
+
+            </div>
+
+            <!-- Edit and Delete Buttons -->
+            <div class="card-footer">
+              <button class="btn btn-edit" data-bs-toggle="modal" data-bs-target="#editTrainingSessionModal" (click)="selectTrainingSession(session)">
+                <i class="bi bi-pencil"></i> Edit
+              </button>
+              <button class="btn btn-delete" data-bs-toggle="modal" data-bs-target="#deleteTrainingSessionModal" (click)="openDeleteModal(session, selectedTrainingSession?.ts_id)">
+                <i class="bi bi-trash"></i> Delete
+              </button>
+              <button class="btn btn-info btn-icon" aria-label="View details" data-bs-toggle="modal" data-bs-target="#sessionDetailsModal" (click)="openDetails(session)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                     class="bi bi-info-circle" viewBox="0 0 16 16">
+                  <path
+                    d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                  <path
+                    d="m8.93 6.588-2.29.287-.082.380.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
+                </svg>              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  </div>
+<!-- Add Training Session Modal -->
+<div class="modal fade" id="addTrainingSessionModal" tabindex="-1" aria-labelledby="addTrainingSessionModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addTrainingSessionModalLabel">Add Training Session</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="newTrainingSessionForm">
+          <!-- Form fields for adding a training session -->
+          <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input type="text" class="form-control" id="title" formControlName="title" [ngClass]="{ 'invalid-input': newTrainingSessionForm.get('title')?.invalid && newTrainingSessionForm.get('title')?.touched }">
+            <div *ngIf="newTrainingSessionForm.get('title')?.invalid && newTrainingSessionForm.get('title')?.touched" class="text-danger">
+              Title is required.
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="start_date" class="form-label">Start Date</label>
+            <input type="datetime-local" class="form-control" id="start_date" formControlName="start_date">
+            <!-- Add validation message for start date if necessary -->
+          </div>
+
+          <div class="mb-3">
+            <label for="finish_date" class="form-label">Finish Date</label>
+            <input type="datetime-local" class="form-control" id="finish_date" formControlName="finish_date">
+            <!-- Add validation message for finish date if necessary -->
+          </div>
+
+          <div class="mb-3">
+            <label for="topic" class="form-label">Topic</label>
+            <input type="text" class="form-control" id="topic" formControlName="topic" [ngClass]="{ 'invalid-input': newTrainingSessionForm.get('topic')?.invalid && newTrainingSessionForm.get('topic')?.touched }">
+            <div *ngIf="newTrainingSessionForm.get('topic')?.invalid && newTrainingSessionForm.get('topic')?.touched" class="text-danger">
+              Topic is required.
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="target_audience" class="form-label">Target Audience</label>
+            <input type="text" class="form-control" id="target_audience" formControlName="target_audience">
+          </div>
+
+          <div class="mb-3">
+            <label for="session_outline" class="form-label">Session Outline</label>
+            <textarea class="form-control" id="session_outline" formControlName="session_outline" rows="3"></textarea>
+          </div>
+
+          <div class="mb-3">
+            <label for="expected_outcomes" class="form-label">Expected Outcomes</label>
+            <textarea class="form-control" id="expected_outcomes" formControlName="expected_outcomes" rows="3"></textarea>
+          </div>
+<!--          <div class="mb-3">-->
+<!--            <label for="Place" class="form-label">Place</label>-->
+<!--            <input type="text" class="form-control" id="Place" formControlName="Place" [ngClass]="{ 'invalid-input': newTrainingSessionForm.get('Place')?.invalid && newTrainingSessionForm.get('Place')?.touched }">-->
+<!--            <div *ngIf="newTrainingSessionForm.get('Place')?.invalid && newTrainingSessionForm.get('Place')?.touched" class="text-danger">-->
+<!--              Place is required.-->
+<!--            </div>-->
+<!--          </div>-->
+
+          <div class="mb-3">
+            <label for="capacity" class="form-label">Capacity</label>
+            <input type="number" class="form-control" id="capacity" formControlName="capacity" [ngClass]="{ 'invalid-input': newTrainingSessionForm.get('capacity')?.invalid && newTrainingSessionForm.get('capacity')?.touched }">
+            <div *ngIf="newTrainingSessionForm.get('capacity')?.invalid && newTrainingSessionForm.get('capacity')?.touched" class="text-danger">
+              <div *ngIf="newTrainingSessionForm.get('capacity')?.errors?.['required']">capacity is required.</div>
+              <div *ngIf="newTrainingSessionForm.get('capacity')?.errors?.['min']">capacity must be at least 1.</div>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="typeTS" class="form-label">Type</label>
+            <select class="form-control" id="typeTS" formControlName="typeTS" (change)="onTypeChange()">
+              <option *ngFor="let type of typeTSOptions" [value]="type">{{ type }}</option>
+            </select>
+          </div>
+
+          <!-- This part will only show if the type is OFFLINE -->
+          <div class="mb-3" *ngIf="showPlaceField">
+          <label for="PlaceType" class="form-label">Place Type</label>
+          <select class="form-control" id="PlaceType" formControlName="placeType" (change)="onPlaceTypeChange()">
+            <option value="INTERNAL">Internal</option>
+            <option value="EXTERNAL">External</option>
+          </select>
+          </div>
+            <!-- Room Selection Dropdown - Only show if 'INTERNAL' is selected -->
+          <div *ngIf="showAvailableRooms" class="mb-3">
+            <div class="row align-items-center">
+              <div class="col-auto pe-0">
+                <label for="Room" class="form-label">Room:</label>
+              </div>
+              <div class="col">
+                <select class="form-control" id="Room" formControlName="room">
+                  <option *ngFor="let room of availableRooms" [ngValue]="room">
+                    {{ room.nameRoom }}
+                  </option>
+                </select>
+              </div>
+              <div class="col-auto ps-0">
+                <button type="button" class="btn btn-info btn-icon"
+                        [disabled]="!newTrainingSessionForm.get('room')?.value"
+                        (click)="openRoomDetails(newTrainingSessionForm.get('room')?.value)">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-lg" viewBox="0 0 16 16">
+                    <path d="m9.708 6.075-3.024.379-.108.502.595.108c.387.093.464.232.38.619l-.975 4.577c-.255 1.183.14 1.74 1.067 1.74.72 0 1.554-.332 1.933-.789l.116-.549c-.263.232-.65.325-.905.325-.363 0-.494-.255-.402-.704zm.091-2.755a1.32 1.32 0 1 1-2.64 0 1.32 1.32 0 0 1 2.64 0"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+
+
+
+
+
+
+          <div class="mb-3">
+            <label for="tsStatus" class="form-label">Status</label>
+            <select class="form-control" id="tsStatus" formControlName="tsStatus">
+              <option *ngFor="let status of tsStatusOptions" [value]="status">{{ status }}</option>
+            </select>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-edit" (click)="addTrainingSession()">Add</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Training Session Modal -->
+<div class="modal fade" id="editTrainingSessionModal" tabindex="-1" aria-labelledby="editTrainingSessionModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editTrainingSessionModalLabel">Edit Training Session</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="updateTrainingSessionForm">
+          <!-- Form fields for editing a training session -->
+          <input type="text" class="form-control mb-2" placeholder="title" formControlName="title">
+          <input type="date" class="form-control mb-2" formControlName="start_date">
+          <input type="date" class="form-control mb-2" formControlName="finish_date">
+          <input type="text" class="form-control mb-2" placeholder="topic" formControlName="topic">
+          <input type="number" class="form-control mb-2" placeholder="capacity" formControlName="capacity">
+          <input type="text" class="form-control mb-2" placeholder="place" formControlName="place">
+          <!-- Additional fields as per your TrainingSession model -->
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" (click)="updateTrainingSession()">Save Changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Training Session Modal -->
+<div class="modal fade" id="deleteTrainingSessionModal" tabindex="-1" aria-labelledby="deleteTrainingSessionModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteTrainingSessionModalLabel">Confirm Deletion</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete this training session?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+        <button type="button" class="btn btn-danger" (click)="deleteTrainingSession()">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #sessionDetailsModal let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="session-details-modal-title">Session Details</h5>
+    <button type="button" class="btn-close" (click)="modal.dismiss()"></button>
+  </div>
+  <div class="modal-body">
+    <dl class="row">
+      <!-- Conditional rendering for each field -->
+      <ng-container *ngIf="selectedTrainingSession?.title">
+        <dt class="col-sm-4">Title:</dt>
+        <dd class="col-sm-8">{{ selectedTrainingSession?.title }}</dd>
+      </ng-container>
+      <ng-container *ngIf="selectedTrainingSession?.topic">
+        <dt class="col-sm-4">Topic:</dt>
+        <dd class="col-sm-8">{{ selectedTrainingSession?.topic }}</dd>
+      </ng-container>
+
+      <ng-container *ngIf="selectedTrainingSession?.start_date">
+        <dt class="col-sm-4">Start Date:</dt>
+        <dd class="col-sm-8">{{ selectedTrainingSession?.start_date | date: 'medium' }}</dd>
+      </ng-container>
+
+      <ng-container *ngIf="selectedTrainingSession?.finish_date">
+        <dt class="col-sm-4">Finish Date:</dt>
+        <dd class="col-sm-8">{{ selectedTrainingSession?.finish_date | date: 'medium' }}</dd>
+      </ng-container>
+
+      <ng-container *ngIf="selectedTrainingSession?.expected_outcomes">
+        <dt class="col-sm-4">Expected outcomes:</dt>
+        <dd class="col-sm-8">{{ selectedTrainingSession?.expected_outcomes }}</dd>
+      </ng-container>
+
+      <ng-container *ngIf="selectedTrainingSession?.target_audience">
+        <dt class="col-sm-4">Expected outcomes:</dt>
+        <dd class="col-sm-8">{{ selectedTrainingSession?.target_audience }}</dd>
+      </ng-container>
+
+      <ng-container *ngIf="selectedTrainingSession?.session_outline">
+        <dt class="col-sm-4">Expected outcomes:</dt>
+        <dd class="col-sm-8">{{ selectedTrainingSession?.session_outline }}</dd>
+      </ng-container>
+
+      <ng-container *ngIf="selectedTrainingSession?.capacity">
+        <dt class="col-sm-4">Capacity:</dt>
+        <dd class="col-sm-8">{{ selectedTrainingSession?.capacity }}</dd>
+      </ng-container>
+
+      <ng-container *ngIf="selectedTrainingSession?.typeTS">
+        <dt class="col-sm-4">Type:</dt>
+        <dd class="col-sm-8">{{ selectedTrainingSession?.typeTS }}</dd>
+      </ng-container>
+      <ng-container *ngIf="selectedTrainingSession?.placeType">
+        <dt class="col-sm-4">Place Type:</dt>
+        <dd class="col-sm-8">{{ selectedTrainingSession?.placeType }}</dd>
+      </ng-container>
+
+      <ng-container *ngIf="selectedTrainingSession?.place">
+        <dt class="col-sm-4">Place:</dt>
+        <dd class="col-sm-8">{{ selectedTrainingSession?.place }}</dd>
+      </ng-container>
+
+      <ng-container *ngIf="selectedTrainingSession?.room?.nameRoom">
+        <dt class="col-sm-4">Room:</dt>
+        <dd class="col-sm-8">{{ selectedTrainingSession?.room?.nameRoom }}</dd>
+      </ng-container>
+
+      <ng-container *ngIf="selectedTrainingSession?.tsStatus">
+        <dt class="col-sm-4">Status:</dt>
+        <dd class="col-sm-8">{{ selectedTrainingSession?.tsStatus }}</dd>
+      </ng-container>
+
+
+
+
+    </dl>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Close</button>
+  </div>
+</ng-template>
+
+<!-- Room Details Modal -->
+<ng-template #roomDetailsModal let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title">Room Details: {{ selectedRoom?.nameRoom }}</h5>
+    <button type="button" class="btn-close" (click)="modal.dismiss()"></button>
+  </div>
+  <div class="modal-body">
+    <p><strong>Capacity:</strong> {{ selectedRoom?.capacityRoom }}</p>
+    <p><strong>Equipment:</strong> {{ selectedRoom?.equipmentR?.join(', ') }}</p>
+    <p>
+      <strong>Availability:</strong>
+      <span [class.text-success]="selectedRoom?.available"
+            [class.text-danger]="!selectedRoom?.available">
+        {{ selectedRoom?.available ? 'Available' : 'Not Available' }}
+      </span>
+    </p>
+  </div>
+</ng-template>
+
+

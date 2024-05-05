@@ -1,0 +1,54 @@
+h1 {
+    text-align: center;
+    font-size: 2rem;
+}
+
+#submitButton {
+    margin-top: 20px;
+}
+
+#myCheckbox {
+    margin-left: 30px;
+}
+.navbar {
+    background-color: #f0f0f0;
+    padding: 10px 20px;
+  }
+  
+  .navbar ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .navbar li {
+    display: inline-block;
+  }
+  
+  .navbar a {
+    text-decoration: none;
+    color: #333;
+    padding: 5px 10px;
+  }
+  
+  .navbar a:hover {
+    background-color: #ddd;
+  }
+  .pos{
+    position: absolute;
+
+    right: 700px;
+}
+.btn-succes {
+    color: #fff; /* Couleur du texte */
+    background-color: #fff; /* Couleur de fond verte */
+    border-color: #28a745; /* Couleur de la bordure verte */
+}
+
+.btn-success:hover {
+    color: #fff; /* Couleur du texte au survol */
+    background-color: #218838; /* Couleur de fond verte plus foncée */
+    border-color: #1e7e34; /* Couleur de la bordure verte plus foncée */
+}

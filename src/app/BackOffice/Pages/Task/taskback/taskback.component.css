@@ -1,0 +1,55 @@
+.navbar {
+    background-color: #f0f0f0;
+    padding: 10px 20px;
+  }
+  
+  .navbar ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .navbar li {
+    display: inline-block;
+  }
+  
+  .navbar a {
+    text-decoration: none;
+    color: #333;
+    padding: 5px 10px;
+  }
+  
+  .navbar a:hover {
+    background-color: #ddd;
+  }
+  .add-button {
+    margin-left: auto; /* Move button to the right side */
+  }
+  
+  .add-button button {
+    font-size: 18px; /* Adjust font size */
+    padding: 5px 10px; /* Adjust padding */
+    border: 1px solid #ccc; /* Add border */
+    border-radius: 5px; /* Add rounded corners */
+    cursor: pointer; /* Indicate clickable behavior */
+  }
+  
+  .add-button button:hover {
+    background-color: #eee; /* Change background on hover */
+  }
+  .pos{
+    position: absolute;
+
+    right: 700px;
+}
+.green-icon {
+  color: #218838;
+}
+.bleu-icon{
+  color: #7FB3D5;
+}
+.mat-sort-header-container {
+  align-items: center;
+}

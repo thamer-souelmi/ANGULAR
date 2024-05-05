@@ -1,0 +1,30 @@
+.date-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .date-container p {
+    margin: 3; /* Supprime les marges par défaut */
+  }
+  
+  .end-date {
+    margin-left: 80px; /* Ajoute un espace entre les dates */
+  }
+  .status {
+    text-align: center;
+  }
+  .task{
+    display: flex;
+    align-items: center;
+    margin-left: 80px;
+  }
+  .clickable-task {
+    cursor: pointer;
+    color: #08718e; /* Changez la couleur selon votre thème */
+    text-decoration: underline;
+  }
+  
+  .clickable-task:hover {
+    text-decoration: none;
+  }
+  

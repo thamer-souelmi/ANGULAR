@@ -1,0 +1,167 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha384-..." crossorigin="anonymous">
+<div #myModal class="modal fade" id="addInterviewModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalLabel">Add Interview</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Job Offer Form -->
+        <form [formGroup]="appointmentForm" (ngSubmit)="scheduleMeeting()">
+          <div class="form-group">
+            <label for="appointmentTime">Interview Time </label>
+            <input
+              type="datetime-local"
+              id="appointmentTime"
+              formControlName="appointmentTime"
+              [class.is-invalid]="appointmentForm.get('appointmentTime')?.touched && appointmentForm.get('appointmentTime')?.hasError('required')"
+            />
+            <div *ngIf="appointmentForm.get('appointmentTime')?.touched && appointmentForm.get('appointmentTime')?.hasError('required')"
+                 class="invalid-feedback">
+              Appointment time is required.
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="email">Email </label><input
+            type="email"
+            id="email"
+            class="form-control"
+            formControlName="email"
+            [class.is-invalid]="appointmentForm.get('email')?.touched && appointmentForm.get('email')?.hasError('required')"
+          />
+            <div *ngIf="appointmentForm.get('email')?.touched && appointmentForm.get('email')?.hasError('required')"
+                 class="invalid-feedback">
+              Email required.
+            </div>
+          </div>
+          <br>
+          <button type="submit" class="btn btn-primary" id="schedule-button"[disabled]="!appointmentForm.valid">Schedule Interview</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <br>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="responseModal" tabindex="-1" aria-labelledby="responseModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="responseModalLabel">Recommendation Response</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Display the response content here -->
+        <p>{{ recommendationResponse }}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<h2 class="text-center">Candidacies</h2>
+<br>
+<br>
+<div class="d-flex justify-content-end mb-3 custom-btn-container">
+  <button class="btn btn-primary" (click)="sendRequirements()">Recommandation
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-lightning-fill" viewBox="0 0 16 16">
+      <path d="M5.52.359A.5.5 0 0 1 6 0h4a.5.5 0 0 1 .474.658L8.694 6H12.5a.5.5 0 0 1 .395.807l-7 9a.5.5 0 0 1-.873-.454L6.823 9.5H3.5a.5.5 0 0 1-.48-.641z"/>
+    </svg>
+  </button>
+</div>
+
+<br>
+<br>
+<div class="container">
+  <div class="row">
+    <div class="col-md-4 mb-4" *ngFor="let candidacy of candidacies">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title d-flex justify-content-between align-items-center">
+            <span>{{ candidacy.candidateName }}</span>
+            <span class="text-end">{{ candidacy.submissionDate | date }}</span>
+          </h4>
+          <p class="card-text">
+            Email: <a href="mailto:{{ candidacy.email }}">
+            {{ candidacy.email }}
+            <ng-container *ngIf="candidacy.emailStatus === 'DELIVERABLE'">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-patch-check-fill" viewBox="0 0 16 16">
+                <path d="M10.067.87a2.89 2.89 0 0 0-4.134 0l-.622.638-.89-.011a2.89 2.89 0 0 0-2.924 2.924l.01.89-.636.622a2.89 2.89 0 0 0 0 4.134l.637.622-.011.89a2.89 2.89 0 0 0 2.924 2.924l.89-.01.622.636a2.89 2.89 0 0 0 4.134 0l.622-.637.89.011a2.89 2.89 0 0 0 2.924-2.924l-.01-.89.636-.622a2.89 2.89 0 0 0 0-4.134l-.637-.622.011-.89a2.89 2.89 0 0 0-2.924-2.924l-.89.01zm.287 5.984-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7 8.793l2.646-2.647a.5.5 0 0 1 .708.708"/>
+              </svg>
+            </ng-container>
+            <ng-container *ngIf="candidacy.emailStatus === 'UNDELIVERABLE'">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
+                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z"/>
+              </svg>
+            </ng-container>
+          </a>
+          </p>
+          <br>
+          <div class="card-icons">
+          <a href="{{ candidacy.link }}" target="_blank"><i class="fas fa-external-link-alt"></i></a>
+          <a href="{{ candidacy.linkedin }}" target="_blank" class="fab fa-linkedin fa-lg"></a>
+         <a href="{{ candidacy.github }}" target="_blank"><i class="fab fa-github fa-lg"></i></a>
+           <a href="#" (click)="downloadAttachment($event, candidacy.cv)">
+            <i class="fas fa-paperclip"></i></a>
+            <button class="btn btn-link" (click)="openDetailModal(candidacy)">
+              <i class="bi bi-info-circle"></i>
+            </button>
+        </div>
+
+          <div class="container bg-light p-3">
+            <div class="d-flex justify-content-between">
+              <div class="btn-group">
+                <button class="btn btn-icon" (click)="updateCandidacyStatus(candidacy, -1)">
+                  <i class="fas fa-times"></i>
+                </button>
+                <button class="btn btn-icon" (click)="updateCandidacyStatus(candidacy, 2)">
+                  <i class="fas fa-check"></i>
+                </button>
+                <button class="btn btn-calender"
+                        (click)="updateCandidacyStatus(candidacy, 1)
+">                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar-week" viewBox="0 0 16 16">
+                  <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm-3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm-5 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5z"/>
+                  <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z"/>
+                </svg>
+                </button>
+              </div>
+              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addInterviewModal">Interview</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Add modals here if needed -->
+<div class="modal fade" id="calendarModal" tabindex="-1" aria-labelledby="calendarModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="calendarModalLabel" >Interviews Calendar</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Ici, nous insérerons le calendrier -->
+        <full-calendar #calendar [options]="calendarOptions"></full-calendar>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="d-flex justify-content-end mb-3">
+  <i mat-raised-button
+     matTooltip="Interviews" class="material-icons btn btn-primary mt-2 larger-button" style="background-color: #08718e; color: white;" (click)="openCalendarModal()">
+    <i class="bi bi-calendar3"></i>
+  </i>
+</div>
+
+

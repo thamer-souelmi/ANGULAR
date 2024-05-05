@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { JobOffer } from '../Models/job-offer';
 import { Candidacy } from '../Models/candidacy';
 import { Observable } from 'rxjs';
+
+
 @Injectable({
   providedIn: 'root'
 })
@@ -22,12 +24,12 @@ export class JobOfferService {
     return this.myHttp.get<JobOffer>(`${this.urlJobOffer}/getJobOffer/${jobId}`);
   }
 
-  // updateJobOffer(jobOffer: JobOffer): Observable<void> {
-  //   return this.myHttp.put<void>(`${this.urlJobOffer}/updateJobOffer`, jobOffer);
-  // }
-  updateJobOffer(jobOfferId: number, jobOffer: JobOffer): Observable<JobOffer> {
-    return this.myHttp.put<JobOffer>(`${this.urlJobOffer}/${jobOfferId}`, jobOffer);
+  updateJobOffer(jobOffer: JobOffer): Observable<void> {
+    return this.myHttp.put<void>(`${this.urlJobOffer}/updateJobOffer`, jobOffer);
   }
+  // updateJobOffer(jobOfferId: number, jobOffer: JobOffer): Observable<JobOffer> {
+  //   return this.myHttp.put<JobOffer>(`${this.urlJobOffer}/${jobOfferId}`, jobOffer);
+  // }
 
 
   deleteJobOffer(jobId: number): Observable<void> {
@@ -48,4 +50,9 @@ export class JobOfferService {
   getCandidaciesByJobOfferId(jobOfferId: number): Observable<Candidacy[]> {
     return this.myHttp.get<Candidacy[]>(`${this.urlJobOffer}/${jobOfferId}/candidacies`);
   }
+  getJobOfferStatistics(): Observable<any[]> {
+    return this.myHttp.get<any[]>(`${this.urlJobOffer}/getJobOfferStatistics`);
+  }
+
+
 }

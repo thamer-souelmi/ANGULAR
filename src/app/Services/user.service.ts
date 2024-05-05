@@ -85,7 +85,9 @@ private baseUrlf : string = 'http://localhost:8082/user';
     return this.http.put('/resetPassword', { email, password });
   }
   resetPasswordt(token: string, password: string): Observable<any> {
-    return this.http.put(`${this.baseUrlr}/resetPassword/${token}`, { password });
+    return this.http.put(`${this.baseUrlr}/resetPassword/${token}`, { password });}
+  getUserByEmail(email: string): Observable<User> {
+    return this.http.get<User>(`${this.baseUrl}/email/${email}`);
   }
   private baseUrlff = 'http://localhost:5000'; // Update with your Python service URL
 
