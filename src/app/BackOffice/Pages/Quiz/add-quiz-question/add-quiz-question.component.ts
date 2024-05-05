@@ -3,6 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {QuizQuestion} from "../../../../Models/quiz-question";
 import {Option} from "../../../../Models/option";
 import {QuizService} from "../../../../Services/quiz.service";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-add-quiz-question',
@@ -23,7 +24,7 @@ export class AddQuizQuestionComponent {
   constructor(
     public dialogRef: MatDialogRef<AddQuizQuestionComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private quizService: QuizService // Inject the QuizService
+    private quizService: QuizService,private toastr: ToastrService
   ) {}
 
   onNoClick(): void {
@@ -33,6 +34,7 @@ export class AddQuizQuestionComponent {
     this.quizService.addQuizQuestion(this.question).subscribe(
       response => {
         console.log('Question added successfully', response);
+        this.toastr.success('Quiz question added successfully!', 'Success');
         this.dialogRef.close();
       },
       error => {

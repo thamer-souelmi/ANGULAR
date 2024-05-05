@@ -8,19 +8,25 @@ import { Candidacy } from 'src/app/Models/candidacy';
 import { CandidacyService } from 'src/app/Services/candidacy.service';
 import {Location, NgIf} from '@angular/common';
 import {HttpEventType, HttpResponse} from "@angular/common/http";
+import {MatButtonModule} from "@angular/material/button";
+import {MatTooltipModule} from "@angular/material/tooltip";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-job-offer-details',
   templateUrl: './job-offer-details.component.html',
-  imports: [
-    NgIf,
-    ReactiveFormsModule
+    imports: [
+        NgIf,
+        ReactiveFormsModule,
+        MatButtonModule,
+        MatTooltipModule
 
-  ],
+    ],
   standalone: true,
   styleUrls: ['./job-offer-details.component.css']
 })
 export class JobOfferDetailsComponent implements OnInit {
+  wishlist: JobOffer[] = [];
   jobId: number = 0;
   jobOffer: JobOffer = {} as JobOffer;
   candidacyForm: FormGroup;
@@ -38,7 +44,7 @@ export class JobOfferDetailsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private jobOfferService: JobOfferService,private formBuilder: FormBuilder,
-    private candidacyService: CandidacyService,
+    private candidacyService: CandidacyService,private toastr: ToastrService
   ) {
     this.candidacyForm = this.formBuilder.group({
       candidateName: ['', Validators.required],
@@ -77,18 +83,24 @@ export class JobOfferDetailsComponent implements OnInit {
       }
     );
   }
-  addToWishlist(jobOffer: JobOffer): void {
-    // Add the job offer to the wishlist
-    this.jobOfferService.addToWishlist(jobOffer).subscribe(
-      () => {
-        console.log('Job offer added to wishlist:', jobOffer);
-        // Provide any feedback to the user if needed
-      },
-      (error) => {
-        console.error('Error adding job offer to wishlist', error);
-        // Handle error scenario
-      }
-    );
+  addToWishlist(jobOffer: JobOffer) {
+    if (!this.isInWishlist(jobOffer)) {
+      this.wishlist.push(jobOffer);
+      this.saveWishlist();
+      this.toastr.success('Job offer added to wishlist!', 'Success');
+    } else {
+      this.toastr.info('Job offer is already in the wishlist!', 'Info');
+    }
+  }
+  isInWishlist(jobOffer: JobOffer): boolean {
+    return this.wishlist.some(item => item.jobOffer_id === jobOffer.jobOffer_id);
+  }
+  loadWishlist() {
+    const storedWishlist = localStorage.getItem('wishlist');
+    this.wishlist = storedWishlist ? JSON.parse(storedWishlist) : [];
+  }
+  saveWishlist() {
+    localStorage.setItem('wishlist', JSON.stringify(this.wishlist));
   }
   onSubmit() {
     const newc: Candidacy = this.candidacyForm.value as Candidacy;
@@ -102,10 +114,13 @@ export class JobOfferDetailsComponent implements OnInit {
           console.log('Candidate added successfully:', response);
           this.candidacyForm.reset();
           this.uploadFiles();
+          this.toastr.success('Your application to the job offer has been successfully submitted.', 'Success');
         },
         error => {
           // Handle error
           console.error('Error adding candidate:', error);
+          this.toastr.error('Failed to apply to job offer. Please try again later.', 'Error');
+
         }
       );
     } else {

@@ -105,6 +105,9 @@ import { AddQuizQuestionComponent } from './BackOffice/Pages/Quiz/add-quiz-quest
 import { EditQuizQuestionComponent } from './BackOffice/Pages/Quiz/edit-quiz-question/edit-quiz-question.component';
 import { RoomComponent } from './BackOffice/Pages/room/room.component';
 import {BsDropdownModule} from "ngx-bootstrap/dropdown";
+import { AddMarkComponent } from './FrontOffice/pages/JobOffer/add-mark/add-mark.component';
+import { MatMenu } from '@angular/material/menu';
+
 
 
 @NgModule({
@@ -174,6 +177,7 @@ import {BsDropdownModule} from "ngx-bootstrap/dropdown";
     AddQuizQuestionComponent,
     EditQuizQuestionComponent,
     RoomComponent,
+    AddMarkComponent,
 
   ],
   imports: [
@@ -240,7 +244,8 @@ import {BsDropdownModule} from "ngx-bootstrap/dropdown";
 
     MatCardModule,
     MatGridListModule,
-    MatBadgeModule
+    MatBadgeModule,
+    MatMenuModule
 
   ],
   providers: [httpInterceptorProviders,DatePipe],

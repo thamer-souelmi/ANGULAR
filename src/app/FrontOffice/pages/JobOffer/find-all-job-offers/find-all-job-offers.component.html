@@ -48,27 +48,25 @@
 
 <!-- Modal for Adding Job Offer -->
 <div #myModal class="modal fade" id="addJobOfferModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-lg"> <!-- Added modal-lg to make the modal large -->
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="modalLabel">Add Job Offer</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <!-- Job Offer Form -->
-        <form [formGroup]="jobOfferForm" (ngSubmit)="onJobOfferSubmit()">
-          <!-- Job Offer Form Fields -->
-
-          <!-- Job Title Field -->
-          <div class="form-group">
-            <label for="titleJobOffer">Job Title:</label>
-            <input type="text" class="form-control" id="titleJobOffer" formControlName="titleJobOffer" [ngClass]="{ 'is-invalid': jobOfferForm.get('titleJobOffer')?.touched && jobOfferForm.get('titleJobOffer')?.invalid }" required>
-            <!-- Error message -->
-            <div *ngIf="jobOfferForm.get('titleJobOffer')?.hasError('required') && jobOfferForm.get('titleJobOffer')?.touched" class="text-danger">
-              Job Title is required.
+        <form [formGroup]="jobOfferForm" (ngSubmit)="onJobOfferSubmit()" class="row g-3"> <!-- Added row g-3 for grid spacing -->
+          <!-- Left Part (Job Title to Experience) -->
+          <div class="col-md-6"> <!-- Half of the modal width -->
+            <!-- Job Title Field -->
+            <div class="form-group">
+              <label for="titleJobOffer">Job Title:</label>
+              <input type="text" class="form-control" id="titleJobOffer" formControlName="titleJobOffer" [ngClass]="{ 'is-invalid': jobOfferForm.get('titleJobOffer')?.touched && jobOfferForm.get('titleJobOffer')?.invalid }" required>
+              <!-- Error message -->
+              <div *ngIf="jobOfferForm.get('titleJobOffer')?.hasError('required') && jobOfferForm.get('titleJobOffer')?.touched" class="text-danger">
+                Job Title is required.
+              </div>
             </div>
-          </div>
-
           <!-- Description Field -->
           <div class="form-group">
             <label for="description">Description:</label>
@@ -98,7 +96,9 @@
               Experience is required.
             </div>
           </div>
+          </div>
 
+          <div class="col-md-6">
           <!-- Job Location Field -->
           <div class="form-group">
             <label for="jobLocation">Job Location:</label>
@@ -195,7 +195,7 @@
               Application Deadline and Time are required.
             </div>
           </div>
-
+            </div>
           <!-- Submit Button -->
           <div class="text-center">
             <button type="submit" class="btn btn-primary" [disabled]="!jobOfferForm.valid">Add Job Offer</button>
@@ -265,19 +265,20 @@
       <div class="col-lg-10">
         <div class="buttons-container">
           <!-- Buttons -->
-          <div class="buttons-wrapper">
-            <button mat-raised-button
-                    matTooltip="Add new Job offer" class="btn btn-success" style="background-color: #fb6d1c; color: white;" data-bs-toggle="modal" data-bs-target="#addJobOfferModal">
-              <i class="fa fa-plus"></i>
-            </button>
-
-            <button mat-raised-button
-                    matTooltip="Consult Wishlist" class="btn btn-primary mt-2" style="background-color: #08718e; color: white;" (click)="navigateToWishlist()">
-              <i class="fa fa-heart"></i>
-            </button>
+          <div class="d-flex justify-content-end mb-3 btn-inter">
+            <div class="d-flex flex-column">
+              <button mat-raised-button matTooltip="Add new Job offer" class="btn btn-success" style="background-color: #fb6d1c; color: white;" data-bs-toggle="modal" data-bs-target="#addJobOfferModal">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+                  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
+                </svg>
+              </button>
+              <button mat-raised-button matTooltip="Consult Wishlist" class="btn btn-primary mt-2" style="background-color: #08718e; color: white;" (click)="navigateToWishlist()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-bookmark-heart-fill" viewBox="0 0 16 16">
+                  <path d="M2 15.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2zM8 4.41c1.387-1.425 4.854 1.07 0 4.277C3.146 5.48 6.613 2.986 8 4.412z"/>
+                </svg>
+              </button>
+            </div>
           </div>
-
-
           <br>
           <!-- Search -->
           <div style="display: flex; align-items: center; margin-bottom: 20px;">
@@ -304,12 +305,16 @@
                     <a [routerLink]="['/JobOffer/job-offer-details', j.jobOffer_id]"><h4>{{ j.titleJobOffer }}</h4><h6>{{ j.jobCategory }}</h6></a>
                     <div class="links_locat d-flex align-items-center">
                       <div class="location">
-                        <p> <i class="fa fa-map-marker"></i> {{ j.jobLocation }}</p>
+                        <p> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-fill" viewBox="0 0 16 16">
+                          <path fill-rule="evenodd" d="M4 4a4 4 0 1 1 4.5 3.969V13.5a.5.5 0 0 1-1 0V7.97A4 4 0 0 1 4 3.999zm2.493 8.574a.5.5 0 0 1-.411.575c-.712.118-1.28.295-1.655.493a1.3 1.3 0 0 0-.37.265.3.3 0 0 0-.057.09V14l.002.008.016.033a.6.6 0 0 0 .145.15c.165.13.435.27.813.395.751.25 1.82.414 3.024.414s2.273-.163 3.024-.414c.378-.126.648-.265.813-.395a.6.6 0 0 0 .146-.15l.015-.033L12 14v-.004a.3.3 0 0 0-.057-.09 1.3 1.3 0 0 0-.37-.264c-.376-.198-.943-.375-1.655-.493a.5.5 0 1 1 .164-.986c.77.127 1.452.328 1.957.594C12.5 13 13 13.4 13 14c0 .426-.26.752-.544.977-.29.228-.68.413-1.116.558-.878.293-2.059.465-3.34.465s-2.462-.172-3.34-.465c-.436-.145-.826-.33-1.116-.558C3.26 14.752 3 14.426 3 14c0-.599.5-1 .961-1.243.505-.266 1.187-.467 1.957-.594a.5.5 0 0 1 .575.411"/>
+                        </svg> {{ j.jobLocation }}</p>
                       </div>
                       <div class="location">
-                        <p> <i class="fa fa-clock-o"></i> {{ j.jobNature }}</p>
+                        <p> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-hourglass-split" viewBox="0 0 16 16">
+                          <path d="M2.5 15a.5.5 0 1 1 0-1h1v-1a4.5 4.5 0 0 1 2.557-4.06c.29-.139.443-.377.443-.59v-.7c0-.213-.154-.451-.443-.59A4.5 4.5 0 0 1 3.5 3V2h-1a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1h-1v1a4.5 4.5 0 0 1-2.557 4.06c-.29.139-.443.377-.443.59v.7c0 .213.154.451.443.59A4.5 4.5 0 0 1 12.5 13v1h1a.5.5 0 0 1 0 1zm2-13v1c0 .537.12 1.045.337 1.5h6.326c.216-.455.337-.963.337-1.5V2zm3 6.35c0 .701-.478 1.236-1.011 1.492A3.5 3.5 0 0 0 4.5 13s.866-1.299 3-1.48zm1 0v3.17c2.134.181 3 1.48 3 1.48a3.5 3.5 0 0 0-1.989-3.158C8.978 9.586 8.5 9.052 8.5 8.351z"/>
+                        </svg> {{ j.jobNature }}</p>
                       </div>
-                      <div class="vacancy">
+                      <div class="location">
                         <p> <i class="fa fa-users"></i> {{ j.vacancy }}</p>
                       </div>
                     </div>
@@ -319,7 +324,7 @@
                   <div class="apply_now">
                     <!-- Inside the ngFor loop -->
                     <a mat-raised-button
-                       matTooltip="Edit Job offer" (click)="openUpdateJobOfferDialog(jobOffer)" class="heart_mark"> <i class="fa fa-pencil blue"></i> </a>
+                       matTooltip="Edit Job offer" (click)="openUpdateJobOfferDialog(j.jobOffer_id)" class="heart_mark"> <i class="fa fa-pencil blue"></i> </a>
                     <a mat-raised-button
                        matTooltip="Delete Job offer" (click)="askDeleteConfirmation(j.jobOffer_id)" class="heart_mark"><i class="fa fa-trash red"></i></a>
                     <a mat-raised-button
