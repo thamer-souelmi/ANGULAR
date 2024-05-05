@@ -1,3 +1,12 @@
 .cc{
     justify-content: center;
 }
+.clickable-task {
+    cursor: pointer;
+    color: #08718e; /* Changez la couleur selon votre thème */
+    text-decoration: underline;
+  }
+  
+  .clickable-task:hover {
+    text-decoration: none;
+  }

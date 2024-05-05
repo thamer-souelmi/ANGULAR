@@ -1,4 +1,11 @@
 <div class="container">
+  <div class="d-flex justify-content-center mb-5">
+    <mat-form-field appearance="outline" class="w-75 mx-auto">
+      <mat-label>Search rooms</mat-label>
+      <input matInput [(ngModel)]="searchQuery" (ngModelChange)="onSearchQueryChanged($event)">
+    </mat-form-field>
+  </div>
+
   <h2>Manage Rooms</h2>
   <button class="btn btn-primary" (click)="openAddRoomModal()">Add Room</button>
   <table class="table">
@@ -12,7 +19,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let room of rooms">
+    <tr *ngFor="let room of filteredRooms">
       <td>{{ room.nameRoom }}</td>
       <td>{{ room.capacityRoom }}</td>
       <td>{{ room.available ? 'Yes' : 'No' }}</td>
@@ -24,6 +31,23 @@
     </tr>
     </tbody>
   </table>
+  <div class="d-flex justify-content-center align-items-center mt-3">
+    <button class="btn btn-primary me-2" (click)="previousPage()" [disabled]="page === 0">
+      <i class="bi bi-chevron-left"></i>
+    </button>
+    <label for="pageSize" class="me-2">Rooms per page:</label>
+    <select class="form-select me-2" [(ngModel)]="size" (change)="loadRooms()" id="pageSize" style="width: auto;">
+      <option value="5">5</option>
+      <option value="10">10</option>
+      <option value="15">15</option>
+      <option value="20">20</option>
+    </select>
+    <button class="btn btn-primary" (click)="nextPage()" [disabled]="rooms.length < size">
+      <i class="bi bi-chevron-right"></i>
+    </button>
+  </div>
+
+
 </div>
 
 <!-- Add/Edit Room Modal -->
@@ -35,8 +59,19 @@
   <div class="modal-body">
     <form [formGroup]="roomForm" (ngSubmit)="onSubmit()">
       <div class="mb-3">
-        <label for="name_room">Name:</label>
-        <input type="text" class="form-control" id="name_room" formControlName="name" required>
+        <div class="input-emoji-container">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Name:</mat-label>
+            <input matInput type="text" formControlName="name" required>
+            <button matSuffix mat-icon-button (click)="toggleEmojiPicker()">
+              <mat-icon>insert_emoticon</mat-icon>
+            </button>
+          </mat-form-field>
+      </div>
+      <!-- Your emoji picker -->
+        <div *ngIf="showEmojiPicker" class="emoji-picker-container">
+          <emoji-mart title="Choisissez un emoji" (emojiClick)="addEmoji($event)"></emoji-mart>
+        </div>
       </div>
       <div class="mb-3">
         <label for="capacity_room">Capacity:</label>
@@ -72,3 +107,4 @@
     <button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">Cancel</button>
   </div>
 </ng-template>
+<!--<app-customizer> </app-customizer>-->

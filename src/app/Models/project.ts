@@ -1,4 +1,6 @@
 import { User } from "./User";
+import { Contract } from "./contract";
+import { Invoice } from "./invoice";
 import { StatusProject } from "./status-project";
 import { Task } from "./task";
 
@@ -12,6 +14,8 @@ export class Project {
     tasks!:Task[];
     projectManager!:User;
     fileName!:String;
+    invoices!:Invoice[];
+    contracts!:Contract;
 
    
 }

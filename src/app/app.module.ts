@@ -90,9 +90,27 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
 import { TrainingSessionComponent } from './FrontOffice/pages/training-session/training-session.component';
 import {MatGridListModule} from "@angular/material/grid-list";
 import { EventBComponent } from './BackOffice/Pages/event-b/event-b.component';
+
+import { ProjectFormComponent } from './FrontOffice/pages/Project/project-form/project-form.component';
 import { ProjectDetailsComponent } from './FrontOffice/pages/Project/project-details/project-details.component';
 import { ProjectCalendarModalComponent } from './FrontOffice/pages/Project/project-calendar-modal/project-calendar-modal.component';
 import { GetAllProjectComponent } from './FrontOffice/pages/Project/get-all-project/get-all-project.component';
+import { GetInvoicebyProjectComponent } from './BackOffice/Pages/Invoice/get-invoiceby-project/get-invoiceby-project.component';
+import { InvoiceFrontComponent } from './FrontOffice/pages/Invoice/invoice-front/invoice-front.component';
+import { AddInvoiceItemComponent } from './FrontOffice/pages/Invoice/add-invoice-item/add-invoice-item.component';
+import { EditInvoiceItemComponent } from './FrontOffice/pages/Invoice/edit-invoice-item/edit-invoice-item.component';
+import { ProjectsbackComponent } from './BackOffice/Pages/Project/projectsback/projectsback.component';
+import { AddlinkComponent } from './BackOffice/Pages/Task/addlink/addlink.component';
+import { MatBadgeModule } from '@angular/material/badge';
+import { TeamsmodalComponent } from './BackOffice/Pages/Project/teamsmodal/teamsmodal.component';
+import { SavelistProjectComponent } from './FrontOffice/pages/Project/savelist-project/savelist-project.component';
+import { ContractbyprojectComponent } from './FrontOffice/pages/contract/contractbyproject/contractbyproject.component';
+import { AddcontractComponent } from './FrontOffice/pages/contract/addcontract/addcontract.component';
+import { GetallcontractsComponent } from './FrontOffice/pages/contract/getallcontracts/getallcontracts.component';
+import { EditContractComponent } from './FrontOffice/pages/contract/edit-contract/edit-contract.component';
+import { FiltertaskpipePipe } from './FrontOffice/pages/Task/filtertaskpipe.pipe';
+
+
 import { ForgotPasswordComponent } from './BackOffice/Pages/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './BackOffice/Pages/reset-password/reset-password.component';
 import { UpdateUserComponent } from './BackOffice/Pages/update-user/update-user.component';
@@ -101,17 +119,25 @@ import { AddUserComponent } from './BackOffice/Pages/add-user/add-user.component
 import { LeavesComponent } from './BackOffice/Pages/leaves/leaves.component';
 import { LeavesDetailsComponent } from './BackOffice/Pages/leaves-details/leaves-details.component';
 import { AddLeaveComponent } from './BackOffice/Pages/add-leave/add-leave.component';
-import { LeaveComponent } from './FrontOffice/pages/leave/leave.component';
+import { AddInterviewComponent } from './FrontOffice/pages/Interview/add-interview/add-interview.component';
+import { FindAllQuizComponent } from './BackOffice/Pages/Quiz/find-all-quiz/find-all-quiz.component';
+import { ChunkPipe } from './BackOffice/Pages/Quiz/chunk.pipe';
+import { AddQuizQuestionComponent } from './BackOffice/Pages/Quiz/add-quiz-question/add-quiz-question.component';
+import { EditQuizQuestionComponent } from './BackOffice/Pages/Quiz/edit-quiz-question/edit-quiz-question.component';
 import { RoomComponent } from './BackOffice/Pages/room/room.component';
 import {BsDropdownModule} from "ngx-bootstrap/dropdown";
 import {JoinPipe} from "./join.pipe";
+import {NgxPaginationModule} from "ngx-pagination";
+import { CustomizerComponent } from './customizer/customizer.component';
+import {PickerComponent, PickerModule} from "@ctrl/ngx-emoji-mart";
+import {EmojiModule} from "@ctrl/ngx-emoji-mart/ngx-emoji";
 import {  provideToastr } from 'ngx-toastr';
 import { RecognizeFaceComponent } from './BackOffice/Pages/recognize-face/recognize-face.component';
 import { DashboardComponent } from './BackOffice/Pages/dashboard/dashboard.component';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import {JitsiComponent} from "./FrontOffice/pages/Interview/jitsi/jitsi.component";
 import { InterviewCalendarComponent } from './FrontOffice/pages/Interview/interview-calendar/interview-calendar.component';
-import { ProjectFormComponent } from './FrontOffice/pages/Project/project-form/project-form.component';
+import { LeaveComponent } from './FrontOffice/pages/leave/leave.component';
 
 const socketConfig: SocketIoConfig = { url: 'http://localhost:5000', options: {} };
 
@@ -176,6 +202,21 @@ const socketConfig: SocketIoConfig = { url: 'http://localhost:5000', options: {}
     ProjectDetailsComponent,
     ProjectCalendarModalComponent,
     GetAllProjectComponent,
+
+    GetInvoicebyProjectComponent,
+    InvoiceFrontComponent,
+    AddInvoiceItemComponent,
+    EditInvoiceItemComponent,
+    ProjectsbackComponent,
+    AddlinkComponent,
+    TeamsmodalComponent,
+    SavelistProjectComponent,
+    ContractbyprojectComponent,
+    AddcontractComponent,
+    GetallcontractsComponent,
+    EditContractComponent,
+    FiltertaskpipePipe,
+
     ForgotPasswordComponent,
     ResetPasswordComponent,
     UpdateUserComponent,
@@ -187,8 +228,15 @@ const socketConfig: SocketIoConfig = { url: 'http://localhost:5000', options: {}
     LeaveComponent,
 
     JitsiComponent,
+    AddInterviewComponent,
+    FindAllQuizComponent,
+    ChunkPipe,
+    AddQuizQuestionComponent,
+    EditQuizQuestionComponent,
     RoomComponent,
     JoinPipe,
+    CustomizerComponent,
+
 
 
     RecognizeFaceComponent,
@@ -207,7 +255,7 @@ const socketConfig: SocketIoConfig = { url: 'http://localhost:5000', options: {}
     MatPaginatorModule,
     MatIconModule,
     MatDialogModule,
-    MatTableModule,
+    
     MatButtonModule,
     CommonModule,
     NgbModalModule,
@@ -217,13 +265,19 @@ const socketConfig: SocketIoConfig = { url: 'http://localhost:5000', options: {}
     MatRippleModule,
     MatMenuModule,
     MatSnackBarModule,
-
+    ToastrModule.forRoot({
+      timeOut: 2000,
+      progressBar: true,
+      progressAnimation: "increasing",
+      preventDuplicates: true
+    }),
+    MatButtonModule,
     FeatherModule.pick(allIcons),
     ToastrModule.forRoot({
-      timeOut:2000,
-      progressBar:true,
-      progressAnimation:"increasing",
-      preventDuplicates:true
+      timeOut: 2000,
+      progressBar: true,
+      progressAnimation: "increasing",
+      preventDuplicates: true
     }), // ToastrModule added
     MatCardModule,
    NgxChartsModule,
@@ -239,7 +293,7 @@ const socketConfig: SocketIoConfig = { url: 'http://localhost:5000', options: {}
     DragDropModule,
 
     AvatarModule,
-   ChartModule,
+    ChartModule,
     BsDropdownModule.forRoot(),
 
     SocketIoModule.forRoot(socketConfig),
@@ -248,6 +302,17 @@ const socketConfig: SocketIoConfig = { url: 'http://localhost:5000', options: {}
     MatTableModule,
     MatCheckboxModule,
     MatGridListModule,
+
+    MatBadgeModule,
+
+
+    
+
+    NgxPaginationModule,
+    EmojiModule,
+    PickerComponent,
+
+
 
 
   ],

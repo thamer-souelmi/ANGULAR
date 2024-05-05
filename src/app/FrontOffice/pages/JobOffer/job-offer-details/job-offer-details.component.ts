@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, Params} from '@angular/router';
 import { JobOffer } from 'src/app/Models/job-offer';
 import { JobOfferService } from 'src/app/Services/job-offer.service';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
@@ -33,6 +33,8 @@ export class JobOfferDetailsComponent implements OnInit {
   cvSrcs: (string | ArrayBuffer | null)[] = [];
   previews: string[] = [];
   cv?: Observable<any>;
+  public id!: string | null;
+
   constructor(
     private route: ActivatedRoute,
     private jobOfferService: JobOfferService,private formBuilder: FormBuilder,
@@ -48,6 +50,10 @@ export class JobOfferDetailsComponent implements OnInit {
       submissionDate: [new Date()],
       // candidacyStatus: [0, Validators.required],
     });
+    this.route.queryParams.subscribe((params: Params) => {
+      console.log(params);
+    });
+
   }
 
   ngOnInit(): void {
@@ -56,6 +62,7 @@ export class JobOfferDetailsComponent implements OnInit {
       console.log('Job ID:', this.jobId);
       this.loadJobOfferDetails();
     });
+    this.id = this.route.snapshot.paramMap.get('id');
   }
 
 
@@ -79,7 +86,6 @@ export class JobOfferDetailsComponent implements OnInit {
       },
       (error) => {
         console.error('Error adding job offer to wishlist', error);
-        // Handle error scenario
       }
     );
   }
@@ -88,19 +94,24 @@ export class JobOfferDetailsComponent implements OnInit {
     if (this.selectedFiles && this.selectedFiles.length > 0) {
       newc.cv = this.selectedFiles[0].name;
     }
-    this.candidacyService.addCandidate(newc).subscribe(
-      response => {
-        // Handle success, if needed
-        console.log('candidate added successfully:', response);
-        this.candidacyForm.reset();
 
-      },
-      error => {
-        // Handle error
-        console.error('Error adding candidate:', error);
-      }
-    );
-    this.uploadFiles();
+    if (this.jobId !== null) {
+      this.candidacyService.addCandidate(newc, this.jobId).subscribe(
+        response => {
+          // Handle success, if needed
+          console.log('Candidate added successfully:', response);
+          this.candidacyForm.reset();
+          this.uploadFiles();
+        },
+        error => {
+          // Handle error
+          console.error('Error adding candidate:', error);
+        }
+      );
+    } else {
+      console.error('Job ID is not available.');
+    }
+
 
   }
   selectFiles(event: any): void {

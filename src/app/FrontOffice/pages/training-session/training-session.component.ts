@@ -1,15 +1,14 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import {Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef} from '@angular/core';
 import { TrainingSessionService } from "../../../Services/TrainingSession.service";
 import { TrainingSession } from "../../../Models/TrainingSession";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { TS_Status } from "../../../Models/TS_Status";
 import { TypeTS } from "../../../Models/TypeTS";
-import { throwError} from "rxjs";
-import { catchError } from "rxjs/operators";
 import * as bootstrap from "bootstrap";
 import {ToastrService} from "ngx-toastr";
 import {Room} from "../../../Models/Room";
+import {MatPaginator, PageEvent} from "@angular/material/paginator";
 
 @Component({
   selector: 'app-training-session',
@@ -37,12 +36,20 @@ export class TrainingSessionComponent implements OnInit {
   @ViewChild('sessionDetailsModal') sessionDetailsModal!: ElementRef;
   selectedRoom: Room | null = null;
   @ViewChild('roomDetailsModal') roomDetailsModal!: ElementRef;
+  totalItems: number = 0;
+  currentPage: number = 0;
+  pageSize: number = 10;
+  totalActivities = 0;
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
 
   constructor(
     private formBuilder: FormBuilder,
     private trainingSessionService: TrainingSessionService,
     private modalService: NgbModal,
     private toaster: ToastrService,
+    private cdr: ChangeDetectorRef,
   ) {
     this.newTrainingSessionForm = this.formBuilder.group({
       title: ['', Validators.required],
@@ -76,7 +83,7 @@ export class TrainingSessionComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadTrainingSessions();
+    this.loadTrainingSessions(this.currentPage, this.pageSize);
     this.onTypeChange();
 
   }
@@ -123,136 +130,47 @@ export class TrainingSessionComponent implements OnInit {
     const modalInstance = new bootstrap.Modal(this.warningSuccessModal.nativeElement);
     modalInstance.show();
   }
-  loadTrainingSessions(): void {
-    this.trainingSessionService.findAllRegistrationTS().subscribe({
+  loadTrainingSessions(pageIndex: number, pageSize: number): void {
+    this.trainingSessionService.findAllRegistrationTS(pageIndex, pageSize).subscribe({
       next: (sessions) => {
-        this.trainingSessions = sessions;
-        console.log(sessions);
-
+        if (sessions && Array.isArray(sessions.content)) {
+          this.trainingSessions = sessions.content;
+        } else {
+          this.trainingSessions = []; // Ensure this is always an array
+          console.warn('Expected sessions.content to be an array but received:', sessions.content);
+        }
+        this.totalItems = sessions.totalElements || 0; // Adjusted to use a more typical property name
+        this.currentPage = sessions.currentPage || 0;
+        console.log('Loaded training sessions:', this.trainingSessions);
       },
-      error: (err) => console.error('Error loading training sessions', err)
+      error: (err) => {
+        console.error('Error loading training sessions', err);
+        this.trainingSessions = []; // Ensures fallback to an empty array on error
+      }
     });
   }
 
-//   addTrainingSession(): void {
-//     if (this.newTrainingSessionForm.valid) {
-//       const formData = this.newTrainingSessionForm.value;
-//       const newTrainingSession: TrainingSession = {
-//         ...formData
-//       };
-//
-//       console.log('Form data being sent:', newTrainingSession);
-//
-//       this.trainingSessionService.addTrainingSession(newTrainingSession).pipe(
-//         catchError((error) => {
-//           console.error('Error adding training session:', error);
-//           this.toaster.error('Failed to add training session: ' + (error.error.message || 'Unknown error')); // Use toast for error feedback
-//           return throwError(() => new Error('Error adding training session'));
-//         })
-//       ).subscribe({
-//         next: () => {
-//           console.log('Training session added successfully.');
-//           this.toaster.success('Training session added successfully'); // Show success toast
-//           this.loadTrainingSessions(); // Load or refresh session list
-//           this.newTrainingSessionForm.reset();
-//           setTimeout(() => {
-//             window.location.reload();
-//           },3000);
-//
-// },
-//         error: (error) => {
-//           console.error('Error while adding training session:', error);
-//           this.toaster.error('Error adding training session: ' + (error.message || 'Unknown error')); // Optionally show error toast
-//         }
-//       });
-//     } else {
-//       console.error('Form is invalid:', this.newTrainingSessionForm);
-//       this.newTrainingSessionForm.markAllAsTouched(); // Ensure all fields are touched to show validation errors.
-//     }
-//   }
-//   addTrainingSession(): void {
-//     if (this.newTrainingSessionForm.valid) {
-//
-//       const formData = this.newTrainingSessionForm.getRawValue();
-//       console.log('Form Data:', formData);
-//       console.log('Submitting this data to server:', JSON.stringify(formData));
-//
-//       // Adjust logic for determining room ID requirement
-//       formData.roomId = (formData.typeTS !== TypeTS.ONLINE && formData.placeType === 'INTERNAL' && formData.room) ? formData.room.id : null;
-//
-//       // Log what's being sent to the backend
-//       console.log('Submitting with Room ID:', formData.roomId);
-//
-//       this.trainingSessionService.addTrainingSession(formData, formData.roomId).subscribe({
-//         next: () => {
-//           this.toaster.success('Training session added successfully');
-//           this.modalService.dismissAll();
-//           this.newTrainingSessionForm.reset();
-//           setTimeout(() => {
-//             window.location.reload();
-//           }, 1000); // Delay the reload for 1 second to ensure all messages are shown
-//         },
-//         error: (error) => {
-//           console.error('Error when trying to add session:', error);
-//           // Improved error handling to extract server response
-//           const errorMsg = error.error?.message || 'Unknown error';
-//           console.error('Error Details:', errorMsg);
-//           this.toaster.error(`Error adding training session: ${errorMsg}`);
-//         }
-//       });
-//     } else {
-//       console.error('Form is invalid:', this.newTrainingSessionForm.value);
-//       this.newTrainingSessionForm.markAllAsTouched();
-//       this.toaster.error('Please complete all required fields.');
-//     }
-//   }
+  previousPage(): void {
+    if (this.currentPage > 0) {
+      this.currentPage--;
+      this.loadTrainingSessions(this.currentPage, this.pageSize);
+    }
+  }
+  nextPage(): void {
+    if (this.currentPage < (this.totalActivities / this.pageSize) - 1) {
+      this.currentPage++;
+      this.loadTrainingSessions(this.currentPage, this.pageSize);
+    }
+  }
+  changePage(event: PageEvent) {
+    this.currentPage = event.pageIndex;
+    this.pageSize = event.pageSize;
+    this.loadTrainingSessions(this.currentPage, this.pageSize);
+  }
 
-  // addTrainingSession(): void {
-  //   if (this.newTrainingSessionForm.valid) {
-  //     const formData = this.newTrainingSessionForm.getRawValue();
-  //     console.log('Form Data:', formData);
-  //
-  //     // Format the data according to the server's expectations
-  //     const requestData = {
-  //       title: formData.title,
-  //       target_audience: formData.target_audience,
-  //       session_outline: formData.session_outline,
-  //       expected_outcomes: formData.expected_outcomes,
-  //       start_date: formData.start_date,
-  //       finish_date: formData.finish_date,
-  //       topic: formData.topic,
-  //       place: formData.placeType === 'EXTERNAL' ? 'ONLINE' : formData.place,
-  //       capacity: formData.capacity,
-  //       typeTS: formData.placeType === 'EXTERNAL' ? 'ONLINE' : 'OFFLINE',
-  //       tsStatus: 'PLANNED',
-  //       placeType: formData.placeType
-  //     };
-  //
-  //     console.log('Submitting this data to server:', requestData);
-  //
-  //     // Determine room ID requirement
-  //     const roomId = (formData.placeType !== 'EXTERNAL' && formData.room) ? formData.room.id : null;
-  //
-  //     if (roomId == null) {
-  //       // Use the service without room when room ID is null
-  //       this.trainingSessionService.addTrainingSessionWithoutRoom(requestData).subscribe(
-  //         data => this.handleResponse(data),
-  //         error => this.handleError(error)
-  //       );
-  //     } else {
-  //       // Use the service with room when room ID is not null
-  //       this.trainingSessionService.addTrainingSessionWithRoom(requestData, roomId).subscribe(
-  //         data => this.handleResponse(data),
-  //         error => this.handleError(error)
-  //       );
-  //     }
-  //   } else {
-  //     console.error('Form is invalid:', this.newTrainingSessionForm.value);
-  //     this.newTrainingSessionForm.markAllAsTouched();
-  //     this.toaster.error('Please complete all required fields.');
-  //   }
-  // }
-
+  onPageChange(event: any): void {
+    this.loadTrainingSessions(event.pageIndex, event.pageSize);
+  }
 
   addTrainingSession(): void {
     if (this.newTrainingSessionForm.valid) {
@@ -291,7 +209,9 @@ export class TrainingSessionComponent implements OnInit {
             this.toaster.success('Training session added successfully');
             this.modalService.dismissAll();
             this.newTrainingSessionForm.reset();
-            this.loadTrainingSessions();
+            this.loadTrainingSessions(this.currentPage, this.pageSize);
+            this.cdr.detectChanges();
+
           },
           error => {
             console.error('Error when trying to add session:', error);
@@ -305,7 +225,7 @@ export class TrainingSessionComponent implements OnInit {
             this.toaster.success('Training session added successfully with room');
             this.modalService.dismissAll();
             this.newTrainingSessionForm.reset();
-            this.loadTrainingSessions();
+            this.loadTrainingSessions(this.currentPage, this.pageSize);
           },
           error => {
             console.error('Error when trying to add session with room:', error);
@@ -353,7 +273,7 @@ export class TrainingSessionComponent implements OnInit {
       };
       this.trainingSessionService.UpdateTrainingSession(updatedSession).subscribe({
         next: () => {
-          this.loadTrainingSessions();
+          this.loadTrainingSessions(this.currentPage, this.pageSize);
           this.modalRef?.close();
         },
         error: (err) => console.error('Error updating training session', err)
@@ -386,7 +306,7 @@ export class TrainingSessionComponent implements OnInit {
       this.trainingSessionService.deleteTrainingSessionById(this.selectedTrainingSession.ts_id).subscribe({
         next: () => {
           console.log("Training session deleted successfully.");
-          this.loadTrainingSessions();
+          this.loadTrainingSessions(this.currentPage, this.pageSize);
 
 
         },

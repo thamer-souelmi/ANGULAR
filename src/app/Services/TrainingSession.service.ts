@@ -1,8 +1,8 @@
-import {HttpClient, HttpErrorResponse, HttpHeaders} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams} from "@angular/common/http";
 import {Observable, throwError} from "rxjs";
 import { Injectable } from "@angular/core";
 import {TrainingSession} from "../Models/TrainingSession";
-import {catchError, map} from "rxjs/operators";
+import {catchError, map, tap} from "rxjs/operators";
 import {Room} from "../Models/Room";
 
 @Injectable({
@@ -18,23 +18,18 @@ export class TrainingSessionService {
 
   constructor(private http: HttpClient) { }
 
-  findAllRegistrationTS(): Observable<TrainingSession[]> {
-    return this.http.get<string>(this.TrainingSessionUrl + 'findAllTrainingSession', { responseType: 'text' as 'json' })
+  findAllRegistrationTS(page: number, size: number): Observable<any> {
+    console.log(`Requesting page ${page} with size ${size}`);
+    return this.http.get<any>(`${this.TrainingSessionUrl}findAllTrainingSession?page=${page}&size=${size}`, { responseType: 'json' })
       .pipe(
-        map(response => {
-          try {
-            return JSON.parse(response);
-          } catch (e) {
-            console.error('Error parsing JSON:', e);
-            return []; // Retourner un tableau vide ou une valeur par défaut si le JSON est incorrect
-          }
-        }),
+        tap(response => console.log(`Received response for page ${page} with size ${size}:`, response)),
         catchError((error: HttpErrorResponse) => {
           console.error('Error fetching training sessions', error);
           return throwError(() => new Error('Failed to load training sessions'));
         })
       );
   }
+
   findOneTrainingSession(ts_id: number): Observable<TrainingSession> {
     return this.http.get<TrainingSession>(`${this.TrainingSessionUrl}findOneTrainingSession/${ts_id}`);
   }
