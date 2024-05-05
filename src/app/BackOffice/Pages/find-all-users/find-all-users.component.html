@@ -3,22 +3,37 @@
     max-width: 200px;
   }
 </style>
-<div class="modal fade" #warningSuccessModal tabindex="-1" aria-labelledby="warningSuccessModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="warningSuccessModalLabel">Notification</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        {{ warningMessage }}
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
+<head>
+  
+  <!-- Favicon -->
+  <link href="/assets/FrontOffice/img/favicon.ico" rel="icon">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+
+  <!-- Google Web Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Icon Font Stylesheet -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+  <!-- Libraries Stylesheet -->
+  <link href="/assets/FrontOffice/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+  <link href="/assets/FrontOffice/lib/animate/animate.min.css" rel="stylesheet">
+
+  <!-- Customized Bootstrap Stylesheet -->
+  <link href="/assets/FrontOffice/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Template Stylesheet -->
+  <link href="/assets/FrontOffice/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha384-..." crossorigin="anonymous">
+
+</head>
+<button class="btn btn-primary " (click)="createNewTask()" >
+  <i class="bi bi-plus">Add User</i> 
+</button>
+<h3>Import From Excel</h3>
 <div class="row">
   <div class="col-8">
     <label class="btn btn-default p-0">
@@ -28,143 +43,9 @@
 
 
 </div>
-<!-- Modal for Adding User -->
-<div #myModal class="modal fade" id="addJobOfferModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="modalLabel">Add User</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-
-      <div class="modal-body">
-        <!-- User Form -->
-        <form [formGroup]="userForm" (ngSubmit)="onUserSubmit() ">
-          <!-- User Form Fields -->
-
-          <div *ngIf="userForm.get('firstname')?.hasError('required')">
-            First name is required.
-          </div>
-
-
-          <div *ngIf=" userForm.get('firstname')?.hasError('maxlength')">
-            Maximum length is 50 characters.
-          </div>
-          <div class="form-group col-md-12 mb-4">
-            <label for="firstname">First Name:</label>
-            <input type="text" id="firstname" class="form-control" formControlName="firstname">
-          </div>
-          <div *ngIf="userForm.get('lastname')?.hasError('required') ">
-            Last Name is required.
-          </div>
-          <div class="form-group col-md-12 mb-4">
-            <input type="text" class="form-control input-lg" formControlName="lastname" placeholder="Last Name">
-          </div>
-          <div *ngIf="userForm.get('email')?.hasError('required') ">
-            email is required.
-          </div>
-          <div *ngIf="userForm.get('email')?.hasError('email')">
-            Please enter a valid email address.
-          </div>
-          <div class="form-group col-md-12 mb-4">
-            <input type="email" class="form-control input-lg" formControlName="email" placeholder="Email">
-          </div>
-          <div *ngIf=" userForm.get('password')?.hasError('required')">
-            Password is required.
-          </div>
-          <div *ngIf=" userForm.get('password')?.hasError('minlength')">
-            Minimum password length is 8 characters.
-          </div>
-          <div class="form-group col-md-12 mb-4">
-            <input type="password" class="form-control input-lg" formControlName="password" placeholder="Password">
-          </div>
-          <div *ngIf=" userForm.get('adresse')?.hasError('required') ">
-            Adresse is required.
-          </div>
-          <div class="form-group col-md-12 mb-4">
-            <input type="text" class="form-control input-lg" formControlName="adresse" placeholder="Address">
-          </div>
-          <div *ngIf="userForm.get('phonenumber')?.hasError('required')">
-            Please enter a valid phone number.
-          </div>
-          <div *ngIf="userForm.get('phonenumber')?.hasError('min') && userForm.get('phonenumber')?.touched">
-            Phone Number cannot be negative.
-          </div>
-          <div class="form-group col-md-12 mb-4">
-            <input type="text" class="form-control input-lg" formControlName="phonenumber" placeholder="Phone">
-
-          </div>
-
-
-          <div *ngIf="userForm.get('birthdate')?.hasError('required') ">
-            Birthdate  is required.
-          </div>
-          <div class="form-group col-md-12 mb-4">
-            <input type="date" class="form-control input-lg" formControlName="birthdate" placeholder="Date">
-          </div>
-          <div *ngIf="userForm.get('gender')?.hasError('required') ">
-          gender is required.
-        </div>
-          <div class="form-group col-md-12 mb-4">
-            <select class="form-control input-lg" formControlName="gender" placeholder="Gender">
-              <option *ngFor="let g of genderOptions" [value]="g.value">{{ g.label }}</option>
-            </select>
-
-            <div *ngIf="userForm.get('role')?.hasError('required') ">
-              role is required.
-            </div>
-            <div class="form-group col-md-12 mb-4">
-              <select class="form-control input-lg" formControlName="role" placeholder="Role">
-                <option *ngFor="let g of roleOptions" [value]="g.value">{{ g.label }}</option>
-              </select>
-            </div>
-
-          </div>
-          <div *ngFor="let progressInfo of progressInfos" class="mb-2">
-            <span>{{ progressInfo.fileName }}</span>
-            <div class="progress">
-              <div
-                class="progress-bar progress-bar-info progress-bar-striped"
-                role="progressbar"
-                attr.aria-valuenow="{{ progressInfo.value }}"
-                aria-valuemin="0"
-                aria-valuemax="100"
-                [ngStyle]="{ width: progressInfo.value + '%' }"
-              >
-                {{ progressInfo.value }}%
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-8">
-              <label class="btn btn-default p-0">
-                <input type="file" accept="image/*" multiple (change)="selectFiles($event)" />
-              </label>
-            </div>
-
-
-          </div>
-          <ngx-recaptcha2 #captchaElem
-                          [siteKey]="siteKey"
-                          formControlName="recaptcha">
-          </ngx-recaptcha2>
-
-
-          <button type="submit" class="btn btn-primary" [disabled]="!userForm.valid">Add User</button>
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-
-
-</form>
-      </div></div></div></div>
+<br>
   <div class="row">
-    <div class="card-body px-3 px-md-5">
-      <div class="buttons-wrapper d-flex justify-content-end">
-        <button class="btn btn-success" style="background-color: #fb6d1c; color: white;" data-bs-toggle="modal" data-bs-target="#addJobOfferModal">
-          <i class="fa fa-plus"></i> Add User
-        </button>
-      </div>
-    </div>
+
     <div class="col-lg-6 col-xl-4" *ngFor="let users of users ">
       <div class="card card-default p-4">
         <a href="javascript:0" class="media text-secondary" data-toggle="modal" data-target="#modal-contact">
@@ -189,7 +70,7 @@
               </li>
             </ul>
             <button class="mb-1 btn btn-sm btn-primary" (click)="details(users.userId)">Details</button>
-            <button class="mb-1 btn btn-sm btn-info" (click)="delete(users.userId)">delete</button>
+       <!--     <button class="mb-1 btn btn-sm btn-info" (click)="delete(users.userId)">delete</button> -->
 
           </div>
         </a>

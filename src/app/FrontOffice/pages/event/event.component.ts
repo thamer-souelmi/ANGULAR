@@ -32,6 +32,8 @@ import {RegistrationEventService} from "../../../Services/RegistrationEvent.serv
 import {EmailService} from "../../../Services/email.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Icon, Marker} from "leaflet";
+import * as https from "https";
+import axios from "axios";
 // import bootstrapPlugin from '@fullcalendar/bootstrap';
 
 const colors: Record<string, EventColor> = {
@@ -69,6 +71,8 @@ export class EventComponent implements OnInit,AfterViewInit {
   currentPage = 0;
   pageSize = 6;
   searchTerm: string = '';
+  test: string = 'bl';
+
   searchControl = new FormControl('');
   allEvents: any[] = [];
   @ViewChild('addEventModal') addEventModal!: ElementRef;
@@ -640,49 +644,55 @@ export class EventComponent implements OnInit,AfterViewInit {
     this.locationSuggestions = []; // Clear suggestions
   }
 
-  searchLocation(query: string, context: 'add' | 'update'): void {
-    const url = `https://nominatim.openstreetmap.org/search?format=json&q={searchTerm}`;
-    this.http.get<any[]>(url).subscribe(results => {
-      this.errorMessage = '';
-      if (results.length > 0) {
-        // Traitez les résultats
-        // Assurez-vous d'ajuster le traitement des résultats selon le format attendu
-      } else {
-        console.log('No results found');
-        this.errorMessage = 'No results found. Please try a different search.';
-      }
-      this.cdr.detectChanges();
-    }, error => {
-      console.error('Error during the search:', error);
-      this.errorMessage = 'An error occurred during the search. Please try again.';
-      this.cdr.detectChanges();
-    });
-  }
-
-  // searchLocation(context: 'add' | 'update'): void {
-  //   if (!this.searchQuery) {
-  //     console.log('Search query is empty.');
-  //     return;
-  //   }
-  //
-  //   // Assuming this.eventService.searchLocation is implemented correctly
-  //   this.eventService.searchLocation(this.searchQuery).subscribe(results => {
-  //     if (this.map) {
-  //       this.map.eachLayer(layer => {
-  //         if (layer instanceof L.Marker) {
-  //           this.map!.removeLayer(layer);
-  //         }
-  //       });
-  //
-  //       results.forEach((result: any) => {
-  //         const { lat, lon, display_name } = result;
-  //         L.marker([lat, lon]).addTo(this.map!).bindPopup(display_name || 'Unknown location').openPopup();
-  //       });
+  // searchLocation(query: string, context: 'add' | 'update'): void {
+  //   const url = `https://nominatim.openstreetmap.org/search?format=json&q={searchTerm}`;
+  //   this.http.get<any[]>(url).subscribe(results => {
+  //     this.errorMessage = '';
+  //     if (results.length > 0) {
+  //       // Traitez les résultats
+  //       // Assurez-vous d'ajuster le traitement des résultats selon le format attendu
+  //     } else {
+  //       console.log('No results found');
+  //       this.errorMessage = 'No results found. Please try a different search.';
   //     }
+  //     this.cdr.detectChanges();
   //   }, error => {
   //     console.error('Error during the search:', error);
+  //     this.errorMessage = 'An error occurred during the search. Please try again.';
+  //     this.cdr.detectChanges();
   //   });
   // }
+
+
+
+
+
+  searchLocation(locationQuery: string, context: 'add' | 'update'): void {
+    console.log("Current querysssss: ", locationQuery);
+    if (!locationQuery.trim()) {
+      console.log('Search query is empty.');
+      return;
+    }
+
+    const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(locationQuery)}`;
+    axios.get<any[]>(url).then(response => {
+      const results = response.data;
+      if (this.map) {
+        this.map.eachLayer(layer => {
+          if (layer instanceof L.Marker) {
+            this.map!.removeLayer(layer);
+          }
+        });
+
+        results.forEach(result => {
+          const { lat, lon, display_name } = result;
+          L.marker([lat, lon]).addTo(this.map!).bindPopup(display_name || 'Unknown location').openPopup();
+        });
+      }
+    }).catch(error => {
+      console.error('Error during the search:', error);
+    });
+  }
 
   onSearchChange(event: Event): void {
     const latitude = event.place; // Access latitude directly
@@ -1053,13 +1063,13 @@ export class EventComponent implements OnInit,AfterViewInit {
       maxZoom: 19,
       attribution: '© OpenStreetMap contributors'
     }).addTo(this.map);
-    this.map.on('click', (e) => {
 
+    this.map.on('click', async (e) => {
       if (this.marker && this.map) {
         this.map.removeLayer(this.marker);
       }
 
-      const {lat, lng} = e.latlng;
+      const { lat, lng } = e.latlng;
       if (this.map) {
         if (this.marker) {
           this.marker.remove(); // Remove existing marker
@@ -1067,9 +1077,26 @@ export class EventComponent implements OnInit,AfterViewInit {
         this.marker = new L.Marker(e.latlng, { icon: this.getCustomIcon() }).addTo(this.map);
       }
 
+      try {
+        const geocodeUrl = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=jsonv2`;
+        const response = await axios.get(geocodeUrl);
+        const address = response.data.address;
+        const { state,  county,  amenity,postcode } = address;
 
+        // Format display location with checks for undefined values
+        const displayLocation = `${amenity },${county ? `${county}, ` :''}${postcode ? `${postcode}, ` : ''}${state } `;
 
-      this.saveLocation(lat, lng);
+        // Update the form or state with the new location and coordinates
+        this.newEventForm.patchValue({
+          place: displayLocation,  // Update the location display using the formatted string
+          latitude: lat,
+          longitude: lng
+        });
+
+        console.log("Location name updated:", address);
+      } catch (error) {
+        console.error('Error fetching location name:', error);
+      }
     });
   }
 
@@ -1084,25 +1111,55 @@ export class EventComponent implements OnInit,AfterViewInit {
       className: 'my-custom-icon'
     });
   }
+  // private saveLocation(latitude: number, longitude: number): void {
+  //   const geocodeUrl = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`;
+  //
+  //   this.http.get<any>(geocodeUrl).subscribe(data => {
+  //     // Supposons que le champ 'place' dans le formulaire est utilisé pour stocker le nom de l'emplacement
+  //     const locationName = data.display_name; // Ou utilisez un autre chemin dans l'objet data selon le format de réponse
+  //
+  //     this.newEventForm.patchValue({
+  //       place: locationName, // Mettez à jour le nom de l'emplacement dans le formulaire
+  //       latitude: latitude,
+  //       longitude: longitude
+  //     });
+  //
+  //     console.log("Location name updated:", locationName);
+  //     // Note: Pas besoin d'appeler un service ici si le formulaire sera soumis pour sauvegarder l'événement
+  //   }, error => {
+  //     console.error("Error fetching location name", error);
+  //   });
+  // }
   private saveLocation(latitude: number, longitude: number): void {
-    const geocodeUrl = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`;
+    // Using environment variables to manage API URLs is a good practice.
+    const geocodeUrl = `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=jsonv2`;
 
-    this.http.get<any>(geocodeUrl).subscribe(data => {
-      // Supposons que le champ 'place' dans le formulaire est utilisé pour stocker le nom de l'emplacement
-      const locationName = data.display_name; // Ou utilisez un autre chemin dans l'objet data selon le format de réponse
+    console.log('Latitude:', latitude);
+    console.log('Longitude:', longitude);
 
-      this.newEventForm.patchValue({
-        place: locationName, // Mettez à jour le nom de l'emplacement dans le formulaire
-        latitude: latitude,
-        longitude: longitude
-      });
+    this.http.get<any>(geocodeUrl).subscribe({
+      next: (data) => {
+        // Extract address components from the response
+        const { city, postcode, road, suburb, town } = data.address;
 
-      console.log("Location name updated:", locationName);
-      // Note: Pas besoin d'appeler un service ici si le formulaire sera soumis pour sauvegarder l'événement
-    }, error => {
-      console.error("Error fetching location name", error);
+        // Format display location with checks for undefined values
+        const displayLocation = `${road ? `${road}, ` : ''}${suburb ? `${suburb}, ` : ''}${postcode ? `${postcode}, ` : ''}${city || town}`;
+
+        // Updating form values
+        this.newEventForm.patchValue({
+          place: displayLocation,  // Update the location display using the formatted string
+          latitude: latitude,
+          longitude: longitude
+        });
+
+        console.log("Location name updated:", displayLocation);
+      },
+      error: (error) => {
+        console.error("Error fetching location name", error);
+      }
     });
   }
+
   openFeedbackModal(eventId: number): void {
     this.selectedEventId = eventId;
     this.feedbackModalRef = this.modalService.open(this.feedbackModal, { centered: true });

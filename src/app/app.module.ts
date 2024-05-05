@@ -92,10 +92,19 @@ import {
   TrainingSessionComponent} from './FrontOffice/pages/training-session/training-session.component';
 import {MatGridListModule} from "@angular/material/grid-list";
 import { EventBComponent } from './BackOffice/Pages/event-b/event-b.component';
-import { ProjectFormComponent } from './FrontOffice/pages/Project/project-form/project-form.component';
-import { ProjectDetailsComponent } from './FrontOffice/pages/Project/project-details/project-details.component';
-import { ProjectCalendarModalComponent } from './FrontOffice/pages/Project/project-calendar-modal/project-calendar-modal.component';
-import { GetAllProjectComponent } from './FrontOffice/pages/Project/get-all-project/get-all-project.component';
+import { ProjectFormComponent } from './FrontOffice/Pages/Project/project-form/project-form.component';
+import { ProjectDetailsComponent } from './FrontOffice/Pages/Project/project-details/project-details.component';
+import { ProjectCalendarModalComponent } from './FrontOffice/Pages/Project/project-calendar-modal/project-calendar-modal.component';
+import { GetAllProjectComponent } from './FrontOffice/Pages/Project/get-all-project/get-all-project.component';
+import { ForgotPasswordComponent } from './BackOffice/Pages/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './BackOffice/Pages/reset-password/reset-password.component';
+import { UpdateUserComponent } from './BackOffice/Pages/update-user/update-user.component';
+import { UserDetailComponent } from './BackOffice/Pages/user-detail/user-detail.component';
+import { AddUserComponent } from './BackOffice/Pages/add-user/add-user.component';
+import { LeavesComponent } from './BackOffice/Pages/leaves/leaves.component';
+import { LeavesDetailsComponent } from './BackOffice/Pages/leaves-details/leaves-details.component';
+import { AddLeaveComponent } from './BackOffice/Pages/add-leave/add-leave.component';
+import { LeaveComponent } from './FrontOffice/Pages/leave/leave.component';
 import { JitsiComponent } from './FrontOffice/pages/Interview/jitsi/jitsi.component';
 import { AddInterviewComponent } from './FrontOffice/pages/Interview/add-interview/add-interview.component';
 import { FindAllQuizComponent } from './BackOffice/Pages/Quiz/find-all-quiz/find-all-quiz.component';
@@ -105,9 +114,13 @@ import { AddQuizQuestionComponent } from './BackOffice/Pages/Quiz/add-quiz-quest
 import { EditQuizQuestionComponent } from './BackOffice/Pages/Quiz/edit-quiz-question/edit-quiz-question.component';
 import { RoomComponent } from './BackOffice/Pages/room/room.component';
 import {BsDropdownModule} from "ngx-bootstrap/dropdown";
+<<<<<<< HEAD
 import { AddMarkComponent } from './FrontOffice/pages/JobOffer/add-mark/add-mark.component';
 import { MatMenu } from '@angular/material/menu';
 
+=======
+import {JoinPipe} from "./join.pipe";
+>>>>>>> 5cfeecb50d8ad7544d015bd519b69b0af19ca72d
 
 
 @NgModule({
@@ -170,6 +183,16 @@ import { MatMenu } from '@angular/material/menu';
     ProjectDetailsComponent,
     ProjectCalendarModalComponent,
     GetAllProjectComponent,
+    ForgotPasswordComponent,
+    ResetPasswordComponent,
+    UpdateUserComponent,
+    UserDetailComponent,
+    AddUserComponent,
+    LeavesComponent,
+    LeavesDetailsComponent,
+    AddLeaveComponent,
+    LeaveComponent,
+
     JitsiComponent,
     AddInterviewComponent,
     FindAllQuizComponent,
@@ -177,7 +200,12 @@ import { MatMenu } from '@angular/material/menu';
     AddQuizQuestionComponent,
     EditQuizQuestionComponent,
     RoomComponent,
+<<<<<<< HEAD
     AddMarkComponent,
+=======
+    JoinPipe
+
+>>>>>>> 5cfeecb50d8ad7544d015bd519b69b0af19ca72d
 
   ],
   imports: [
@@ -246,6 +274,7 @@ import { MatMenu } from '@angular/material/menu';
     MatGridListModule,
     MatBadgeModule,
     MatMenuModule
+
 
   ],
   providers: [httpInterceptorProviders,DatePipe],
