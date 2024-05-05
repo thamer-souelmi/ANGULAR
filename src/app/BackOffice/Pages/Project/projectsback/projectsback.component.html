@@ -1,0 +1,175 @@
+<div class="page-wrapper" style="min-height: 715px;">
+
+    <div class="content container-fluid pb-0">
+    
+    <div class="page-header">
+    <div class="row align-items-center">
+    <div class="col">
+    <h3 class="page-title">Projects</h3>
+    <ul class="breadcrumb">
+    <li class="breadcrumb-item"><a href="https://smarthr.dreamstechnologies.com/html/template/admin-dashboard.html"><strong>Dashboard</strong></a></li>
+    <li class="breadcrumb-item active"><strong>Projects</strong></li>
+    </ul>
+    </div>
+    </div>
+    </div>
+    
+    
+    <div class="row filter-row">
+    <div class="col-sm-6 col-md-3">
+    <div class="input-block mb-3 form-focus">
+    <input type="text" class="form-control floating" [(ngModel)]="searchQuery" (ngModelChange)="onSearchChange()">
+    <label class="focus-label ">Search For project..</label>
+    </div>
+    </div>
+    
+    <div class="col-sm-6 col-md-3">
+    <a  mat-raised-button
+    matTooltip="Project Statistics" class="btn btn-success w-100" (click)="navigateToStatistics()"> Chart </a>
+    </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-lg-4 col-sm-6 col-md-4 col-xl-3 d-flex" *ngFor="let project of getDisplayedProjects(); let i = index;">
+          <div class="card w-100">
+            <div class="card-body">
+              <div  class="dropdown dropdown-action profile-action">
+                <a  style="cursor: pointer;" mat-raised   (click)="viewAssociatedTasks(project.projectId)"
+                matTooltip="Tasks" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list-task" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd" d="M2 2.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5V3a.5.5 0 0 0-.5-.5zM3 3H2v1h1z"/>
+                  <path d="M5 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5M5.5 7a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1zm0 4a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1z"/>
+                  <path fill-rule="evenodd" d="M1.5 7a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5zM2 7h1v1H2zm0 3.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm1 .5H2v1h1z"/>
+                </svg></a>
+                
+              </div>
+              <h4 class="project-title"><a>{{ project.projectName }}</a></h4>
+              <small class="block text-ellipsis m-b-15">
+                <span class="text-xs">4</span> <span class="text-muted">open tasks, </span>
+    <span class="text-xs">2</span> <span class="text-muted">tasks completed</span>
+              </small>
+              <br>
+              <br>
+              <p class="text-muted">{{ project.projectDescription }}</p>
+              <div class="pro-deadline m-b-15">
+                <div class="sub-title"><strong>
+                  Start Date:</strong>
+                </div>
+                <div class="text-muted">
+                  {{ project.startdateProject | date }}
+                </div>
+              </div>
+              <div class="pro-deadline m-b-15">
+                <div class="sub-title"><strong>
+                  Deadline:</strong>
+                </div>
+                <div class="text-muted">
+                  {{ project.enddateProject | date }}
+                </div>
+              </div>
+              <div class="project-members m-b-15">
+                <div><strong>Project Manager :</strong></div>
+                <ul class="team-members">
+                  <li>
+                    <a data-bs-toggle="tooltip" [title]="project.projectManager.firstname + ' ' + project.projectManager.lastname"><img src="assets/BackOffice/profiles/avatar-16.jpg" alt="User Image"></a>
+                  </li>
+                </ul>
+              </div>
+              <div class="project-members m-b-15">
+                <div style="cursor: pointer;" (click)="openteamModal(project)"><strong>Team :</strong></div>
+                <ul class="team-members">
+                    <li>
+                        <a  data-bs-toggle="tooltip" aria-label="John Doe" data-bs-original-title="John Doe"><img src="assets/BackOffice/profiles/avatar-02.jpg" alt="User Image"></a>
+                        </li>
+                        <li>
+                        <a  data-bs-toggle="tooltip" aria-label="Richard Miles" data-bs-original-title="Richard Miles"><img src="assets/BackOffice/profiles/avatar-09.jpg" alt="User Image"></a>
+                        </li>
+                        <li>
+                        <a  data-bs-toggle="tooltip" aria-label="John Smith" data-bs-original-title="John Smith"><img src="assets/BackOffice/profiles/avatar-10.jpg" alt="User Image"></a>
+                        </li>
+                        <li>
+                        <a  data-bs-toggle="tooltip" aria-label="Mike Litorus" data-bs-original-title="Mike Litorus"><img src="assets/BackOffice/profiles/avatar-05.jpg" alt="User Image"></a>
+                        </li>
+                <li class="dropdown avatar-dropdown">
+                <a class="all-users dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">+15</a>
+                <div class="dropdown-menu dropdown-menu-right">
+               
+                <div class="avatar-pagination">
+                <ul class="pagination">
+                <li class="page-item">
+                <a class="page-link"  aria-label="Previous">
+                <span aria-hidden="true">«</span>
+                <span class="visually-hidden">Previous</span>
+                </a>
+                </li>
+                <li class="page-item"><a class="page-link" >1</a></li>
+                <li class="page-item"><a class="page-link" >2</a></li>
+                <li class="page-item">
+                <a class="page-link"  aria-label="Next">
+                <span aria-hidden="true">»</span>
+                <span class="visually-hidden">Next</span>
+                </a>
+                </li>
+                </ul>
+                </div>
+                </div>
+                </li>
+                </ul>
+                </div>
+                <p class="m-b-5"><strong>Progress <span class="text-success float-end">{{ generateRandomPercentage() }}%</span></strong></p>
+                <div class="progress progress-xs mb-0">
+                    <div class="progress-bar bg-success" role="progressbar" [style.width.%]="generateRandomPercentage()"></div>
+                </div>
+                
+                </div>
+            
+          </div>
+        </div>
+      </div>
+     
+    </div>
+    <div class="container">
+        <mat-paginator [length]="projects.length" [pageSize]="pageSize" [pageIndex]="pageIndex" (page)="getAllProjects()">
+        </mat-paginator>
+      </div>
+    
+    <div id="create_project" class="modal custom-modal fade" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+    <div class="modal-header">
+    <h5 class="modal-title">Create Project</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+    <span aria-hidden="true">×</span>
+    </button>
+    </div>
+    
+    </div>
+    </div>
+    </div>
+    
+
+    
+    
+    <div class="modal custom-modal fade" id="delete_project" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+    <div class="modal-body">
+    <div class="form-header">
+    <h3>Delete Project</h3>
+    <p>Are you sure want to delete?</p>
+    </div>
+    <div class="modal-btn delete-action">
+    <div class="row">
+    <div class="col-6">
+    <a href="javascript:void(0);" class="btn btn-primary continue-btn">Delete</a>
+    </div>
+    <div class="col-6">
+    <a href="javascript:void(0);" data-bs-dismiss="modal" class="btn btn-primary cancel-btn">Cancel</a>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    
+    </div>

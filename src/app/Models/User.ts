@@ -13,6 +13,7 @@ export class User {
    birthdate!: Date;
   phonenumber!:number;
     gender!:Gender;
+    CIN!:number;
 
     //malekk
     projects!:Project[];

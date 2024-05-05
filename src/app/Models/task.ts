@@ -5,13 +5,17 @@ import { TaskStatus } from "./task-status";
 
 export class Task {
     taskid!:number;
-    taskname!:string;
     startDateTask!:Date;
+    taskname!:string;
+    progress!: number;
+    duration!: number;
+    parent!: number;
     dueDateTask!:Date;
     taskDescription!:string;
     priority!:Priority;
     taskStatus!:TaskStatus;
-    projetT!:Project;
-    employeeTask!:User;
+    projetT!:Project | null;
+    employeeTask!:User | null;
+   
 
 }

@@ -1,0 +1,43 @@
+    <style>/* Map container */
+        #map11 {
+        width: 100%; /* Full width */
+        height: 400px; /* Fixed height, adjust as needed */
+        margin: 0; /* Remove default margin */
+        padding: 0; /* Remove default padding */
+        }
+        </style><!-- dashboard.component.html -->
+        <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+<!-- Load Leaflet JavaScript -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <div class="col-lg-6 d-flex justify-content-xl-end flex-column flex-wrap align-items-lg-end">
+        <div id="mini-status-range" class="date-range date-range-lg bg-white">
+        <span class="date-holder text-dark">{{ currentDateTime }}</span>
+        <i class="mdi mdi-menu-down"></i>
+        </div>
+        <span class="time-zone">Timezone: {{ timezone }}</span>
+    </div>
+    
+    <div class="col-xl-4">
+        <!-- User -->
+        <div class="card card-default">
+        <div class="card-header">
+            <h2>Employees</h2>
+        </div>
+        <div class="card-body">
+            <div class="bg-primary d-flex justify-content-between flex-wrap p-5 text-white align-items-lg-end">
+            <div class="d-flex flex-column">
+                <span class="h3 text-white">Total Users : {{ totalUsers }}</span>
+            </div>
+            <div>
+                <span>{{ userChangePercentage }}%</span>
+                <i class="mdi mdi-arrow-up-bold"></i>
+            </div>
+            </div>
+            <div id="line-chart-1"></div>
+        </div>
+        </div>
+    </div>
+    
+    <div id="map" style="height: 400px;"></div>
+    

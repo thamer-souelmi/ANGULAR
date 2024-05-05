@@ -1,6 +1,6 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule} from "@angular/platform-browser";
-import { BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import { BrowserAnimationsModule, provideAnimations} from "@angular/platform-browser/animations";
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AllTemplateFrontComponent } from './FrontOffice/all-template-front/all-template-front.component';
@@ -46,8 +46,7 @@ import { StatisticsComponent } from './BackOffice/Pages/JobOffer/statistics/stat
 import { StatisticsCandidaciesComponent } from './BackOffice/Pages/JobOffer/statistics-candidacies/statistics-candidacies.component';
 import { StatisticsInterviewComponent } from './BackOffice/Pages/JobOffer/statistics-interview/statistics-interview.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
-import { QuizComponent } from "./FrontOffice/pages/Quiz/quiz/quiz.component";
-import { InterviewCalendarComponent } from './FrontOffice/pages/Interview/interview-calendar/interview-calendar.component';
+import { QuizComponent } from './FrontOffice/pages/Quiz/quiz/quiz.component';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { InterviewDetailsComponent } from './FrontOffice/pages/Interview/interview-details/interview-details.component';
 import { UpdateInterviewComponent } from './FrontOffice/pages/Interview/update-interview/update-interview.component';
@@ -87,14 +86,31 @@ import { PMstatisticComponent } from './BackOffice/Pages/Task/pmstatistic/pmstat
 import { PiecharttaskComponent } from './BackOffice/Pages/Task/piecharttask/piecharttask.component';import { ActivityBComponent } from './BackOffice/Pages/activity-b/activity-b.component';
 import { RegistrationBComponent } from './BackOffice/Pages/registration-b/registration-b.component';
 import {MatSnackBarModule} from "@angular/material/snack-bar";
-import {
-  TrainingSessionComponent} from './FrontOffice/pages/training-session/training-session.component';
+import { TrainingSessionComponent } from './FrontOffice/pages/training-session/training-session.component';
 import {MatGridListModule} from "@angular/material/grid-list";
 import { EventBComponent } from './BackOffice/Pages/event-b/event-b.component';
+
 import { ProjectFormComponent } from './FrontOffice/pages/Project/project-form/project-form.component';
 import { ProjectDetailsComponent } from './FrontOffice/pages/Project/project-details/project-details.component';
 import { ProjectCalendarModalComponent } from './FrontOffice/pages/Project/project-calendar-modal/project-calendar-modal.component';
 import { GetAllProjectComponent } from './FrontOffice/pages/Project/get-all-project/get-all-project.component';
+
+import { GetInvoicebyProjectComponent } from './BackOffice/Pages/Invoice/get-invoiceby-project/get-invoiceby-project.component';
+import { InvoiceFrontComponent } from './FrontOffice/pages/Invoice/invoice-front/invoice-front.component';
+import { AddInvoiceItemComponent } from './FrontOffice/pages/Invoice/add-invoice-item/add-invoice-item.component';
+import { EditInvoiceItemComponent } from './FrontOffice/pages/Invoice/edit-invoice-item/edit-invoice-item.component';
+import { ProjectsbackComponent } from './BackOffice/Pages/Project/projectsback/projectsback.component';
+import { AddlinkComponent } from './BackOffice/Pages/Task/addlink/addlink.component';
+import { MatBadgeModule } from '@angular/material/badge';
+import { TeamsmodalComponent } from './BackOffice/Pages/Project/teamsmodal/teamsmodal.component';
+import { SavelistProjectComponent } from './FrontOffice/pages/Project/savelist-project/savelist-project.component';
+import { ContractbyprojectComponent } from './FrontOffice/pages/contract/contractbyproject/contractbyproject.component';
+import { AddcontractComponent } from './FrontOffice/pages/contract/addcontract/addcontract.component';
+import { GetallcontractsComponent } from './FrontOffice/pages/contract/getallcontracts/getallcontracts.component';
+import { EditContractComponent } from './FrontOffice/pages/contract/edit-contract/edit-contract.component';
+import { FiltertaskpipePipe } from './FrontOffice/pages/Task/filtertaskpipe.pipe';
+
+
 import { ForgotPasswordComponent } from './BackOffice/Pages/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './BackOffice/Pages/reset-password/reset-password.component';
 import { UpdateUserComponent } from './BackOffice/Pages/update-user/update-user.component';
@@ -103,17 +119,13 @@ import { AddUserComponent } from './BackOffice/Pages/add-user/add-user.component
 import { LeavesComponent } from './BackOffice/Pages/leaves/leaves.component';
 import { LeavesDetailsComponent } from './BackOffice/Pages/leaves-details/leaves-details.component';
 import { AddLeaveComponent } from './BackOffice/Pages/add-leave/add-leave.component';
-import { LeaveComponent } from './FrontOffice/Pages/leave/leave.component';
-import { JitsiComponent } from './FrontOffice/pages/Interview/jitsi/jitsi.component';
 import { AddInterviewComponent } from './FrontOffice/pages/Interview/add-interview/add-interview.component';
 import { FindAllQuizComponent } from './BackOffice/Pages/Quiz/find-all-quiz/find-all-quiz.component';
 import { ChunkPipe } from './BackOffice/Pages/Quiz/chunk.pipe';
-import { MatBadgeModule } from '@angular/material/badge';
 import { AddQuizQuestionComponent } from './BackOffice/Pages/Quiz/add-quiz-question/add-quiz-question.component';
 import { EditQuizQuestionComponent } from './BackOffice/Pages/Quiz/edit-quiz-question/edit-quiz-question.component';
 import { RoomComponent } from './BackOffice/Pages/room/room.component';
 import {BsDropdownModule} from "ngx-bootstrap/dropdown";
-
 import { AddMarkComponent } from './FrontOffice/pages/JobOffer/add-mark/add-mark.component';
 import { MatMenu } from '@angular/material/menu';
 
@@ -122,6 +134,20 @@ import {
   FindAllJobOffersComponent
 } from "./FrontOffice/pages/JobOffer/find-all-job-offers/find-all-job-offers.component";
 
+
+import { CustomizerComponent } from './customizer/customizer.component';
+import {PickerComponent} from "@ctrl/ngx-emoji-mart";
+import {EmojiModule} from "@ctrl/ngx-emoji-mart/ngx-emoji";
+import {  provideToastr } from 'ngx-toastr';
+import { RecognizeFaceComponent } from './BackOffice/Pages/recognize-face/recognize-face.component';
+import { DashboardComponent } from './BackOffice/Pages/dashboard/dashboard.component';
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+import {JitsiComponent} from "./FrontOffice/pages/Interview/jitsi/jitsi.component";
+import { InterviewCalendarComponent } from './FrontOffice/pages/Interview/interview-calendar/interview-calendar.component';
+import { LeaveComponent } from './FrontOffice/pages/leave/leave.component';
+import {NgxPaginationModule} from "ngx-pagination";
+
+const socketConfig: SocketIoConfig = { url: 'http://localhost:5000', options: {} };
 
 
 @NgModule({
@@ -159,8 +185,6 @@ import {
     LoginComponent,
     FindAllUsersComponent,
     FilterJobPipe,
-    FindAllUsersComponent ,
-    FilterJobPipe,
     ActivityBComponent,
     FormsuggestComponent,
     UsersuggestinfoComponent,
@@ -183,6 +207,21 @@ import {
     ProjectDetailsComponent,
     ProjectCalendarModalComponent,
     GetAllProjectComponent,
+
+    GetInvoicebyProjectComponent,
+    InvoiceFrontComponent,
+    AddInvoiceItemComponent,
+    EditInvoiceItemComponent,
+    ProjectsbackComponent,
+    AddlinkComponent,
+    TeamsmodalComponent,
+    SavelistProjectComponent,
+    ContractbyprojectComponent,
+    AddcontractComponent,
+    GetallcontractsComponent,
+    EditContractComponent,
+    FiltertaskpipePipe,
+
     ForgotPasswordComponent,
     ResetPasswordComponent,
     UpdateUserComponent,
@@ -202,11 +241,18 @@ import {
     RoomComponent,
     AddMarkComponent,
     JoinPipe,
-    FindAllJobOffersComponent
+    FindAllJobOffersComponent,
+
+    AddMarkComponent,
+    JoinPipe,
+    CustomizerComponent,
 
 
+    RecognizeFaceComponent,
+    DashboardComponent,
   ],
   imports: [
+
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
@@ -218,7 +264,7 @@ import {
     MatPaginatorModule,
     MatIconModule,
     MatDialogModule,
-    MatTableModule,
+
     MatButtonModule,
     CommonModule,
     NgbModalModule,
@@ -229,27 +275,23 @@ import {
     MatMenuModule,
     MatSnackBarModule,
     ToastrModule.forRoot({
-      timeOut:2000,
-      progressBar:true,
-      progressAnimation:"increasing",
-      preventDuplicates:true
+      timeOut: 2000,
+      progressBar: true,
+      progressAnimation: "increasing",
+      preventDuplicates: true
     }),
     MatButtonModule,
     FeatherModule.pick(allIcons),
-    BrowserAnimationsModule,
     ToastrModule.forRoot({
-      timeOut:2000,
-      progressBar:true,
-      progressAnimation:"increasing",
-      preventDuplicates:true
+      timeOut: 2000,
+      progressBar: true,
+      progressAnimation: "increasing",
+      preventDuplicates: true
     }), // ToastrModule added
     MatCardModule,
-    NgxChartsModule,
+   NgxChartsModule,
     MatTooltipModule,
-    FullCalendarModule,
-    FormsModule,
     HttpClientModule,
-    NgbModule,
     NgxCaptchaModule,
     CalendarModule.forRoot({
       provide: DateAdapter,
@@ -260,22 +302,32 @@ import {
     DragDropModule,
 
     AvatarModule,
-   ChartModule,
+    ChartModule,
     BsDropdownModule.forRoot(),
 
-    FullCalendarModule,
+    SocketIoModule.forRoot(socketConfig),
+
     MatSortModule,
     MatTableModule,
     MatCheckboxModule,
-
-    MatCardModule,
     MatGridListModule,
     MatBadgeModule,
-    MatMenuModule
+    MatMenuModule,
+
+
+
+
+
+    NgxPaginationModule,
+    EmojiModule,
+    PickerComponent,
+
+
 
 
   ],
-  providers: [httpInterceptorProviders,DatePipe],
+  providers: [httpInterceptorProviders,DatePipe,    provideAnimations(), // required animations providers
+  provideToastr(),],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 

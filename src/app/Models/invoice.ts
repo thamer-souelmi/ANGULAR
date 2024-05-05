@@ -1,10 +1,16 @@
+import { PaymentStatus } from "./payment-status";
+import { Project } from "./project";
+
 export class Invoice {
     invoice_id !: number;
-    issueDateinvoice!: Date;
-    dueDateinvoice!: Date;
+    item!:string;
     invoiceDescription!: string;
-    quantity!: number;
-    unitPrice!: number;
-    totalAmount!: number;
+     issueDateinvoice!: Date;
+     quantity!: number;
+      unitPrice!: number;
+     totalAmount!: number;
+     projetInvoice!:Project;    
     paymentMethods!: string;
+    paymentStatus!:PaymentStatus;
+    
 }

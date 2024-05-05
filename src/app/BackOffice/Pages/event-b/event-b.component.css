@@ -315,5 +315,17 @@ font-size: 2rem; /* Large close button for easy interaction */
   width: 300px;
 }
 
+/* Pagination Controls Container Styling */
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px; /* Add margin for spacing, adjust as needed */
+}
+
+/* Styling for the pagination itself to ensure padding and cursor appearance */
+.pagination-controls {
+  padding: 10px;
+  cursor: pointer;
+}
 
 

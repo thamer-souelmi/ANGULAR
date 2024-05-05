@@ -28,15 +28,14 @@
 
             ],
             "styles": [
-
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/leaflet/dist/leaflet.css",
               "src/assets/BackOffice/styles/style.scss",
               "node_modules/angular-calendar/css/angular-calendar.css",
-              "node_modules/ngx-toastr/toastr.css"
-
+              "node_modules/ngx-toastr/toastr.css",
+              "node_modules/@ctrl/ngx-emoji-mart/picker.css"
             ],
             "scripts": [
               "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
@@ -107,7 +106,8 @@
             "styles": [
               "node_modules/angular-calendar/css/angular-calendar.css",
               "src/styles.css",
-              "src/assets/BackOffice/styles/style.scss"
+              "src/assets/BackOffice/styles/style.scss",
+              "node_modules/leaflet/dist/leaflet.css"
             ],
             "scripts": []
           }

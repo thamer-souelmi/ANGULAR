@@ -9,6 +9,8 @@ import { Observable } from 'rxjs';
 import { FileUploadService } from 'src/app/Services/file-upload.service';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { NgForm } from '@angular/forms';
+import { CandidacyService } from 'src/app/Services/candidacy.service';
+import { StorageService } from 'src/app/Services/storage.service';
 
 @Component({
   selector: 'app-project-form',
@@ -27,16 +29,17 @@ export class ProjectFormComponent implements OnInit {
   Pstatus :string[] =[ 'planned', 'in_progress','completed', 'on_Hold', 'canceled']
   selectedProjectStatus: StatusProject = StatusProject.planned; 
   statusOptions = Object.keys(StatusProject).map(key => StatusProject[key as keyof typeof StatusProject]) ; 
-  constructor(private projectService: ProjectService, private dialogRef: MatDialogRef<ProjectFormComponent>,private userService: UserService,private fileservice:FileUploadService) { }
+  constructor(private projectService: ProjectService,
+    private s : StorageService, private dialogRef: MatDialogRef<ProjectFormComponent>,private userService: UserService,private fileservice:FileUploadService,private candidacyService:CandidacyService) { }
 
   ngOnInit(): void {
     this.userService.getProjectManagers().subscribe(
       managers => {
         this.projectManagers = managers;
-        console.log('Project Managers:', this.projectManagers); // Check if data is correctly fetched
+        console.log('Project Managers:', this.projectManagers); 
       },
       error => {
-        console.error('Error fetching project managers:', error); // Log any errors
+        console.error('Error fetching project managers:', error); 
       }
     );
   }
@@ -50,7 +53,7 @@ export class ProjectFormComponent implements OnInit {
     this.newProject.projectStatus = this.selectedProjectStatus;
     this.newProject.projectManager=this.selectedmanager;
     console.log('Selected Project Manager:', this.selectedmanager);
-    this.projectService.AddProject(this.newProject).subscribe(project => {
+    this.projectService.AddProject(this.newProject,this.s.getUser().id).subscribe(project => {
       this.dialogRef.close(true);
     });
     this.uploadFiles();
@@ -89,14 +92,14 @@ export class ProjectFormComponent implements OnInit {
     this.progressInfos[idx] = { value: 0, fileName: file.name };
 
     if (file) {
-      this.fileservice.upload(file).subscribe({
+      this.candidacyService.upload(file).subscribe({
         next: (event: any) => {
           if (event.type === HttpEventType.UploadProgress) {
             this.progressInfos[idx].value = Math.round(100 * event.loaded / event.total);
           } else if (event instanceof HttpResponse) {
             const msg = 'Uploaded the file successfully: ' + file.name;
             this.message.push(msg);
-            this.fileName = this.fileservice.getFiles();
+            this.fileName = this.candidacyService.getFiles();
           }
         },
         error: (err: any) => {

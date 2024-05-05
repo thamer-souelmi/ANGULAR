@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import {CookieService} from "ngx-cookie-service";
 import { Observable } from 'rxjs';
 import { User } from '../Models/User';
-const USER_KEY = 'auth-user';
+const USER_KEY = 'CoConsult';
 
 @Injectable({
   providedIn: 'root'
@@ -12,8 +12,10 @@ export class StorageService {
   constructor(private cookieService: CookieService,private http: HttpClient) {}
 
   clean(): void {
-    window.sessionStorage.clear();
     this.cookieService.delete(USER_KEY);
+    this.cookieService.deleteAll();
+    window.sessionStorage.clear();
+    
   }
 
   public saveUser(user: any): void {
@@ -24,7 +26,7 @@ export class StorageService {
   }
 
   public getUser(): any {
-    const user = this.cookieService.get(USER_KEY);
+    const user = this.cookieService.get("CoConsult");
     if (user) {
       return JSON.parse(user);
     }
@@ -36,7 +38,7 @@ export class StorageService {
     return this.http.get<User>(`${this.baseUrl}/retrieveOneUser/${userId}`);
   }
   public getUserS(): any {
-    const userString = localStorage.getItem(USER_KEY);
+    const userString = localStorage.getItem("CoConsult");
     return userString ? JSON.parse(userString) : null;
   }
 

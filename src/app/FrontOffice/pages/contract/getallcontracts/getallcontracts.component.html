@@ -1,0 +1,88 @@
+
+
+
+<head>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" 
+rel="stylesheet">
+</head>
+<h2 style="color: #08718e;">Contracts</h2>
+  <br>
+  <div class="col-md-10 offset-md-5">
+    <div class="input-group mb-3">
+      <div class="search">
+        <input placeholder="Search..." type="text" [(ngModel)]="searchtext" >
+        <button type="submit" >Go</button>
+      </div>
+    </div>
+  </div>
+<div class="content-wrapper">
+    <div class="content" >			
+        		<div class="invoice-wrapper rounded bg-white py-5 px-3 px-md-4 px-lg-5 mb-6">
+                    
+                  <div class="d-flex justify-content-between buttons-wrapper" >
+                      
+                      <div class="btn-group" >
+
+                           
+                                <button mat-raised-button (click)=createNewItem()
+                                        matTooltip="Add Contract" class="btn-add-activityy" data-bs-toggle="modal" data-bs-target="#addEventModal"  style="background-color: #049565; color: white;"  >
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
+                                          </svg>
+                                </button>        
+                      </div>
+
+
+                  </div>
+           
+      <div id="dataTable" class="table-responsive">
+        <div class="mat-elevation-z8">
+        <table  matSort (matSortChange)="sortData($event)"  class="table mt-3 table-striped" style="width:100%" >
+          
+ <thead>
+            <tr>
+              <th >#</th>
+              <th >Payment Method</th>
+              <th>Status</th>
+              <th mat-sort-header="startDateContract">Start Date</th>
+              <th mat-sort-header="endDateContract">Due Date</th>
+              <th mat-sort-header="signatureDate">Signature Date</th>
+              <th mat-sort-header="projetContract">Project Name</th>
+
+              <th ></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let invoice of getDisplayedProjects() | filtertaskpipe:searchtext ;let i = index;" (click)="onRowClick(invoice)"style="cursor: pointer;">
+
+              <td>{{ invoice.numContract }}</td>
+              <td>{{ invoice.paymentMethods }}</td>
+              <td ><span class="badge badge-online " *ngIf="invoice.contractStatus === 'inprogress'">ONGOING</span>
+                <span class="badge badge-planned" *ngIf="invoice.contractStatus === 'confirmed'">PLANNED</span>
+                <span class="badge badge-offline" *ngIf="invoice.contractStatus === 'canceled'">CANCELED</span>
+              <td>{{ invoice.startDateContract | date }}</td>
+              <td>{{ invoice.endDateContract | date }}</td>
+              <td>{{ invoice.signatureDate | date }}</td>
+              <td>{{ invoice.projetContract.projectName }}</td>
+              <td >
+                <button mat-icon-button style=" color: #fb6d1c"*ngIf="selectedInvoice === invoice" (click)=" editcontract()">
+                <mat-icon *ngIf="showEditIcon(invoice)">edit</mat-icon>
+              </button>
+              <button mat-icon-button style=" color:#F44336"*ngIf="selectedInvoice === invoice"  >
+                <mat-icon *ngIf="showDeleteIcon(invoice)">delete</mat-icon>
+              </button>
+            </td>
+            </tr>
+          </tbody>
+        </table>
+        <mat-paginator [pageSizeOptions]="[3, 5, 7]"
+        showFirstLastButtons
+        >
+</mat-paginator>
+    </div>
+      </div>
+     
+      
+  </div>
+      </div>
+    </div>

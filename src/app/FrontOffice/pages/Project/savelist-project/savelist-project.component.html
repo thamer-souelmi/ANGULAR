@@ -1,0 +1,70 @@
+<div class="container">
+    <div class="wishlist-container">
+      <h2>Your saved project list</h2>
+  
+      <div *ngIf="wishlist.length === 0; else wishlistItems" class="empty-wishlist">
+        Your list is empty.
+      </div>
+
+
+
+
+      <ng-template #wishlistItems>
+        <div class="row">
+            <div class="col-md-4" *ngFor="let project of getDisplayedProjects(); let i = index;">
+              <div class="card">
+            <div class="header">
+              <span class="icon" mat-raised-button
+              matTooltip="Clear wishlist" (click)="clearWishlist()"  >
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark-x-fill" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M2 15.5V2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5M6.854 5.146a.5.5 0 1 0-.708.708L7.293 7 6.146 8.146a.5.5 0 1 0 .708.708L8 7.707l1.146 1.147a.5.5 0 1 0 .708-.708L8.707 7l1.147-1.146a.5.5 0 0 0-.708-.708L8 6.293z"/>
+              </svg>
+              </span>
+              <p class="alert">{{ project.projectName }}</p>
+            </div>
+          
+            <p class="message">
+              {{ project.projectDescription.substring(0, 100) }}...
+            </p>
+          
+            <div class="actions">
+              <a class="read" (click)="viewProjectDetails(project)" style="cursor: pointer;">
+            
+                  Take a look
+                
+              </a>
+          
+              <a class="mark-as-read" (click)="deleteProject(project.projectId)" style="cursor: pointer;">
+               <i class="bi bi-trash"></i> Delete
+              </a>
+            </div>
+          </div>
+            </div>
+          </div>
+        
+
+
+
+
+
+      </ng-template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+</div>

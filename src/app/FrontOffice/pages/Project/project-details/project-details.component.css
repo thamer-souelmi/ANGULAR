@@ -27,4 +27,84 @@
   .clickable-task:hover {
     text-decoration: none;
   }
+
+
+  .icon {
+   
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    right: 20px;
+    cursor: pointer;
+    padding: 1rem;
+   color:  #049565;
+   
+  }
+  .team-members {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    flex-wrap: wrap;
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex
+}
+
+.team-members img {
+    width: 100%
+}
+
+.team-members a {
+    border: 2px solid #fff;
+    display: block;
+    height: 30px;
+    overflow: hidden;
+    width: 30px;
+    border-radius: 100%
+}
+
+.team-members .all-users {
+    background-color: #fc133d;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 30px;
+    text-align: center
+}
+
+.profile-action {
+    text-align: right;
+    position: absolute;
+    top: 10px;
+    right: 5px
+}
+
+.project-members a {
+    margin-left: -10px;
+    margin-right: 0;
+    position: relative
+}
+
+.project-members a:first-child {
+    margin-left: 0
+}
+
+.project-members .team-members li a {
+    margin-left: -10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center
+}
+
+.project-members .team-members li:first-child a {
+    margin-left: 0
+}
+
+.project-members.task-followers :nth-child(2) {
+    margin-left: 0
+}
+
+.pro-team-members h4 {
+    margin-bottom: 0
+}
   

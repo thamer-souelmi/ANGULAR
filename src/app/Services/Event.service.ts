@@ -22,8 +22,25 @@
       return this.http.get<Event[]>(`${this.EventUrl}/upcoming?currentDate=${currentDate}`);
     }
 
-    findAllEvent(page: number, size: number): Observable<any> {
-      return this.http.get<any>(`${this.EventUrl}/events?page=${page}&size=${size}`);
+    findAllEvent(page: number, size: number, start?: Date, end?: Date): Observable<any> {
+      let params = new HttpParams()
+        .set('page', page.toString())
+        .set('size', size.toString());
+
+      // Check if start and end dates are provided and append them to the parameters
+      if (start && end) {
+        params = params.set('start', start.toISOString());
+        params = params.set('end', end.toISOString());
+      }      return this.http.get<any>(`${this.EventUrl}/events?page=${page}&size=${size}`);
+    }
+
+
+    getEventsByDateRange(start: Date, end: Date): Observable<Event[]> {
+      const params = new HttpParams()
+        .set('start', start.toISOString().substring(0, 10)) // format YYYY-MM-DD
+        .set('end', end.toISOString().substring(0, 10));
+
+      return this.http.get<Event[]>(`${this.EventUrl}/eventsByDateRange`, { params });
     }
     hasRelatedActivities(eventId: number): Observable<boolean> {
       return this.http.get<boolean>(`${this.EventUrl}/${eventId}/hasRelatedActivities`);
@@ -39,10 +56,10 @@
       return this.http.get<Event[]>(`${this.EventUrl}/withRatings`);
     }
 
-    addEvent(event: Event): Observable<Event> {
-      console.log('Sending event:', JSON.stringify(event));  // This will show you exactly what is being sent
-      return this.http.post<Event>(`${this.EventUrl}/addEvent`, event);
+    addEvent(eventData: Event): Observable<Event> {
+      return this.http.post<Event>(this.EventUrl + '/addEvent', eventData);
     }
+
 
 
 
