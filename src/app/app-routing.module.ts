@@ -32,6 +32,8 @@ import { AddUserComponent } from './BackOffice/Pages/add-user/add-user.component
 import { LeavesComponent } from './BackOffice/Pages/leaves/leaves.component';
 import { LeavesDetailsComponent } from './BackOffice/Pages/leaves-details/leaves-details.component';
 import { LeaveComponent } from './FrontOffice/Pages/leave/leave.component';
+import { RecognizeFaceComponent } from './BackOffice/Pages/recognize-face/recognize-face.component';
+import { DashboardComponent } from './BackOffice/Pages/dashboard/dashboard.component';
 
 
 
@@ -64,6 +66,8 @@ const routes: Routes = [
       {path:"adduser", component:AddUserComponent},
       {path:"leaves", component:LeavesComponent},
       {path:"leavedetails/:id", component:LeavesDetailsComponent},
+      {path:"11", component:RecognizeFaceComponent},
+      {path:"dashboard", component:DashboardComponent},
 
     ]},
 

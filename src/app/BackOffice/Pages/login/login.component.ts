@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit {
     password: null
   };
   isLoggedIn = false;
-  isLoginFailed = false;
+  isLoginFailed = true;
   errorMessage = '';
   roles: string[] = [];
  
@@ -43,7 +43,7 @@ export class LoginComponent implements OnInit {
 
 
       if (isAdmin) {
-        this.router.navigate(['back/findall']);
+        this.router.navigate(['back/dashboard']);
       } else {
         this.router.navigate(['home']);
       }
@@ -57,11 +57,12 @@ export class LoginComponent implements OnInit {
 
     this.authService.login(email, password).subscribe({
       next: data => {
+        if(data){
         this.storageService.saveUser(data);
 
         this.isLoginFailed = false;
         this.isLoggedIn = true;
-        this.roles = this.storageService.getUser().roles;
+        //this.roles = this.storageService.getUser().roles;
         let isAdmin = false;
         const roles = this.storageService.getUser().roles;
         for (const role of roles) {
@@ -72,10 +73,10 @@ export class LoginComponent implements OnInit {
         }
 
         if (isAdmin) {
-          this.router.navigate(['back/findall']);
+          this.router.navigate(['back/dashboard']);
         } else {
           this.router.navigate(['home']);
-        }},
+        }}},
       error: err => {
         this.errorMessage = err.error.message;
         this.isLoginFailed = true;

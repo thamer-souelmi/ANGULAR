@@ -13,7 +13,9 @@ export class UserService {
   findAllUsers(): Observable<User[]>{
     return this.http.get<User[]>(this.baseUrl + '/retrieveAllUser');
   }
-
+  getUserStatistics() {
+    return this.http.get<any>(this.baseUrl + '/count');
+  }
   addUser(user : User): Observable<User>{
     return this.http.post<User>(this.baseUrl + '/addUser',user);
   }
@@ -84,5 +86,12 @@ private baseUrlf : string = 'http://localhost:8082/user';
   }
   resetPasswordt(token: string, password: string): Observable<any> {
     return this.http.put(`${this.baseUrlr}/resetPassword/${token}`, { password });
+  }
+  private baseUrlff = 'http://localhost:5000'; // Update with your Python service URL
+
+
+
+  recognizeFace(imageData: string) {
+    return this.http.post<any>(`${this.baseUrlff}/api/face-recognition/recognize`, { imageData });
   }
 }

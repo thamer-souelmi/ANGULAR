@@ -1,6 +1,6 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule} from "@angular/platform-browser";
-import { BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import { BrowserAnimationsModule, provideAnimations} from "@angular/platform-browser/animations";
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AllTemplateFrontComponent } from './FrontOffice/all-template-front/all-template-front.component';
@@ -72,6 +72,14 @@ import { LeavesComponent } from './BackOffice/Pages/leaves/leaves.component';
 import { LeavesDetailsComponent } from './BackOffice/Pages/leaves-details/leaves-details.component';
 import { AddLeaveComponent } from './BackOffice/Pages/add-leave/add-leave.component';
 import { LeaveComponent } from './FrontOffice/Pages/leave/leave.component';
+import { ToastrModule, provideToastr } from 'ngx-toastr';
+import { RecognizeFaceComponent } from './BackOffice/Pages/recognize-face/recognize-face.component';
+import { DashboardComponent } from './BackOffice/Pages/dashboard/dashboard.component';
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+
+const socketConfig: SocketIoConfig = { url: 'http://localhost:5000', options: {} };
+
+
 
 
 @NgModule({
@@ -94,7 +102,6 @@ import { LeaveComponent } from './FrontOffice/Pages/leave/leave.component';
     LoginComponent,
     FindAllUsersComponent,
     FilterJobPipe,
-    FindAllUsersComponent ,
     FilterJobPipe,
     ActivityBComponent,
     FormsuggestComponent,
@@ -117,6 +124,8 @@ import { LeaveComponent } from './FrontOffice/Pages/leave/leave.component';
     LeavesDetailsComponent,
     AddLeaveComponent,
     LeaveComponent,
+    RecognizeFaceComponent,
+    DashboardComponent,
   ],
   imports: [
     BrowserModule,
@@ -155,9 +164,13 @@ import { LeaveComponent } from './FrontOffice/Pages/leave/leave.component';
     AvatarModule,
    ChartModule,
 
-    FullCalendarModule
+    FullCalendarModule,
+    ToastrModule.forRoot(), 
+    SocketIoModule.forRoot(socketConfig),
+
   ],
-  providers: [httpInterceptorProviders,DatePipe],
+  providers: [httpInterceptorProviders,DatePipe,    provideAnimations(), // required animations providers
+  provideToastr(),],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 
