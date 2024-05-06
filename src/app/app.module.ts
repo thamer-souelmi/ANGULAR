@@ -17,6 +17,7 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpClientModule } from '@angular/common/http';
+import { FindAllJobOffersComponent } from './FrontOffice/pages/JobOffer/find-all-job-offers/find-all-job-offers.component';
 import { WishlistComponent } from './FrontOffice/pages/JobOffer/wishlist/wishlist.component';
 
 import { CommonModule, DatePipe } from "@angular/common";
@@ -90,28 +91,6 @@ import {
   TrainingSessionComponent} from './FrontOffice/pages/training-session/training-session.component';
 import {MatGridListModule} from "@angular/material/grid-list";
 import { EventBComponent } from './BackOffice/Pages/event-b/event-b.component';
-
-import { ProjectFormComponent } from './FrontOffice/pages/Project/project-form/project-form.component';
-import { ProjectDetailsComponent } from './FrontOffice/pages/Project/project-details/project-details.component';
-import { ProjectCalendarModalComponent } from './FrontOffice/pages/Project/project-calendar-modal/project-calendar-modal.component';
-import { GetAllProjectComponent } from './FrontOffice/pages/Project/get-all-project/get-all-project.component';
-
-import { GetInvoicebyProjectComponent } from './BackOffice/Pages/Invoice/get-invoiceby-project/get-invoiceby-project.component';
-import { InvoiceFrontComponent } from './FrontOffice/pages/Invoice/invoice-front/invoice-front.component';
-import { AddInvoiceItemComponent } from './FrontOffice/pages/Invoice/add-invoice-item/add-invoice-item.component';
-import { EditInvoiceItemComponent } from './FrontOffice/pages/Invoice/edit-invoice-item/edit-invoice-item.component';
-import { ProjectsbackComponent } from './BackOffice/Pages/Project/projectsback/projectsback.component';
-import { AddlinkComponent } from './BackOffice/Pages/Task/addlink/addlink.component';
-import { MatBadgeModule } from '@angular/material/badge';
-import { TeamsmodalComponent } from './BackOffice/Pages/Project/teamsmodal/teamsmodal.component';
-import { SavelistProjectComponent } from './FrontOffice/pages/Project/savelist-project/savelist-project.component';
-import { ContractbyprojectComponent } from './FrontOffice/pages/contract/contractbyproject/contractbyproject.component';
-import { AddcontractComponent } from './FrontOffice/pages/contract/addcontract/addcontract.component';
-import { GetallcontractsComponent } from './FrontOffice/pages/contract/getallcontracts/getallcontracts.component';
-import { EditContractComponent } from './FrontOffice/pages/contract/edit-contract/edit-contract.component';
-import { FiltertaskpipePipe } from './FrontOffice/pages/Task/filtertaskpipe.pipe';
-
-
 import { ForgotPasswordComponent } from './BackOffice/Pages/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './BackOffice/Pages/reset-password/reset-password.component';
 import { UpdateUserComponent } from './BackOffice/Pages/update-user/update-user.component';
@@ -132,12 +111,9 @@ import { AddMarkComponent } from './FrontOffice/pages/JobOffer/add-mark/add-mark
 import { MatMenu } from '@angular/material/menu';
 
 import {JoinPipe} from "./join.pipe";
-import {
-  FindAllJobOffersComponent
-} from "./FrontOffice/pages/JobOffer/find-all-job-offers/find-all-job-offers.component";
-
+import {NgxPaginationModule} from "ngx-pagination";
 import { CustomizerComponent } from './customizer/customizer.component';
-import {PickerComponent} from "@ctrl/ngx-emoji-mart";
+import {PickerComponent, PickerModule} from "@ctrl/ngx-emoji-mart";
 import {EmojiModule} from "@ctrl/ngx-emoji-mart/ngx-emoji";
 import {  provideToastr } from 'ngx-toastr';
 import { RecognizeFaceComponent } from './BackOffice/Pages/recognize-face/recognize-face.component';
@@ -145,7 +121,6 @@ import { DashboardComponent } from './BackOffice/Pages/dashboard/dashboard.compo
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import {JitsiComponent} from "./FrontOffice/pages/Interview/jitsi/jitsi.component";
 import { InterviewCalendarComponent } from './FrontOffice/pages/Interview/interview-calendar/interview-calendar.component';
-import {NgxPaginationModule} from "ngx-pagination";
 
 const socketConfig: SocketIoConfig = { url: 'http://localhost:5000', options: {} };
 
@@ -189,6 +164,7 @@ import {FiltertaskpipePipe} from "./FrontOffice/pages/Task/filtertaskpipe.pipe";
     HomeFrontComponent,
     ActivityComponentF,
     EventComponent,
+    FindAllJobOffersComponent,
     WishlistComponent,
     SidebarBackComponent,
     NavbarBackComponent,
@@ -268,9 +244,6 @@ import {FiltertaskpipePipe} from "./FrontOffice/pages/Task/filtertaskpipe.pipe";
     AddQuizQuestionComponent,
     EditQuizQuestionComponent,
     RoomComponent,
-    AddMarkComponent,
-    JoinPipe,
-    FindAllJobOffersComponent,
 
     AddMarkComponent,
     JoinPipe,
@@ -295,7 +268,7 @@ import {FiltertaskpipePipe} from "./FrontOffice/pages/Task/filtertaskpipe.pipe";
     MatPaginatorModule,
     MatIconModule,
     MatDialogModule,
-MatTableModule,
+    MatTableModule,
     MatButtonModule,
     CommonModule,
     NgbModalModule,
