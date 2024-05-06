@@ -312,25 +312,42 @@ export class EventBComponent implements OnInit {
   }
 
   openModal(event: Event): void {
-    this.selectedEventActivities = [];  // Clear previous activities if any
-    forkJoin({
-      activities: this.eventService.getRelatedActivities(event.eventId),
-      users: this.eventService.getEventUsers(event.eventId)
-    }).subscribe({
-      next: (results) => {
-        this.selectedEventActivities = results.activities;
-        this.registeredUsers = results.users;
-        this.dialogRef = this.dialog.open(this.eventModal, {
-          width: '600px',
-          data: { event: event, users: this.registeredUsers }
+    this.eventService.getRelatedActivities(event.eventId).subscribe({
+      next: (activities) => {
+        this.selectedEventActivities = activities;
+        this.eventService.getEventUsers(event.eventId).subscribe({
+          next: (users) => {
+            console.log("Users data:", JSON.stringify(users)); // Log to inspect structure
+            this.registeredUsers = users;
+            this.dialogRef = this.dialog.open(this.eventModal, {
+              width: '600px',
+              data: { event: event, users: this.registeredUsers }
+            });
+          },
+          error: (error) => console.error('Error retrieving users:', error)
         });
       },
-      error: (error) => {
-        console.error('Error retrieving event details:', error);
-      }
+      error: (error) => console.error('Error retrieving activities:', error)
     });
   }
 
+  updateUserStatus(eventId: number, userId: number, status: string): void {
+    if (typeof userId === 'undefined') {
+      console.error("User ID is undefined, cannot update status.");
+      return;
+    }
+    this.eventService.updateRegistrationStatus(eventId, userId, status).subscribe({
+      next: () => {
+        console.log('Status updated successfully');
+        this.dialogRef.close();
+        this.loadEvents();
+      },
+      error: (error) => {
+        console.error('Error updating status:', error);
+        alert('Failed to update status. Please try again.');
+      }
+    });
+  }
 
   closeModal(): void {
     if (this.dialogRef) {

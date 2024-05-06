@@ -36,5 +36,9 @@ export class RegistrationTSService {
     });
 
   }
+  unregisterFromTraining(tsId: number, userId: number) {
+    // Assuming you have an API endpoint to handle unregistration
+    return this.http.post(`/api/unregister/${tsId}`, { userId });
+  }
 
 }

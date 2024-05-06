@@ -21,7 +21,11 @@
   margin: 0.5rem; /* Margin around each card */
   height: 500px; /* Définir une hauteur fixe pour chaque carte */
 }
-
+ .avatar-img {
+   width: 50px; /* Définissez la largeur de l'avatar */
+   height: 50px; /* Définissez la hauteur de l'avatar */
+   border-radius: 50%; /* Rendez l'avatar arrondi */
+ }
 
 .card-container {
   display: flex;

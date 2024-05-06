@@ -56,6 +56,21 @@ export class SidebarBackComponent {
       icon: "home",
       menu: "Leaves",
     },
+    {
+     link:"/back/activityB",
+     icon:"home",
+      menu:"Activity",
+    },
+    {
+      link:"/back/EventBack",
+      icon:"cap",
+      menu:"Event",
+    },
+    {
+      link:"/back/trainingSessionB",
+      icon:"home",
+      menu:"Training Session",
+    },
   //link
 
   ]
