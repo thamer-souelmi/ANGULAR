@@ -6,6 +6,8 @@ import {StorageService} from "../../Services/storage.service";
 import {AuthService} from "../../Services/auth.service";
 import {Router} from "@angular/router";
 import { User } from 'src/app/Models/User';
+import { LocalStorageService } from 'src/app/Services/local-storage.service';
+import { AttendanceService } from 'src/app/Services/attendance.service';
 interface sidebarMenu {
   link: string;
   icon: string;
@@ -31,7 +33,7 @@ export class SidebarBackComponent {
       console.log("Name in sidebar "+this.name);
 
     }
-  constructor(private breakpointObserver: BreakpointObserver,private storageService: StorageService,
+  constructor(private attendanceService: AttendanceService,private localStorageService: LocalStorageService,private breakpointObserver: BreakpointObserver,private storageService: StorageService,
               private authService: AuthService, private router : Router) { }
 
   sidebarMenu: sidebarMenu[] = [
@@ -133,6 +135,9 @@ export class SidebarBackComponent {
   ]
 
   logout(): void {
+    this.removeAttendance();
+    this.localStorageService.removeItem('attendanceId');
+
     this.authService.logout().subscribe({
       next: res => {
         console.log(res);
@@ -144,4 +149,19 @@ export class SidebarBackComponent {
       }
     });
   }
+
+  removeAttendance(): void {
+    // Arrêter l'attendance uniquement si l'ID de l'attendance est présent dans le local storage
+    const attendanceIdend = this.localStorageService.getItem('attendanceId');
+    if (attendanceIdend) {
+      this.attendanceService.deleteAttendance(attendanceIdend-1).subscribe(
+        () => {
+          console.log('Attendance deleted successfully.');
+        },
+        (error) => {
+          console.error('Failed to delete attendance:', error);
+        }
+      );
+    }
+}
 }

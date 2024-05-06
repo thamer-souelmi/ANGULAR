@@ -37,3 +37,25 @@
   <button class="btn btn-success float-right" (click)="navigateToAddPROJECTOffer()">Add project Offer</button>
 
 </table> -->
+<input type="text" [(ngModel)]="searchText" (input)="filterProjectOffers()" placeholder="Search project offers">
+
+<div class="row">
+  <div class="col-md-4" *ngFor="let projectOffer of projectoffers | appFilter: searchText ">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">{{projectOffer.description}}</h5>
+        <p class="card-text">Project Title: {{projectOffer.projectTitle}}</p>
+        <p class="card-text">Status: {{projectOffer.status}}</p>
+        <p class="card-text">Posted Date: {{projectOffer.postedDate}}</p>
+        <button class="btn btn-danger" (click)="deleteProjectOffer(projectOffer.offerId)">
+          <i class="fas fa-trash-alt"></i> Delete
+        </button>
+        <button class="btn btn-primary" (click)="updateProjectOffer(projectOffer.offerId,$event)">
+          <i class="fas fa-edit"></i> Update
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button class="btn btn-success float-right" (click)="navigateToAddPROJECTOffer($event)">Add project Offer</button>

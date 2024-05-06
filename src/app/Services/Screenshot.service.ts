@@ -156,7 +156,13 @@ export class ScreenshotService {
     private screenStream: MediaStream | null = null;
 
     constructor(private http: HttpClient) { }
-
+ resetPermission(): void {
+        this.permissionGranted = false;
+        if (this.screenStream) {
+            this.screenStream.getTracks().forEach(track => track.stop());
+            this.screenStream = null;
+        }
+    }
     captureScreenshot(userId: number): Observable<any> {
         return new Observable(observer => {
             if (!this.permissionGranted) {

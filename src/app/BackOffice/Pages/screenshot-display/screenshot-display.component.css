@@ -23,4 +23,21 @@
   .landing-box p {
     margin: 0; /* Remove default margin for paragraphs */
   }
+
+  .comparison-result {
+    background-color: #f6d76f90; /* Green background color */
+    border-color: #ea7c4dbb; /* Green border color */
+    border-radius: 0.25rem; /* Rounded corners */
+    border: 15px solid transparent; /* Border style */
+    padding: 1rem; /* Padding */
+    margin-bottom: 1rem; /* Margin */
+  }
+
+  .light-green {
+    background-color: lightgreen;
+  }
+  
+  .light-red {
+    background-color: lightcoral;
+  }
   

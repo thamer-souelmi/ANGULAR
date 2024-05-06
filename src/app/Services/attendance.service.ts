@@ -48,6 +48,17 @@ export class AttendanceService {
     return this.http.get<Attendance>(`${this.baseUrl}/get/${attendanceId}`);
   }
 
+
+  getAttendanceByEmployeeId(attendanceId: number): Observable<Attendance[]> {
+    return this.http.get<Attendance[]>(`${this.baseUrl}/getemployee/${attendanceId}`);
+  }
+
+  approve(attendanceId: number): Observable<any> {
+    const body = {}; // You can add properties to the body as needed
+    return this.http.put<any>(`${this.baseUrl}/approve/${attendanceId}`,body);
+  }
+
+
   deleteAttendance(attendanceId: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/remove/${attendanceId}`);
   }

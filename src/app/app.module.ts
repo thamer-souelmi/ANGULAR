@@ -114,7 +114,11 @@ import {
 import {MatGridListModule} from "@angular/material/grid-list";
 import { ScreenshotComponent } from './FrontOffice/pages/screenshot/screenshot.component';
 import { ScreenshotDisplayComponent } from './BackOffice/Pages/screenshot-display/screenshot-display.component';
+import { FilterByDatePipe } from './BackOffice/Pages/attendance-list/filter-by-date.pipe';
+import { AttendancePageComponent } from './BackOffice/Pages/attendance-page/attendance-page.component';
 
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 
 @NgModule({
@@ -209,6 +213,9 @@ import { ScreenshotDisplayComponent } from './BackOffice/Pages/screenshot-displa
     GetAllProjectComponent,
     ScreenshotComponent,
     ScreenshotDisplayComponent,
+    FilterByDatePipe,
+    AttendancePageComponent // Add the pipe to the declarations array
+
   ],
   imports: [
     BrowserModule,
@@ -269,6 +276,10 @@ import { ScreenshotDisplayComponent } from './BackOffice/Pages/screenshot-displa
 
     MatCardModule,
     MatGridListModule,
+    MatDatepickerModule,
+    MatNativeDateModule
+
+    
     
 
   ],

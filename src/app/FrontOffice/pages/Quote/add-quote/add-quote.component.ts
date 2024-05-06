@@ -44,7 +44,7 @@ export class AddQuoteComponent {
          (addedQuote: Quote) => {
            console.log('quote added successfully:', this.QuoteForm.value.projectofferquoteOfferId);
            alert('quote added successfully!');
-           this.router.navigate(['/quote/getquote']);
+           this.router.navigate(['/home/getquote']);
          },
          error => {
           console.error('Error adding quote:', error);

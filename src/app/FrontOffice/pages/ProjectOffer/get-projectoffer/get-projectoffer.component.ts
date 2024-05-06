@@ -9,6 +9,7 @@ import { CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid'; // if you're using the dayGrid view
 import { MatDialog } from '@angular/material/dialog';
 import interactionPlugin from '@fullcalendar/interaction';
+import { UpdateProjectofferComponent } from '../update-projectoffer/update-projectoffer.component';
 
 
 
@@ -45,10 +46,16 @@ export class GetProjectofferComponent {
     //   // Handle dialog close if needed
     // });
   }
+
+  updateProjectOffer(projectofferid: number,dateInfo: any) {
+    const dialogRef = this.dialog.open(UpdateProjectofferComponent, {
+      width: '400px', // Adjust dialog width as needed
+      height: "750px",
+      data: { projectofferid: projectofferid } // Pass clicked date to dialog if needed
+    });
   
-  // updateProjectOffer(projectofferid: number) {
-  //   this.router.navigate(['/projectoffer/update-project-offer', projectofferid]);
-  // }
+    // this.router.navigate(['/home/update-project-offer', projectofferid]);
+  }
   filterProjectOffers(): void {
     if (!this.searchText || this.searchText.trim().length === 0) {
       // If searchText is empty or only contains whitespace, reset projectoffers to its original state
@@ -67,7 +74,8 @@ export class GetProjectofferComponent {
       this.projectofferscal = obsprojectoffers.map(offer => ({
         title: offer.description, // Use the project offer's description as the event title
         start: offer.postedDate, // Use the project offer's posted date as the event start date
-        url: `/projectoffer/update-project-offer/${offer.offerId}`, // Adjust the URL structure as needed
+        url: `/home/update-project-offer/${offer.offerId}`,
+         // Adjust the URL structure as needed
       }));
     });
   }
@@ -98,8 +106,12 @@ export class GetProjectofferComponent {
     }
   }
 
-  navigateToAddPROJECTOffer() {
-    this.router.navigate(['/projectoffer/update-project-offer']);
+  navigateToAddPROJECTOffer(dateInfo: any) {
+     const dialogRef = this.dialog.open(AddProjectofferComponent, {
+      width: '400px', // Adjust dialog width as needed
+      height: "750px",
+      data: { date: dateInfo.dateStr } // Pass clicked date to dialog if needed
+    });
   }
 
 }

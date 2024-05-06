@@ -4,6 +4,7 @@ import {Quote} from "../../../../Models/quote";
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { AddQuoteComponent } from '../add-quote/add-quote.component';
+import { UpdateQuoteComponent } from '../update-quote/update-quote.component';
 
 
 @Component({
@@ -15,8 +16,16 @@ export class GetQuotesComponent {
   quotes: Quote[] = [];
   constructor(private dialog: MatDialog,private qs:QuoteService,private  router : Router) {
   }
-  updateQuote(quoteid: number) {
-    this.router.navigate(['/quote/updatequote', quoteid]);
+  updateQuote(quoteid: number,) {
+    // this.router.navigate(['/home/updatequote', quoteid]);
+      const dialogRef = this.dialog.open(UpdateQuoteComponent, {
+        width: '400px', // Adjust dialog width as needed
+        height: "750px",
+        data: { quoteid: quoteid } // Pass clicked date to dialog if needed
+      });
+    
+      // this.router.navigate(['/home/update-project-offer', projectofferid]);
+    
   }
   getallquotes(){
     this.qs.getQuotes().subscribe(obsquotes => this.quotes=obsquotes);
@@ -40,17 +49,21 @@ export class GetQuotesComponent {
   }
 
   navigateToAddQuote() {
-    this.router.navigate(['/quote/addquote']);
+    this.router.navigate(['/home/addquote']);
   }
   ngOnInit(){
     this.getallquotes();
   }
 
 
+  
+
+
   openAddQuoteDialog(): void {
     const dialogRef = this.dialog.open(AddQuoteComponent, {
       width: '500px', // Adjust width as needed
     });
+    
 
 
 }}

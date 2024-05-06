@@ -1,4 +1,4 @@
-<div class="container">
+<!-- <div class="container">
   <h2>Attendance Declaration</h2>
 
   <table class="attendance-table">
@@ -6,6 +6,7 @@
       <tr>
         <th>Attendance ID</th>
         <th>Presence</th>
+        <th>Approved</th>
         <th>Start Time</th>
         <th>End Time</th>
         <th>Worked Hours</th>
@@ -16,6 +17,7 @@
       <tr *ngFor="let attendance of attendanceList">
         <td>{{ attendance.attendenceId }}</td>
         <td>{{ attendance.presence }}</td>
+        <td>{{attendance.approved}}</td>
         <td>{{ attendance.start }}</td>
         <td>{{ attendance.end }}</td>
         <td>{{ attendance.workedHours }}</td>
@@ -24,4 +26,222 @@
     </tbody>
   </table>
 
+</div> -->
+<!-- <div class="container-fluid">
+  <div class="row">
+    <ng-container *ngFor="let date of uniqueDates">
+      <div class="col-md-4" *ngFor="let attendance of attendanceList | filterByDate: date">
+        <div class="card punch-status">
+          <div class="card-body">
+            <h5 class="card-title">Timesheet <small class="text-muted">{{ date | date: 'dd MMM yyyy' }}</small></h5>
+            <div class="punch-det">
+              <p><mark>Start at</mark></p>
+              <p>{{ attendance.start | date: 'EEE, dd MMM yyyy hh:mm a' }}</p>
+            </div>
+            <div class="punch-info">
+              <div class="punch-hours">
+                <span>{{ attendance.workedHours | number:'1.2-2' }} Minutes</span>
+              </div>
+            </div>
+            <div class="punch-btn-section">
+              <button type="button" class="btn btn-primary punch-btn">Punch Out</button>
+            </div>
+            <div class="statistics">
+              <div class="row">
+                <div class="col-md-6 col-6 text-center">
+                  <div class="stats-box">
+                    <p><mark>Break</mark></p>
+                    <p>{{ attendance.end | date: 'EEE, dd MMM yyyy hh:mm a' }}</p>
+                  </div>
+                </div>
+                <div class="col-md-6 col-6 text-center">
+                  <div class="stats-box">
+                    <p>Overtime</p>
+                    <h6>{{ (  attendance.workedHours/60 -8) | number:'1.2-2' }} hrs</h6>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div> -->
+<!-- <div class="container-fluid">
+  <div class="row">
+    <ng-container *ngFor="let date of uniqueDates">
+      <div class="col-md-4" *ngFor="let attendance of attendanceList | filterByDate: date">
+        <div class="card punch-status" [ngClass]="{'approved': attendance.approved, 'not-approved': !attendance.approved}" (click)="togglePanel(attendance)">
+          <div class="circle">{{ attendance.employee?.firstname.charAt(0) }}
+            <span class="clock" *ngIf="expandedAttendance === attendance">🕒</span>
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">{{ attendance.employee?.firstname }} {{ attendance.employee?.lastname }}</h5>
+            <p><strong>Approved:</strong> {{ attendance.approved ? 'Yes' : 'No' }}</p>
+            <div *ngIf="expandedAttendance === attendance">
+              <div class="punch-det">
+                <p><mark>Start at</mark></p>
+                <p>{{ attendance.start | date: 'EEE, dd MMM yyyy hh:mm a' }}</p>
+              </div>
+              <div class="punch-info">
+                <div class="punch-hours">
+                  <span>{{ attendance.workedHours | number:'1.2-2' }} Minutes</span>
+                </div>
+              </div>
+              <div class="punch-btn-section">
+                <button type="button" class="btn btn-primary punch-btn">Punch Out</button>
+              </div>
+              <div class="statistics">
+                <div class="row">
+                  <div class="col-md-6 col-6 text-center">
+                    <div class="stats-box">
+                      <p><mark>Break</mark></p>
+                      <p>{{ attendance.end | date: 'EEE, dd MMM yyyy hh:mm a' }}</p>
+                    </div>
+                  </div>
+                  <div class="col-md-6 col-6 text-center">
+                    <div class="stats-box">
+                      <p>Overtime</p>
+                      <h6>{{ (attendance.workedHours / 60 - 8) | number:'1.2-2' }} hrs</h6>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div> -->
+
+<!-- 
+<div class="container-fluid">
+    <mat-form-field>
+      <input matInput [matDatepicker]="picker" placeholder="Select date" (dateChange)="onDateSelected($event.value)">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      
+    </mat-form-field>
+  <div class="row">
+    <ng-container *ngFor="let date of uniqueDates">
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-header">{{ date | date: 'EEE, dd MMM yyyy' }}</div>
+          <div class="card-body">
+            <ng-container *ngFor="let attendance of attendanceList | filterByDate: date">
+              <div class="card punch-status" [ngClass]="{'approved': attendance.approved, 'not-approved': !attendance.approved}" (click)="togglePanel(attendance)">
+                <div class="circle">{{ attendance.employee?.firstname.charAt(0) }}
+                  <span class="clock" *ngIf="expandedAttendance === attendance">🕒</span>
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title">{{ attendance.employee?.firstname }} {{ attendance.employee?.lastname }}</h5>
+                  <p><strong>Approved:</strong> {{ attendance.approved ? 'Yes' : 'No' }}</p>
+                  <div *ngIf="expandedAttendance === attendance">
+                    <div class="punch-det">
+                      <p><mark>Start at</mark></p>
+                      <p>{{ attendance.start | date: 'EEE, dd MMM yyyy hh:mm a' }}</p>
+                    </div>
+                    <div class="punch-info">
+                      <div class="punch-hours">
+                        <span>{{ attendance.workedHours | number:'1.2-2' }} Minutes</span>
+                      </div>
+                    </div>
+                    <div class="punch-btn-section">
+                      <button type="button" class="btn btn-primary punch-btn">Punch Out</button>
+                    </div>
+                    <div class="statistics">
+                      <div class="row">
+                        <div class="col-md-6 col-6 text-center">
+                          <div class="stats-box">
+                            <p><mark>Break</mark></p>
+                            <p>{{ attendance.end | date: 'EEE, dd MMM yyyy hh:mm a' }}</p>
+                          </div>
+                        </div>
+                        <div class="col-md-6 col-6 text-center">
+                          <div class="stats-box">
+                            <p>Overtime</p>
+                            <h6>{{ (attendance.workedHours / 60 - 8) | number:'1.2-2' }} hrs</h6>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div> -->
+<div class="container-fluid">
+  <mat-form-field>
+    <input matInput [matDatepicker]="picker" placeholder="Select date" (dateChange)="onDateSelected($event.value)">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+
+  <div class="date-navigation">
+    <button mat-icon-button (click)="navigateDate(-1)">
+      <mat-icon>keyboard_arrow_left</mat-icon>
+    </button>
+    <span>{{ selectedDate | date: 'EEE, dd MMM yyyy' }}</span>
+    <button mat-icon-button (click)="navigateDate(1)">
+      <mat-icon>keyboard_arrow_right</mat-icon>
+    </button>
+  </div>
+
+  <div class="row">
+    <ng-container *ngFor="let date of uniqueDates">
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-header">{{ date | date: 'EEE, dd MMM yyyy' }}</div>
+          <div class="card-body">
+            <ng-container *ngFor="let attendance of attendanceList | filterByDate: date">
+              <div class="card punch-status" [ngClass]="{'approved': attendance.approved, 'not-approved': !attendance.approved}" (click)="togglePanel(attendance)">
+                <div class="circle">{{ attendance.employee?.firstname.charAt(0) }}</div>
+                <div class="card-body">
+                  <h5 class="card-title">{{ attendance.employee?.firstname }} {{ attendance.employee?.lastname }}</h5>
+                  <p><strong>Approved:</strong> {{ attendance.approved ? 'Yes' : 'No' }}</p>
+                  <div *ngIf="expandedAttendance === attendance">
+                    <div class="punch-det">
+                      <p><mark>Start at</mark></p>
+                      <p>{{ attendance.start | date: 'EEE, dd MMM yyyy hh:mm a' }}</p>
+                    </div>
+                    <div class="punch-info">
+                      <div class="punch-hours">
+                        <span>{{ attendance.workedHours | number:'1.2-2' }} Minutes</span>
+                      </div>
+                    </div>
+                    <div class="punch-btn-section">
+                      <button type="button" class="btn btn-primary punch-btn" >Punch Out</button>
+                    </div>
+                    <div class="statistics">
+                      <div class="row">
+                        <div class="col-md-6 col-6 text-center">
+                          <div class="stats-box">
+                            <p><mark>Break</mark></p>
+                            <p>{{ attendance.end | date: 'EEE, dd MMM yyyy hh:mm a' }}</p>
+                          </div>
+                        </div>
+                        <div class="col-md-6 col-6 text-center">
+                          <div class="stats-box">
+                            <p>Overtime</p>
+                            <h6>{{ (attendance.workedHours / 60 - 8) | number:'1.2-2' }} hrs</h6>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
 </div>

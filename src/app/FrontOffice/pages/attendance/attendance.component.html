@@ -1,13 +1,13 @@
 <div class="container">
   <!-- <h2>Attendance Tracking</h2> -->
 
-  <button (click)="startAttendance()" [disabled]="timerActive">Start Hours Count</button>
+  <button (click)="startAttendance()" [hidden]="timerActive">Start</button>
   <!-- <app-screenshot></app-screenshot> -->
 
-  <div *ngIf="startAttendanceSuccess" class="success-message">Attendance started successfully.</div>
+  <!-- <div *ngIf="startAttendanceSuccess" class="success-message">started successfully.</div> -->
   
-  <button (click)="stopTimer()" [disabled]="!timerActive">Stop</button>
-  <div *ngIf="stopAttendanceSuccess" class="success-message">Attendance stopped successfully.</div>
+  <button (click)="stopTimer()" [hidden]="!timerActive">Stop</button>
+  <!-- <div *ngIf="stopAttendanceSuccess" class="success-message">stopped successfully.</div> -->
   
   <div id="timer">{{ formattedTime }}</div> 
 </div>

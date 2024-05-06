@@ -1,4 +1,4 @@
-.attendance-table {
+/* .attendance-table {
   width: 100%;
   border-collapse: collapse;
 }
@@ -30,4 +30,40 @@ h2 {
   color: #333;
   font-size: x-large;
   
+} */
+.circle {
+  position: relative;
+  width: 50px;
+  height: 50px;
+  background-color: #007bff;
+  color: #fff;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 50px;
+  font-size: 24px;
+  cursor: pointer;
 }
+
+.circle .clock {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  display: none;
+}
+
+.card.punch-status {
+  cursor: pointer;
+}
+
+.card.approved {
+  background-color: rgba(0, 128, 0, 0.242);
+}
+
+.card.not-approved {
+  background-color: rgba(255, 0, 0, 0.324);
+}
+
+.card.punch-status.active .circle .clock {
+  display: inline-block;
+}
+

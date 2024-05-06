@@ -22,6 +22,14 @@
           <img [src]="imagePath" class="d-block w-100" alt="Screenshot">
         </div>
       </div>
+      <!-- <div *ngFor="let attandance of attandances">
+<p> hours : {{attandance.workedHours}}</p>
+<p>id : {{attandance.employee?.userId}}</p>
+      </div> -->
+      <p> <mark>workedHours</mark> {{workedHoursemployee}}</p>
+      <p> <mark>workedMinutes</mark> {{workedMinutesemployee}}</p>
+      <button class="btn btn-primary" (click)="approve()">Approve Attendance</button>
+
       <button class="carousel-control-prev" type="button" data-bs-target=".carousel" data-bs-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Previous</span>
@@ -31,5 +39,12 @@
         <span class="visually-hidden">Next</span>
       </button>
     </div>
+    <div class="card comparison-card" [ngClass]="{ 'light-red': isSimilarityHigh(), 'light-green': isSimilarityLow() }" *ngIf="comparisonResult">
+      <div class="card-body">
+        <h5 class="card-title">Comparison Result</h5>
+        <p class="card-text">{{ comparisonResult }}</p>
+      </div>
+    </div>
+    
   </div>
   

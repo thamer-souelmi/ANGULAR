@@ -5,6 +5,8 @@ import {ProjectOfferService} from "../../../../Services/project-offer.service";
 import {Location} from "@angular/common";
 import {ProjectOffer} from "../../../../Models/project-offer";
 import { ProjectOfferStatus } from 'src/app/Models/project-offer-status';
+import { Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-update-projectoffer',
@@ -17,9 +19,10 @@ export class UpdateProjectofferComponent implements  OnInit{
   ProjectOfferForm: FormGroup;
   projectoffer: ProjectOffer = new ProjectOffer();
   etatValues = Object.values(ProjectOfferStatus);
+  projectoffidid!:number;
 
-
-  constructor( private route: ActivatedRoute,private router: Router,private formBuilder: FormBuilder, private po: ProjectOfferService, private location: Location) {
+  constructor( public dialogRef: MatDialogRef<UpdateProjectofferComponent> // Inject MatDialogRef
+  ,  @Inject(MAT_DIALOG_DATA) public data: any,private route: ActivatedRoute,private router: Router,private formBuilder: FormBuilder, private po: ProjectOfferService, private location: Location) {
     this.ProjectOfferForm = this.formBuilder.group({
       projectTitle: ['', Validators.required],
       companyemail: ['', Validators.required],
@@ -28,13 +31,14 @@ export class UpdateProjectofferComponent implements  OnInit{
       status: ['', Validators.required],
       postedDate: [new Date()],
     });
+this.projectoffidid=this.data.projectofferid;
   }
 
   ngOnInit(){
     
     this.route.paramMap.subscribe(params => {
       const projectofferid = +params.get('id')!;
-      this.getaprojectoffer(projectofferid);
+      this.getaprojectoffer(this.projectoffidid);
     });
     this.aFormGroup = this.formBuilder.group({
       recaptcha: ['', Validators.required]
@@ -70,7 +74,7 @@ export class UpdateProjectofferComponent implements  OnInit{
         () => {
           console.log('Project offer added successfully:');
           alert('Project offer added successfully!');
-          this.router.navigate(['/projectoffer/getprojectoffers']);
+          this.router.navigate(['/home/getprojectoffers']);
 
         },
         error => {

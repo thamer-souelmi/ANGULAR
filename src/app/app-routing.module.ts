@@ -65,6 +65,7 @@ import { GetQuotesComponent } from './FrontOffice/pages/Quote/get-quotes/get-quo
 import { AddQuoteComponent } from './FrontOffice/pages/Quote/add-quote/add-quote.component';
 import { UpdateProjectofferComponent } from './FrontOffice/pages/ProjectOffer/update-projectoffer/update-projectoffer.component';
 import { ScreenshotDisplayComponent } from './BackOffice/Pages/screenshot-display/screenshot-display.component';
+import { AddProjectofferComponent } from './FrontOffice/pages/ProjectOffer/add-projectoffer/add-projectoffer.component';
 
 
 
@@ -131,6 +132,16 @@ const routes: Routes = [
     component: AllTemplateFrontComponent,
     children:[
       {path:"home", component:HomeFrontComponent },
+      { path: 'addquote', component: AddQuoteComponent },
+      { path: 'getquote', component: GetQuotesComponent },
+      { path: 'updatequote/:id', component: UpdateQuoteComponent }, // New route for updating job offers
+      { path: 'getprojectoffers', component:GetProjectofferComponent },
+      { path: 'update-project-offer/:id', component: UpdateProjectofferComponent }, // New route for updating job offers
+      { path: 'add-project-offer', component: AddProjectofferComponent }, // New route for updating job offers
+
+      { path: 'att', component: AttendanceComponent },
+
+
     ]
   },
   {
@@ -157,32 +168,32 @@ const routes: Routes = [
     ]},
     
     
-    {
+    // {
 
-      path: "projectoffer",
-      component: AllTemplateFrontComponent,children:[
-        { path: 'getprojectoffers', component:GetProjectofferComponent },
-        { path: 'update-project-offer/:id', component: UpdateProjectofferComponent }, // New route for updating job offers
+    //   path: "projectoffer",
+    //   component: AllTemplateFrontComponent,children:[
+    //     { path: 'getprojectoffers', component:GetProjectofferComponent },
+    //     { path: 'update-project-offer/:id', component: UpdateProjectofferComponent }, // New route for updating job offers
 
-      ]
-    },
-    {
-      path: "quote",
-      component: AllTemplateFrontComponent, children: [
-        { path: 'addquote', component: AddQuoteComponent },
-        { path: 'getquote', component: GetQuotesComponent },
-        { path: 'updatequote/:id', component: UpdateQuoteComponent }, // New route for updating job offers
+    //   ]
+    // },
+    // {
+    //   path: "quote",
+    //   component: AllTemplateFrontComponent, children: [
+    //     { path: 'addquote', component: AddQuoteComponent },
+    //     { path: 'getquote', component: GetQuotesComponent },
+    //     { path: 'updatequote/:id', component: UpdateQuoteComponent }, // New route for updating job offers
   
   
   
-      ]
-    },
-    {
-      path: "att",
-      component: AllTemplateFrontComponent, children: [
-        { path: 'att', component: AttendanceComponent },
-      ]
-    },
+    //   ]
+    // },
+    // {
+    //   path: "att",
+    //   component: AllTemplateFrontComponent, children: [
+    //     { path: 'att', component: AttendanceComponent },
+    //   ]
+    // },
 
 
   { path: 'quiz', component: QuizComponent },

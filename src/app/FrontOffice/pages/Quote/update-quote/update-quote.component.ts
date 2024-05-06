@@ -5,7 +5,8 @@ import {QuoteService} from "../../../../Services/quote.service";
 import {Location} from "@angular/common";
 import {Quote} from "../../../../Models/quote";
 import {ProjectOffer} from "../../../../Models/project-offer";
-
+import { Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 @Component({
   selector: 'app-update-quote',
   templateUrl: './update-quote.component.html',
@@ -16,8 +17,10 @@ export class UpdateQuoteComponent implements  OnInit{
   siteKey: string = '6LeCnZUpAAAAAMDRTsdCXxDoRlyGZoojn4E0JKUu';
   QuoteForm: FormGroup;
   quote: Quote = new Quote();
+  quoteidid!:number;
 
-  constructor(private router: Router, private route: ActivatedRoute, private formBuilder: FormBuilder, private quoteservice: QuoteService, private location: Location) {
+  constructor(public dialogRef: MatDialogRef<UpdateQuoteComponent> // Inject MatDialogRef
+  ,  @Inject(MAT_DIALOG_DATA) public data: any,private router: Router, private route: ActivatedRoute, private formBuilder: FormBuilder, private quoteservice: QuoteService, private location: Location) {
     this.QuoteForm = this.formBuilder.group({
       totalamount: ['', Validators.required],
       unitprice: ['', Validators.required],
@@ -26,11 +29,13 @@ export class UpdateQuoteComponent implements  OnInit{
       issuanceDate: [new Date()],
 
     });
+    this.quoteidid=this.data.quoteid;
+
   }
   ngOnInit(){
     this.route.paramMap.subscribe(params => {
       const quoteid = +params.get('id')!;
-      this.getquote(quoteid);
+      this.getquote(this.quoteidid);
     });
     this.aFormGroup = this.formBuilder.group({
       recaptcha: ['', Validators.required]
