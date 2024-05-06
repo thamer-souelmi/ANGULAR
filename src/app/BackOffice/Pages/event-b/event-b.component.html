@@ -42,12 +42,13 @@
         <p><strong>Place:</strong> {{ data.event.place }}</p>
         <p><strong>Average Rating:</strong> {{ data.event.averageRating }}</p>
         <p><strong>Description:</strong> {{ data.event.event_description }}</p>
-        <div *ngIf="data.users && data.users.length > 0">
-          <h6>Registered Users:</h6>
-          <ul>
-            <li *ngFor="let user of data.users">{{ user.firstname }} {{ user.lastname }} ({{ user.email }})</li>
-          </ul>
-        </div>
+        <ul>
+          <li *ngFor="let user of data.users">
+            {{ user.firstname }} {{ user.lastname }} ({{ user.email }})
+            <button class="btn btn-success" (click)="updateUserStatus(data.event.eventId, user.userId, 'CONFIRMED')">Accept</button>
+            <button class="btn btn-danger" (click)="updateUserStatus(data.event.eventId, user.userId, 'CANCELED')">Refuse</button>
+          </li>
+        </ul>
       </div>
       <div class="column">
         <div *ngIf="selectedEventActivities.length > 0" class="activities-list">

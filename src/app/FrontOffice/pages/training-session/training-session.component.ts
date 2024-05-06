@@ -209,7 +209,7 @@ private registrationService: RegistrationTSService
       },
       error => {
         console.error('An error occurred:', error);
-        this.showSnackbar(`Registration failed: ${error.message}`, 'red');
+        this.showSnackbar(`Registration is already done `, 'red');
       }
     );
   }

@@ -63,6 +63,11 @@
       return this.http.post<Event>(this.EventUrl + '/addEvent', eventData);
     }
 
+    updateRegistrationStatus(eventId: number, userId: number, status: string): Observable<any> {
+      const url = `${this.EventUrl}/${eventId}/update-user-status/${userId}?status=${status}`;
+      console.log("Sending PUT request to:", url);
+      return this.http.put(url, {});
+    }
 
 
 
