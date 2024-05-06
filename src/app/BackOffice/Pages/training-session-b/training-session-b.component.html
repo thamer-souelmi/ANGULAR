@@ -1,0 +1,110 @@
+
+<div class="d-flex justify-content-center mb-5">
+  <mat-form-field appearance="outline" class="w-75 mx-auto">
+    <mat-label>Search </mat-label>
+    <input matInput [(ngModel)]="searchQuery" (ngModelChange)="searchChanged.next($event)">
+  </mat-form-field>
+</div>
+<div class="card-container">
+  <div class="card" *ngFor="let session of filteredEvents; let i = index">
+    <div class="card-body">
+      <h5 class="card-title">{{ session.title }}</h5>
+      <div class="time-info">
+        <p><strong>Start date:</strong> {{ session.start_date | date: 'mediumDate' }} at {{ session.start_date | date: 'shortTime' }}</p>
+        <p><strong>Finish date:</strong> {{ session.finish_date | date: 'mediumDate' }} at {{ session.finish_date | date: 'shortTime' }}</p>
+        <p><strong>Capacity:</strong> {{ session.capacity }}</p>
+        <span class="badge badge-online" *ngIf="session.typeTS === 'ONLINE'">ONLINE</span>
+        <span class="badge badge-offline" *ngIf="session.typeTS === 'OFFLINE'">OFFLINE</span>
+        <span class="badge badge-ongoing" *ngIf="session.tsStatus === 'ONGOING'">ONGOING</span>
+        <span class="badge badge-planned" *ngIf="session.tsStatus === 'PLANNED'">PLANNED</span>
+        <span class="badge badge-canceled" *ngIf="session.tsStatus === 'CANCELED'">CANCELED</span>
+        <span class="badge badge-completed" *ngIf="session.tsStatus === 'COMPLETED'">COMPLETED</span>
+
+      </div>
+      <div class="card-actions">
+        <button class="btn btn-info btn-icon" (click)="openDetailsModal(session)" aria-label="View details">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+               class="bi bi-info-circle" viewBox="0 0 16 16">
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+            <path d="m8.93 6.588-2.29.287-.082.380.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!--details-->
+<!--<ng-template #sessionDetails let-data="data">-->
+<!--  <h2 mat-dialog-title>{{ data.title }}</h2>-->
+<!--  <mat-dialog-content class="mat-typography">-->
+<!--    <p><strong>Topic:</strong> {{ data.topic }}</p>-->
+<!--    <p><strong>Start Date:</strong> {{ data.start_date }}</p>-->
+<!--    <p><strong>Finish Date:</strong> {{ data.finish_date }}</p>-->
+<!--    <p><strong>Capacity:</strong> {{ data.capacity }}</p>-->
+<!--    <p><strong>Session Outline:</strong> {{ data.session_outline }}</p>-->
+<!--    <p><strong>Expected Outcomes:</strong> {{ data.expected_outcomes }}</p>-->
+<!--  </mat-dialog-content>-->
+<!--  <mat-dialog-actions>-->
+<!--    <button mat-button [mat-dialog-close]="true">Close</button>-->
+<!--  </mat-dialog-actions>-->
+<!--</ng-template>-->
+
+
+<!-- Ajoutez ce bloc à la fin de votre HTML -->
+<div class="modal-backdrop" *ngIf="isDetailsModalOpen" (click)="closeDetailsModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h4  class="modal-title">Training Session Details</h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="closeDetailsModal()"></button>
+    </div>
+    <div class="modal-body" *ngIf="selectedTrainingSession">
+      <section class="session-info">
+        <h5 style="text-align: center;" ><i class="fas fa-info-circle"></i> Basic Info</h5>
+        <p><strong>Title:</strong> {{ selectedTrainingSession.title }}</p>
+        <p><strong>Topic:</strong> {{ selectedTrainingSession.topic }}</p>
+        <p><strong>Type:</strong> {{ selectedTrainingSession.typeTS }}</p>
+        <p><strong>Status:</strong> {{ selectedTrainingSession.tsStatus }}</p>
+      </section>
+      <section class="session-details">
+        <h5 style="text-align: center;" ><i class="fas fa-users"></i> Audience & Capacity</h5>
+        <p><strong>Target audience:</strong> {{ selectedTrainingSession.target_audience }}</p>
+        <p><strong>Capacity:</strong> {{ selectedTrainingSession.capacity }}</p>
+      </section>
+      <section class="session-timing">
+        <h5><i class="fas fa-calendar-alt"></i> Timing</h5>
+        <p><strong>Start date:</strong> {{ selectedTrainingSession.start_date | date: 'mediumDate' }}</p>
+        <p><strong>Finish date:</strong> {{ selectedTrainingSession.finish_date | date: 'mediumDate' }}</p>
+        <p><strong>Place:</strong> {{ selectedTrainingSession.place }}</p>
+      </section>
+      <section class="session-content">
+        <h5 style="text-align: center;"><i class="fas fa-align-center"></i> Content</h5>
+        <p><strong>Session outline:</strong></p>
+        <div [innerHTML]="selectedTrainingSession.session_outline"></div>
+        <p><strong>Expected Outcomes:</strong></p>
+        <div [innerHTML]="selectedTrainingSession.expected_outcomes"></div>
+      </section>
+      <section class="session-content">
+        <h5 style="text-align: center;"><i class="fas fa-align-center"></i> Registered Users:</h5>
+        <ul *ngIf="selectedTrainingSession.users && selectedTrainingSession.users.length > 0">
+          <li *ngFor="let user of selectedTrainingSession.users">
+            {{ user.firstname }} {{ user.lastname }} ({{ user.email }})
+          </li>
+        </ul>
+        <p *ngIf="!selectedTrainingSession.users || selectedTrainingSession.users.length === 0">No users registered.</p>
+      </section>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="closeDetailsModal()">Close</button>
+    </div>
+  </div>
+</div>
+<div class="pagination-settings">
+  <button (click)="previousPage()" [disabled]="currentPage === 1">Previous</button>
+  <span>Page {{ currentPage }} of {{ totalPages }}</span>
+  <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
+</div>
+
+

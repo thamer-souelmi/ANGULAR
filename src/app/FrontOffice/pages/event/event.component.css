@@ -122,6 +122,49 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Enhance shadow on hover */
   transform: translateY(-3px); /* Move button up slightly on hover */
 }
+.btn-icon:hover::after {
+  display: block;
+}
+.bi-info-circle {
+  fill: #007bff;
+}
+
+.btn-icon::after {
+  content: 'More Info';
+  display: none;
+  position: absolute;
+  bottom: 100%;
+  background-color: #555;
+  color: #fff;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+}.btn-icon:hover, .btn-icon:focus {
+   background-color: #e3e3e3;
+   transform: scale(1.1);
+   outline: none;
+ }.btn-icon {
+    background-color: transparent;
+    border: none;
+    padding: 0.25rem;
+    border-radius: 50%;
+    transition: background-color 0.2s, transform 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+  }
+#mapContainer {
+  width: 100%; /* Adjust if necessary */
+  height: 300px; /* Adjust if necessary */
+}
+.activity-item {
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 10px; /* Ajustez selon vos préférences */
+  margin-bottom: 10px; /* Espace entre les activités */
+}
+
+
 /*.btn:hover {*/
 /*  box-shadow: 0 4px 8px rgba(0,0,0,0.3);*/
 /*  transform: translateY(-2px);*/

@@ -81,27 +81,38 @@ body {
 }
 
 /* Modal Content */
+/*.modal-content {*/
+/*  display: flex;*/
+/*  flex-direction: column;*/
+/*  position: fixed;*/
+/*  z-index: 1050;*/
+/*  top: 50%;*/
+/*  left: 50%;*/
+/*  transform: translate(-50%, -50%);*/
+/*  overflow-y: auto;*/
+/*  animation: scaleUp 0.3s ease-out forwards;*/
+/*font-family: 'Arial', sans-serif;*/
+/*  color: #333; !* Ensuring good readability *!*/
+/*  background: #fff;*/
+/*  border-radius: 8px; !* Rounded corners for a modern look *!*/
+/*  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); !* Subtle shadow for depth *!*/
+/*  padding: 20px; !* Ample padding for content *!*/
+/*  width: 80%; !* Suitable width on desktop *!*/
+/*  max-width: 500px; !* Maximum width to maintain readability *!*/
+/*  margin: auto; !* Centers the modal in the viewport *!*/
+/*}*/
 .modal-content {
-  display: flex;
-  flex-direction: column;
   position: fixed;
-  z-index: 1050;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  overflow-y: auto;
-  animation: scaleUp 0.3s ease-out forwards;
-font-family: 'Arial', sans-serif;
-  color: #333; /* Ensuring good readability */
-  background: #fff;
-  border-radius: 8px; /* Rounded corners for a modern look */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-  padding: 20px; /* Ample padding for content */
-  width: 80%; /* Suitable width on desktop */
-  max-width: 500px; /* Maximum width to maintain readability */
-  margin: auto; /* Centers the modal in the viewport */
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  max-width: 800px; /* Increase the max-width if needed */
+  width: 80%;
 }
-
 @keyframes scaleUp {
   from {
     transform: translate(-50%, -50%) scale(0.8);
@@ -132,42 +143,52 @@ font-family: 'Arial', sans-serif;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom:20px;
+  margin-bottom: 20px;
 }
 
 /* Modal Title */
 .modal-title {
-  font-size: 1.5rem; /* Large and legible title */
+  font-size: 1.5rem;
   font-weight: bold;
-  color: #007bff; /* Highlight color for title */
-  flex: 1; /* Allows title to take up the available space */
-  text-align: left;
+  color: #040e1e;
+  flex: 1;
+  text-align: center;
 }
 
 /* Close Button */
+/*.close {*/
+/*  position: absolute;*/
+/*  top: 1rem;*/
+/*  right: 1rem;*/
+/*  background-color: transparent;*/
+/*  border: none;*/
+/*  padding: 0.5rem;*/
+/*  cursor: pointer;*/
+
+/*font-size: 2rem; !* Large close button for easy interaction *!*/
+/*  line-height: 1;*/
+/*  color: #aab0b6; !* Subtle color for close button *!*/
+/*  background: none;*/
+/*  border: none;*/
+/*}*/
 .close {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
   background-color: transparent;
   border: none;
-  padding: 0.5rem;
+  font-size: 2rem;
+  color: #aab0b6;
   cursor: pointer;
-
-font-size: 2rem; /* Large close button for easy interaction */
-  line-height: 1;
-  color: #aab0b6; /* Subtle color for close button */
-  background: none;
-  border: none;
 }
 .close:hover {
-  color: #007bff; /* Highlight color when hovered */
+  color: #007bff;
 }
 .modal-body {
-  font-size: 1rem;
-  line-height: 1.5;
-  color: #666; /* Soft color for the body text */
+  display: flex;
+  justify-content: space-between;
 }
+.column {
+  width: 48%; /* Adjust the width as needed */
+}
+
 .modal-section {
   margin-bottom: 20px; /* Space between sections */
 }
@@ -178,30 +199,23 @@ font-size: 2rem; /* Large close button for easy interaction */
 }
 
 /* Activities List */
-  .activities-list {
-    list-style: none;
-    padding-left: 0; /* Removes default padding */
-    margin-top: 10px;
-  }
-
+.activities-list {
+  margin-top: 20px;
+}
 .activity-item {
-  margin-bottom: 1rem; /* Adds space between activity items */
-  padding-bottom: 1rem; /* Adds padding below each item for visual separation */
-  border-bottom: 1px solid #eaeaea; /* A subtle line to separate items */
+  margin-bottom: 1rem;
 }
 
-.activity-header {
-  font-size: 1rem; /* Sets a standard font size for activity header */
-  font-weight: bold; /* Makes the header bold */
-  margin-bottom: 0.5rem; /* Adds a little space below the header */
-  color: #007bff; /* Sets a theme color for the activity name */
-}
+/*.activity-header {*/
+/*  font-size: 1rem;*/
+/*  font-weight: bold;*/
+/*  color: #0b0b0b;*/
+/*  margin-bottom: 0.5rem;*/
+/*}*/
 
 .activity-name {
-  display: block; /* Ensures 'Name' starts on a new line */
-  margin-bottom: 0.25rem; /* Space between 'Name' and the actual name */
+  margin-bottom: 0.25rem;
 }
-
 
 .activity-description {
   display: block; /* Ensures 'Description' starts on a new line */
@@ -213,7 +227,7 @@ font-size: 2rem; /* Large close button for easy interaction */
 }
 /* PDF Button */
 .pdf-button {
-  background-color: #dc3545; /* Bootstrap danger color for emphasis */
+  background-color: #dc3545;
   color: white;
   border: none;
   border-radius: 4px;
@@ -223,25 +237,28 @@ font-size: 2rem; /* Large close button for easy interaction */
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  margin-top: 20px; /* Space above the button */
-  text-decoration: none; /* Removes underline from links */
+  margin-top: 20px;
+  text-decoration: none;
 }
 
 .pdf-button:hover {
   background-color: rgba(255, 0, 0, 1);
 }
-
+.pdf-button svg {
+  margin-right: 5px;
+}
 .pdf-icon {
   margin-right: 5px; /* Space between icon and text */
 }
 
 /* Ensure cards are responsive */
-@media (max-width: 768px) {
-  /* Responsive Modal Styles */
+@media (min-width: 992px) { /* for desktops */
   .modal-content {
-    width: 95%; /* Full width on smaller screens */
-    padding: 15px; /* Slightly less padding on smaller screens */
+    width: 70%; /* Less wide on larger screens if desired */
+    max-width: 960px; /* Set a fixed max-width for larger screens */
   }
+}
+@media (max-width: 768px) {
 
   .event-title {
     font-size: 2rem; /* Increase the font size */
@@ -259,19 +276,20 @@ font-size: 2rem; /* Large close button for easy interaction */
     align-items: center;
     justify-content: center;
   }
-
-
-  .close {
-    position: absolute;
-    top: 1rem; /* Align vertically with the title */
-    right: 1rem; /* Consistent spacing from the corner */
-    background-color: transparent;
-    border: none;
-    font-size: 1.5rem; /* Size of the close button */
-    cursor: pointer;
-  }
 }
+  @media (max-width: 768px) {
 
+    .close {
+      position: absolute;
+      top: 1rem; /* Align vertically with the title */
+      right: 1rem; /* Consistent spacing from the corner */
+      background-color: transparent;
+      border: none;
+      font-size: 1.5rem; /* Size of the close button */
+      cursor: pointer;
+    }
+
+  }
 /* Icon Button */
 .btn-icon {
   background-color: transparent;
@@ -316,16 +334,32 @@ font-size: 2rem; /* Large close button for easy interaction */
 }
 
 /* Pagination Controls Container Styling */
-.pagination-container {
+.pagination-settings {
   display: flex;
   justify-content: center;
-  margin-top: 20px; /* Add margin for spacing, adjust as needed */
+  align-items: center;
+  margin-top: 20px;
 }
 
-/* Styling for the pagination itself to ensure padding and cursor appearance */
-.pagination-controls {
-  padding: 10px;
+.pagination-settings button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
   cursor: pointer;
+  margin: 0 5px;
 }
+
+.pagination-settings button:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+.pagination-settings span {
+  margin: 0 10px;
+  font-weight: bold;
+}
+
 
 

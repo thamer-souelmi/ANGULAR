@@ -17,4 +17,5 @@ export class Event{
   Activitys!: Activity[];
   feedbacks!: FeedBack[];
   averageRating?: number;
+
 }
