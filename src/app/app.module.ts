@@ -1,5 +1,4 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { BrowserModule} from "@angular/platform-browser";
 import {BrowserAnimationsModule, provideAnimations} from "@angular/platform-browser/animations";
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -15,7 +14,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpClientModule } from '@angular/common/http';
 import { FindAllJobOffersComponent } from './FrontOffice/pages/JobOffer/find-all-job-offers/find-all-job-offers.component';
 import { WishlistComponent } from './FrontOffice/pages/JobOffer/wishlist/wishlist.component';
@@ -149,6 +147,8 @@ import {AddcontractComponent} from "./FrontOffice/pages/contract/addcontract/add
 import {GetallcontractsComponent} from "./FrontOffice/pages/contract/getallcontracts/getallcontracts.component";
 import {EditContractComponent} from "./FrontOffice/pages/contract/edit-contract/edit-contract.component";
 import {FiltertaskpipePipe} from "./FrontOffice/pages/Task/filtertaskpipe.pipe";
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
 // import {UpdateJobOfferComponent} from "./FrontOffice/pages/JobOffer/update-job-offer/update-job-offer.component";
 // import {UpdateJobOfferComponent} from "./FrontOffice/pages/JobOffer/update-job-offer/update-job-offer.component";
 
@@ -278,15 +278,8 @@ import {FiltertaskpipePipe} from "./FrontOffice/pages/Task/filtertaskpipe.pipe";
     MatRippleModule,
     MatMenuModule,
     MatSnackBarModule,
-    ToastrModule.forRoot({
-      timeOut: 2000,
-      progressBar: true,
-      progressAnimation: "increasing",
-      preventDuplicates: true
-    }),
     MatButtonModule,
     FeatherModule.pick(allIcons),
-    BrowserAnimationsModule,
     ToastrModule.forRoot({
       timeOut: 2000,
       progressBar: true,
@@ -296,10 +289,7 @@ import {FiltertaskpipePipe} from "./FrontOffice/pages/Task/filtertaskpipe.pipe";
     MatCardModule,
     NgxChartsModule,
     MatTooltipModule,
-    FullCalendarModule,
-    FormsModule,
     HttpClientModule,
-    NgbModule,
     NgxCaptchaModule,
     CalendarModule.forRoot({
       provide: DateAdapter,
@@ -313,27 +303,17 @@ import {FiltertaskpipePipe} from "./FrontOffice/pages/Task/filtertaskpipe.pipe";
     ChartModule,
     BsDropdownModule.forRoot(),
     SocketIoModule.forRoot(socketConfig),
-
-    FullCalendarModule,
     MatSortModule,
-    MatTableModule,
     MatCheckboxModule,
 
-    MatCardModule,
     MatGridListModule,
-    MatBadgeModule,
-    MatMenuModule,
-
-
-
-
 
     NgxPaginationModule,
     EmojiModule,
     PickerComponent,
 
     MatBadgeModule,
-    CKEditorModule
+    CKEditorModule,
 
 
   ],
