@@ -296,6 +296,7 @@ const routes: Routes = [
   { path: 'quiz', component: QuizComponent },
   { path: 'Login/quiz', component: LoginQuizComponent },
 
+  { path: '**', component: NotFoundComponent },
 
   // {
   //     path: "Project",

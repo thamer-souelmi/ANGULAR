@@ -173,7 +173,7 @@ export class FindAllJobOffersComponent implements OnInit, AfterViewInit {
   }
   navigateToWishlist() {
     // Navigate to the WishlistComponent or any route you have for the wishlist
-    this.router.navigate(['/JobOffer/wishlist']);
+    this.router.navigate(['/home/wishlist']);
   }
   onPageChange(pageNumber: number) {
     this.currentPage = pageNumber;
@@ -232,7 +232,7 @@ export class FindAllJobOffersComponent implements OnInit, AfterViewInit {
       });
       this.cdr.detectChanges();
     } else {
-      this.router.navigate(['/JobOffer/job-offer-details', selectedValue]);
+      this.router.navigate(['/home/job-offer-details', selectedValue]);
     }
   }
   salaryRangeValidator(formGroup: FormGroup) {
