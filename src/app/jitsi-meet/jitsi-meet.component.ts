@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { TrainingSession } from "../Models/TrainingSession";
 declare const JitsiMeetExternalAPI: any;
 
@@ -23,12 +23,12 @@ export class JitsiMeetComponent implements AfterViewInit {
 
     const domain = 'meet.jit.si';
     const options = {
-      roomName: `TrainingSession_${this.trainingSession.ts_id}`,  // Room name based strictly on session ID
+      roomName: `TrainingSession_${this.trainingSession.ts_id}`,
       width: '100%',
       height: 700,
       parentNode: this.jitsiContainer.nativeElement,
       userInfo: {
-        displayName: this.trainingSession.trainerId ? this.trainingSession.trainerId.firstname + ' ' + this.trainingSession.trainerId.lastname : 'Trainer'
+        displayName: this.trainingSession.trainerId ? `${this.trainingSession.trainerId.firstname} ${this.trainingSession.trainerId.lastname}` : 'Trainer'
       },
       interfaceConfigOverwrite: {
         TOOLBAR_BUTTONS: [
@@ -42,5 +42,4 @@ export class JitsiMeetComponent implements AfterViewInit {
 
     new JitsiMeetExternalAPI(domain, options);
   }
-
 }

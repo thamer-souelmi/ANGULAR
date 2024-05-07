@@ -1,0 +1,47 @@
+/* attendance.component.css */
+
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+h2 {
+  color: #333;
+
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  margin: 10px;
+  cursor: pointer;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+}
+
+button {
+  padding: 5px 10px; /* Adjusted padding */
+  font-size: 12px; /* Adjusted font size */
+  margin: 5px; /* Adjusted margin */
+  cursor: pointer;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+}
+
+#timer {
+  font-size: 15px;
+  margin-top: 15px;
+  color: #333;
+}
+
+.success-message {
+  color: green;
+  font-size: 7px;
+
+ }
+ 

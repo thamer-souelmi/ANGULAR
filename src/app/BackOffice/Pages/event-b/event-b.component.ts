@@ -17,7 +17,6 @@ function removeEmojis(text: string): string {
   const emojiRegex = /[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F700}-\u{1F77F}\u{1F780}-\u{1F7FF}\u{1F800}-\u{1F8FF}\u{1F900}-\u{1F9FF}\u{1FA00}-\u{1FA6F}\u{1FA70}-\u{1FAFF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu;
   return text.replace(emojiRegex, '');
 }
-
 @Component({
   selector: 'app-event-b',
   templateUrl: './event-b.component.html',
@@ -312,25 +311,42 @@ export class EventBComponent implements OnInit {
   }
 
   openModal(event: Event): void {
-    this.selectedEventActivities = [];  // Clear previous activities if any
-    forkJoin({
-      activities: this.eventService.getRelatedActivities(event.eventId),
-      users: this.eventService.getEventUsers(event.eventId)
-    }).subscribe({
-      next: (results) => {
-        this.selectedEventActivities = results.activities;
-        this.registeredUsers = results.users;
-        this.dialogRef = this.dialog.open(this.eventModal, {
-          width: '600px',
-          data: { event: event, users: this.registeredUsers }
+    this.eventService.getRelatedActivities(event.eventId).subscribe({
+      next: (activities) => {
+        this.selectedEventActivities = activities;
+        this.eventService.getEventUsers(event.eventId).subscribe({
+          next: (users) => {
+            console.log("Users data:", JSON.stringify(users)); // Log to inspect structure
+            this.registeredUsers = users;
+            this.dialogRef = this.dialog.open(this.eventModal, {
+              width: '600px',
+              data: { event: event, users: this.registeredUsers }
+            });
+          },
+          error: (error) => console.error('Error retrieving users:', error)
         });
       },
-      error: (error) => {
-        console.error('Error retrieving event details:', error);
-      }
+      error: (error) => console.error('Error retrieving activities:', error)
     });
   }
 
+  updateUserStatus(eventId: number, userId: number, status: string): void {
+    if (typeof userId === 'undefined') {
+      console.error("User ID is undefined, cannot update status.");
+      return;
+    }
+    this.eventService.updateRegistrationStatus(eventId, userId, status).subscribe({
+      next: () => {
+        console.log('Status updated successfully');
+        this.dialogRef.close();
+        this.loadEvents();
+      },
+      error: (error) => {
+        console.error('Error updating status:', error);
+        alert('Failed to update status. Please try again.');
+      }
+    });
+  }
 
   closeModal(): void {
     if (this.dialogRef) {

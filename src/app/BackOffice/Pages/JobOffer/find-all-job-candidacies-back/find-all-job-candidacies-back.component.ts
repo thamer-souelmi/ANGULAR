@@ -3,13 +3,13 @@ import {Candidacy} from "../../../../Models/candidacy";
 import {CandidacyService} from "../../../../Services/candidacy.service";
 import {FormBuilder, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
-import {ToastrService} from "ngx-toastr";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import {MatDialog} from "@angular/material/dialog";
 
 import {
   CandidateLinkedInDetailsBackComponent
 } from "../candidate-linked-in-details-back/candidate-linked-in-details-back.component";
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-find-all-job-candidacies-back',
