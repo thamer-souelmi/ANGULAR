@@ -32,8 +32,15 @@ import {RegistrationEventService} from "../../../Services/RegistrationEvent.serv
 import {EmailService} from "../../../Services/email.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Icon, Marker} from "leaflet";
-// import bootstrapPlugin from '@fullcalendar/bootstrap';
-
+import * as https from "https";
+import axios from "axios";
+import { PickerModule } from '@ctrl/ngx-emoji-mart'
+import {CompressedEmojiData, EmojiData, emojis} from "@ctrl/ngx-emoji-mart/ngx-emoji";
+import {ToastrService} from "ngx-toastr";
+import timeGridPlugin from '@fullcalendar/timegrid';
+import {StorageService} from "../../../Services/storage.service";
+import {throwError} from "rxjs";
+// import {content} from "html2canvas/dist/types/css/property-descriptors/content"; // Correct import for timeGridPlugin
 const colors: Record<string, EventColor> = {
   blue: {
     primary: '#1e90ff',
@@ -41,6 +48,14 @@ const colors: Record<string, EventColor> = {
   },
 };
 
+interface EmojiEvent {
+  emoji: {
+    native: string;
+    id: string;
+    name: string;
+    // add other properties as necessary based on what the library returns
+  };
+}
 @Component({
   selector: 'app-event',
   templateUrl: './event.component.html',
@@ -68,6 +83,8 @@ export class EventComponent implements OnInit,AfterViewInit {
   currentPage = 0;
   pageSize = 6;
   searchTerm: string = '';
+  test: string = 'bl';
+  activities!: Activity[];
   searchControl = new FormControl('');
   allEvents: any[] = [];
   @ViewChild('addEventModal') addEventModal!: ElementRef;
@@ -92,7 +109,7 @@ export class EventComponent implements OnInit,AfterViewInit {
   // };
   selectedEventDetails?: Event;
   locationSuggestions: any[] = [];
-  @ViewChild('eventDetailsTemplate') eventDetailsTemplate!: TemplateRef<any>;
+  @ViewChild('eventDetailsTemplate', { static: true }) private eventDetailsTemplate!: TemplateRef<any>;
   @ViewChild('feedbackModal') feedbackModal!: TemplateRef<any>;
   modalRef: NgbModalRef | undefined;
   feedbackModalRef: NgbModalRef | undefined;
@@ -116,6 +133,14 @@ export class EventComponent implements OnInit,AfterViewInit {
   errorMessage: string = '';
   private map: L.Map | null = null;
   static userId: number = 1; // Assuming a default user ID
+  showDescriptionEmojiPicker = false;
+  showUpdateEmojiPicker = false;
+  private results: any[] = []; // Define the results variable
+  @ViewChild('eventDetailModal') private eventDetailModalRef!: ElementRef;
+  selectedEventActivities: Activity[] = [];
+  private mapInitialized: boolean = false;
+  @ViewChild('content') content!: TemplateRef<any>;
+
   constructor(
     private modalService: NgbModal,
     private eventService: EventService,
@@ -128,7 +153,9 @@ export class EventComponent implements OnInit,AfterViewInit {
     private feedbackService: FeedBackService,
     private RegistrationEventService :RegistrationEventService,
     private EmailService: EmailService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private toaster : ToastrService,
+    private storagService : StorageService
 
   ) {
     this.latitude = 0;
@@ -136,6 +163,7 @@ export class EventComponent implements OnInit,AfterViewInit {
     this.newEventForm = this.formBuilder.group({
       event_name: ['', Validators.required],
       event_date: ['', Validators.required],
+      finishevent_date: ['', Validators.required],
       place: [''],
       event_description: ['', Validators.required],
       latitude: [''],
@@ -144,6 +172,7 @@ export class EventComponent implements OnInit,AfterViewInit {
     this.updateEventForm = this.formBuilder.group({
       event_name: ['', Validators.required],
       event_date: ['', Validators.required],
+      finishevent_date: ['', Validators.required],
       event_description: [''],
       place: ['', Validators.required],
       latitude: [''],
@@ -165,23 +194,73 @@ export class EventComponent implements OnInit,AfterViewInit {
 
   }
 
+
+
   ngAfterViewInit(): void {
-    // Ensure the ViewChild references are defined
+    // let modalRef = this.modalService.open(this.content, { size: 'lg' });
+    // modalRef.shown.subscribe(() => {
+    //   if (modalRef === this.eventDetailsModal) {
+    //     this.initDetailMap();
+    //   }
+    // });
+
     if (this.mapModal) {
+      this.initializeMap();
+
       const modalElement = this.mapModal.nativeElement;
 
       // Listen for the 'shown.bs.modal' event without jQuery
       modalElement.addEventListener('shown.bs.modal', () => {
         this.initMap();
+        this.initAddMap();
+
         this.adjustCalendar();
       });
     }
+
     if (this.eventDetailsModal) {
       this.eventDetailsModal.shown.subscribe(() => {
         if (this.selectedEventDetails) {
-          this.initDetailMap(this.selectedEventDetails.latitude, this.selectedEventDetails.longitude);
+          this.initDetailMap();
         }
       });
+    }
+
+  }
+  initializeMap(): void {
+    const latitude = 51.505; // Default latitude
+    const longitude = -0.09; // Default longitude
+
+    this.map = L.map(this.mapContainer.nativeElement).setView([latitude, longitude], 13);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors'
+    }).addTo(this.map);
+
+    // Add a marker to the map
+    L.marker([latitude, longitude]).addTo(this.map);
+  }
+  openDetailModal(event: Event): void {
+    console.log("Event:", this.selectedEvent);
+    this.selectedEvent = event;
+    const modal = new bootstrap.Modal(this.eventDetailModalRef.nativeElement);
+
+    // Fetch and sort activities when opening the modal
+    this.eventService.getRelatedActivities(event.eventId).subscribe({
+      next: (activities: Activity[]) => {
+        this.selectedEventActivities = activities.sort((a, b) => {
+          return new Date(a.startTime).getTime() - new Date(b.startTime).getTime();
+        });
+        modal.show();
+        this.initDetailMap();
+      },
+      error: (error) => console.error("Failed to load activities:", error)
+    });
+  }
+
+  private adjustCalendar(): void {
+    if (this.calendarComponent && this.calendarComponent.getApi()) {
+      // Ensure FullCalendar's size is adjusted to the new modal dimensions
+      this.calendarComponent.getApi().updateSize();
     }
   }
   private addMarker(lat: number, lng: number): void {
@@ -203,9 +282,27 @@ export class EventComponent implements OnInit,AfterViewInit {
       iconAnchor: [6, 6] // Anchor point relative to icon size
     });
   }
-  adjustCalendar(): void {
-    if (this.calendarComponent && this.calendarComponent.getApi()) {
-      this.calendarComponent.getApi().updateSize(); // Assurez-vous que cette méthode existe dans la version de FullCalendar que vous utilisez
+
+  toggleDescriptionEmojiPicker() {
+    this.showDescriptionEmojiPicker = !this.showDescriptionEmojiPicker;
+  }
+
+  addEmojiToDescription(event: any) {
+    const emoji = event.emoji.native;
+    const control = this.newEventForm.get('event_description');
+    if (control) {
+      control.setValue(control.value + emoji);
+    }
+  }
+  toggleUpdateEmojiPicker(): void {
+    this.showUpdateEmojiPicker = !this.showUpdateEmojiPicker;
+  }
+
+  addEmojiToUpdateDescription(event: any) {
+    const emoji = event.emoji.native;
+    const control = this.updateEventForm.get('event_description');
+    if (control) {
+      control.setValue(control.value + emoji);
     }
   }
 
@@ -217,21 +314,62 @@ export class EventComponent implements OnInit,AfterViewInit {
     }
   }
   private initAddMap(): void {
+    console.log('Map container element:', this.addMapContainer);
     if (this.addMapContainer && this.addMapContainer.nativeElement) {
-      // Assurer que le conteneur de la carte est vide avant d'ajouter une nouvelle carte
       if (this.addMap) {
         this.addMap.off();
         this.addMap.remove();
       }
-      // Initialiser la carte
-      this.addMap = L.map(this.addMapContainer.nativeElement).setView([51.505, -0.09], 13);
+
+      // Initialize the map
+      this.addMap = L.map(this.addMapContainer.nativeElement, {
+        center: [this.latitude, this.longitude],
+        zoom: 13
+      });
+
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© OpenStreetMap contributors'
       }).addTo(this.addMap);
 
-      // S'assurer que la taille de la carte est ajustée au conteneur
-      this.addMap.invalidateSize();
+      // Listen for click events on the map to place a marker and update form values
+      this.addMap.on('click', async (e: L.LeafletMouseEvent) => {
+        const {lat, lng} = e.latlng;
+
+        // Remove the existing marker if it exists
+        if (this.marker) {
+          this.marker.remove();
+        }
+
+        // Add a new marker to the map at the clicked location
+        this.marker = new L.Marker([lat, lng], {icon: this.getCustomIcon()}).addTo(this.addMap!);
+
+        // Perform reverse geocoding to get the address
+        const geocodeUrl = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`;
+
+        try {
+          const response = await axios.get(geocodeUrl);
+          const address = response.data.display_name; // The full address as a string
+
+          console.log("Retrieved address:", address);
+
+          // Update the form with the address and coordinates
+          this.newEventForm.patchValue({
+            place: address,
+            latitude: lat,
+            longitude: lng,
+          });
+        } catch (error) {
+          console.error("Error fetching location name", error);
+          this.newEventForm.patchValue({
+            place: `Lat: ${lat}, Lng: ${lng}` // Use coordinates as a fallback display
+          });
+        }
+      });
     }
+  }
+  onModalShown(): void {
+    this.adjustCalendar();
+    this.cdr.detectChanges(); // Manually trigger change detection if necessary
   }
   adjustCalendarOnModalShow() {
     const calendarApi = this.calendarComponent.getApi();
@@ -323,8 +461,8 @@ export class EventComponent implements OnInit,AfterViewInit {
   //   }
   // }
   registerEvent(eventId: number): void {
-    if (EventComponent.userId) {
-      this.RegistrationEventService.registerForEvent(eventId, EventComponent.userId).subscribe(
+    if (this.storagService.getUser().id) {
+      this.RegistrationEventService.registerForEvent(eventId, this.storagService.getUser().id).subscribe(
         () => {
           // Handle successful registration
           console.log('Registration successful');
@@ -407,6 +545,7 @@ export class EventComponent implements OnInit,AfterViewInit {
 
 
 
+
   toggleDescriptionD(eventId: number | undefined): void {
     if (eventId === undefined) return;
     this.expandedDescriptions[eventId] = !this.expandedDescriptions[eventId];
@@ -431,8 +570,8 @@ export class EventComponent implements OnInit,AfterViewInit {
             this.calendarModalRef.close(); // ou .dismiss() selon la méthode d'implémentation
           }
           // Ouvrez le modal de détails de l'événement
-          this.openModal(this.eventDetailsTemplate); // Assurez-vous que `eventDetailsTemplate` est un TemplateRef correct
-        },
+          this.openModal(this.eventDetailsTemplate, event);
+          },
         error: (error) => console.error('Failed to load event details:', error)
       });
     } else {
@@ -487,20 +626,52 @@ export class EventComponent implements OnInit,AfterViewInit {
     const modalRef = this.modalService.open(this.warningSuccessModal, {size: 'lg'});
     modalRef.componentInstance.date = date; // Assurez-vous que `warningSuccessModal` a une propriété `date`
   }
-
   openEventDetailsModal(event: Event): void {
+    if (!event) {
+      console.error('No event data provided to openEventDetailsModal');
+      return;
+    }
+
     this.selectedEventDetails = event;
     this.modalRef = this.modalService.open(this.eventDetailsTemplate, { size: 'lg' });
 
-    // Subscribe to modal 'shown' event and then initialize the map
     this.modalRef.shown.subscribe(() => {
-      // We check if the mapDetailContainer is already initialized and if the selectedEventDetails have the required lat and long
-      if (this.mapDetailContainer && this.selectedEventDetails && this.selectedEventDetails.latitude && this.selectedEventDetails.longitude) {
-        this.initDetailMap(this.selectedEventDetails.latitude, this.selectedEventDetails.longitude);
-      }
+      setTimeout(() => this.initDetailMap(), 0);
     });
   }
 
+
+
+
+
+
+
+  loadActivitiesForEvent(eventId: number): void {
+    this.eventService.getRelatedActivities(eventId).subscribe({
+      next: (activities) => {
+        this.selectedEventActivities = activities;
+        console.log('Activities loaded:', activities);
+        this.selectedEventActivities.sort((a, b) => {
+          return a.startTime.getTime() - b.startTime.getTime();
+        });
+      },
+      error: (error) => console.error('Failed to load activities:', error)
+    });
+  }
+
+  private initMapdetails(lat: number, lon: number, address: string): void {
+    if (this.mapContainer && this.mapContainer.nativeElement) {
+      if (this.map) {
+        this.map.remove(); // Clear previous map instances if any
+      }
+      this.map = L.map(this.mapContainer.nativeElement).setView([lat, lon], 13);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+      }).addTo(this.map);
+      const marker = L.marker([lat, lon], { icon: this.getCustomIcon() }).addTo(this.map);
+      marker.bindPopup(address).openPopup();
+    }
+  }
   ngOnInit(): void {
     this.loadEvents(this.currentPage, this.pageSize);
     this.eventId = parseInt(<string>this.route.snapshot.paramMap.get('id'));
@@ -531,23 +702,63 @@ export class EventComponent implements OnInit,AfterViewInit {
       eventClick: this.handleEventClick.bind(this),
     };
     this.initializeCalendarOptions();
+    // $('#mapModal').on('shown.bs.modal', () => this.initDetailMap());
+
 
   }
   initializeCalendarOptions() {
     this.calendarOptions = {
-      plugins: [dayGridPlugin, interactionPlugin],
-      themeSystem: 'bootstrap',
-      initialView: 'dayGridMonth',
-      events: this.events.map(event => ({
-        title: event.event_name,
-        start: new Date(event.event_date),
-        allDay: true
-      })),
-      dateClick: this.handleDateClick.bind(this),
+      plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
+      headerToolbar: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'dayGridMonth,timeGridWeek,timeGridDay'
+      },
+      eventTimeFormat: {
+        hour: '2-digit',
+        minute: '2-digit',
+        meridiem: 'short',
+        hour12: true
+      },
+      initialView: 'timeGridWeek',
+      events: (
+        fetchInfo: { start: Date; end: Date; timeZone: string },
+        successCallback: (events: any[]) => void,
+        failureCallback: (error: any) => void
+      ) => {        this.eventService.getEventsByDateRange(fetchInfo.start, fetchInfo.end).subscribe(
+          events => successCallback(events),
+          error => failureCallback(error)
+        );
+      },
       eventClick: this.handleEventClick.bind(this),
-      // Add other necessary options
+      datesSet: (dateInfo: { start: Date, end: Date }) => this.eventService.getEventsByDateRange(dateInfo.start, dateInfo.end).subscribe(
+        events => {
+          this.events = events;
+          console.log('Events loaded based on date range');
+        },
+        error => console.error('Error loading events:', error)
+      ),
+      editable: true,
+      selectable: true,
+      selectMirror: true,
+      dayMaxEvents: true
     };
   }
+
+  loadEventsBasedOnRange(start: Date, end: Date): void {
+    console.log('Loading events from', start, 'to', end);
+    // Call the service method that gets events for the specified date range
+    this.eventService.getEventsByDateRange(start, end).subscribe({
+      next: (events) => {
+        this.events = events;  // Assuming 'events' is the format your service returns
+        console.log('Events loaded:', events);
+      },
+      error: (error) => console.error('Error loading events:', error)
+    });
+  }
+
+
+
   public filterFeedbacks(feedbacks: FeedBack[]): FeedBack[] {
     const filteredFeedbacks = feedbacks.filter(feedback => {
       // Check if the feedback description contains any bad words
@@ -627,61 +838,95 @@ export class EventComponent implements OnInit,AfterViewInit {
     });
   }
 
-  selectSuggestion(suggestion: any, context: 'add' | 'update'): void {
-    const lat = suggestion.geometry.coordinates[1];
-    const lon = suggestion.geometry.coordinates[0];
+  // selectSuggestion(suggestion: any, context: 'add' | 'update'): void {
+  //   const lat = suggestion.geometry.coordinates[1];
+  //   const lon = suggestion.geometry.coordinates[0];
+  //
+  //   if (this.updateMap && this.marker) {
+  //     this.updateMap.setView([lat, lon], 13);
+  //     this.marker.setLatLng([lat, lon]);
+  //   }
+  //
+  //   this.locationSuggestions = []; // Clear suggestions
+  // }
 
-    if (this.updateMap && this.marker) {
-      this.updateMap.setView([lat, lon], 13);
-      this.marker.setLatLng([lat, lon]);
+  // searchLocation(query: string, context: 'add' | 'update'): void {
+  //   const url = `https://nominatim.openstreetmap.org/search?format=json&q={searchTerm}`;
+  //   this.http.get<any[]>(url).subscribe(results => {
+  //     this.errorMessage = '';
+  //     if (results.length > 0) {
+  //       // Traitez les résultats
+  //       // Assurez-vous d'ajuster le traitement des résultats selon le format attendu
+  //     } else {
+  //       console.log('No results found');
+  //       this.errorMessage = 'No results found. Please try a different search.';
+  //     }
+  //     this.cdr.detectChanges();
+  //   }, error => {
+  //     console.error('Error during the search:', error);
+  //     this.errorMessage = 'An error occurred during the search. Please try again.';
+  //     this.cdr.detectChanges();
+  //   });
+  // }
+
+
+
+
+
+  searchLocationForAdd(locationQuery: string): void {
+    if (!locationQuery.trim()) {
+      console.log('Search query is empty.');
+      return;
     }
 
-    this.locationSuggestions = []; // Clear suggestions
-  }
+    const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(locationQuery)}`;
+    axios.get<any[]>(url).then(response => {
+      const results = response.data;
 
-  searchLocation(query: string, context: 'add' | 'update'): void {
-    const url = `https://nominatim.openstreetmap.org/search?format=json&q={searchTerm}`;
-    this.http.get<any[]>(url).subscribe(results => {
-      this.errorMessage = '';
-      if (results.length > 0) {
-        // Traitez les résultats
-        // Assurez-vous d'ajuster le traitement des résultats selon le format attendu
-      } else {
-        console.log('No results found');
-        this.errorMessage = 'No results found. Please try a different search.';
+      if (this.addMap) {
+        this.addMap.eachLayer(layer => {
+          if (layer instanceof L.Marker) {
+            this.addMap!.removeLayer(layer);
+          }
+        });
+
+        results.forEach(result => {
+          const { lat, lon, display_name } = result;
+          L.marker([lat, lon]).addTo(this.addMap!).bindPopup(display_name || 'Unknown location').openPopup();
+        });
       }
-      this.cdr.detectChanges();
-    }, error => {
+    }).catch(error => {
       console.error('Error during the search:', error);
-      this.errorMessage = 'An error occurred during the search. Please try again.';
-      this.cdr.detectChanges();
     });
   }
 
-  // searchLocation(context: 'add' | 'update'): void {
-  //   if (!this.searchQuery) {
-  //     console.log('Search query is empty.');
-  //     return;
-  //   }
-  //
-  //   // Assuming this.eventService.searchLocation is implemented correctly
-  //   this.eventService.searchLocation(this.searchQuery).subscribe(results => {
-  //     if (this.map) {
-  //       this.map.eachLayer(layer => {
-  //         if (layer instanceof L.Marker) {
-  //           this.map!.removeLayer(layer);
-  //         }
-  //       });
-  //
-  //       results.forEach((result: any) => {
-  //         const { lat, lon, display_name } = result;
-  //         L.marker([lat, lon]).addTo(this.map!).bindPopup(display_name || 'Unknown location').openPopup();
-  //       });
-  //     }
-  //   }, error => {
-  //     console.error('Error during the search:', error);
-  //   });
-  // }
+  searchLocationForUpdate(locationQuery: string): void {
+    if (!locationQuery.trim()) {
+      console.log('Search query is empty.');
+      return;
+    }
+
+    const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(locationQuery)}`;
+    axios.get<any[]>(url).then(response => {
+      const results = response.data;
+
+      if (this.updateMap) {
+        this.updateMap.eachLayer(layer => {
+          if (layer instanceof L.Marker) {
+            this.updateMap!.removeLayer(layer);
+          }
+        });
+
+        results.forEach(result => {
+          const { lat, lon, display_name } = result;
+          L.marker([lat, lon]).addTo(this.updateMap!).bindPopup(display_name || 'Unknown location').openPopup();
+        });
+      }
+    }).catch(error => {
+      console.error('Error during the search:', error);
+    });
+  }
+
 
   onSearchChange(event: Event): void {
     const latitude = event.place; // Access latitude directly
@@ -689,31 +934,48 @@ export class EventComponent implements OnInit,AfterViewInit {
     console.log("Latitude:", event.place);
   }
 
-  private initDetailMap(latitude: number = 0, longitude: number = 0): void {
-    if (this.mapDetailContainer) {
-      // Initialize the map
-      this.map = L.map(this.mapDetailContainer.nativeElement).setView([latitude, longitude], 13);
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© OpenStreetMap contributors'
-      }).addTo(this.map);
-
-      L.marker([latitude, longitude]).addTo(this.map)
-        .bindPopup(this.selectedEventDetails?.place || 'Event Location').openPopup();
-
-      // Invalidate the map size to ensure it fits the container properly
-      this.map.invalidateSize();
+  // Call this method when the modal is fully open
+  // Call this method when the modal is fully open
+  private initDetailMap(): void {
+    if (!this.selectedEventDetails) {
+      console.error('Selected event details are missing.');
+      return;
     }
-  }
-  updateMapLocation(lat: number, lon: number, context: 'add' | 'update'): void {
-    const mapToUpdate = context === 'add' ? this.map : this.updateMap;
-    if (mapToUpdate) {
-      if (this.marker) {
-        this.marker.remove(); // Remove the previous marker
-      }
-      mapToUpdate.setView([lat, lon], 13);
-      this.marker = L.marker([lat, lon]).addTo(mapToUpdate);
+
+    if (!this.mapContainer || !this.mapContainer.nativeElement) {
+      console.error('Map container is missing.');
+      return;
+    }    if (!this.selectedEventDetails || !this.mapContainer || !this.mapContainer.nativeElement) {
+      console.error('Map container or selected event data is missing.');
+      return;
     }
-  }
+
+    // Vérifiez si la carte est déjà initialisée, sinon initialisez-la.
+    if (this.map) {
+      this.map.remove(); // Assurez-vous de supprimer l'instance précédente si elle existe.
+    }
+
+    this.map = L.map(this.mapContainer.nativeElement).setView([this.selectedEventDetails.latitude, this.selectedEventDetails.longitude], 13);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors'
+    }).addTo(this.map);
+
+    const marker = L.marker([this.selectedEventDetails.latitude, this.selectedEventDetails.longitude]).addTo(this.map);
+    marker.bindPopup(this.selectedEventDetails.place || 'Event Location');
+
+    // Force Leaflet à actualiser la taille de la carte
+    this.map.invalidateSize();
+  }  // updateMapLocation(lat: number, lon: number, context: 'add' | 'update'): void {
+  //   const mapToUpdate = context === 'add' ? this.map : this.updateMap;
+  //   if (mapToUpdate) {
+  //     if (this.marker) {
+  //       this.marker.remove(); // Remove the previous marker
+  //     }
+  //     mapToUpdate.setView([lat, lon], 13);
+  //     this.marker = L.marker([lat, lon]).addTo(mapToUpdate);
+  //   }
+  // }
 
 
   filterEvents(): void {
@@ -743,6 +1005,7 @@ export class EventComponent implements OnInit,AfterViewInit {
     this.updateEventForm.patchValue({
       event_name: event.event_name,
       event_date: event.event_date,
+      finishevent_date: event.finishevent_date,
       place: event.place,
       event_description: event.event_description,
       latitude: event.latitude,
@@ -827,6 +1090,8 @@ export class EventComponent implements OnInit,AfterViewInit {
       next: (feedbacks) => {
         this.feedbacks = feedbacks.filter(feedback => this.isCommentSafe(feedback.description));
         console.log("Feedbacks fetched successfully for event ID", eventId);
+          this.cdr.detectChanges();
+
       },
       error: (error) => {
         console.error("Error fetching feedbacks for event ID", eventId, ":", error);
@@ -857,35 +1122,26 @@ export class EventComponent implements OnInit,AfterViewInit {
 
   addEvent(): void {
     if (this.newEventForm.valid) {
-      if (this.map !== null) {
+      const newEvent: Event = this.newEventForm.value;
 
-        const newEvent: Event = this.newEventForm.value;
-
-        this.map.on('click', (e) => {
-          const {lat, lng} = e.latlng;
-          console.log(`New event location: ${lat}, ${lng}`);
-          this.newEventForm.patchValue({
-            place: `${lat}, ${lng}` // Or any other format you prefer
-          });
-        });
-
-        this.eventService.addEvent(newEvent).subscribe(
-          () => {
-            this.showModalWithMessage('Event is add successfully!');
-
-            console.log('Event added successfully.');
-            this.newEventForm.reset();
-            this.loadEvents(this.currentPage, this.pageSize);
-            this.cdr.detectChanges();
-
-          },
-          error => {
-            this.showModalWithMessage('Error adding event:');
-          }
-        );
-      }
+      this.eventService.addEvent(newEvent).subscribe(
+        () => {
+          console.log('Event added successfully.');
+          this.toaster.success('Event added successfully!');
+          this.newEventForm.reset();
+          this.loadEvents(this.currentPage, this.pageSize);
+        },
+        error => {
+          console.error('Error adding event:', error);
+          this.toaster.error('Error adding event.');
+        }
+      );
+    } else {
+      console.error('Form is not valid:', this.newEventForm.errors);
+      this.toaster.error('Please fill all required fields.');
     }
   }
+
   askDeleteConfirmation(activityId: number): void {
     this.eventIdToDelete = activityId;
     const modal = new bootstrap.Modal(this.deleteConfirmationModal.nativeElement);
@@ -895,13 +1151,13 @@ export class EventComponent implements OnInit,AfterViewInit {
   confirmDeletion(): void {
     this.eventService.hasRelatedActivities(this.eventIdToDelete).subscribe(canDelete => {
       if (canDelete) {
-        this.showModalWithMessage('Event cannot be deleted because it has related activities.');
+        this.toaster.error('Event cannot be deleted because it has related activities.');
       } else {
         this.eventService.deleteEvent(this.eventIdToDelete).subscribe(() => {
-          this.showModalWithMessage('Event deleted successfully!');
+          this.toaster.success('Event deleted successfully!');
           this.loadEvents(this.currentPage, this.pageSize); // Refresh the events list
         }, error => {
-          this.showModalWithMessage('Error deleting the event. Please try again.');
+          this.toaster.error('Error deleting the event. Please try again.');
         });
       }
     });
@@ -915,7 +1171,7 @@ export class EventComponent implements OnInit,AfterViewInit {
   checkAndDeleteEvent(eventId: number): void {
     this.eventService.hasRelatedActivities(eventId).subscribe((hasRelated: boolean) => {
       if (hasRelated) {
-        this.showModalWithMessage('This event has related activities and cannot be deleted.');
+        this.toaster.error('This event has related activities and cannot be deleted.');
       } else {
         this.askDeleteConfirmation(eventId);
       }
@@ -962,82 +1218,86 @@ export class EventComponent implements OnInit,AfterViewInit {
         ...this.selectedEvent,
         ...this.updateEventForm.value
       };
+      console.log("update ",this.updateEventForm.value)
 
       // Ensuring eventId is correctly utilized in the request
       if (this.selectedEvent.eventId !== undefined) {
         this.eventService.updateEvent(this.selectedEvent.eventId, updatedEvent).subscribe({
           next: () => {
-            this.showModalWithMessage('Event updated successfully!');
+            this.toaster.success('Event updated successfully!');
             this.loadEvents(this.currentPage, this.pageSize); // Reload events list to show the updated event
             this.modalRef?.close(); // Assuming this.modalRef is the reference to your update modal
           },
           error: (error) => {
             console.error('Error updating event:', error);
-            this.showModalWithMessage('Error updating event. Please try again.');
+            this.toaster.error('Error updating event. Please try again.');
           }
         });
       } else {
         console.error('Error: Event ID is undefined. Cannot update event.');
-        this.showModalWithMessage('Error: Missing event ID. Cannot update event.');
+        this.toaster.error('Error: Missing event ID. Cannot update event.');
       }
     }
   }
 
 
   private initUpdateMap(latitude: number = 51.505, longitude: number = -0.09): void {
-    if (this.updateMapContainer && this.updateMapContainer.nativeElement) {
-      // Clear any existing map instance before initializing a new one
-      if (this.updateMap) {
-        this.updateMap.off();
-        this.updateMap.remove();
-      }
-      this.updateMap = null;
-
-      // Initialize the map
-      this.updateMap = L.map(this.updateMapContainer.nativeElement, {
-        center: [latitude, longitude],
-        zoom: 13
-      });
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© OpenStreetMap contributors'
-      }).addTo(this.updateMap);
-
-      // Listen for click events on the map
-      this.updateMap.on('click', (e: L.LeafletMouseEvent) => {
-        console.log('Map clicked', e.latlng);
-        const {lat, lng} = e.latlng;
-        if (this.updateMap) {
-          // Remove the existing marker if it exists
-          if (this.marker) {
-            this.marker.remove();
-          }
-
-          // Add a new marker to the map at the clicked location
-          this.marker = new L.Marker(e.latlng, { icon: this.getCustomIcon() }).addTo(this.updateMap);
-
-          // Perform reverse geocoding to get the address
-          const geocodeUrl = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`;
-
-          this.http.get<any>(geocodeUrl).subscribe(data => {
-            const address = data.display_name; // The full address as a string
-            console.log("Retrieved address:", address);
-
-            // Update the form with the address and coordinates
-            this.updateEventForm.patchValue({
-              place: address, // Update the address field in your form
-              latitude: lat,
-              longitude: lng,
-            });
-          }, error => {
-            console.error("Error fetching location name", error);
-          });
-        }
-      });
-    } else {
+    if (!this.updateMapContainer || !this.updateMapContainer.nativeElement) {
       console.error('Update map container is not defined.');
+      return;
     }
-  }
 
+    // Clear any existing map instance before initializing a new one
+    if (this.updateMap) {
+      this.updateMap.off();
+      this.updateMap.remove();
+    }
+
+    // Initialize the map
+    this.updateMap = L.map(this.updateMapContainer.nativeElement, {
+      center: [latitude, longitude],
+      zoom: 13
+    });
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors'
+    }).addTo(this.updateMap);
+
+    // Listen for click events on the map to place a marker and update form values
+    this.updateMap.on('click', async (e: L.LeafletMouseEvent) => {
+      const { lat, lng } = e.latlng;
+
+      // Remove the existing marker if it exists
+      if (this.marker) {
+        this.marker.remove();
+      }
+
+      // Add a new marker to the map at the clicked location
+      this.marker = new L.Marker([lat, lng], { icon: this.getCustomIcon() }).addTo(this.updateMap!);
+
+      // Perform reverse geocoding to get the address
+      const geocodeUrl = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`;
+
+      try {
+        const response = await axios.get(geocodeUrl);
+        const address = response.data.display_name; // The full address as a string
+
+        console.log("Retrieved address:", address);
+
+        // Update the form with the address and coordinates
+        this.updateEventForm.patchValue({
+          place: address,
+          latitude: lat,
+          longitude: lng,
+        });
+      } catch (error) {
+        console.error("Error fetching location name", error);
+        this.updateEventForm.patchValue({
+          place: `Lat: ${lat}, Lng: ${lng}` // Use coordinates as a fallback display
+        });
+      }
+    });
+  }
   private initMap(): void {
     if (!this.mapContainer) {
       console.error('Map container is not available');
@@ -1052,13 +1312,13 @@ export class EventComponent implements OnInit,AfterViewInit {
       maxZoom: 19,
       attribution: '© OpenStreetMap contributors'
     }).addTo(this.map);
-    this.map.on('click', (e) => {
 
+    this.map.on('click', async (e) => {
       if (this.marker && this.map) {
         this.map.removeLayer(this.marker);
       }
 
-      const {lat, lng} = e.latlng;
+      const { lat, lng } = e.latlng;
       if (this.map) {
         if (this.marker) {
           this.marker.remove(); // Remove existing marker
@@ -1066,9 +1326,26 @@ export class EventComponent implements OnInit,AfterViewInit {
         this.marker = new L.Marker(e.latlng, { icon: this.getCustomIcon() }).addTo(this.map);
       }
 
+      try {
+        const geocodeUrl = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=jsonv2`;
+        const response = await axios.get(geocodeUrl);
+        const address = response.data.address;
+        const { state,  county,  amenity,postcode } = address;
 
+        // Format display location with checks for undefined values
+        const displayLocation = `${amenity },${county ? `${county}, ` :''}${postcode ? `${postcode}, ` : ''}${state } `;
 
-      this.saveLocation(lat, lng);
+        // Update the form or state with the new location and coordinates
+        this.newEventForm.patchValue({
+          place: displayLocation,  // Update the location display using the formatted string
+          latitude: lat,
+          longitude: lng
+        });
+
+        console.log("Location name updated:", address);
+      } catch (error) {
+        console.error('Error fetching location name:', error);
+      }
     });
   }
 
@@ -1083,25 +1360,55 @@ export class EventComponent implements OnInit,AfterViewInit {
       className: 'my-custom-icon'
     });
   }
+  // private saveLocation(latitude: number, longitude: number): void {
+  //   const geocodeUrl = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`;
+  //
+  //   this.http.get<any>(geocodeUrl).subscribe(data => {
+  //     // Supposons que le champ 'place' dans le formulaire est utilisé pour stocker le nom de l'emplacement
+  //     const locationName = data.display_name; // Ou utilisez un autre chemin dans l'objet data selon le format de réponse
+  //
+  //     this.newEventForm.patchValue({
+  //       place: locationName, // Mettez à jour le nom de l'emplacement dans le formulaire
+  //       latitude: latitude,
+  //       longitude: longitude
+  //     });
+  //
+  //     console.log("Location name updated:", locationName);
+  //     // Note: Pas besoin d'appeler un service ici si le formulaire sera soumis pour sauvegarder l'événement
+  //   }, error => {
+  //     console.error("Error fetching location name", error);
+  //   });
+  // }
   private saveLocation(latitude: number, longitude: number): void {
-    const geocodeUrl = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`;
+    // Using environment variables to manage API URLs is a good practice.
+    const geocodeUrl = `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=jsonv2`;
 
-    this.http.get<any>(geocodeUrl).subscribe(data => {
-      // Supposons que le champ 'place' dans le formulaire est utilisé pour stocker le nom de l'emplacement
-      const locationName = data.display_name; // Ou utilisez un autre chemin dans l'objet data selon le format de réponse
+    console.log('Latitude:', latitude);
+    console.log('Longitude:', longitude);
 
-      this.newEventForm.patchValue({
-        place: locationName, // Mettez à jour le nom de l'emplacement dans le formulaire
-        latitude: latitude,
-        longitude: longitude
-      });
+    this.http.get<any>(geocodeUrl).subscribe({
+      next: (data) => {
+        // Extract address components from the response
+        const { city, postcode, road, suburb, town } = data.address;
 
-      console.log("Location name updated:", locationName);
-      // Note: Pas besoin d'appeler un service ici si le formulaire sera soumis pour sauvegarder l'événement
-    }, error => {
-      console.error("Error fetching location name", error);
+        // Format display location with checks for undefined values
+        const displayLocation = `${road ? `${road}, ` : ''}${suburb ? `${suburb}, ` : ''}${postcode ? `${postcode}, ` : ''}${city || town}`;
+
+        // Updating form values
+        this.newEventForm.patchValue({
+          place: displayLocation,  // Update the location display using the formatted string
+          latitude: latitude,
+          longitude: longitude
+        });
+
+        console.log("Location name updated:", displayLocation);
+      },
+      error: (error) => {
+        console.error("Error fetching location name", error);
+      }
     });
   }
+
   openFeedbackModal(eventId: number): void {
     this.selectedEventId = eventId;
     this.feedbackModalRef = this.modalService.open(this.feedbackModal, { centered: true });
@@ -1145,26 +1452,41 @@ export class EventComponent implements OnInit,AfterViewInit {
 
   handleFeedbackSubmission(): void {
     if (!this.selectedEventId) {
-      console.error("Event ID is undefined.");
-      this.showModalWithMessage("Event ID is missing. Unable to submit feedback.");
+      console.error("handleFeedbackSubmission: Event ID is undefined.");
+      this.toaster.error("Event ID is missing. Unable to submit feedback.");
       return;
     }
 
-    this.feedbackService.addFeedback(this.selectedEventId, this.feedbackText, this.feedbackNote).subscribe({
+    console.log("handleFeedbackSubmission: Submitting feedback for event ID", this.selectedEventId);
+    this.feedbackService.addFeedback(this.selectedEventId, this.feedbackText, this.feedbackNote, this.storagService.getUser().id).subscribe({
       next: (response) => {
-        console.log("Feedback submitted successfully", response);
+        console.log("handleFeedbackSubmission: Feedback submitted successfully", response);
+        this.toaster.success("Feedback submitted successfully");
+
         // Close the feedback modal
         if (this.feedbackModalRef) {
+          console.log("handleFeedbackSubmission: Closing feedback modal");
           this.feedbackModalRef.close();
+          this.cdr.detectChanges();
         }
 
         // Update the average rating for the event
+        console.log("handleFeedbackSubmission: Updating average rating for event ID", this.selectedEventId);
         this.updateAverageRating(this.selectedEventId);
+
+        // Reload the page to reflect changes
+        console.log("handleFeedbackSubmission: Reloading page to reflect changes");
+        window.location.reload();
       },
       error: (error) => {
-        console.error("Failed to submit feedback", error);
-        this.warningMessage = "Failed to submit feedback. Please try again later.";
-        setTimeout(() => this.showModalWithMessage(this.warningMessage), 500);
+        // console.error("handleFeedbackSubmission: Failed to submit feedback", error);
+        // this.toaster.error("Failed to submit feedback. Please try again later.");
+        // setTimeout(() => {
+        //   console.log("handleFeedbackSubmission: Showing warning modal message");
+        //   this.showModalWithMessage(this.warningMessage);
+        // }, 500);
+        console.error("addFeedback: Error submitting feedback", error.message, "Status:", error.status);
+        return throwError(() => new Error('Error submitting feedback: ' + error.message));
       }
     });
   }
@@ -1232,6 +1554,7 @@ export class EventComponent implements OnInit,AfterViewInit {
     this.eventService.findOneEvent(eventId).subscribe({
       next: (event) => {
         this.selectedEventDetails = event;
+        this.initDetailMap();
 
         // Assuming the event object includes an averageRating property
         this.averageRating = event.averageRating;
@@ -1248,5 +1571,6 @@ export class EventComponent implements OnInit,AfterViewInit {
   }
 
 
+  protected readonly emojis = emojis;
 }
 

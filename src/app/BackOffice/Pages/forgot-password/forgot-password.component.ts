@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { UserService } from 'src/app/Services/user.service';
 
 @Component({
@@ -13,14 +14,16 @@ export class ForgotPasswordComponent {
   newPassword: string="";
   resetSuccess: boolean=false;
   resetError: boolean=false;
+  siteKey: string= "6Lcom7kpAAAAAArX67LiteQ0DxzZg-CCyjkEHVZL";
 
-  constructor(private passwordResetService: UserService) { }
+  constructor(private passwordResetService: UserService,private toastr: ToastrService) { }
 
   initiatePasswordReset() {
     this.passwordResetService.initiatePasswordReset(this.email).subscribe(
       () => {
         this.resetSuccess = true;
         this.resetError = false;
+       
       },
       (error) => {
         console.error('Error initiating password reset:', error);
@@ -38,6 +41,7 @@ export class ForgotPasswordComponent {
         this.newPassword = '';
         this.resetSuccess = true;
         this.resetError = false;
+        this.toastr.success('Hello world!', 'Toastr fun!');
       },
       (error) => {
         console.error('Error resetting password:', error);

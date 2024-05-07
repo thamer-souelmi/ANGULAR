@@ -1,0 +1,20 @@
+<h2 mat-dialog-title>Edit Quiz Question</h2>
+<mat-dialog-content>
+  <form #editQuestionForm="ngForm"> <!-- Add a template reference variable to the form -->
+    <mat-form-field>
+      <mat-label>Question</mat-label>
+      <input matInput [(ngModel)]="question.question" name="question" required>
+    </mat-form-field>
+    <div *ngFor="let option of question.options; let i = index">
+      <mat-form-field>
+        <mat-label>Option {{ i + 1 }}</mat-label>
+        <input matInput [(ngModel)]="option.answer" name="option{{ i }}" required>
+      </mat-form-field>
+      <mat-checkbox [(ngModel)]="option.correct" name="correct{{ i }}">Correct Answer</mat-checkbox> <!-- Add the name attribute -->
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button color="primary" [disabled]="!editQuestionForm.valid" (click)="submitQuestion()">Save</button> <!-- Use form validation -->
+</mat-dialog-actions>

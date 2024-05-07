@@ -72,13 +72,16 @@
           <h5 class="card-title">{{ event.event_name }}</h5>
 
           <p class="card-text">
-            {{ expandedDescriptions[event.eventId] ? event.event_description : (event.event_description | slice:0:100) }}...
+            {{ expandedDescriptions[event.eventId] ? event.event_description : (event.event_description | slice:0:100) }}
             <button *ngIf="event.event_description.length > 100" class="btn btn-link p-0" (click)="toggleDescription(event)">
               {{ expandedDescriptions[event.eventId] ? 'Read Less' : 'Read More' }}
             </button>
           </p>
           <div class="event-meta mb-2">
             <small class="text-muted"><i class="bi bi-calendar-event-fill"></i> {{ event.event_date | date:'mediumDate' }}</small>
+            <br>
+            <small class="text-muted"><i class="bi bi-calendar-event-fill"></i> {{ event.finishevent_date | date:'mediumDate' }}</small>
+
             <small class="text-muted float-end"><i class="bi bi-geo-alt-fill"></i> {{ event.place }}</small>
 
           </div>
@@ -113,13 +116,21 @@
                 <p>{{ feedback.description }}</p>
               </div>
             </div>
-
+          </div>
+            <button (click)="openDetailModal(event)" class=" btn-info btn-icon" aria-label="View details">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                   class="bi bi-info-circle" viewBox="0 0 16 16">
+                <path
+                  d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                <path
+                  d="m8.93 6.588-2.29.287-.082.380.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
+              </svg>
+            </button>
             <ng-template #noFeedbacks>
               <div class="alert alert-info" role="alert">
                 No feedbacks yet. Be the first to provide feedback!
               </div>
             </ng-template>
-          </div>
           <div class="card-footer bg-white d-flex justify-content-around align-items-center btn-container">
             <button type="button" class="btn btn-edit btn-info btn-sm mx-1 " (click)="showUpdateModal(event)">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
@@ -131,8 +142,10 @@
 
             <button (click)="registerEvent(event.eventId)" class="btn btn-register btn-sm mx-1"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-plus-fill" viewBox="0 0 16 16">
             <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
+            <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
             <path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5"/>
           </svg>
+
 
 
             </button>
@@ -177,21 +190,30 @@
 
           </div>
           <div class="mb-3">
-            <label for="event_date" class="form-label">Event Date</label>
+            <label for="event_date" class="form-label">Start Date</label>
             <input type="date" class="form-control" id="event_date" formControlName="event_date">
             <div *ngIf="newEventForm.get('event_date')?.touched && newEventForm.get('event_date')?.invalid" class="text-danger">
               Event date is required .
             </div>
           </div>
+          <div class="form-group">
+            <label for="finishevent_date">Finish Date</label>
+            <input type="date" class="form-control" id="finishevent_date" formControlName="finishevent_date">
+          </div>
           <div class="mb-3">
             <label for="place" class="form-label">Place</label>
             <input type="text" class="form-control" id="place" formControlName="place">
             <br>
-            <!--            <input type="text" [(ngModel)]="searchQuery" (input)="onSearchChange($event)" placeholder="Search for a location...">-->
-            <!--            <button (click)="searchLocation()">Search</button>-->
+<!--                        <input type="text" [(ngModel)]="searchQuery" (input)="onSearchChange($event)" placeholder="Search for a location...">-->
+<!--                        <button (click)="searchLocation()">Search</button>-->
+            <input type="text" class="form-control" [(ngModel)]="locationQuery"
+                   [ngModelOptions]="{standalone: true}" placeholder="Search for a location"
+                   (keydown.enter)="$event.preventDefault(); searchLocationForAdd(locationQuery)">
 
-            <!--            <input type="text" [(ngModel)]="locationQuery" placeholder="Search for a location" (change)="searchLocation(locationQuery)">-->
-            <div id="map" #mapContainer style="height: 400px;"></div>
+            <!--            <input id="locationQuery" type="text" placeholder="Entrer une localisation" [(ngModel)]="locationQuerys">-->
+<!--            <button (click)="searchLocation(locationQuerys)">Search</button>-->
+
+            <div id="mapContainer" #addMapContainer style="height: 400px;"></div>
             <div *ngIf="errorMessage" class="alert alert-danger">
               {{ errorMessage }}
             </div>
@@ -200,13 +222,25 @@
               Event place is required .
             </div>
           </div>
-          <div class="mb-3">
-            <label for="event_description" class="form-label">Description</label>
-            <textarea class="form-control" id="event_description" formControlName="event_description"></textarea>
-            <div *ngIf="newEventForm.get('event_description')?.touched && newEventForm.get('event_description')?.invalid" class="text-danger">
-              Event date is required .
+
+          <div class="input-emoji-container">
+            <div class="mb-3">
+              <label for="event_description">Description:</label>
+              <div class="textarea-container">
+                <textarea matInput class="form-control" id="event_description" formControlName="event_description" required></textarea>
+                <button mat-icon-button class="emoji-button" (click)="toggleDescriptionEmojiPicker()">
+                  <mat-icon>insert_emoticon</mat-icon>
+                </button>
+              </div>
+              <div *ngIf="showDescriptionEmojiPicker" class="emoji-picker-container">
+                <emoji-mart title="Choisissez un emoji" (emojiClick)="addEmojiToDescription($event)"></emoji-mart>
+              </div>
+              <div *ngIf="newEventForm.get('event_description')?.touched && newEventForm.get('event_description')?.invalid" class="text-danger">
+                Event description is required .
+              </div>
             </div>
           </div>
+
           <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" [disabled]="!newEventForm.valid">Add Event</button>
         </form>
       </div>
@@ -232,22 +266,45 @@
             <input type="date" class="form-control" id="event_date" formControlName="event_date">
           </div>
           <div class="mb-3">
+            <label for="finishevent_date" class="form-label">Event Date</label>
+            <input type="date" class="form-control" id="finishevent_date" formControlName="finishevent_date">
+          </div>
+          <div class="mb-3">
             <label for="place" class="form-label">Place</label>
             <input type="text" class="form-control" id="place" formControlName="place" placeholder="Address">
             <br>
-                        <input type="text" class="form-control" [(ngModel)]="locationQuery"
-                               [ngModelOptions]="{standalone: true}" placeholder="Search for a location"
-                               (keydown.enter)="$event.preventDefault(); searchLocation(locationQuery, 'update')">
+            <input type="text" class="form-control" [(ngModel)]="locationQuery"
+                   [ngModelOptions]="{standalone: true}" placeholder="Search for a location"
+                   (keydown.enter)="$event.preventDefault(); searchLocationForUpdate(locationQuery)">
 
             <div id="updateMap" #updateMapContainer style="height: 400px;"></div>
             <div *ngIf="errorMessage" class="alert alert-danger">
               {{ errorMessage }}
             </div>
           </div>
-          <div class="mb-3">
-            <label for="event_description" class="form-label">Description</label>
-            <textarea class="form-control" id="event_description" formControlName="event_description"></textarea>
+
+
+          <div class="input-emoji-container">
+            <div class="mb-3">
+              <label for="event_description">Description:</label>
+              <div class="textarea-container">
+                <textarea matInput class="form-control" id="event_description" formControlName="event_description" required></textarea>
+                <button type="button" mat-icon-button class="emoji-button" (click)="toggleUpdateEmojiPicker()">
+                  <mat-icon>insert_emoticon</mat-icon>
+                </button>
+
+              </div>
+              <div *ngIf="showUpdateEmojiPicker" class="emoji-picker-container">
+                <emoji-mart set="apple" (emojiClick)="addEmojiToUpdateDescription($event)"></emoji-mart>
+              </div>
+
+              <div *ngIf="updateEventForm.get('event_description')?.touched && newEventForm.get('event_description')?.invalid" class="text-danger">
+                Event description is required .
+              </div>
+            </div>
           </div>
+
+
           <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" [disabled]="!updateEventForm.valid">Update Event</button>
         </form>
       </div>
@@ -395,3 +452,46 @@
   crossorigin=""
 />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+<div #eventDetailModal class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header custom-bg-color text-white">
+        <h5 class="modal-title">{{ selectedEvent?.event_name || 'Event Details' }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-6">
+            <p><strong>Date:</strong> {{ selectedEvent?.event_date | date:'medium' }} to {{ selectedEvent?.finishevent_date | date:'medium' }}</p>
+            <p><strong>Description:</strong> {{ selectedEvent?.event_description }}</p>
+
+            <p><strong>Location:</strong> {{ selectedEvent?.place }}</p>
+            <div #mapContainer style="height: 300px; border: 1px solid #ccc;"></div>
+          </div>
+          <div class="col-md-6">
+<!--            <img src="{{ selectedEvent?.image }}" alt="Event Image" class="img-fluid mb-3" *ngIf="selectedEvent?.image">-->
+            <div *ngIf="selectedEventActivities && selectedEventActivities.length > 0">
+              <h6>Associated Activities:</h6>
+              <ul>
+                <li *ngFor="let activity of selectedEventActivities" class="activity-item">
+                  <strong>{{ activity.activity_name }}</strong><br>
+                  {{ activity.description }} <br>
+                  Start Date :  {{ activity.startTime | date:'medium' }} <br>
+                  Finish Date : {{ activity.finishTime | date:'medium' }}
+                </li>
+              </ul>
+            </div>
+
+          </div>
+        </div>
+        <div *ngIf="selectedEvent && selectedEvent.averageRating !== undefined">
+          <h6>Average Rating:</h6>
+          <div class="progress">
+            <div class="progress-bar bg-success" role="progressbar" [style.width.%]="selectedEvent.averageRating * 10" aria-valuemin="0" aria-valuemax="100">{{ selectedEvent.averageRating | number:'1.1-1' }}</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>

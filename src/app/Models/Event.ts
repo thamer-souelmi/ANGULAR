@@ -11,9 +11,11 @@ export class Event{
   event_description!: string ;
   place !:string;
   event_date!: Date;
+  finishevent_date!:Date;
   users!: User [];
   RegistationEvents!:RegistrationEvent[];
   Activitys!: Activity[];
   feedbacks!: FeedBack[];
   averageRating?: number;
+
 }

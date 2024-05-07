@@ -538,3 +538,63 @@ textarea:focus {
   background-color: var(--color-navy-blue); /* Couleur plus foncée lors du clic */
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); /* Ombre portée moins prononcée pour l'effet de clic */
 }
+.input-emoji-container .textarea-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px; /* Adjust to your form spacing */
+}
+
+.input-emoji-container .form-control {
+  flex-grow: 1;
+  padding-right: 2.5rem; /* Make space for the button */
+}
+
+.input-emoji-container .emoji-button {
+  position: absolute;
+  right: 10px; /* Adjust this value as needed to move the button a bit to the left */
+  top: 25px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+
+}
+.input-emoji-container {
+  position: relative;
+}
+
+.input-emoji-container .emoji-picker-container {
+  position: absolute;
+  right: 0;
+  top: 100%; /* Adjust this value as needed to position the picker */
+  z-index: 100;
+}
+
+.emoji-input-container {
+  position: relative;
+}
+
+.input-group {
+  display: flex;
+}
+
+.emoji-button {
+  position: absolute;
+  right: 20px;
+  top: 40px;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.emoji-picker-container {
+  position: absolute;
+  right: 0;
+  top: 100%; /* Adjust this value as needed to position the picker */
+  z-index: 100;
+}
+
+textarea.form-control {
+  padding-right: 40px; /* Make space for emoji button inside textarea */
+}
+

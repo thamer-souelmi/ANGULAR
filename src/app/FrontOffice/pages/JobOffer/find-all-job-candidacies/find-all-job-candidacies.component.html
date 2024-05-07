@@ -44,14 +44,16 @@
     </div>
   </div>
 </div>
-<div #myModal class="modal fade" id="moreModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+<div class="modal fade" id="responseModal" tabindex="-1" aria-labelledby="responseModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="modalLabel">Cover Letter</h5>
+        <h5 class="modal-title" id="responseModalLabel">Recommendation Response</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
+        <!-- Display the response content here -->
+        <p>{{ recommendationResponse }}</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -60,23 +62,61 @@
   </div>
 </div>
 
+
 <h2 class="text-center">Candidacies</h2>
 <br>
 <br>
-<button class="btn btn-primary justify-content-end" (click)="sendRequirements()">Recommandation</button>
-<br>
+<div class="d-flex justify-content-end mb-3 custom-btn-container">
+  <div>
+    <button class="btn btn-primary" (click)="openAddMarkDialog()">Add Mark
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-medical" viewBox="0 0 16 16">
+        <path d="M7.5 5.5a.5.5 0 0 0-1 0v.634l-.549-.317a.5.5 0 1 0-.5.866L6 7l-.549.317a.5.5 0 1 0 .5.866l.549-.317V8.5a.5.5 0 1 0 1 0v-.634l.549.317a.5.5 0 1 0 .5-.866L8 7l.549-.317a.5.5 0 1 0-.5-.866l-.549.317zm-2 4.5a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1zm0 2a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1z"/>
+        <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
+      </svg>
+    </button>
+  </div>
+
+  <div class="ml-4">
+    <button class="btn btn-primary btn-spacing" (click)="sendRequirements()">Recommandation
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-lightning-fill" viewBox="0 0 16 16">
+        <path d="M5.52.359A.5.5 0 0 1 6 0h4a.5.5 0 0 1 .474.658L8.694 6H12.5a.5.5 0 0 1 .395.807l-7 9a.5.5 0 0 1-.873-.454L6.823 9.5H3.5a.5.5 0 0 1-.48-.641z"/>
+      </svg>
+    </button>
+  </div>
+</div>
+
+
+<div class="container">
+  <div class="single_field">
+  <input type="search" [(ngModel)]="searchtext" name="search" id="form1" class="form-control" placeholder="Search keyword" style="width: calc(100% - 20px); height: 40px; padding: 8px 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px;">
+</div>
+</div>
 <br>
 <div class="container">
   <div class="row">
-    <div class="col-md-4 mb-4" *ngFor="let candidacy of candidacies">
+    <div class="col-md-4 mb-4" *ngFor="let candidacy of getPaginatedItems() | filterJob:searchtext">
       <div class="card">
         <div class="card-body">
           <h4 class="card-title d-flex justify-content-between align-items-center">
             <span>{{ candidacy.candidateName }}</span>
             <span class="text-end">{{ candidacy.submissionDate | date }}</span>
           </h4>
-          <p class="card-text">Email: <a href="mailto:{{ candidacy.email }}">{{ candidacy.email }}</a>
-            <br>
+          <p class="card-text">
+            Email: <a href="mailto:{{ candidacy.email }}">
+            {{ candidacy.email }}
+            <ng-container *ngIf="candidacy.emailStatus === 'DELIVERABLE'">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-patch-check-fill" viewBox="0 0 16 16">
+                <path d="M10.067.87a2.89 2.89 0 0 0-4.134 0l-.622.638-.89-.011a2.89 2.89 0 0 0-2.924 2.924l.01.89-.636.622a2.89 2.89 0 0 0 0 4.134l.637.622-.011.89a2.89 2.89 0 0 0 2.924 2.924l.89-.01.622.636a2.89 2.89 0 0 0 4.134 0l.622-.637.89.011a2.89 2.89 0 0 0 2.924-2.924l-.01-.89.636-.622a2.89 2.89 0 0 0 0-4.134l-.637-.622.011-.89a2.89 2.89 0 0 0-2.924-2.924l-.89.01zm.287 5.984-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7 8.793l2.646-2.647a.5.5 0 0 1 .708.708"/>
+              </svg>
+            </ng-container>
+            <ng-container *ngIf="candidacy.emailStatus === 'UNDELIVERABLE'">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
+                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z"/>
+              </svg>
+            </ng-container>
+          </a>
+          </p>
+          <br>
           <div class="card-icons">
           <a href="{{ candidacy.link }}" target="_blank"><i class="fas fa-external-link-alt"></i></a>
           <a href="{{ candidacy.linkedin }}" target="_blank" class="fab fa-linkedin fa-lg"></a>
@@ -104,6 +144,12 @@
                   <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z"/>
                 </svg>
                 </button>
+<!--                <button class="btn btn-icon" (click)="openAddMarkDialog()">-->
+<!--                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-medical" viewBox="0 0 16 16">-->
+<!--                  <path d="M7.5 5.5a.5.5 0 0 0-1 0v.634l-.549-.317a.5.5 0 1 0-.5.866L6 7l-.549.317a.5.5 0 1 0 .5.866l.549-.317V8.5a.5.5 0 1 0 1 0v-.634l.549.317a.5.5 0 1 0 .5-.866L8 7l.549-.317a.5.5 0 1 0-.5-.866l-.549.317zm-2 4.5a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1zm0 2a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1z"/>-->
+<!--                  <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>-->
+<!--                </svg>-->
+<!--                </button>-->
               </div>
               <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addInterviewModal">Interview</button>
             </div>
@@ -114,7 +160,25 @@
   </div>
 </div>
 
-
+<br>
+<br>
+<!-- Pagination controls -->
+<div class="d-flex justify-content-center">
+  <div class="pagination">
+    <button class="btn btn-primary" (click)="onPageChange(currentPage - 1)" [disabled]="currentPage === 1">
+      <i class="fa fa-chevron-left"></i> <!-- Left arrow icon -->
+    </button>
+    <!-- Display page numbers -->
+    <ng-container *ngFor="let page of getPaginationNumbers()">
+      <button class="btn btn-primary" [class.active]="page === currentPage" (click)="onPageChange(page)">
+        {{ page }}
+      </button>
+    </ng-container>
+    <button class="btn btn-primary" (click)="onPageChange(currentPage + 1)" [disabled]="currentPage === getTotalPages()">
+      <i class="fa fa-chevron-right"></i> <!-- Right arrow icon -->
+    </button>
+  </div>
+</div>
 <!-- Add modals here if needed -->
 <div class="modal fade" id="calendarModal" tabindex="-1" aria-labelledby="calendarModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-xl">
@@ -133,11 +197,25 @@
     </div>
   </div>
 </div>
-<div class="d-flex justify-content-end mb-3">
-  <i mat-raised-button
-     matTooltip="Interviews" class="material-icons btn btn-primary mt-2 larger-button" style="background-color: #08718e; color: white;" (click)="openCalendarModal()">
-    <i class="bi bi-calendar3"></i>
-  </i>
+<div class="d-flex justify-content-end mb-3 btn-inter">
+  <div class="d-flex flex-column">
+    <i mat-raised-button matTooltip="Interviews" class="material-icons btn btn-primary mt-2 larger-button" style="background-color: #08718e; color: white;" (click)="openCalendarModal()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-calendar3" viewBox="0 0 16 16">
+        <path d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2M1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857z"/>
+        <path d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
+      </svg>
+    </i>
+    <i mat-raised-button matTooltip=" add Interviews" class="material-icons btn btn-primary mt-2 larger-button" style="background-color: #08718e; color: white;" (click)="addInterviewModal()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
+      </svg>
+    </i>
+  </div>
 </div>
+
+
+
+
+
 
 

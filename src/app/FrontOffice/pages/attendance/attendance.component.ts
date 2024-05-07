@@ -75,7 +75,8 @@ export class AttendanceComponent implements OnInit, OnDestroy {
       projects: [],
       employeeTasks: [],
       role: [],
-      image: ''
+      image: '',
+      CIN:0
     };
 
     this.attendance.employee = user;

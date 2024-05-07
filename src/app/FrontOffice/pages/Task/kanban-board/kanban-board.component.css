@@ -181,4 +181,26 @@ header {
       background-color: #218838; /* Couleur de fond verte plus foncée */
       border-color: #1e7e34; /* Couleur de la bordure verte plus foncée */
   }
-      
+  .badge-online {
+    background-color: #28a745; /* Green background for online/ongoing */
+  }
+  
+  .badge-offline {
+    background-color: #dc3545; /* Red background for offline */
+  }
+  
+  .badge-ongoing {
+    background-color: #ffc107; /* Yellow background for ongoing */
+  }
+  
+  .badge-planned {
+    background-color: #17a2b8; /* Light blue background for planned */
+  }
+  
+  .badge-canceled {
+    background-color: #6c757d; /* Grey background for canceled */
+  }
+  
+  .badge-completed {
+    background-color: #007bff; /* Blue background for completed */
+  }

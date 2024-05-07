@@ -1,0 +1,47 @@
+<div class="modal-container">
+  <div class="modal-header">
+    <h2>Add Interview</h2>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="interviewForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="candidateName">Select Candidate:</label>
+        <select class="form-control" id="candidateName" formControlName="candidateName">
+          <option *ngFor="let candidate of candidates" [value]="candidate.candidacy_id">{{ candidate.candidateName }}</option>
+        </select>
+        <div *ngIf="interviewForm.get('candidateName')?.invalid && interviewForm.get('candidateName')?.touched">
+          Candidate Name is required.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="dateInterview">Interview Date:</label>
+        <input type="datetime-local" class="form-control" id="dateInterview" formControlName="dateInterview">
+        <div *ngIf="interviewForm.get('dateInterview')?.invalid && interviewForm.get('dateInterview')?.touched">
+          Interview Date is required.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="statusInterview">Interview Status:</label>
+        <select class="form-control" id="statusInterview" formControlName="statusInterview">
+          <option *ngFor="let status of statusInterviewOptions" [value]="status">{{ status }}</option>
+        </select>
+        <div *ngIf="interviewForm.get('statusInterview')?.invalid && interviewForm.get('statusInterview')?.touched">
+          Interview Status is required.
+        </div>
+      </div>
+
+
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-success" ><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+          <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
+        </svg>
+        </button>
+        <button type="button" class="btn btn-danger" (click)="onCancel()"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-square-fill" viewBox="0 0 16 16">
+          <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm3.354 4.646L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 1 1 .708-.708"/>
+        </svg></button>
+      </div>
+    </form>
+  </div>
+</div>

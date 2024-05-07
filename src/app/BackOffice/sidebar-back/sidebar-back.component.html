@@ -44,13 +44,13 @@
             <div class="d-flex align-items-center">
               <img src="assets/BackOffice/images/user2.webp" class="rounded-circle" alt="">
               <span class="fw-light ms-8 text-secondary">Hi,</span>
-              <span class="fw-bold ms-8">Julia</span>
+              <span class="fw-bold ms-8">{{name}}</span>
               <i-feather name="chevron-down" class="feather-base"></i-feather>
             </div>
           </button>
           <mat-menu #menu="matMenu" class="profile-dropdown">
             <div class="p-16 mb-4">
-              <button mat-menu-item class="fs-16">Edit Profile</button>
+              <button mat-menu-item class="fs-16" (click)="editUser(userId1)">Edit Profile</button>
               <button mat-menu-item class="fs-16">Account</button>
               <button mat-menu-item class="fs-16">Change Password</button>
               <button mat-menu-item class="fs-16">My Settings</button>
@@ -74,10 +74,7 @@
 <!--      </div>-->
 
 
-
-      <p class="text-center pb-24 fs-16">© 2023 All rights reserved by <a>
-          href="https://www.wrappixel.com/templates/category/free-angular-templates/" target="_blank"
-         class="text-indigo">Wrappixel.com</a></p>
+      <p class="text-center pb-24 fs-16">© 2023 All rights reserved by CoConsult</p>
 
     </mat-sidenav-content>
 

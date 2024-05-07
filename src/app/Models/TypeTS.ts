@@ -1,4 +1,4 @@
 export enum TypeTS {
   ONLINE = "ONLINE",
-  OFFLINE = "OFFLINE"
+  OFFLINE = "OFFLINE"  // Add other types as necessary
 }

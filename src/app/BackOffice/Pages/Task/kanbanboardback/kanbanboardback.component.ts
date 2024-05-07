@@ -56,31 +56,24 @@ export class KanbanboardbackComponent implements OnInit {
     }
   }
   
-  
   handleDrop(event: CdkDragDrop<Task[]>, dropSection: string): void {
     console.log('Drop Event:', event);
+
     let movedTask: Task = event.item.data;
+    console.log('section:', dropSection);
+
+    console.log('Previous Status: ', movedTask );
   
     console.log('Moved Task:', movedTask);
     if (movedTask) {
+     
       let previousStatus: TaskStatus = movedTask.taskStatus;
       let newStatus: TaskStatus = this.convertToTaskStatus(dropSection);
-      console.log('Previous Status:', previousStatus);
-     /*if (movedTask.taskStatus == 1){
-      newStatus= TaskStatus.CANCELLED
-
-     }
-     */
+      console.log('Previous Status: ', previousStatus );
+      console.log('new Status: ', newStatus+1 );
+      movedTask.taskStatus = newStatus+1 ;
      
-     newStatus= TaskStatus.INPROGRESS
-     newStatus= TaskStatus.CANCELLED
-
-      
-      
-      console.log('New Status:', newStatus);
-
-      if (previousStatus !== newStatus) {
-        movedTask.taskStatus = newStatus;
+        
         console.log('Task after status update:', movedTask);
         this.taskService.UpdateTask(movedTask).subscribe(updatedTask => {
           console.log('Task updated:', updatedTask);
@@ -89,11 +82,12 @@ export class KanbanboardbackComponent implements OnInit {
         error => {
           console.error('Error updating task:', error.message);
         });
-      }
+      
     } else {
       console.error('No task data available to move');
     }
   }
+
   
   
   filterTasksBySection(section: string): Task[] {
@@ -123,5 +117,10 @@ export class KanbanboardbackComponent implements OnInit {
       }
     });
   }
-
+  deleteTask(taskId: number) {
+    if (confirm('Are you sure you want to delete this project?')) {
+    this.taskService.deleteTask(taskId).subscribe(() => {
+    });
+  }
+  }
 }

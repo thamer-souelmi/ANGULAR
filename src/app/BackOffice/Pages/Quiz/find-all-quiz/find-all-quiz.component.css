@@ -1,0 +1,147 @@
+.card-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.card-row {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.flip-card {
+  background-color: transparent;
+  width: 250px; /* Increased width for each card */
+  height: 250px; /* Increased height for each card */
+  perspective: 1000px;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+}
+
+.flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front, .flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+}
+
+.flip-card-front {
+  background-color: #ffff;
+  color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.flip-card-back {
+  background-color: #08718e;
+  color: white;
+  transform: rotateY(180deg);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flip-card:hover .flip-card-inner, .flip-card.is-flipped .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+
+h2 {
+  animation: fadeInDown 1s ease-out forwards;
+  text-align: center;
+  font-size: 2.5rem;
+  color: #08718e;
+  font-weight: 500; /* Adjust weight as necessary */
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 2px; /* Slightly more spaced */
+  position: relative;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1); /* Subtle text-shadow for depth */
+  transition: text-shadow 0.3s ease; /* Smooth transition for shadow */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Example font */
+}
+h2::after {
+  content: '';
+  display: block;
+  margin: 0 auto;
+  height: 3px;
+  width: 100px;
+  background: #08718e;
+  border-radius: 2px;
+  margin-top: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transition: width 0.3s ease; /* Transition for hover effect */
+}
+
+/* Hover effect for the underline */
+h2:hover::after {
+  width: 150px; /* Underline grows on hover */
+}
+.pagination .btn {
+  border-radius: 50%; /* Make the buttons circular */
+  padding: 10px 15px; /* Adjust padding to ensure numbers are centered */
+  font-size: 14px; /* Adjust font size as needed */
+  background-color: #0a8bae; /* Set the background color */
+  border-color: #ffffff; /* Set the border color */
+  color: white; /* Set the text color */
+}
+
+.pagination .btn.active {
+  background-color: #086d88; /* Change the background color of the active page number */
+  color: white; /* Change the text color of the active page number */
+}
+
+.pagination .btn:not(.active):hover {
+  background-color: #0a8bae; /* Change the background color on hover */
+  border-color: #086d88; /* Change the border color on hover */
+}
+.button-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+button[mat-raised-button] {
+  margin-right: 10px; /* Adjust margin to create space between the button and the input field */
+  transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+button[mat-raised-button]:hover {
+  background-color: #086d88; /* Change the background color on hover */
+  color: white; /* Change the text color on hover */
+}
+
+.single_field {
+  flex: 1; /* Adjust flex to allow the input field to take up the remaining space */
+  margin-left: 10px;
+}
+
+.single_field input {
+  width: 100%; /* Make the input field take full width of its container */
+  height: 40px;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+
+

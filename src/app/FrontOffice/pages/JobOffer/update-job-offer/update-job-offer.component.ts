@@ -5,6 +5,7 @@ import { JobOffer } from 'src/app/Models/job-offer';
 import { JobNature } from 'src/app/Models/job-nature';
 import { JobCategory } from 'src/app/Models/job-category';
 import { JobOfferService } from 'src/app/Services/job-offer.service';
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-update-job-offer',
@@ -13,37 +14,19 @@ import { JobOfferService } from 'src/app/Services/job-offer.service';
 })
 export class UpdateJobOfferComponent implements OnInit {
   jobOffer: JobOffer;
-  jobNatureOptions: string[];
-  jobCategoryOptions: string[];
+  jobNatureOptions: JobNature[] = Object.values(JobNature) as JobNature[];
+  jobCategoryOptions: JobCategory[] = Object.values(JobCategory) as JobCategory[];
 
   constructor(
     private dialogRef: MatDialogRef<UpdateJobOfferComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private jobOfferService: JobOfferService
+    private jobOfferService: JobOfferService,private toastr: ToastrService
   ) {
-    this.jobOffer = data.jobOffer; // Assign the jobOffer data from the data object
-    this.jobNatureOptions = this.getEnumValues(JobNature);
-    this.jobCategoryOptions = this.getEnumValues(JobCategory);
+    this.jobOffer = { ...data.jobOffer };
   }
 
   ngOnInit(): void {
-    console.log(this.jobOffer);
-
-
-  }
-
-  // salaryRangeValidator(formGroup: FormGroup): void {
-  //   const minSalary = formGroup.get('minsalary')!.value;
-  //   const maxSalary = formGroup.get('maxsalary')!.value;
-  //   if (minSalary !== null && maxSalary !== null && minSalary >= maxSalary) {
-  //     formGroup.get('maxsalary')!.setErrors({ maxSmallerThanMin: true });
-  //   } else {
-  //     formGroup.get('maxsalary')!.setErrors(null);
-  //   }
-  // }
-
-  getEnumValues(enumType: any): string[] {
-    return Object.values(enumType).filter(value => typeof value === 'string') as string[];
+    console.log("Job offer data:", this.jobOffer);
   }
 
   onClose(): void {
@@ -51,24 +34,13 @@ export class UpdateJobOfferComponent implements OnInit {
   }
 
   onSubmit(): void {
-    // if (this.jobOfferForm.valid) {
-      // const updatedJobOffer: JobOffer = this.jobOfferForm.value;
-      // updatedJobOffer.jobOffer_id = this.jobOffer.jobOffer_id; // Preserve original ID
-      // console.log("Submitting job offer:", updatedJobOffer);
-
-      // this.jobOfferService.updateJobOffer(this.jobOffer).subscribe((updatedJobOffer) => {
-      //   console.log("Job offer updated successfully");
-      //   this.dialogRef.close(updatedJobOffer);
-      // }, error => {
-      //   console.error("Error updating job offer:", error);
-      //   // Handle error appropriately, e.g., show error message to user
-      // });
-    // } else {
-    //   console.error("Invalid form submission");
-    //   // Handle invalid form submission, e.g., display validation errors
-    // }
-    this.jobOfferService.updateJobOffer(this.jobOffer).subscribe(updatedJobOffer => {
+    console.log("Submitting job offer:", this.jobOffer);
+    const jobOfferId = this.jobOffer.jobOffer_id; // Assuming jobOffer_id is the ID property
+    this.jobOfferService.updateJobOffer(jobOfferId, this.jobOffer).subscribe(updatedJobOffer => {
+      console.log("Updated job offer:", updatedJobOffer);
+      this.toastr.success('Job Offer successfully!', 'Success');
       this.dialogRef.close(updatedJobOffer);
     });
   }
+
 }
