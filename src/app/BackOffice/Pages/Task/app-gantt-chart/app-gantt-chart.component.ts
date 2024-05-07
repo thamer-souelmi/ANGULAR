@@ -30,7 +30,7 @@ import { AddlinkComponent } from '../addlink/addlink.component';
 </nav>
 <br><div style="display: flex; align-items: center; margin-bottom: 20px;">
   <button mat-raised-button
-          matTooltip="Add Task" class="btn btn-secondary" style="height: 40px; font-size: 16px; margin-left: 900px; background-color: #fb6d1c; border-color: #fb6d1c; border-radius: 10px;" >
+          matTooltip="Add Task" class="btn btn-secondary" style="height: 40px; font-size: 16px; margin-left: 900px; background-color: #fb6d1c; border-color: #fb6d1c; border-radius: 10px;" (click)="createNewTask()" >
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="26" fill="currentColor" class="bi bi-list-task" viewBox="0 0 16 16">
           <path fill-rule="evenodd" d="M2 2.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5V3a.5.5 0 0 0-.5-.5zM3 3H2v1h1z"/>
           <path d="M5 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5M5.5 7a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1zm0 4a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1z"/>
@@ -103,9 +103,9 @@ export class AppGanttChartComponent implements OnInit {
   }
 
   async updateTask(task: Task): Promise<void> {
-    await this.ts.UpdateTask(task).toPromise();
+    await this.ts.UpdateTask(task.taskid,task).toPromise();
   }
-  
+  /*
   async addTask(task: Task): Promise<void> {
     try {
       // Ajout de la tâche dans la base de données
@@ -130,7 +130,7 @@ export class AppGanttChartComponent implements OnInit {
       console.error("Error adding task:", error);
     }
   }
-  
+  */
   async deleteTask(id: number): Promise<void> {
     await this.ts.deleteTask(id).toPromise();
     // Mettre à jour le Gantt après la suppression de la tâche

@@ -56,11 +56,12 @@
       <div class="kanban-board card mb-0">
         <div class="card-body">
         <div class="kanban-cont">
-       
+     
       <div class="kanban-list kanban-primary" *ngFor="let section of ['TODO', 'INPROGRESS', 'COMPLETED', 'CANCELLED']" 
            [cdkDropListData]="filterTasksBySection(section)" 
            cdkDropList 
-           (cdkDropListDropped)="handleDrop($event, section)">
+           
+           (cdkDropListDropped)="handleDrop($event,section)">
            <div class="kanban-header">
            
           <span  class="status-title">{{ section }}</span>
@@ -78,7 +79,7 @@
         </div>
         <div class="kanban-wrap ui-sortable">
             <div class="kanban-box ui-sortable-handle">
-        <div class="card panel" *ngFor="let task of filterTasksBySection(section)" 
+        <div class="card panel"  *ngFor="let task of filterTasksBySection(section)" 
               
              cdkDrag [cdkDragData]="task">
              <div class="kanban-box ui-sortable-handle"></div>

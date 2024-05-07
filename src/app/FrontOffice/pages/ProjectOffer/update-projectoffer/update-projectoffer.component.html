@@ -1,0 +1,56 @@
+<div class="container">
+    <h2>update Project Offer</h2>
+    <form [formGroup]="ProjectOfferForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="projectTitle">Project Title:</label>
+        <input type="text" class="form-control" id="projectTitle" formControlName="projectTitle" required>
+        <div *ngIf="ProjectOfferForm.get('projectTitle')?.hasError('required') && ProjectOfferForm.get('projectTitle')?.touched">
+          Project Title is required.
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="status">Status</label>
+        <select class="form-control" id="status" name="status" formControlName="status" required>
+          <option *ngFor="let state of etatValues" [value]="state">{{ state }}</option>
+         </select>
+         
+      </div>
+      <div class="form-group">
+        <label for="postedDate">Posted Date:</label>
+        <input type="date" class="form-control" id="postedDate" formControlName="postedDate" required>
+        <div *ngIf="ProjectOfferForm.get('postedDate')?.hasError('required') && ProjectOfferForm.get('postedDate')?.touched">
+          Posted Date is required.
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label for="companyemail">companyemail:</label>
+        <input type="text" class="form-control" id="companyemail" formControlName="companyemail" required>
+        <div *ngIf="ProjectOfferForm.get('companyemail')?.hasError('required') && ProjectOfferForm.get('companyemail')?.touched">
+          companyemail Title is required.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="companyname">companyname:</label>
+        <input type="text" class="form-control" id="companyname" formControlName="companyname" required>
+        <div *ngIf="ProjectOfferForm.get('companyname')?.hasError('required') && ProjectOfferForm.get('companyname')?.touched">
+          companyname Title is required.
+        </div>
+      </div>
+
+
+      <div class="form-group">
+        <label for="description">Description:</label>
+        <textarea class="form-control" id="description" formControlName="description" required></textarea>
+        <div *ngIf="ProjectOfferForm.get('description')?.hasError('required') && ProjectOfferForm.get('description')?.touched">
+          Description is required.
+        </div>
+      </div>
+      <ngx-recaptcha2 #captchaElem [siteKey]="siteKey" formControlName="recaptcha">
+      </ngx-recaptcha2>
+      <button type="submit" class="btn btn-primary" [disabled]="!ProjectOfferForm.valid">Update</button>
+      <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
+    </form>
+  </div>
+  

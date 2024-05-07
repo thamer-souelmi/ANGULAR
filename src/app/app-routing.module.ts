@@ -45,7 +45,8 @@ import { UserDetailComponent } from './BackOffice/Pages/user-detail/user-detail.
 import { AddUserComponent } from './BackOffice/Pages/add-user/add-user.component';
 import { LeavesComponent } from './BackOffice/Pages/leaves/leaves.component';
 import { LeavesDetailsComponent } from './BackOffice/Pages/leaves-details/leaves-details.component';
-import { LeaveComponent } from './FrontOffice/Pages/leave/leave.component';
+import { LeaveComponent } from './FrontOffice/pages/leave/leave.component';
+// import { LeaveComponent } from './FrontOffice/Pages/leave/leave.component';
 import { GetInvoicebyProjectComponent } from './BackOffice/Pages/Invoice/get-invoiceby-project/get-invoiceby-project.component';
 import { InvoiceFrontComponent } from './FrontOffice/pages/Invoice/invoice-front/invoice-front.component';
 import { ProjectsbackComponent } from './BackOffice/Pages/Project/projectsback/projectsback.component';
@@ -75,6 +76,23 @@ import { TasksByprojectComponent } from './FrontOffice/pages/Task/tasks-byprojec
 import { UpdateTaskComponent } from './FrontOffice/pages/Task/update-task/update-task.component';
 import { KanbanBoardComponent } from './FrontOffice/pages/Task/kanban-board/kanban-board.component';
 import { TrainingSessionComponent } from './FrontOffice/pages/training-session/training-session.component';
+import {
+  ContractEmploymentComponent
+} from "./BackOffice/Pages/JobOffer/contract-employment/contract-employment.component";
+import {LoginQuizComponent} from "./FrontOffice/pages/Quiz/login-quiz/login-quiz.component";
+import { ActionLogDiagramComponent } from './BackOffice/Pages/ProjectOffer/action-log-diagram/action-log-diagram.component';
+import { AttendanceListComponent } from './BackOffice/Pages/attendance-list/attendance-list.component';
+import { DataFlowLineageComponent } from './BackOffice/Pages/ProjectOffer/data-flow-lineage/data-flow-lineage.component';
+import { InactiveEntitiesComponent } from './BackOffice/Pages/ProjectOffer/inactive-entities/inactive-entities.component';
+import { GetProjectofferComponent } from './FrontOffice/pages/ProjectOffer/get-projectoffer/get-projectoffer.component';
+import { AttendanceComponent } from './FrontOffice/pages/attendance/attendance.component';
+import { UpdateQuoteComponent } from './FrontOffice/pages/Quote/update-quote/update-quote.component';
+import { GetQuotesComponent } from './FrontOffice/pages/Quote/get-quotes/get-quotes.component';
+import { AddQuoteComponent } from './FrontOffice/pages/Quote/add-quote/add-quote.component';
+import { UpdateProjectofferComponent } from './FrontOffice/pages/ProjectOffer/update-projectoffer/update-projectoffer.component';
+import { ScreenshotDisplayComponent } from './BackOffice/Pages/screenshot-display/screenshot-display.component';
+import { AddProjectofferComponent } from './FrontOffice/pages/ProjectOffer/add-projectoffer/add-projectoffer.component';
+import { NotFoundComponent } from './BackOffice/Pages/not-found/not-found.component';
 
 
 
@@ -85,6 +103,8 @@ const routes: Routes = [
     component: LoginComponent,
 
   },
+  { path: '**', component: NotFoundComponent },
+
   {
     path: "reset",
     component: ForgotPasswordComponent,
@@ -105,7 +125,21 @@ const routes: Routes = [
   {
     path: "back",
     component: AllTemplatBackComponent,
-    children: [
+    children:[
+      { path: 'getprojectoffer', component: GetProjectofferComponent },
+      { path: 'inactiveprojectoffer', component: InactiveEntitiesComponent },
+
+
+
+      {path:"findall", component:FindAllUsersComponent},
+
+      { path: 'dataflow', component: DataFlowLineageComponent },
+      { path: 'projectofferflow', component: ActionLogDiagramComponent },
+      { path: 'atte', component: AttendanceListComponent },
+      { path: 'atte', component: AttendanceListComponent },
+      { path: 'screenshots', component: ScreenshotDisplayComponent },
+
+
 
       {path: "findAllJobOffersback", component: FindAllJobOffersBackComponent},
       {path : "trainingSessionB",component: TrainingSessionBComponent},
@@ -115,7 +149,7 @@ const routes: Routes = [
       {path: 'statisticsInterviews', component: StatisticsInterviewComponent},
       {path: 'findInterviewBack/:id', component: InterviewDetailsBackComponent},
       {path: 'findQuiz', component: FindAllQuizComponent},
-
+      {path: 'contractEmployment', component: ContractEmploymentComponent},
       {path:'room',component: RoomComponent},
       { path: 'taskback', component: TaskbackComponent},
 
@@ -143,6 +177,16 @@ const routes: Routes = [
     children:[
       {path:"home", component:HomeFrontComponent },
       {path:"leave", component:LeaveComponent},
+
+      {path:"", component:HomeFrontComponent },
+      {path:"leave", component:LeavesComponent},
+      { path: 'addquote', component: AddQuoteComponent },
+      { path: 'getquote', component: GetQuotesComponent },
+      { path: 'updatequote/:id', component: UpdateQuoteComponent }, // New route for updating job offers
+      { path: 'getprojectoffers', component:GetProjectofferComponent },
+      { path: 'update-project-offer/:id', component: UpdateProjectofferComponent }, // New route for updating job offers
+      { path: 'add-project-offer', component: AddProjectofferComponent }, // New route for updating job offers
+      { path: 'att', component: AttendanceComponent },
       { path: 'getActivityF', component:ActivityComponentF },
       { path: 'EventF', component:EventComponent },
       { path: 'trainingseesion', component:TrainingSessionComponent },
@@ -174,9 +218,40 @@ const routes: Routes = [
       { path: 'findAllJobCandidacies/:id', component: FindAllJobCandidaciesComponent },
     ]},
 
-  { path: 'quiz', component: QuizComponent },
 
-    {
+    // {
+
+    //   path: "projectoffer",
+    //   component: AllTemplateFrontComponent,children:[
+    //     { path: 'getprojectoffers', component:GetProjectofferComponent },
+    //     { path: 'update-project-offer/:id', component: UpdateProjectofferComponent }, // New route for updating job offers
+
+    //   ]
+    // },
+    // {
+    //   path: "quote",
+    //   component: AllTemplateFrontComponent, children: [
+    //     { path: 'addquote', component: AddQuoteComponent },
+    //     { path: 'getquote', component: GetQuotesComponent },
+    //     { path: 'updatequote/:id', component: UpdateQuoteComponent }, // New route for updating job offers
+
+
+
+    //   ]
+    // },
+    // {
+    //   path: "att",
+    //   component: AllTemplateFrontComponent, children: [
+    //     { path: 'att', component: AttendanceComponent },
+    //   ]
+    // },
+
+
+  { path: 'quiz', component: QuizComponent },
+  { path: 'Login/quiz', component: LoginQuizComponent },
+
+
+  {
       path: "Project",
       component: AllTemplateFrontComponent,children:[
         { path: 'getAllProject', component: GetAllProjectComponent },
