@@ -42,11 +42,21 @@
         <p><strong>Place:</strong> {{ data.event.place }}</p>
         <p><strong>Average Rating:</strong> {{ data.event.averageRating }}</p>
         <p><strong>Description:</strong> {{ data.event.event_description }}</p>
+        <p> <strong>Confirmed Users</strong></p>
         <ul>
-          <li *ngFor="let user of data.users">
+          <li *ngFor="let user of data.confirmedUsers">
             {{ user.firstname }} {{ user.lastname }} ({{ user.email }})
-            <button class="btn btn-success" (click)="updateUserStatus(data.event.eventId, user.userId, 'CONFIRMED')">Accept</button>
-            <button class="btn btn-danger" (click)="updateUserStatus(data.event.eventId, user.userId, 'CANCELED')">Refuse</button>
+          </li>
+        </ul>
+
+        <p> <strong>Pending or Canceled Users </strong></p>
+        <ul>
+          <li *ngFor="let user of data.pendingOrCanceledUsers">
+            {{ user.firstname }} {{ user.lastname }} ({{ user.email }})
+            <ng-container *ngIf="getUserStatus(user.userId) !== 'CANCELED'">
+              <button class="btn btn-success" (click)="updateUserStatus(data.event.eventId, user.userId, 'CONFIRMED')">Accept</button>
+              <button class="btn btn-danger" (click)="updateUserStatus(data.event.eventId, user.userId, 'CANCELED')">Refuse</button>
+            </ng-container>
           </li>
         </ul>
       </div>
@@ -83,3 +93,19 @@
 
 
 </div>
+<!--<button mat-button (click)="openChartModal()">Voir Graphique des Évaluations</button>-->
+
+<!--&lt;!&ndash; Template du Modal &ndash;&gt;-->
+<!--<ng-template #chartModal>-->
+<!--  <h2 mat-dialog-title>Évaluations Moyennes des Événements</h2>-->
+<!--  <mat-dialog-content>-->
+<!--    <div [chart]="chart.ref" style="width: 100%; height: 400px; display: block;"></div>-->
+<!--  </mat-dialog-content>-->
+<!--  <mat-dialog-actions align="end">-->
+<!--    <button mat-button mat-dialog-close>Fermer</button>-->
+<!--  </mat-dialog-actions>-->
+<!--</ng-template>-->
+<br>
+<div [chart]="chart" style="width: 100%; height: 400px; display: block;"></div>
+<!-- Button to open the modal -->
+

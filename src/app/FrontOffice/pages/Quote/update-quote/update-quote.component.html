@@ -25,7 +25,7 @@
       </div>
   
       <div class="form-group">
-        <label for="quantity">quantity:</label>
+        <label for="quantity">ressources:</label>
         <input  type="number" class="form-control" id="quantity" formControlName="quantity" required>
         <div *ngIf="QuoteForm.get('quantity')?.hasError('required') && QuoteForm.get('quantity')?.touched">
           quantity is required.

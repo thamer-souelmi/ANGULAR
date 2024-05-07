@@ -174,6 +174,7 @@ import { AttendancePageComponent } from './BackOffice/Pages/attendance-page/atte
 // import {UpdateJobOfferComponent} from "./FrontOffice/pages/JobOffer/update-job-offer/update-job-offer.component";
 // import {UpdateJobOfferComponent} from "./FrontOffice/pages/JobOffer/update-job-offer/update-job-offer.component";
 import { NgxPaginationModule } from 'ngx-pagination';
+import { NotFoundComponent } from './BackOffice/Pages/not-found/not-found.component';
 
 
 @NgModule({
@@ -313,7 +314,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
     ScreenshotComponent,
     ScreenshotDisplayComponent,
     FilterByDatePipe,
-    AttendancePageComponent // Add the pipe to the declarations array
+    AttendancePageComponent,
+    NotFoundComponent // Add the pipe to the declarations array
 
   ],
   imports: [

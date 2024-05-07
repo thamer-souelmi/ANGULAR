@@ -92,6 +92,7 @@ import { AddQuoteComponent } from './FrontOffice/pages/Quote/add-quote/add-quote
 import { UpdateProjectofferComponent } from './FrontOffice/pages/ProjectOffer/update-projectoffer/update-projectoffer.component';
 import { ScreenshotDisplayComponent } from './BackOffice/Pages/screenshot-display/screenshot-display.component';
 import { AddProjectofferComponent } from './FrontOffice/pages/ProjectOffer/add-projectoffer/add-projectoffer.component';
+import { NotFoundComponent } from './BackOffice/Pages/not-found/not-found.component';
 
 
 
@@ -102,6 +103,8 @@ const routes: Routes = [
     component: LoginComponent,
 
   },
+  { path: '**', component: NotFoundComponent },
+
   {
     path: "reset",
     component: ForgotPasswordComponent,
@@ -181,6 +184,9 @@ const routes: Routes = [
     path: "home",
     component: AllTemplateFrontComponent,
     children:[
+
+    
+
       {path:"", component:HomeFrontComponent },
       {path:"leave", component:LeavesComponent},
       { path: 'addquote', component: AddQuoteComponent },
@@ -193,7 +199,7 @@ const routes: Routes = [
       { path: 'EventF', component:EventComponent },
       { path: 'getActivityF', component:ActivityComponentF },
       { path: 'att', component: AttendanceComponent },
-      { path: 'findAllJobOffersfront', component: FindAllJobOffersComponent },
+{ path: 'findAllJobOffersfront', component: FindAllJobOffersComponent },
       { path: 'job-offer-details/:id', component: JobOfferDetailsComponent },
       { path: 'wishlist', component: WishlistComponent },
       { path: 'findAllJobCandidacies/:id', component: FindAllJobCandidaciesComponent },
@@ -208,8 +214,45 @@ const routes: Routes = [
       { path: 'getallcontracts', component: GetallcontractsComponent },
       { path: 'update-task/:id', component: UpdateTaskComponent },
       { path: 'kanban-task', component: KanbanBoardComponent},
+
+
+
     ]
   },
+  // {
+  //
+  //   path: "ActivityF", component: AllTemplateFrontComponent,children:[
+  //     { path: 'getActivityF', component:ActivityComponentF },
+  //   ]
+  // },
+  // {
+  //
+  //   path: "EventF",
+  //   component: AllTemplateFrontComponent,children:[
+  //     { path: 'EventF', component:EventComponent },
+  //   ]
+  // },
+
+//   {
+//     path: "JobOffer",
+//     component: AllTemplateFrontComponent,children:[
+//       { path: 'findAllJobOffersfront', component: FindAllJobOffersComponent },
+//       { path: 'job-offer-details/:id', component: JobOfferDetailsComponent },
+//       { path: 'wishlist', component: WishlistComponent },
+//       { path: 'findAllJobCandidacies/:id', component: FindAllJobCandidaciesComponent },
+//       { path: 'getAllProject', component: GetAllProjectComponent },
+//       { path: 'project/:id', component: ProjectDetailsComponent },
+//       { path: 'update-project/:id', component: UpdateprojectComponent },
+//       { path: 'task/:projectId', component: TasksByprojectComponent },
+//       { path: 'invoicefront/:projectId', component: InvoiceFrontComponent },
+//       { path: 'saveproject', component: SavelistProjectComponent },
+//       { path: 'Contract/:projectId', component: ContractbyprojectComponent },
+//       { path: 'addcontract', component: AddcontractComponent },
+//       { path: 'getallcontracts', component: GetallcontractsComponent },
+//       { path: 'update-task/:id', component: UpdateTaskComponent },
+//       { path: 'kanban-task', component: KanbanBoardComponent},
+//     ]
+//   },
   
   
 

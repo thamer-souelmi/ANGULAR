@@ -17,21 +17,29 @@
   display: flex;
   flex-direction: column;
   flex: 1 0 calc(33.333% - 1rem); /* Card width: 1/3 of container width minus gap */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Shadow for depth (optional) */
   margin: 0.5rem; /* Margin around each card */
-  height: 500px; /* Définir une hauteur fixe pour chaque carte */
+  height: 95%; /* Ensures each card stretches to match the tallest one */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow for depth */
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; /* Smooth transition for transforming elements */
+  cursor: pointer; /* Changes cursor to indicate interactivity */
 }
  .avatar-img {
    width: 50px; /* Définissez la largeur de l'avatar */
    height: 50px; /* Définissez la hauteur de l'avatar */
    border-radius: 50%; /* Rendez l'avatar arrondi */
  }
-
+.card:hover {
+  transform: scale(1.05); /* Enlarges the card on hover */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Adds shadow for depth */
+}
 .card-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem; /* Space between cards */
-  margin: 0 -0.5rem; /* Adjust margins to center the cards within the container */
+  justify-content: space-between; /* Ensures that cards are spaced out evenly */
+  gap: 20px; /* Adds space between cards */
+  padding: 20px;  margin: 0 -0.5rem; /* Adjust margins to center the cards within the container */
+  align-items: stretch; /* Aligns the height of the children */
+
 }
 
 .card-header {
@@ -49,7 +57,13 @@
 }
 .card-footer {
   background-color: var(--color-light-blue);
-
+  padding: 10px 15px; /* Consistent padding for the footer */
+  text-align: center; /* Center-aligns the content */
+}
+.card-title, .card-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; /* Adds an ellipsis to text that overflows */
 }
 
 .btn-outline-secondary {
@@ -305,6 +319,11 @@ h2:hover::after {
 .material-icons {
   color: gold;
 }
+.btn-full {
+  color: red; /* This will make the text red */
+  border-color: red; /* Optional: if you want the border to be red as well */
+}
+
 .event-card {
   opacity: 0;
   transform: translateY(20px);
@@ -704,20 +723,23 @@ textarea:focus {
 }
 @media (max-width: 768px) {
   .card {
-    flex-basis: calc(100% - 2rem); /* Full width minus the gap on small screens */
+    flex-basis: 100%; /* Full width on small screens */
   }
 }
+
 @media (min-width: 769px) and (max-width: 1024px) {
   .card {
-    flex-basis: calc(50% - 2rem); /* Half width minus the gap on medium screens */
+    flex-basis: 48%; /* Two cards per row on medium screens */
   }
 }
 
 @media (min-width: 1025px) {
   .card {
-    flex-basis: calc(33.333% - 2rem); /* One third minus the gap on large screens */
+    flex-basis: calc(33.333% - 20px); /* Three cards per row on large screens, accounting for margin */
   }
 }
+
+
 .input-emoji-container .textarea-container {
   position: relative;
   display: flex;
