@@ -149,6 +149,8 @@ import {EditContractComponent} from "./FrontOffice/pages/contract/edit-contract/
 import {FiltertaskpipePipe} from "./FrontOffice/pages/Task/filtertaskpipe.pipe";
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
+import { ContractEmploymentComponent } from './BackOffice/Pages/JobOffer/contract-employment/contract-employment.component';
+import { LoginQuizComponent } from './FrontOffice/pages/Quiz/login-quiz/login-quiz.component';
 // import {UpdateJobOfferComponent} from "./FrontOffice/pages/JobOffer/update-job-offer/update-job-offer.component";
 // import {UpdateJobOfferComponent} from "./FrontOffice/pages/JobOffer/update-job-offer/update-job-offer.component";
 
@@ -255,6 +257,8 @@ import { BrowserModule } from '@angular/platform-browser';
 
     RecognizeFaceComponent,
     DashboardComponent,
+    ContractEmploymentComponent,
+    LoginQuizComponent,
   ],
   imports: [
     BrowserModule,

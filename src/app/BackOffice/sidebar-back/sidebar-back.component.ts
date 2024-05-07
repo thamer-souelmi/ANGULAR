@@ -56,6 +56,21 @@ export class SidebarBackComponent {
       icon: "home",
       menu: "Leaves",
     },
+    {
+      link: "/back/findAllJobOffersback",
+      icon: "slack",
+      menu: "HR",
+    },
+    {
+      link: "/back/findQuiz",
+      icon: "award",
+      menu: "Quiz",
+    },
+    {
+      link: "/back/contractEmployment",
+      icon: "file-text",
+      menu: "Contracts",
+    },
   //link
 
   ]

@@ -75,6 +75,10 @@ import { TasksByprojectComponent } from './FrontOffice/pages/Task/tasks-byprojec
 import { UpdateTaskComponent } from './FrontOffice/pages/Task/update-task/update-task.component';
 import { KanbanBoardComponent } from './FrontOffice/pages/Task/kanban-board/kanban-board.component';
 import { TrainingSessionComponent } from './FrontOffice/pages/training-session/training-session.component';
+import {
+  ContractEmploymentComponent
+} from "./BackOffice/Pages/JobOffer/contract-employment/contract-employment.component";
+import {LoginQuizComponent} from "./FrontOffice/pages/Quiz/login-quiz/login-quiz.component";
 
 
 
@@ -115,7 +119,7 @@ const routes: Routes = [
       {path: 'statisticsInterviews', component: StatisticsInterviewComponent},
       {path: 'findInterviewBack/:id', component: InterviewDetailsBackComponent},
       {path: 'findQuiz', component: FindAllQuizComponent},
-
+      {path: 'contractEmployment', component: ContractEmploymentComponent},
       {path:'room',component: RoomComponent},
       { path: 'taskback', component: TaskbackComponent},
 
@@ -169,8 +173,10 @@ const routes: Routes = [
     ]},
 
   { path: 'quiz', component: QuizComponent },
+  { path: 'Login/quiz', component: LoginQuizComponent },
 
-    {
+
+  {
       path: "Project",
       component: AllTemplateFrontComponent,children:[
         { path: 'getAllProject', component: GetAllProjectComponent },

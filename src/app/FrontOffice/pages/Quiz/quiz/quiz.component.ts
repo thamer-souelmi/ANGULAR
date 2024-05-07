@@ -62,7 +62,7 @@ export class QuizComponent  implements OnInit{
   }
 
   selectOption(option: any) {
-    if(option.isCorrect) {
+    if(option.correct) {
       this.correctAnswerCount ++;
     }
     option.isSelected = true;
