@@ -39,7 +39,9 @@ import {CompressedEmojiData, EmojiData, emojis} from "@ctrl/ngx-emoji-mart/ngx-e
 import {ToastrService} from "ngx-toastr";
 import timeGridPlugin from '@fullcalendar/timegrid';
 import {StorageService} from "../../../Services/storage.service";
-import {throwError} from "rxjs";
+import {forkJoin, of, throwError} from "rxjs";
+import {catchError, map} from 'rxjs/operators';
+
 // import {content} from "html2canvas/dist/types/css/property-descriptors/content"; // Correct import for timeGridPlugin
 const colors: Record<string, EventColor> = {
   blue: {
@@ -62,6 +64,8 @@ interface EmojiEvent {
   styleUrls: ['./event.component.css']
 })
 export class EventComponent implements OnInit,AfterViewInit {
+  events2: Event[] = [];
+
   events: Event[] = [];
   view: CalendarView = CalendarView.Month;
   CalendarView = CalendarView;
@@ -75,13 +79,13 @@ export class EventComponent implements OnInit,AfterViewInit {
   @ViewChild('deleteConfirmationModal') deleteConfirmationModal!: ElementRef;
   private eventIdToDelete!: number;
   @ViewChild('updateEventModal') updateEventModal!: ElementRef;
-  selectedEvent?: Event;
+  selectedEvent!: Event;
   updateEventForm: FormGroup;
   eventId!: number;
   event!: Event;
   totalItems = 0;
   currentPage = 0;
-  pageSize = 6;
+  pageSize = 9;
   searchTerm: string = '';
   test: string = 'bl';
   activities!: Activity[];
@@ -107,7 +111,7 @@ export class EventComponent implements OnInit,AfterViewInit {
   //   events: [],
   //   dateClick: this.handleDateClick.bind(this),
   // };
-  selectedEventDetails?: Event;
+  selectedEventDetails?: any;
   locationSuggestions: any[] = [];
   @ViewChild('eventDetailsTemplate', { static: true }) private eventDetailsTemplate!: TemplateRef<any>;
   @ViewChild('feedbackModal') feedbackModal!: TemplateRef<any>;
@@ -216,15 +220,12 @@ export class EventComponent implements OnInit,AfterViewInit {
 
         this.adjustCalendar();
       });
-    }
-
-    if (this.eventDetailsModal) {
-      this.eventDetailsModal.shown.subscribe(() => {
-        if (this.selectedEventDetails) {
-          this.initDetailMap();
-        }
+      this.eventDetailModalRef.nativeElement.addEventListener('shown.bs.modal', () => {
+        this.initDetailMap(); // Initialize the map here
       });
     }
+
+
 
   }
   initializeMap(): void {
@@ -239,21 +240,72 @@ export class EventComponent implements OnInit,AfterViewInit {
     // Add a marker to the map
     L.marker([latitude, longitude]).addTo(this.map);
   }
+  // openDetailModal(event: Event): void {
+  //   console.log("Eventaaaa:", this.selectedEvent);
+  //   this.selectedEvent = event;
+  //   const modal = new bootstrap.Modal(this.eventDetailModalRef.nativeElement);
+  //
+  //   // Fetch and sort activities when opening the modal
+  //   this.eventService.getRelatedActivities(event.eventId).subscribe({
+  //     next: (activities: Activity[]) => {
+  //       this.selectedEventActivities = activities.sort((a, b) => {
+  //         return new Date(a.startTime).getTime() - new Date(b.startTime).getTime();
+  //       });
+  //       modal.show();
+  //       this.initDetailMap();
+  //     },
+  //     error: (error) => console.error("Failed to load activities:", error)
+  //   });
+  // // }
+  // openDetailModal(event: Event): void {
+  //   console.log("Event data:", event);
+  //   this.selectedEvent = event;
+  //   const modal = new bootstrap.Modal(this.eventDetailModalRef.nativeElement);
+  //
+  //   this.eventService.getRelatedActivities(event.eventId).subscribe({
+  //     next: (activities: Activity[] | null) => {
+  //       if (activities && activities.length > 0) {
+  //         this.selectedEventActivities = activities.sort((a, b) => {
+  //           return new Date(a.startTime).getTime() - new Date(b.startTime).getTime();
+  //         });
+  //         modal.show();
+  //         this.initDetailMap();
+  //       } else {
+  //         console.log("No activities found or activities are null");
+  //         // Gérer le cas où il n'y a pas d'activités ou elles sont null
+  //         this.selectedEventActivities = [];
+  //         modal.show();
+  //         this.initDetailMap();
+  //       }
+  //     },
+  //     error: (error) => {
+  //       console.error("Failed to load activities:", error);
+  //       // Gérer l'erreur ici, par exemple en affichant un message à l'utilisateur
+  //     }
+  //   });
+  // }
   openDetailModal(event: Event): void {
-    console.log("Event:", this.selectedEvent);
+    console.log("Event data:", event);
     this.selectedEvent = event;
+
     const modal = new bootstrap.Modal(this.eventDetailModalRef.nativeElement);
 
-    // Fetch and sort activities when opening the modal
+    if (typeof this.selectedEvent.latitude === 'undefined' || typeof this.selectedEvent.longitude === 'undefined') {
+      console.error("Latitude or longitude is missing from the event details.");
+      // Display an error message or handle the error appropriately
+      return;
+    }
+
     this.eventService.getRelatedActivities(event.eventId).subscribe({
-      next: (activities: Activity[]) => {
-        this.selectedEventActivities = activities.sort((a, b) => {
-          return new Date(a.startTime).getTime() - new Date(b.startTime).getTime();
-        });
-        modal.show();
-        this.initDetailMap();
+      next: (activities: Activity[] | null) => {
+        this.selectedEventActivities = activities || [];
+        modal.show();  // Show the modal irrespective of activities to ensure user sees the event details
+        this.initDetailMap();  // Call to initialize map only after confirming the event data is complete
       },
-      error: (error) => console.error("Failed to load activities:", error)
+      error: (error) => {
+        console.error("Failed to load activities:", error);
+        // Handle the error here, for example by showing a message to the user
+      }
     });
   }
 
@@ -936,37 +988,98 @@ export class EventComponent implements OnInit,AfterViewInit {
 
   // Call this method when the modal is fully open
   // Call this method when the modal is fully open
+  // private initDetailMap(): void {
+  //   if (!this.selectedEventDetails || !this.mapContainer || !this.mapContainer.nativeElement) {
+  //     console.error('Required data or elements are missing.');
+  //     return;
+  //   }
+  //
+  //   if (!this.mapContainer || !this.mapContainer.nativeElement) {
+  //     console.error('Map container is missing.');
+  //     return;
+  //   }    if (!this.selectedEventDetails || !this.mapContainer || !this.mapContainer.nativeElement) {
+  //     console.error('Map container or selected event data is missing.');
+  //     return;
+  //   }
+  //
+  //   // Vérifiez si la carte est déjà initialisée, sinon initialisez-la.
+  //   if (this.map) {
+  //     this.map.remove(); // Assurez-vous de supprimer l'instance précédente si elle existe.
+  //   }
+  //
+  //   this.map = L.map(this.mapContainer.nativeElement).setView([this.selectedEventDetails.latitude, this.selectedEventDetails.longitude], 13);
+  //
+  //   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  //     attribution: '© OpenStreetMap contributors'
+  //   }).addTo(this.map);
+  //
+  //   const marker = L.marker([this.selectedEventDetails.latitude, this.selectedEventDetails.longitude]).addTo(this.map);
+  //   marker.bindPopup(this.selectedEventDetails.place || 'Event Location');
+  //
+  //   // Force Leaflet à actualiser la taille de la carte
+  //   this.map.invalidateSize();
+  // }
+
+
+
+
+
+  // private initDetailMap(): void {
+  //   // Ensure that the selected event details have been set and contain the necessary coordinates
+  //   if (!this.selectedEvent || this.selectedEvent.latitude === undefined || this.selectedEvent.longitude === undefined) {
+  //     console.error('initDetailMap was called without required event details or missing coordinates.');
+  //     return;
+  //   }
+  //
+  //   // Check if the map instance already exists; if so, remove it to prevent multiple instances
+  //   if (this.map) {
+  //     this.map.remove();
+  //   }
+  //
+  //   // Initialize the map with the coordinates from the selected event
+  //   this.map = L.map(this.mapContainer.nativeElement).setView([this.selectedEvent.latitude, this.selectedEvent.longitude], 13);
+  //
+  //   // Add OpenStreetMap tiles to the map
+  //   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  //     attribution: '© OpenStreetMap contributors'
+  //   }).addTo(this.map);
+  //
+  //   // Add a marker at the provided coordinates with a popup
+  //   const marker = L.marker([this.selectedEvent.latitude, this.selectedEvent.longitude]).addTo(this.map);
+  //   marker.bindPopup(this.selectedEvent.place || 'Event Location').openPopup();
+  //
+  //   // Force the map to update its size in case it's being initialized in a hidden or resized container
+  //   setTimeout(() => {
+  //     if (this.map) {
+  //       this.map.invalidateSize();
+  //     }
+  //   }, 0);
+  // }
   private initDetailMap(): void {
-    if (!this.selectedEventDetails) {
-      console.error('Selected event details are missing.');
+    if (!this.selectedEvent || !this.mapContainer || !this.mapContainer.nativeElement) {
+      console.error('Required event details are missing or map container is not available.');
       return;
     }
 
-    if (!this.mapContainer || !this.mapContainer.nativeElement) {
-      console.error('Map container is missing.');
-      return;
-    }    if (!this.selectedEventDetails || !this.mapContainer || !this.mapContainer.nativeElement) {
-      console.error('Map container or selected event data is missing.');
-      return;
-    }
-
-    // Vérifiez si la carte est déjà initialisée, sinon initialisez-la.
     if (this.map) {
-      this.map.remove(); // Assurez-vous de supprimer l'instance précédente si elle existe.
+      this.map.remove(); // Clear previous instances
     }
 
-    this.map = L.map(this.mapContainer.nativeElement).setView([this.selectedEventDetails.latitude, this.selectedEventDetails.longitude], 13);
-
+    this.map = L.map(this.mapContainer.nativeElement).setView([this.selectedEvent.latitude, this.selectedEvent.longitude], 13);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© OpenStreetMap contributors'
     }).addTo(this.map);
 
-    const marker = L.marker([this.selectedEventDetails.latitude, this.selectedEventDetails.longitude]).addTo(this.map);
-    marker.bindPopup(this.selectedEventDetails.place || 'Event Location');
+    L.marker([this.selectedEvent.latitude, this.selectedEvent.longitude]).addTo(this.map)
+      .bindPopup(this.selectedEvent.place || 'Location');
 
-    // Force Leaflet à actualiser la taille de la carte
-    this.map.invalidateSize();
-  }  // updateMapLocation(lat: number, lon: number, context: 'add' | 'update'): void {
+    // Force Leaflet to recalculate the map size
+    setTimeout(() => this.map!.invalidateSize(), 100);
+  }
+
+
+
+  // updateMapLocation(lat: number, lon: number, context: 'add' | 'update'): void {
   //   const mapToUpdate = context === 'add' ? this.map : this.updateMap;
   //   if (mapToUpdate) {
   //     if (this.marker) {
@@ -1026,32 +1139,43 @@ export class EventComponent implements OnInit,AfterViewInit {
 
 
   loadEvents(pageIndex: number, pageSize: number): void {
+    const today = new Date(); // Get the current system date
+
     this.eventService.findAllEvent(pageIndex, pageSize).subscribe({
       next: (response) => {
+        console.log("All Events from API:", response.content);
+
         console.log("API Response:", response);
-        this.events = response.content.map((event: Event) => ({
+
+        // Filter events whose finish date has not yet passed
+        const validEvents = response.content.filter((event: Event) => new Date(event.finishevent_date) >= today);
+console.log("hhhh",validEvents)
+        // Prepare events for calendar display
+        this.events = validEvents.map((event: Event) => ({
           title: event.event_name,
           start: event.event_date,
           extendedProps: {
             eventId: event.eventId
           }
         }));
-        const eventsWithFeedbacks: Event[] = response.content.map((event: Event) => ({
+
+        // Initialize feedbacks as an empty array and store events temporarily
+        const eventsWithFeedbacks: Event[] = validEvents.map((event: Event) => ({
           ...event,
-          feedbacks: [] // Initialisez les feedbacks comme un tableau vide
+          feedbacks: [] // Initialize feedbacks as an empty array
         }));
 
-        // Stockez temporairement les événements pour éviter des changements d'état fréquents
+        // Store filtered events to avoid frequent state changes
         this.allEvents = eventsWithFeedbacks;
         this.totalItems = response.totalElements;
         this.currentPage = pageIndex;
         this.pageSize = pageSize;
 
-        // Chargez les feedbacks pour chaque événement
+        // Load feedbacks for each event
         eventsWithFeedbacks.forEach((event: Event) => {
           this.feedbackService.findAllFeedBacksForEvent(event.eventId).subscribe(feedbacks => {
-            event.feedbacks = feedbacks; // Attribuez les feedbacks chargés à l'événement
-            this.events = [...this.allEvents]; // Mettez à jour l'état des événements dans le composant
+            event.feedbacks = feedbacks; // Assign loaded feedbacks to the event
+            this.events = [...this.allEvents]; // Update component state with events
           });
         });
         this.calendarOptions.events = this.events;
@@ -1129,7 +1253,9 @@ export class EventComponent implements OnInit,AfterViewInit {
           console.log('Event added successfully.');
           this.toaster.success('Event added successfully!');
           this.newEventForm.reset();
+          this.modalRef?.close(); // Assuming this.modalRef is the reference to your update modal
           this.loadEvents(this.currentPage, this.pageSize);
+
         },
         error => {
           console.error('Error adding event:', error);

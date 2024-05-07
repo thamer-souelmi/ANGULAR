@@ -20,7 +20,10 @@ export class RoomService {
 
     return this.http.get(`${this.apiUrl}/getAll`, { params: params });
   }
-
+  getUnavailableDates(roomId: number): Observable<Date[]> {
+    const url = `${this.apiUrl}/${roomId}/unavailable-dates`;
+    return this.http.get<Date[]>(url);
+  }
   getRoomById(id: number): Observable<Room> {
     return this.http.get<Room>(`${this.apiUrl}/${id}`);
   }

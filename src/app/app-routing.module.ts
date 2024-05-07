@@ -143,21 +143,27 @@ const routes: Routes = [
     children:[
       {path:"home", component:HomeFrontComponent },
       {path:"leave", component:LeaveComponent},
-    ]
-  },
-  {
-
-    path: "ActivityF", component: AllTemplateFrontComponent,children:[
       { path: 'getActivityF', component:ActivityComponentF },
-    ]
-  },
-  {
-
-    path: "EventF",
-    component: AllTemplateFrontComponent,children:[
       { path: 'EventF', component:EventComponent },
+      { path: 'trainingseesion', component:TrainingSessionComponent },
+
+
+
     ]
   },
+  // {
+  //
+  //   path: "ActivityF", component: AllTemplateFrontComponent,children:[
+  //     { path: 'getActivityF', component:ActivityComponentF },
+  //   ]
+  // },
+  // {
+  //
+  //   path: "EventF",
+  //   component: AllTemplateFrontComponent,children:[
+  //     { path: 'EventF', component:EventComponent },
+  //   ]
+  // },
 
   {
     path: "JobOffer",
