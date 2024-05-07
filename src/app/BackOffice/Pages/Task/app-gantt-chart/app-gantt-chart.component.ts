@@ -101,10 +101,10 @@ export class AppGanttChartComponent implements OnInit {
     
   
   }
-
-  async updateTask(task: Task): Promise<void> {
-    await this.ts.UpdateTask(task.taskid,task).toPromise();
-  }
+//ICIIIIIIIIIIIIIIIIIIIIIIII
+  // async updateTask(task: Task): Promise<void> {
+  //   await this.ts.UpdateTask(task.taskid,task).toPromise();
+  // }
   /*
   async addTask(task: Task): Promise<void> {
     try {
