@@ -3,6 +3,12 @@
     <div class="modal-header">
       <h2>Add New User</h2>
     </div>
+    <div class="col-8">
+      <h2>Import From Excel</h2>
+      <label class="btn btn-default p-0">
+        <input type="file" accept="xlsx/*" multiple (change)="readExcel($event)" />
+      </label>
+    </div>
     <div class="modal-body" style="max-height: 600px; overflow-y: auto;">
       <form (ngSubmit)="onSubmit()" #taskForm="ngForm">
         <div class="form-group">
@@ -71,6 +77,14 @@
             </div>
         </div>
         <br>
+        <label for="roleName">Select Candidate:</label>
+        <select class="form-control" id="roleName" formControlName="roleName">
+          <!-- interview.html -->
+          <option *ngFor="let role of roles" [value]="role.roleId">{{ role.roleName }}</option>
+        </select>
+        <!-- <div *ngIf="taskForm.get('roleName')?.invalid && taskForm.get('roleName')?.touched">
+          Candidate Name is required.
+        </div> -->
 
         <div class="modal-footer"> 
             <button type="submit" class="btn btn-primary" [disabled]="taskForm.invalid">Add Task</button>

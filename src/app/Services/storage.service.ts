@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import {CookieService} from "ngx-cookie-service";
 import { Observable } from 'rxjs';
 import { User } from '../Models/User';
-const USER_KEY = 'CoConsult';
+const USER_KEY = 'auth-user';
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +26,7 @@ export class StorageService {
   }
 
   public getUser(): any {
-    const user = this.cookieService.get("CoConsult");
+    const user = this.cookieService.get(USER_KEY);
     if (user) {
       return JSON.parse(user);
     }

@@ -26,10 +26,10 @@ export class ResetPasswordComponent  implements OnInit {
     this.token = tokenParam ? tokenParam : '';
   }
   resetPassword() {
-    this.authService.resetPasswordt(this.token, this.password).subscribe(
+    this.authService.resetPassword5(this.token, this.password).subscribe(
       () => {
         // Reset successful, navigate to login page
-        this.router.navigateByUrl('');
+     //   this.router.navigateByUrl('');
       },
       error => {
         // Handle error

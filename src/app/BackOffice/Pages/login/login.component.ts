@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/Services/auth.service';
 import { StorageService } from 'src/app/Services/storage.service';
 import {ActivatedRoute, Router} from "@angular/router";
+import { WebsocketServiceService } from 'src/app/Services/websocket-service.service';
 
 @Component({
   selector: 'app-login-component',
@@ -15,14 +16,15 @@ export class LoginComponent implements OnInit {
     password: null
   };
   isLoggedIn = false;
-  isLoginFailed = true;
+  isLoginFailed = false;
   errorMessage = '';
   roles: string[] = [];
  
 
 
   constructor(private authService: AuthService, private storageService: StorageService,
-              private router : Router, private route: ActivatedRoute) { }
+              private router : Router, private route: ActivatedRoute,
+              private websocketService: WebsocketServiceService) { }
 
   ngOnInit(): void {
     
@@ -53,12 +55,28 @@ export class LoginComponent implements OnInit {
   
 
   onSubmit(): void {
+    this.websocketService.startRecognition();
+
+    // Listen for login process completed event
+    this.websocketService.onRecognitionResults().subscribe((data) => {
+
+      // Handle the response data here
+      console.log('Login process completed with user ID:', data);
+      // Perform actions indicating a successful login, e.g., redirect to another page
+    }, (error) => {
+      console.error('Error occurred during login process:', error);
+      // Perform actions indicating an error, e.g., display an error message to the user
+    });
+
     const { email, password } = this.form;
 
     this.authService.login(email, password).subscribe({
       next: data => {
         if(data){
+          
         this.storageService.saveUser(data);
+        const id = this.storageService.getUser().id;
+
 
         this.isLoginFailed = false;
         this.isLoggedIn = true;

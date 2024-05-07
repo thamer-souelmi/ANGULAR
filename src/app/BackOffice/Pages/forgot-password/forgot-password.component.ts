@@ -33,21 +33,5 @@ export class ForgotPasswordComponent {
     );
   }
 
-  resetPassword() {
-    this.passwordResetService.resetPassword(this.token, this.newPassword).subscribe(
-      () => {
-        // Reset form fields and show success message
-        this.token = '';
-        this.newPassword = '';
-        this.resetSuccess = true;
-        this.resetError = false;
-        this.toastr.success('Hello world!', 'Toastr fun!');
-      },
-      (error) => {
-        console.error('Error resetting password:', error);
-        this.resetSuccess = false;
-        this.resetError = true;
-      }
-    );
-  }
+
 }

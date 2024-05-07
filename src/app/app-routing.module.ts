@@ -74,6 +74,8 @@ import { TasksByprojectComponent } from './FrontOffice/pages/Task/tasks-byprojec
 import { UpdateTaskComponent } from './FrontOffice/pages/Task/update-task/update-task.component';
 import { KanbanBoardComponent } from './FrontOffice/pages/Task/kanban-board/kanban-board.component';
 import { TrainingSessionComponent } from './FrontOffice/pages/training-session/training-session.component';
+import { ChartComponent } from '@swimlane/ngx-charts';
+import { ChatComponent } from './FrontOffice/pages/chat/chat.component';
 
 
 
@@ -117,7 +119,7 @@ const routes: Routes = [
       {path:'room',component: RoomComponent},
       { path: 'taskback', component: TaskbackComponent},
 
-      //{path:"findall", component:FindAllUsersComponent},
+      {path:"msg", component:ChatComponent},
 
       {path:"EventBack", component:EventBComponent},
       {path:"activityB",component:ActivityBComponent},

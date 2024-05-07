@@ -37,17 +37,19 @@ export class FindAllUsersComponent {
     {label:'consultant' ,value : 'consultant'},
     {label:'Employee' , value: 'Employee'}
   ];
+
   users : User[] = [];
   @ViewChild('locationSelect') locationSelect: ElementRef | undefined;
   searchtext:any;
   users1: User[] = [];
   currentPage: number = 1; // Current page
-  itemsPerPage: number = 1; // Items per page
+  itemsPerPage: number = 6; // Items per page
   userForm: FormGroup;
   @ViewChild('myModal') myModal!: ElementRef;
   @ViewChild('warningSuccessModal') warningSuccessModal!: ElementRef;
   warningMessage: string = '';
   @ViewChild('addUserModal') addUserModal!: ElementRef;
+  i:number=0;
   ExcelData : any ;
   constructor(private userService: UserService, private router: Router,private formBuilder: FormBuilder,
               private cdr: ChangeDetectorRef,
@@ -67,7 +69,9 @@ export class FindAllUsersComponent {
     recaptcha: ['', Validators.required]
 
   }
-
+  getProfilePictureIndex(userIndex: number): number {
+    return userIndex % this.imageSrcs.length;
+  }
 
 
   ngOnInit(){
@@ -139,10 +143,10 @@ export class FindAllUsersComponent {
   }
   getPaginatedItems() {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-    return this.users1.slice(startIndex, startIndex + this.itemsPerPage);
+    return this.users.slice(startIndex, startIndex + this.itemsPerPage);
   }
   getTotalPages(): number {
-    return Math.ceil(this.users1.length / this.itemsPerPage);
+    return Math.ceil(this.users.length / this.itemsPerPage);
   }
   getPaginationNumbers(): number[] {
     const totalPages = this.getTotalPages();
@@ -219,7 +223,6 @@ export class FindAllUsersComponent {
       }
     );
   }
-
   createImageFromBlob(image: Blob): void {
     const reader = new FileReader();
     reader.addEventListener('load', () => {

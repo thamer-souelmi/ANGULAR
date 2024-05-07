@@ -138,8 +138,13 @@ import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import {JitsiComponent} from "./FrontOffice/pages/Interview/jitsi/jitsi.component";
 import { InterviewCalendarComponent } from './FrontOffice/pages/Interview/interview-calendar/interview-calendar.component';
 import { LeaveComponent } from './FrontOffice/pages/leave/leave.component';
+import { ChatComponent } from './FrontOffice/pages/chat/chat.component';
+import { RxStompService, StompConfig } from '@stomp/ng2-stompjs';
+import { StompService } from '@stomp/ng2-stompjs';
 
 const socketConfig: SocketIoConfig = { url: 'http://localhost:5000', options: {} };
+
+
 
 
 
@@ -241,6 +246,7 @@ const socketConfig: SocketIoConfig = { url: 'http://localhost:5000', options: {}
 
     RecognizeFaceComponent,
     DashboardComponent,
+    ChatComponent,
   ],
   imports: [
 
@@ -316,7 +322,8 @@ const socketConfig: SocketIoConfig = { url: 'http://localhost:5000', options: {}
 
 
   ],
-  providers: [httpInterceptorProviders,DatePipe,    provideAnimations(), // required animations providers
+  providers: [httpInterceptorProviders,DatePipe,    provideAnimations(),
+    RxStompService, // required animations providers
   provideToastr(),],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

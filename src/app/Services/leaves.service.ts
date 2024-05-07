@@ -20,8 +20,8 @@ export class LeavesService {
   updateLeave(leave : Leaves): Observable<Leaves>{
     return this.http.put<Leaves>(this.baseUrl + '/update-leave',leave);
   }
-  approuveLeave(leave : Leaves): Observable<Leaves>{
-    return this.http.put<Leaves>(this.baseUrl + '/aprouve-leave',leave);
+  approuveLeave(leave : Leaves, userId: number): Observable<Leaves>{
+    return this.http.put<Leaves>(`${this.baseUrl}/aprouve-leave/${userId}`,leave);
   }
   getLeaveById(leaveId: number): Observable<Leaves> {
     return this.http.get<Leaves>(`${this.baseUrl}/retrieve-leave/${leaveId}`);

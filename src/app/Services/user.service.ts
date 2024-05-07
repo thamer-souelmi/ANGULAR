@@ -8,6 +8,7 @@ const API_URL = 'http://localhost:8082/api/test/';
 })
 export class UserService {
   private baseUrl : string = 'http://localhost:8082/user';
+  private baseUrlr : string = 'http://localhost:8082';
 
   constructor(private http: HttpClient) { }
   findAllUsers(): Observable<User[]>{
@@ -27,8 +28,7 @@ export class UserService {
   }
   getUserById(userId: number): Observable<User> {
     return this.http.get<User>(`${this.baseUrl}/retrieveOneUser/${userId}`);
-  }
-
+ }
   deleteUser(userId: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/removeUser/${userId}`);
   }
@@ -72,7 +72,6 @@ private baseUrlf : string = 'http://localhost:8082/user';
       observe: 'response' // To access full response including headers
     });
   }
-  private baseUrlr : string = 'http://localhost:8082';
   initiatePasswordReset(email: string): Observable<any> {
     return this.http.post(`${this.baseUrlr}/forgotPassword`, { email });
   }
@@ -85,7 +84,10 @@ private baseUrlf : string = 'http://localhost:8082/user';
     return this.http.put('/resetPassword', { email, password });
   }
   resetPasswordt(token: string, password: string): Observable<any> {
-    return this.http.put(`${this.baseUrlr}/resetPassword/${token}`, { password });}
+    return this.http.put(`${this.baseUrl}/resetPassword/${token}`, { password });}
+    resetPassword5(token: string, password: string): Observable<any> {
+      return this.http.put(`${this.baseUrlr}/resetPassword/${token}`, { password });
+    }
   getUserByEmail(email: string): Observable<User> {
     return this.http.get<User>(`${this.baseUrl}/email/${email}`);
   }
