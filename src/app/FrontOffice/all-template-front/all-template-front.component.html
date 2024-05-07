@@ -31,7 +31,6 @@
   <!-- Template Stylesheet -->
   <link href="/assets/FrontOffice/css/style.css" rel="stylesheet">
 </head>
-
 <body>
 <!--    &lt;!&ndash; Spinner Start &ndash;&gt;-->
 <!--    <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">-->
@@ -39,12 +38,18 @@
 <!--    </div>-->
 <!--    &lt;!&ndash; Spinner End &ndash;&gt;-->
 
+<!-- <app-screenshot></app-screenshot> -->
 
-<app-header-front></app-header-front>
-<router-outlet></router-outlet>
+<header><app-header-front></app-header-front></header>
+
+<main>
+  <router-outlet></router-outlet>
+
+</main>
+
 
 <!-- Full Screen Search Start -->
-<div class="modal fade" id="searchModal" tabindex="-1">
+<!-- <div class="modal fade" id="searchModal" tabindex="-1">
   <div class="modal-dialog modal-fullscreen">
     <div class="modal-content" style="background: rgba(31, 229, 51, 0.7);">
       <div class="modal-header border-0">
@@ -58,7 +63,7 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
 <!-- Full Screen Search End -->
 
 

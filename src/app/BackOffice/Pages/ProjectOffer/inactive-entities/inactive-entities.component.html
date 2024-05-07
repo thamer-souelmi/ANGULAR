@@ -1,0 +1,40 @@
+    <!-- <h2>Inactive Project Offers</h2>
+    <div class="card-container">
+      <div  *ngIf="inactiveProjectOffers | async as offers">
+          <ul *ngIf="offers.length > 0; else noInactiveOffers">
+      <li class="card" *ngFor="let projectOffer of offers">  
+
+        <div class="inactive-offer">
+          <h3  class="card-title">{{ projectOffer.projectTitle }}</h3>
+          <p  class="card-title">{{ projectOffer.description }}</p>
+          <p  class="card-title">Posted Date: {{ projectOffer.postedDate }}</p>
+          <p  class="card-title">Status: {{ projectOffer.status }}</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+      </div>
+  <ng-template #noInactiveOffers>
+    <p>No inactive project offers found.</p>
+  </ng-template> -->
+<!-- inactive-project-offers.component.html -->
+<div style="margin-left: 5%;">
+<h2>Inactive Project Offers</h2>
+<div class="card-container">
+  <div *ngIf="inactiveProjectOffers | async as offers">
+    <ul *ngIf="offers.length > 0; else noInactiveOffers">
+      <li class="card" style="width: 350% !important;" *ngFor="let projectOffer of offers">
+        <div class="inactive-offer">
+          <h3 class="card-title">{{ projectOffer.projectTitle }}</h3>
+          <p class="card-title">{{ projectOffer.description }}</p>
+          <p class="card-title">Posted Date: {{ projectOffer.postedDate }}</p>
+          <p class="card-title">Status: {{ projectOffer.status }}</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+<ng-template #noInactiveOffers>
+  <p>No inactive project offers found.</p>
+</ng-template>
+</div>

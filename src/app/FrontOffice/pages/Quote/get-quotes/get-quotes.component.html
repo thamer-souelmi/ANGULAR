@@ -1,0 +1,114 @@
+<!-- <div class="container">
+  <h1>Quotes</h1>
+<button class="btn btn-success float-right" (click)="openAddQuoteDialog()"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-square" viewBox="0 0 16 16">
+  <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
+  <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+</svg> Add Quote</button>
+<div id="abc">
+  <img src="../../../../../assets/FrontOffice/img/a.jpg" alt="">
+  <table class="table table-striped ">
+    <thead>
+    <tr>
+      <th>description</th>
+      <th>id P.O</th>
+      <th>issuanceDate</th>
+      <th>quantity</th>
+      <th>totalamount</th>
+      <th>unitprice</th>
+      <th>Location</th> 
+      <th>Action</th>
+  
+  
+  
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let quote of quotes ">
+      <td>{{quote.description}}</td>
+      <td>{{quote.projectOfferId}}</td>
+      <td>{{quote.issuanceDate}}</td>
+      <td>{{quote.quantity}}</td>
+      <td>{{quote.totalamount}}</td>
+      <td>{{quote.unitprice}}</td>
+      <app-map [quoteDescription]="quote.description"></app-map>
+  
+  
+      <td>
+        <button class="btn btn-transparent" (click)="deleteQuote(quote.quote_id)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-trash" viewBox="0 0 16 16">
+          <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+          <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+        </svg></button>
+        <button class="btn btn-transparent" (click)="updateQuote(quote.quote_id)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="blue" class="bi bi-pencil-fill" viewBox="0 0 16 16">
+          <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.5.5 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11z"/>
+        </svg></button>
+      </td>
+     
+  
+  
+    </tr>
+    </tbody>
+  
+  </table>
+</div>
+
+
+</div> -->
+<div class="d-flex justify-content-center mb-5">
+  <mat-form-field appearance="outline" class="w-75 mx-auto">
+    <mat-label>Search </mat-label>
+    <input matInput [(ngModel)]="searchText" (input)="filterQuotes()" placeholder="Search project offers">
+  </mat-form-field>
+</div>
+<div class="container">
+  <h2>Quotes</h2>
+  <div class="col">
+    <button  class="btn btn-add-activity mb-3 float-right"  (click)="openAddQuoteDialog()"  >
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
+      </svg>      </button>
+  </div>
+  <!-- <button class="btn btn-success float-right" (click)="openAddQuoteDialog()">
+     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-square" viewBox="0 0 16 16">
+       <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
+       <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+     </svg> Add Quote
+  </button> -->
+  <div class="card-container">
+     <mat-card *ngFor="let quote of quotes" class="quote-card">
+       <mat-card-header>
+         <mat-card-title>Project: {{quote.projectofferquote.projectTitle}}</mat-card-title>
+       </mat-card-header>
+       <mat-card-content>
+         <p>Description: {{quote.description}}</p>
+         <p>Project Offer company name: {{quote.projectofferquote.companyname}}</p>
+         <p>Issuance Date: {{quote.issuanceDate}}</p>
+         <p>Ressources: {{quote.quantity}}</p>
+         <p>Total Amount: {{quote.totalamount}}</p>
+         <p>Unit Price: {{quote.unitprice}}</p>
+         <app-map [quoteDescription]="quote.description"></app-map>
+       </mat-card-content>
+       <mat-card-actions>
+
+
+        <button type="button" class="btn btn-edit btn-sm mx-1" (click)="updateQuote(quote.quote_id)">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+          </svg>
+          Edit
+        </button>
+
+        <button type="button" class="btn btn-delete btn-sm mx-1" (click)="deleteQuote(quote.quote_id)" >
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+            <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+          </svg>
+          Delete
+        </button>
+         <!-- <button mat-button color="warn" (click)="deleteQuote(quote.quote_id)">Delete</button>
+         <button mat-button color="primary" (click)="updateQuote(quote.quote_id)">Update</button> -->
+       </mat-card-actions>
+     </mat-card>
+  </div>
+ </div>
+ 
