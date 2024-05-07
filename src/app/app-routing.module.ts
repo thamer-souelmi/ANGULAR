@@ -30,7 +30,7 @@ import { FindAllProjectsComponent } from './BackOffice/Pages/Project/find-all-pr
 import { ProjectChartComponent } from './BackOffice/Pages/Project/project-chart/project-chart.component';
 
 import { TaskbackComponent } from './BackOffice/Pages/Task/taskback/taskback.component';
-import { KanbanboardbackComponent } from './BackOffice/Pages/Task/kanbanboardback/kanbanboardback.component';
+// import { KanbanboardbackComponent } from './BackOffice/Pages/Task/kanbanboardback/kanbanboardback.component';
 import { AppGanttChartComponent } from './BackOffice/Pages/Task/app-gantt-chart/app-gantt-chart.component';
 import { TodolistComponent } from './BackOffice/Pages/Task/todolist/todolist.component';
 import { DetailprojectbackComponent } from './BackOffice/Pages/Project/detailprojectback/detailprojectback.component';
@@ -111,11 +111,7 @@ const routes: Routes = [
 
   },
   { path: 'reset/:token', component: ResetPasswordComponent },
-  {  path:"trainigSession", component:AllTemplateFrontComponent,
-    children:[
-      {path:"trainigSession", component:TrainingSessionComponent}
-    ]
-  },
+ 
 
   {path:"ActivityB", component:AllTemplatBackComponent,
   children:[
@@ -129,7 +125,20 @@ const routes: Routes = [
       { path: 'getprojectoffer', component: GetProjectofferComponent },
       { path: 'inactiveprojectoffer', component: InactiveEntitiesComponent },
 
+      { path: 'findProjects', component:FindAllProjectsComponent },
+      { path: 'projectchart', component:ProjectChartComponent },
+      { path: 'kanban-task', component: KanbanBoardComponent},
 
+
+      // { path: 'kanbanback', component: KanbanboardbackComponent},
+      { path: 'taskback/:projectId', component: TaskbackComponent},
+      { path: 'gantt', component: AppGanttChartComponent},
+      { path: 'Todolist', component: TodolistComponent},
+      { path: 'detailback', component: DetailprojectbackComponent},
+      { path: 'emplyeestat', component: PMstatisticComponent},
+      { path: 'taskpiechart/:projectId', component: PiecharttaskComponent},
+      { path: 'invoice/:projectId', component: GetInvoicebyProjectComponent},
+      { path: 'testt', component: ProjectsbackComponent},
 
       {path:"findall", component:FindAllUsersComponent},
 
@@ -175,8 +184,8 @@ const routes: Routes = [
     path: "home",
     component: AllTemplateFrontComponent,
     children:[
-      {path:"home", component:HomeFrontComponent },
-      {path:"leave", component:LeaveComponent},
+
+    
 
       {path:"", component:HomeFrontComponent },
       {path:"leave", component:LeavesComponent},
@@ -186,10 +195,25 @@ const routes: Routes = [
       { path: 'getprojectoffers', component:GetProjectofferComponent },
       { path: 'update-project-offer/:id', component: UpdateProjectofferComponent }, // New route for updating job offers
       { path: 'add-project-offer', component: AddProjectofferComponent }, // New route for updating job offers
-      { path: 'att', component: AttendanceComponent },
-      { path: 'getActivityF', component:ActivityComponentF },
+      {path:"trainigSession", component:TrainingSessionComponent},
       { path: 'EventF', component:EventComponent },
-      { path: 'trainingseesion', component:TrainingSessionComponent },
+      { path: 'getActivityF', component:ActivityComponentF },
+      { path: 'att', component: AttendanceComponent },
+{ path: 'findAllJobOffersfront', component: FindAllJobOffersComponent },
+      { path: 'job-offer-details/:id', component: JobOfferDetailsComponent },
+      { path: 'wishlist', component: WishlistComponent },
+      { path: 'findAllJobCandidacies/:id', component: FindAllJobCandidaciesComponent },
+      { path: 'getAllProject', component: GetAllProjectComponent },
+      { path: 'project/:id', component: ProjectDetailsComponent },
+      { path: 'update-project/:id', component: UpdateprojectComponent },
+      { path: 'task/:projectId', component: TasksByprojectComponent },
+      { path: 'invoicefront/:projectId', component: InvoiceFrontComponent },
+      { path: 'saveproject', component: SavelistProjectComponent },
+      { path: 'Contract/:projectId', component: ContractbyprojectComponent },
+      { path: 'addcontract', component: AddcontractComponent },
+      { path: 'getallcontracts', component: GetallcontractsComponent },
+      { path: 'update-task/:id', component: UpdateTaskComponent },
+      { path: 'kanban-task', component: KanbanBoardComponent},
 
 
 
@@ -209,14 +233,37 @@ const routes: Routes = [
   //   ]
   // },
 
-  {
-    path: "JobOffer",
-    component: AllTemplateFrontComponent,children:[
-      { path: 'findAllJobOffersfront', component: FindAllJobOffersComponent },
-      { path: 'job-offer-details/:id', component: JobOfferDetailsComponent },
-      { path: 'wishlist', component: WishlistComponent },
-      { path: 'findAllJobCandidacies/:id', component: FindAllJobCandidaciesComponent },
-    ]},
+//   {
+//     path: "JobOffer",
+//     component: AllTemplateFrontComponent,children:[
+//       { path: 'findAllJobOffersfront', component: FindAllJobOffersComponent },
+//       { path: 'job-offer-details/:id', component: JobOfferDetailsComponent },
+//       { path: 'wishlist', component: WishlistComponent },
+//       { path: 'findAllJobCandidacies/:id', component: FindAllJobCandidaciesComponent },
+//       { path: 'getAllProject', component: GetAllProjectComponent },
+//       { path: 'project/:id', component: ProjectDetailsComponent },
+//       { path: 'update-project/:id', component: UpdateprojectComponent },
+//       { path: 'task/:projectId', component: TasksByprojectComponent },
+//       { path: 'invoicefront/:projectId', component: InvoiceFrontComponent },
+//       { path: 'saveproject', component: SavelistProjectComponent },
+//       { path: 'Contract/:projectId', component: ContractbyprojectComponent },
+//       { path: 'addcontract', component: AddcontractComponent },
+//       { path: 'getallcontracts', component: GetallcontractsComponent },
+//       { path: 'update-task/:id', component: UpdateTaskComponent },
+//       { path: 'kanban-task', component: KanbanBoardComponent},
+//     ]
+//   },
+  
+  
+
+  // {
+  //   path: "JobOffer",
+  //   component: AllTemplateFrontComponent,children:[
+  //     { path: 'findAllJobOffersfront', component: FindAllJobOffersComponent },
+  //     { path: 'job-offer-details/:id', component: JobOfferDetailsComponent },
+  //     { path: 'wishlist', component: WishlistComponent },
+  //     { path: 'findAllJobCandidacies/:id', component: FindAllJobCandidaciesComponent },
+  //   ]},
 
 
     // {
@@ -251,61 +298,52 @@ const routes: Routes = [
   { path: 'Login/quiz', component: LoginQuizComponent },
 
 
-  {
-      path: "Project",
-      component: AllTemplateFrontComponent,children:[
-        { path: 'getAllProject', component: GetAllProjectComponent },
-        { path: 'project/:id', component: ProjectDetailsComponent },
-        { path: 'update-project/:id', component: UpdateprojectComponent },
-        { path: 'task/:projectId', component: TasksByprojectComponent },
-        { path: 'invoicefront/:projectId', component: InvoiceFrontComponent },
-        { path: 'saveproject', component: SavelistProjectComponent },
-        { path: 'Contract/:projectId', component: ContractbyprojectComponent },
-        { path: 'addcontract', component: AddcontractComponent },
-        { path: 'getallcontracts', component: GetallcontractsComponent },
+  // {
+  //     path: "Project",
+  //     component: AllTemplateFrontComponent,children:[
+  //       { path: 'getAllProject', component: GetAllProjectComponent },
+  //       { path: 'project/:id', component: ProjectDetailsComponent },
+  //       { path: 'update-project/:id', component: UpdateprojectComponent },
+  //       { path: 'task/:projectId', component: TasksByprojectComponent },
+  //       { path: 'invoicefront/:projectId', component: InvoiceFrontComponent },
+  //       { path: 'saveproject', component: SavelistProjectComponent },
+  //       { path: 'Contract/:projectId', component: ContractbyprojectComponent },
+  //       { path: 'addcontract', component: AddcontractComponent },
+  //       { path: 'getallcontracts', component: GetallcontractsComponent },
+  //     ]
+  //   },
+    // {
+    //   path: "Task",
+    //   component: AllTemplateFrontComponent,children:[
+    //    // {path:'getAllTask', component:GetAllTasksComponent},
+    //     { path: 'update-task/:id', component: UpdateTaskComponent },
+    //     { path: 'kanban-task', component: KanbanBoardComponent},
+
+    //   ]
+    // },
+    // {
+    //   path: "Projectback",
+    //   component: AllTemplatBackComponent,children:[
+    //     { path: 'findProjects', component:FindAllProjectsComponent },
+    //     { path: 'projectchart', component:ProjectChartComponent },
+    //     { path: 'kanban-task', component: KanbanBoardComponent},
+
+
+    //     // { path: 'kanbanback', component: KanbanboardbackComponent},
+    //     { path: 'taskback/:projectId', component: TaskbackComponent},
+    //     { path: 'gantt', component: AppGanttChartComponent},
+    //     { path: 'Todolist', component: TodolistComponent},
+    //     { path: 'detailback', component: DetailprojectbackComponent},
+    //     { path: 'emplyeestat', component: PMstatisticComponent},
+    //     { path: 'taskpiechart/:projectId', component: PiecharttaskComponent},
+    //     { path: 'invoice/:projectId', component: GetInvoicebyProjectComponent},
+    //     { path: 'testt', component: ProjectsbackComponent},
 
 
 
 
-
-
-
-
-
-      ]
-    },
-    {
-      path: "Task",
-      component: AllTemplateFrontComponent,children:[
-       // {path:'getAllTask', component:GetAllTasksComponent},
-        { path: 'update-task/:id', component: UpdateTaskComponent },
-        { path: 'kanban-task', component: KanbanBoardComponent},
-
-      ]
-    },
-    {
-      path: "Projectback",
-      component: AllTemplatBackComponent,children:[
-        { path: 'findProjects', component:FindAllProjectsComponent },
-        { path: 'projectchart', component:ProjectChartComponent },
-        { path: 'kanban-task', component: KanbanBoardComponent},
-
-
-        { path: 'kanbanback', component: KanbanboardbackComponent},
-        { path: 'taskback/:projectId', component: TaskbackComponent},
-        { path: 'gantt', component: AppGanttChartComponent},
-        { path: 'Todolist', component: TodolistComponent},
-        { path: 'detailback', component: DetailprojectbackComponent},
-        { path: 'emplyeestat', component: PMstatisticComponent},
-        { path: 'taskpiechart/:projectId', component: PiecharttaskComponent},
-        { path: 'invoice/:projectId', component: GetInvoicebyProjectComponent},
-        { path: 'testt', component: ProjectsbackComponent},
-
-
-
-
-      ]
-    },
+    //   ]
+    // },
 
 ]
 @NgModule({
