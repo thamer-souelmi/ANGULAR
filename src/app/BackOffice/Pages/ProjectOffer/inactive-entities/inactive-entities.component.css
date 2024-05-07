@@ -1,5 +1,45 @@
-.inactive-offer {
+/* .inactive-offer {
     background-color: #ffe0e0; /* Light red background for inactive offers */
-    border: 1px solid #ff9999; /* Red border for inactive offers */
-  }
+    /* border: 1px solid #ff9999; /* Red border for inactive offers */
+  /* } */ 
+   /*
+
+
+   /* inactive-project-offers.component.css */
+
+.inactive-offer {
+  background-color: #ffe0e0; /* Light red background for inactive offers */
+  border: 1px solid #ff9999; /* Red border for inactive offers */
+}
+
+.card-container {
   
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.card {
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1), 0 4px 20px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  width: calc(33.33% - 1rem); /* Trois cartes par ligne avec un espacement de 1rem entre les cartes */
+  margin-bottom: 1rem;
+  border-radius: 0.5rem;
+  background: #ffffff; /* Couleur de fond de la carte */
+  border: solid 1px #f0f0f0; /* Bordure légère pour la carte */
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.card-body {
+  padding: 1rem;
+}
+
+.card-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}

@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./footer-front.component.css']
 })
 export class FooterFrontComponent {
-
+  Tunis!: "France";
 }

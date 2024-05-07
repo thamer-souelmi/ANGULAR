@@ -87,7 +87,11 @@ box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);}
     flex-wrap: wrap;
     justify-content: space-around;
    }
-   
+   .quote-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  }
+  
    .quote-card {
     margin: 10px;
     width: calc(33% - 20px); /* Ajustez la largeur en fonction de vos besoins */
@@ -104,4 +108,154 @@ box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);}
        width: 100%;
     }
    }
-   
+   .btn-add-activity {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    background-color: #08718e;
+    color: white;
+    border: none;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+    width: 50px; /* Adjust width to match the Excel button */
+    height: 50px; /* Adjust height to match the Excel button */
+    font-size: 2rem; /* Adjust font-size if the plus is text */
+    line-height: 50px; /* Center the plus vertically if it's text */
+    text-align: center; /* Center the plus horizontally */
+    border-radius: 50%; /* Optional: makes the button circular */
+    padding: 0; /* Adjust or remove padding if necessary */
+  
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    font-weight: 400; /* Adjusted for font-weight normalization */
+    line-height: 1.5;
+    border-radius: 0.375rem;
+    padding: 0.375rem 0.75rem;
+    text-align: center;
+    vertical-align: middle;
+    /*transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, opacity 0.15s ease;*/
+    user-select: none;
+    border: 1px solid transparent;
+    color: #495057; /* Default text color */
+    background-color: #f8f9fa; /* Light background to ensure visibility */
+    margin: 0.25rem; /* Spacing around buttons */
+  }
+
+  .btn-add-activity:hover {
+    background-color: #fa7022;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transform: translateY(-2px);
+    filter: brightness(85%);
+  }
+
+  h2:hover::after {
+    width: 150px; /* Underline grows on hover */
+  }
+  h2::after {
+    content: '';
+    display: block;
+    margin: 0 auto;
+    height: 3px;
+    width: 100px;
+    background: #08718e;
+    border-radius: 2px;
+    margin-top: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: width 0.3s ease; /* Transition for hover effect */
+  }
+  h2 {
+    animation: fadeInDown 1s ease-out forwards;
+    text-align: center;
+    font-size: 2.5rem;
+    color: #08718e;
+    font-weight: 500; /* Adjust weight as necessary */
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 2px; /* Slightly more spaced */
+    position: relative;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1); /* Subtle text-shadow for depth */
+    transition: text-shadow 0.3s ease; /* Smooth transition for shadow */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Example font */
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    font-weight: 400; /* Adjusted for font-weight normalization */
+    line-height: 1.5;
+    border-radius: 0.375rem;
+    padding: 0.375rem 0.75rem;
+    text-align: center;
+    vertical-align: middle;
+    /*transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, opacity 0.15s ease;*/
+    user-select: none;
+    border: 1px solid transparent;
+    color: #495057; /* Default text color */
+    background-color: #f8f9fa; /* Light background to ensure visibility */
+    margin: 0.25rem; /* Spacing around buttons */
+  }
+
+  .btn-delete:hover, .btn-delete:focus {
+    background-color: #c82333; /* Rouge foncé au survol/sélection */
+    border-color: #bd2130; /* Bordure rouge foncé */
+  }
+  .btn-edit:active, .btn-delete:active {
+    transform: scale(0.98); /* Légère réduction de taille pour simuler un clic */
+  }
+  .btn-primary, .btn-secondary, .btn-edit, .btn-delete {
+    font-size: 16px; /* Taille de police */
+    border-radius: 25px; /* Bords arrondis */
+    padding: 10px 20px; /* Espacement interne */
+    transition: all 0.2s; /* Transition douce pour les interactions */
+  }
+  .btn-delete {
+    background-color: var(--color-red);
+    color: white;
+  }
+  
+  .btn-delete:hover {
+    background-color: red;
+    border-color: red;
+  }
+  .btn-edit {
+    background-color: var(--color-vibrant-green);
+    color: white;
+  }
+  .btn-edit:hover {
+    background-color: #F98644;
+    border-color: #fa7022;
+  }
+
+  .btn.icon-only {
+    padding: 0.375rem; /* Adjust the padding to your preference */
+  }
+
+  .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  font-weight: 400; /* Adjusted for font-weight normalization */
+  line-height: 1.5;
+  border-radius: 0.375rem;
+  padding: 0.375rem 0.75rem;
+  text-align: center;
+  vertical-align: middle;
+  /*transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, opacity 0.15s ease;*/
+  user-select: none;
+  border: 1px solid transparent;
+  color: #495057; /* Default text color */
+  background-color: #f8f9fa; /* Light background to ensure visibility */
+  margin: 0.25rem; /* Spacing around buttons */
+}
+.btn.icon-only {
+  padding: 0.375rem; /* Adjust the padding to your preference */
+}
