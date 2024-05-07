@@ -77,20 +77,6 @@ export class FindAllJobOffersComponent implements OnInit, AfterViewInit {
       jobNature: [0, Validators.required],
       jobCategory: [0, Validators.required]
     }, { validators: this.salaryRangeValidator });
-    // this.updateJobOfferForm = this.formBuilder.group({
-    //   jobOffer_id: [''], // Ensure this field is included
-    //   titleJobOffer: ['', Validators.required],
-    //   description: ['', Validators.required],
-    //   requiredSkills: ['', Validators.required],
-    //   experience: ['', Validators.required],
-    //   jobLocation: ['', Validators.required],
-    //   // applicationDeadLine: ['', Validators.required],
-    //   vacancy: ['', [Validators.required, Validators.min(1)]],
-    //   minsalary: ['', [Validators.required, Validators.min(1)]],
-    //   maxsalary: ['', [Validators.required, Validators.min(1)]],
-    //   // jobNature: ['', Validators.required],
-    //   // jobCategory: ['', Validators.required],
-    // }, { validators: this.salaryRangeValidator });
   }
   ngAfterViewInit() {
     // Access the nativeElement property inside ngAfterViewInit
@@ -99,15 +85,6 @@ export class FindAllJobOffersComponent implements OnInit, AfterViewInit {
     }
     // Repeat for other select elements if needed
   }
-  // openUpdateModal(): void {
-  //   const dialogRef = this.dialog.open(UpdateJobOfferComponent, {
-  //     width: '600px',
-  //     data: { jobOffer: this.jobOffer }
-  //   });
-  //
-  //   dialogRef.afterClosed().subscribe(result => {
-  //   });
-  // }
   openUpdateJobOfferDialog(jobOfferId: number): void {
     this.js.getJobOfferById(jobOfferId).subscribe(jobOffer => {
       this.dialog.open(UpdateJobOfferComponent, {
@@ -118,8 +95,6 @@ export class FindAllJobOffersComponent implements OnInit, AfterViewInit {
     });
 
   }
-
-
   loadJobOffers() {
     this.js.findAllJobOffers().subscribe(jobOffers => {
       this.jobOffers = jobOffers;
@@ -142,8 +117,6 @@ export class FindAllJobOffersComponent implements OnInit, AfterViewInit {
 
       // Call the job offer service to add the job offer
       this.js.addJobOffer(jobOffer,id).subscribe(
-
-
         (addedJobOffer: JobOffer) => {
           console.log('Job offer added successfully:', addedJobOffer);
           // Show success message
@@ -173,8 +146,6 @@ export class FindAllJobOffersComponent implements OnInit, AfterViewInit {
     this.loadWishlist();
 
   }
-
-
   addToWishlist(jobOffer: JobOffer) {
     if (!this.isInWishlist(jobOffer)) {
       this.wishlist.push(jobOffer);
@@ -184,8 +155,6 @@ export class FindAllJobOffersComponent implements OnInit, AfterViewInit {
       this.toastr.info('Job offer is already in the wishlist!', 'Info');
     }
   }
-
-
   isInWishlist(jobOffer: JobOffer): boolean {
     return this.wishlist.some(item => item.jobOffer_id === jobOffer.jobOffer_id);
   }
@@ -198,8 +167,6 @@ export class FindAllJobOffersComponent implements OnInit, AfterViewInit {
     const storedWishlist = localStorage.getItem('wishlist');
     this.wishlist = storedWishlist ? JSON.parse(storedWishlist) : [];
   }
-
-
   navigateToWishlist() {
     // Navigate to the WishlistComponent or any route you have for the wishlist
     this.router.navigate(['/JobOffer/wishlist']);
@@ -249,11 +216,6 @@ export class FindAllJobOffersComponent implements OnInit, AfterViewInit {
       modalInstance.hide();
     }
   }
-
-
-
-
-
   onSortChange(event: any): void {
     const selectedValue = event.target.value;
     console.log('Selected value:', selectedValue);
@@ -278,16 +240,10 @@ export class FindAllJobOffersComponent implements OnInit, AfterViewInit {
       formGroup.get('maxsalary')!.setErrors(null);
     }
   }
-
-
-
-
   sortByMostRecent() {
     // Sort the jobOffers array by descending postedDate
     this.jobOffers.sort((a, b) => new Date(b.postedDate).getTime() - new Date(a.postedDate).getTime());
   }
-
-
   sortByMostApplied(): void {
     console.log('Sorting by most applied...');
 
@@ -317,8 +273,6 @@ export class FindAllJobOffersComponent implements OnInit, AfterViewInit {
       console.log('Sorted job offers by most applied:', this.jobOffers);
     });
   }
-
-
   countCandidacies(jobOffer: JobOffer): Observable<number> {
     return this.candidacyService.countCandidaciesByJobOfferId(jobOffer.jobOffer_id);
   }

@@ -45,6 +45,7 @@ import { UserDetailComponent } from './BackOffice/Pages/user-detail/user-detail.
 import { AddUserComponent } from './BackOffice/Pages/add-user/add-user.component';
 import { LeavesComponent } from './BackOffice/Pages/leaves/leaves.component';
 import { LeavesDetailsComponent } from './BackOffice/Pages/leaves-details/leaves-details.component';
+import { LeaveComponent } from './FrontOffice/pages/leave/leave.component';
 // import { LeaveComponent } from './FrontOffice/Pages/leave/leave.component';
 import { GetInvoicebyProjectComponent } from './BackOffice/Pages/Invoice/get-invoiceby-project/get-invoiceby-project.component';
 import { InvoiceFrontComponent } from './FrontOffice/pages/Invoice/invoice-front/invoice-front.component';
@@ -75,6 +76,10 @@ import { TasksByprojectComponent } from './FrontOffice/pages/Task/tasks-byprojec
 import { UpdateTaskComponent } from './FrontOffice/pages/Task/update-task/update-task.component';
 import { KanbanBoardComponent } from './FrontOffice/pages/Task/kanban-board/kanban-board.component';
 import { TrainingSessionComponent } from './FrontOffice/pages/training-session/training-session.component';
+import {
+  ContractEmploymentComponent
+} from "./BackOffice/Pages/JobOffer/contract-employment/contract-employment.component";
+import {LoginQuizComponent} from "./FrontOffice/pages/Quiz/login-quiz/login-quiz.component";
 import { ActionLogDiagramComponent } from './BackOffice/Pages/ProjectOffer/action-log-diagram/action-log-diagram.component';
 import { AttendanceListComponent } from './BackOffice/Pages/attendance-list/attendance-list.component';
 import { DataFlowLineageComponent } from './BackOffice/Pages/ProjectOffer/data-flow-lineage/data-flow-lineage.component';
@@ -141,7 +146,7 @@ const routes: Routes = [
       {path: 'statisticsInterviews', component: StatisticsInterviewComponent},
       {path: 'findInterviewBack/:id', component: InterviewDetailsBackComponent},
       {path: 'findQuiz', component: FindAllQuizComponent},
-
+      {path: 'contractEmployment', component: ContractEmploymentComponent},
       {path:'room',component: RoomComponent},
       { path: 'taskback', component: TaskbackComponent},
 
@@ -203,8 +208,8 @@ const routes: Routes = [
       { path: 'wishlist', component: WishlistComponent },
       { path: 'findAllJobCandidacies/:id', component: FindAllJobCandidaciesComponent },
     ]},
-    
-    
+
+
     // {
 
     //   path: "projectoffer",
@@ -220,9 +225,9 @@ const routes: Routes = [
     //     { path: 'addquote', component: AddQuoteComponent },
     //     { path: 'getquote', component: GetQuotesComponent },
     //     { path: 'updatequote/:id', component: UpdateQuoteComponent }, // New route for updating job offers
-  
-  
-  
+
+
+
     //   ]
     // },
     // {
@@ -234,8 +239,10 @@ const routes: Routes = [
 
 
   { path: 'quiz', component: QuizComponent },
+  { path: 'Login/quiz', component: LoginQuizComponent },
 
-    {
+
+  {
       path: "Project",
       component: AllTemplateFrontComponent,children:[
         { path: 'getAllProject', component: GetAllProjectComponent },

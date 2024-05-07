@@ -15,7 +15,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpClientModule } from '@angular/common/http';
 import { FindAllJobOffersComponent } from './FrontOffice/pages/JobOffer/find-all-job-offers/find-all-job-offers.component';
 import { WishlistComponent } from './FrontOffice/pages/JobOffer/wishlist/wishlist.component';
@@ -153,18 +152,21 @@ import { GetAllProjectComponent } from "./FrontOffice/pages/Project/get-all-proj
 import {
   GetInvoicebyProjectComponent
 } from "./BackOffice/Pages/Invoice/get-invoiceby-project/get-invoiceby-project.component";
-import { InvoiceFrontComponent } from "./FrontOffice/pages/Invoice/invoice-front/invoice-front.component";
-import { EditInvoiceItemComponent } from "./FrontOffice/pages/Invoice/edit-invoice-item/edit-invoice-item.component";
-import { AddInvoiceItemComponent } from "./FrontOffice/pages/Invoice/add-invoice-item/add-invoice-item.component";
-import { ProjectsbackComponent } from "./BackOffice/Pages/Project/projectsback/projectsback.component";
-import { AddlinkComponent } from "./BackOffice/Pages/Task/addlink/addlink.component";
-import { TeamsmodalComponent } from "./BackOffice/Pages/Project/teamsmodal/teamsmodal.component";
-import { SavelistProjectComponent } from "./FrontOffice/pages/Project/savelist-project/savelist-project.component";
-import { ContractbyprojectComponent } from "./FrontOffice/pages/contract/contractbyproject/contractbyproject.component";
-import { AddcontractComponent } from "./FrontOffice/pages/contract/addcontract/addcontract.component";
-import { GetallcontractsComponent } from "./FrontOffice/pages/contract/getallcontracts/getallcontracts.component";
-import { EditContractComponent } from "./FrontOffice/pages/contract/edit-contract/edit-contract.component";
-import { FiltertaskpipePipe } from "./FrontOffice/pages/Task/filtertaskpipe.pipe";
+import {InvoiceFrontComponent} from "./FrontOffice/pages/Invoice/invoice-front/invoice-front.component";
+import {EditInvoiceItemComponent} from "./FrontOffice/pages/Invoice/edit-invoice-item/edit-invoice-item.component";
+import {AddInvoiceItemComponent} from "./FrontOffice/pages/Invoice/add-invoice-item/add-invoice-item.component";
+import {ProjectsbackComponent} from "./BackOffice/Pages/Project/projectsback/projectsback.component";
+import {AddlinkComponent} from "./BackOffice/Pages/Task/addlink/addlink.component";
+import {TeamsmodalComponent} from "./BackOffice/Pages/Project/teamsmodal/teamsmodal.component";
+import {SavelistProjectComponent} from "./FrontOffice/pages/Project/savelist-project/savelist-project.component";
+import {ContractbyprojectComponent} from "./FrontOffice/pages/contract/contractbyproject/contractbyproject.component";
+import {AddcontractComponent} from "./FrontOffice/pages/contract/addcontract/addcontract.component";
+import {GetallcontractsComponent} from "./FrontOffice/pages/contract/getallcontracts/getallcontracts.component";
+import {EditContractComponent} from "./FrontOffice/pages/contract/edit-contract/edit-contract.component";
+import {FiltertaskpipePipe} from "./FrontOffice/pages/Task/filtertaskpipe.pipe";
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ContractEmploymentComponent } from './BackOffice/Pages/JobOffer/contract-employment/contract-employment.component';
+import { LoginQuizComponent } from './FrontOffice/pages/Quiz/login-quiz/login-quiz.component';
 import { ScreenshotComponent } from './FrontOffice/pages/screenshot/screenshot.component';
 import { ScreenshotDisplayComponent } from './BackOffice/Pages/screenshot-display/screenshot-display.component';
 import { FilterByDatePipe } from './BackOffice/Pages/attendance-list/filter-by-date.pipe';
@@ -306,6 +308,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
 
     RecognizeFaceComponent,
     DashboardComponent,
+    ContractEmploymentComponent,
+    LoginQuizComponent,
     ScreenshotComponent,
     ScreenshotDisplayComponent,
     FilterByDatePipe,
@@ -334,6 +338,17 @@ import { NgxPaginationModule } from 'ngx-pagination';
     MatRippleModule,
     MatMenuModule,
     MatSnackBarModule,
+    MatButtonModule,
+    FeatherModule.pick(allIcons),
+    ToastrModule.forRoot({
+      timeOut: 2000,
+      progressBar: true,
+      progressAnimation: "increasing",
+      preventDuplicates: true
+    }), // ToastrModule added
+    MatCardModule,
+    NgxChartsModule,
+    MatTooltipModule,
     ToastrModule.forRoot({
       timeOut: 2000,
       progressBar: true,
@@ -359,6 +374,17 @@ import { NgxPaginationModule } from 'ngx-pagination';
     SocketIoModule.forRoot(socketConfig),
     MatSortModule,
     MatCheckboxModule,
+
+    MatGridListModule,
+
+    NgxPaginationModule,
+    EmojiModule,
+    PickerComponent,
+
+    MatBadgeModule,
+    CKEditorModule,
+
+
     MatGridListModule,
     MatNativeDateModule,
     MatBadgeModule,
@@ -369,7 +395,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
     MatInputModule,
     MatDatepickerModule,
     NgxPaginationModule
-  
+
   ],
   providers: [httpInterceptorProviders, DatePipe, provideAnimations(), // required animations providers
     provideToastr(),],
