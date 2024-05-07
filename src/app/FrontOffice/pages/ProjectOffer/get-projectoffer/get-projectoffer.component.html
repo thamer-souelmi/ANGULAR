@@ -1,0 +1,61 @@
+<h1>Project offers</h1>
+<full-calendar class="custom-calendar" [events]="projectofferscal" [options]="calendarOptions"
+  (dateClick)="handleDayClick($event)" (eventClick)="handleEventClick($event)">
+</full-calendar>
+
+<!-- 
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>description</th>
+      <th>projectTitle</th>
+      <th>status</th>
+      <th>postedDate</th>
+
+
+    </tr>
+  </thead>
+  <input type="text" [(ngModel)]="searchText" (input)="filterProjectOffers()" placeholder="Search project offers">
+
+  <tbody>
+    <tr *ngFor="let projectOffer of projectoffers | appFilter: searchText ">
+      <td>{{projectOffer.description}}</td>
+      <td>{{projectOffer.projectTitle}}</td>
+      <td>{{projectOffer.status}}</td>
+      <td>{{projectOffer.postedDate}}</td>
+      <td>
+        <button class="btn btn-danger" (click)="deleteProjectOffer(projectOffer.offerId)">Delete</button>
+      </td>
+      <td>
+        <button class="btn btn-primary" (click)="updateProjectOffer(projectOffer.offerId)">Update</button>
+      </td>
+
+
+    </tr>
+  </tbody>
+
+  <button class="btn btn-success float-right" (click)="navigateToAddPROJECTOffer()">Add project Offer</button>
+
+</table> -->
+<input type="text" [(ngModel)]="searchText" (input)="filterProjectOffers()" placeholder="Search project offers">
+
+<div class="row">
+  <div class="col-md-4" *ngFor="let projectOffer of projectoffers | appFilter: searchText ">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">{{projectOffer.description}}</h5>
+        <p class="card-text">Project Title: {{projectOffer.projectTitle}}</p>
+        <p class="card-text">Status: {{projectOffer.status}}</p>
+        <p class="card-text">Posted Date: {{projectOffer.postedDate}}</p>
+        <button class="btn btn-danger" (click)="deleteProjectOffer(projectOffer.offerId)">
+          <i class="fas fa-trash-alt"></i> Delete
+        </button>
+        <button class="btn btn-primary" (click)="updateProjectOffer(projectOffer.offerId,$event)">
+          <i class="fas fa-edit"></i> Update
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button class="btn btn-success float-right" (click)="navigateToAddPROJECTOffer($event)">Add project Offer</button>

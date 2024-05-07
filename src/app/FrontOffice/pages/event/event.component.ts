@@ -1574,4 +1574,3 @@ export class EventComponent implements OnInit,AfterViewInit {
   protected readonly emojis = emojis;
 }
 
-

@@ -11,7 +11,7 @@ import { DatePipe } from '@angular/common';
 import {Candidacy} from "../../../../Models/candidacy";
 import {Observable} from "rxjs"; // Import the pipe
 import { forkJoin } from 'rxjs';
-import { ToastrService } from 'ngx-toastr';
+
 import {UpdateJobOfferComponent} from "../update-job-offer/update-job-offer.component";
 import {MatDialog} from "@angular/material/dialog";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
@@ -19,6 +19,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {StorageService} from "../../../../Services/storage.service";
 import {User} from "../../../../Models/User";
 import {UpdateInterviewComponent} from "../../Interview/update-interview/update-interview.component";
+import { ToastrService } from 'ngx-toastr';
 
 
 

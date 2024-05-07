@@ -33,9 +33,9 @@ export class AppComponent {
         }
       }
       if (isAdmin) {
-        this.router.navigate(['back/findall']);
+        // this.router.navigate(['back/findall']);
       } else {
-        this.router.navigate(['/home/home']);
+        // this.router.navigate(['/home/home']);
       }}
         });
       }
