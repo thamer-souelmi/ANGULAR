@@ -79,7 +79,7 @@ export class MapComponent implements OnInit {
     });
 
     const provider = new OpenStreetMapProvider();
-    const searchLabelValue = 'la marsa';
+    const searchLabelValue = 'esprit tunis';
 
     const searchControl = new (GeoSearchControl as any)({
       provider: provider,

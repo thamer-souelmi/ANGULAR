@@ -92,6 +92,7 @@ import { AddQuoteComponent } from './FrontOffice/pages/Quote/add-quote/add-quote
 import { UpdateProjectofferComponent } from './FrontOffice/pages/ProjectOffer/update-projectoffer/update-projectoffer.component';
 import { ScreenshotDisplayComponent } from './BackOffice/Pages/screenshot-display/screenshot-display.component';
 import { AddProjectofferComponent } from './FrontOffice/pages/ProjectOffer/add-projectoffer/add-projectoffer.component';
+import { NotFoundComponent } from './BackOffice/Pages/not-found/not-found.component';
 
 
 
@@ -102,6 +103,8 @@ const routes: Routes = [
     component: LoginComponent,
 
   },
+  { path: '**', component: NotFoundComponent },
+
   {
     path: "reset",
     component: ForgotPasswordComponent,
@@ -172,7 +175,7 @@ const routes: Routes = [
     path: "home",
     component: AllTemplateFrontComponent,
     children:[
-      {path:"home", component:HomeFrontComponent },
+      {path:"", component:HomeFrontComponent },
       {path:"leave", component:LeavesComponent},
       { path: 'addquote', component: AddQuoteComponent },
       { path: 'getquote', component: GetQuotesComponent },
