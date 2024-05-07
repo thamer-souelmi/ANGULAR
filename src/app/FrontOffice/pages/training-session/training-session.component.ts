@@ -1,15 +1,27 @@
-import {Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef} from '@angular/core';
+import {Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef, TemplateRef} from '@angular/core';
 import { TrainingSessionService } from "../../../Services/TrainingSession.service";
 import { TrainingSession } from "../../../Models/TrainingSession";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
+import {NgbModal, NgbModalOptions, NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
 import { TS_Status } from "../../../Models/TS_Status";
 import { TypeTS } from "../../../Models/TypeTS";
 import * as bootstrap from "bootstrap";
-import {ToastrService} from "ngx-toastr";
+import {ComponentType, ToastrService} from "ngx-toastr";
 import {Room} from "../../../Models/Room";
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
-
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import {DomSanitizer, SafeHtml} from "@angular/platform-browser";
+import {User} from "../../../Models/User";
+import {UserService} from "../../../Services/user.service";
+import {Subject} from "rxjs";
+import * as _ from "lodash";
+import {StorageService} from "../../../Services/storage.service";
+import {RegistrationTSService} from "../../../Services/RegistrationTS.service";
+declare global {
+  interface Window {
+    JitsiMeetExternalAPI?: any; // Use `any` or define a more specific type if available
+  }
+}
 @Component({
   selector: 'app-training-session',
   templateUrl: './training-session.component.html',
@@ -18,7 +30,7 @@ import {MatPaginator, PageEvent} from "@angular/material/paginator";
 export class TrainingSessionComponent implements OnInit {
   trainingSessions: TrainingSession[] = [];
   newTrainingSessionForm: FormGroup;
-  updateTrainingSessionForm: FormGroup;
+  updateStatusForm: FormGroup; // Define this form group
   selectedTrainingSession?: TrainingSession;
   @ViewChild('addTrainingSessionModal') addTrainingSessionModal!: ElementRef;
   @ViewChild('editTrainingSessionModal') editTrainingSessionModal!: ElementRef;
@@ -40,9 +52,16 @@ export class TrainingSessionComponent implements OnInit {
   currentPage: number = 0;
   pageSize: number = 10;
   totalActivities = 0;
+  public Editor = ClassicEditor;
+  filteredEvents: TrainingSession[] = [];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild('jitsiContainer', { static: false }) jitsiContainer!: ElementRef;
+  @ViewChild('jitsiModal') jitsiModal!: TemplateRef<any>;
 
+  users: User[] = [];  // Array to hold the potential trainers
+  searchQuery: string = '';
+  searchChanged: Subject<string> = new Subject<string>();
 
   constructor(
     private formBuilder: FormBuilder,
@@ -50,7 +69,11 @@ export class TrainingSessionComponent implements OnInit {
     private modalService: NgbModal,
     private toaster: ToastrService,
     private cdr: ChangeDetectorRef,
-  ) {
+    private sanitizer: DomSanitizer,
+    private userService :UserService,
+  private storageService: StorageService,
+private registrationService: RegistrationTSService
+) {
     this.newTrainingSessionForm = this.formBuilder.group({
       title: ['', Validators.required],
       start_date: ['', Validators.required],
@@ -65,28 +88,102 @@ export class TrainingSessionComponent implements OnInit {
       target_audience: [''],  // No validators, can be null
       session_outline: [''],  // No validators, can be null
       expected_outcomes: [''],  // No validators, can be null
+      trainer: ['', Validators.required],
     });
 
+    this.updateStatusForm = this.formBuilder.group({
+      tsStatus: ['', Validators.required], // Only status field required
+    });
+    // this.loadUsers();  // Load users on init
 
+  }
+  applyFilter(): void {
+    const filtered = _.deburr(this.searchQuery.toLowerCase());
 
+    this.filteredEvents = this.trainingSessions.filter(trainingsession => {
+      const nameMatch = _.deburr(trainingsession.title.toLowerCase()).includes(filtered);
+      const descriptionMatch = _.deburr(trainingsession.tsStatus.toLowerCase()).includes(filtered);
+      const averageMatch = _.deburr(trainingsession.capacity?.toString().toLowerCase()).includes(filtered);
+      const place = _.deburr(trainingsession.place?.toString().toLowerCase()).includes(filtered);
 
-    this.updateTrainingSessionForm = this.formBuilder.group({
-      title: ['', Validators.required],
-      start_date: ['', Validators.required],
-      finish_date: ['', Validators.required],
-      topic: ['', Validators.required],
-      capacity: ['', [Validators.required, Validators.min(1)]],
-      place: ['', Validators.required],
-      typeTS: [null, Validators.required],
-      tsStatus: [null, Validators.required],
+      return nameMatch || descriptionMatch || averageMatch || place ;
+    });
+  }
+  loadUsers() {
+    this.userService.findAllUsers().subscribe({
+      next: (users) => {
+        this.users = users;
+        console.log('Users loaded:', this.users);
+      },
+      error: (error) => {
+        console.error('Failed to load users:', error);
+        this.toaster.error('Failed to load users. Please check the server.');
+      }
     });
   }
 
   ngOnInit(): void {
     this.loadTrainingSessions(this.currentPage, this.pageSize);
     this.onTypeChange();
-
+    this.applyFilter();
+    this.loadUsers();
   }
+
+
+  openJitsiModal() {
+    this.modalService.open(this.jitsiModal, { size: 'lg' });
+  }
+  confirmAndChangeStatus(session: TrainingSession, newStatus: TS_Status): void {
+    if (!session.ts_id) {
+      this.toaster.error('Session ID is missing');
+      return;
+    }
+
+    const confirmChange = confirm(`Are you sure you want to change the status to ${newStatus}?`);
+    if (confirmChange) {
+      this.trainingSessionService.updateTrainingSessionStatus(session.ts_id, newStatus)
+        .subscribe({
+          next: () => {
+            this.toaster.success('Status updated successfully');
+            session.tsStatus = newStatus; // Update the local state
+          },
+          error: () => this.toaster.error('Failed to update status')
+        });
+    }
+  }
+
+  updateTrainingSessionStatus(): void {
+    if (this.updateStatusForm.valid && this.selectedTrainingSession && this.selectedTrainingSession.ts_id !== undefined) {
+      const statusControl = this.updateStatusForm.get('tsStatus');
+
+      if (!statusControl) {
+        this.toaster.error('Status control is missing in the form');
+        return;
+      }
+
+      const status = statusControl.value;
+      this.trainingSessionService.updateTrainingSessionStatus(this.selectedTrainingSession.ts_id, status).subscribe({
+        next: () => {
+          this.toaster.success('Status updated successfully');
+          if (this.selectedTrainingSession) {
+            this.selectedTrainingSession.tsStatus = status; // Safely update the status
+          }
+          this.modalService.dismissAll(); // Close modal
+        },
+        error: err => {
+          console.error('Failed to update status', err);
+          this.toaster.error('Failed to update status');
+        }
+      });
+    } else {
+      this.toaster.error('Form is not valid, please select a status, or no session is selected.');
+    }
+  }
+
+  sanitizeHtml(html: string | undefined): SafeHtml {
+    return html ? this.sanitizer.bypassSecurityTrustHtml(html) : '';
+  }
+
   onTypeChange(): void {
     const type = this.newTrainingSessionForm.get('typeTS')?.value;
     this.showPlaceField = type === TypeTS.OFFLINE;
@@ -97,7 +194,50 @@ export class TrainingSessionComponent implements OnInit {
     this.selectedTrainingSession = session;
     this.modalService.open(this.sessionDetailsModal);
   }
+  registerTrainingSession(tsId: number): void {
+    const userId = this.storageService.getUser()?.id;
+    if (!userId) {
+      console.error('User ID not available');
+      this.showSnackbar('User ID not available', 'red');
+      return;
+    }
 
+    this.registrationService.registerForTraining(tsId, userId).subscribe(
+      () => {
+        console.log('Registration successful');
+        this.showSnackbar('Registration successful', 'green');
+      },
+      error => {
+        console.error('An error occurred:', error);
+        this.showSnackbar(`Registration is already done `, 'red');
+      }
+    );
+  }
+
+  showSnackbar(message: string, color: string): void {
+    // Create a snackbar element
+    const snackbar = document.createElement('div');
+    snackbar.textContent = message;
+
+    // Apply styles for the specified color
+    snackbar.style.backgroundColor = color;
+    snackbar.style.color = 'white';
+    snackbar.style.padding = '10px';
+    snackbar.style.borderRadius = '5px';
+    snackbar.style.position = 'fixed';
+    snackbar.style.bottom = '20px';
+    snackbar.style.left = '50%';
+    snackbar.style.transform = 'translateX(-50%)';
+    snackbar.style.zIndex = '9999';
+
+    // Append snackbar to the body
+    document.body.appendChild(snackbar);
+
+    // Automatically hide the snackbar after 3 seconds
+    setTimeout(() => {
+      snackbar.remove();
+    }, 3000);
+  }
 
   onPlaceTypeChange(): void {
     const placeType = this.newTrainingSessionForm.get('placeType')?.value;
@@ -133,22 +273,20 @@ export class TrainingSessionComponent implements OnInit {
   loadTrainingSessions(pageIndex: number, pageSize: number): void {
     this.trainingSessionService.findAllRegistrationTS(pageIndex, pageSize).subscribe({
       next: (sessions) => {
-        if (sessions && Array.isArray(sessions.content)) {
-          this.trainingSessions = sessions.content;
-        } else {
-          this.trainingSessions = []; // Ensure this is always an array
-          console.warn('Expected sessions.content to be an array but received:', sessions.content);
-        }
-        this.totalItems = sessions.totalElements || 0; // Adjusted to use a more typical property name
-        this.currentPage = sessions.currentPage || 0;
-        console.log('Loaded training sessions:', this.trainingSessions);
+        this.trainingSessions = sessions.content;
+        this.filteredEvents = [...this.trainingSessions]; // Assurez-vous de cloner l'array si nécessaire
+        this.totalItems = sessions.totalElements;
+        this.totalActivities = Math.ceil(this.totalItems / this.pageSize); // Calcul du nombre total de pages
+        this.cdr.detectChanges();
       },
       error: (err) => {
         console.error('Error loading training sessions', err);
-        this.trainingSessions = []; // Ensures fallback to an empty array on error
+        this.toaster.error('Failed to load training sessions');
       }
     });
   }
+
+
 
   previousPage(): void {
     if (this.currentPage > 0) {
@@ -157,12 +295,13 @@ export class TrainingSessionComponent implements OnInit {
     }
   }
   nextPage(): void {
-    if (this.currentPage < (this.totalActivities / this.pageSize) - 1) {
+    if (this.currentPage < this.totalActivities - 1) {
       this.currentPage++;
       this.loadTrainingSessions(this.currentPage, this.pageSize);
     }
   }
-  changePage(event: PageEvent) {
+
+  changePage(event: PageEvent): void {
     this.currentPage = event.pageIndex;
     this.pageSize = event.pageSize;
     this.loadTrainingSessions(this.currentPage, this.pageSize);
@@ -175,63 +314,55 @@ export class TrainingSessionComponent implements OnInit {
   addTrainingSession(): void {
     if (this.newTrainingSessionForm.valid) {
       const formData = this.newTrainingSessionForm.getRawValue();
-      console.log('Form Data:', formData);
-
-      // Determine the correct values for 'place' and 'typeTS' based on 'placeType'
-      let place = formData.placeType === 'EXTERNAL' ? 'ONLINE' : formData.place;
-      let typeTS = formData.placeType === 'EXTERNAL' ? 'ONLINE' : formData.typeTS;
-
       const requestData = {
         title: formData.title,
-        target_audience: formData.target_audience || null, // Ensuring optional fields are not sent as undefined
+        target_audience: formData.target_audience || null,
         session_outline: formData.session_outline || null,
         expected_outcomes: formData.expected_outcomes || null,
         start_date: formData.start_date,
         finish_date: formData.finish_date,
         topic: formData.topic,
-        place: place || null,  // Handle the case where place might be undefined or not required
+        trainerId: formData.trainer,  // Assuming 'trainer' is the ID field and correctly populated
+        place: formData.placeType === 'EXTERNAL' ? 'ONLINE' : formData.place,
         capacity: formData.capacity,
-        typeTS: typeTS,
+        typeTS: formData.placeType === 'EXTERNAL' ? 'ONLINE' : formData.typeTS,
         tsStatus: formData.tsStatus,
-        placeType: formData.placeType || null // Handle the case where placeType might be undefined
+        placeType: formData.placeType || null
       };
 
       console.log('Submitting this data to server:', requestData);
 
-      // Determine if a room ID is needed based on the placeType
-      const roomId = (formData.placeType === 'INTERNAL' && formData.room) ? formData.room.id : null;
+      const roomId = formData.placeType === 'INTERNAL' ? formData.room.id : null;
+      const trainerId = formData.trainer; // Make sure trainerId is correctly passed from form
 
-      // Choose the correct endpoint based on the room ID presence
-      if (roomId == null) {
-        this.trainingSessionService.addTrainingSessionWithoutRoom(requestData).subscribe(
-          data => {
-            console.log('Training session added successfully:', data);
+      if (roomId === null) {
+        this.trainingSessionService.addTrainingSessionWithoutRoom(requestData, trainerId).subscribe({
+          next: (response) => {
+            console.log('Training session added successfully:', response);
             this.toaster.success('Training session added successfully');
             this.modalService.dismissAll();
             this.newTrainingSessionForm.reset();
             this.loadTrainingSessions(this.currentPage, this.pageSize);
-            this.cdr.detectChanges();
-
           },
-          error => {
+          error: (error) => {
             console.error('Error when trying to add session:', error);
             this.toaster.error(`Error adding training session: ${error.error?.message || 'Unknown error'}`);
           }
-        );
+        });
       } else {
-        this.trainingSessionService.addTrainingSessionWithRoom(requestData, roomId).subscribe(
-          data => {
-            console.log('Training session added successfully with room:', data);
+        this.trainingSessionService.addTrainingSessionWithRoom(requestData, roomId, trainerId).subscribe({
+          next: (response) => {
+            console.log('Training session added successfully with room:', response);
             this.toaster.success('Training session added successfully with room');
             this.modalService.dismissAll();
             this.newTrainingSessionForm.reset();
             this.loadTrainingSessions(this.currentPage, this.pageSize);
           },
-          error => {
+          error: (error) => {
             console.error('Error when trying to add session with room:', error);
             this.toaster.error(`Error adding training session with room: ${error.error?.message || 'Unknown error'}`);
           }
-        );
+        });
       }
     } else {
       console.error('Form is invalid:', this.newTrainingSessionForm.value);
@@ -264,22 +395,22 @@ export class TrainingSessionComponent implements OnInit {
     }
   }
 
-
-  updateTrainingSession(): void {
-    if (this.updateTrainingSessionForm.valid && this.selectedTrainingSession) {
-      const updatedSession: TrainingSession = {
-        ...this.selectedTrainingSession,
-        ...this.updateTrainingSessionForm.value
-      };
-      this.trainingSessionService.UpdateTrainingSession(updatedSession).subscribe({
-        next: () => {
-          this.loadTrainingSessions(this.currentPage, this.pageSize);
-          this.modalRef?.close();
-        },
-        error: (err) => console.error('Error updating training session', err)
-      });
-    }
-  }
+  //
+  // updateTrainingSession(): void {
+  //   if (this.updateTrainingSessionForm.valid && this.selectedTrainingSession) {
+  //     const updatedSession: TrainingSession = {
+  //       ...this.selectedTrainingSession,
+  //       ...this.updateTrainingSessionForm.value
+  //     };
+  //     this.trainingSessionService.UpdateTrainingSession(updatedSession).subscribe({
+  //       next: () => {
+  //         this.loadTrainingSessions(this.currentPage, this.pageSize);
+  //         this.modalRef?.close();
+  //       },
+  //       error: (err) => console.error('Error updating training session', err)
+  //     });
+  //   }
+  // }
 
   selectTrainingSession(session: TrainingSession): void {
     console.log("Session selected for operations:", session);
@@ -324,8 +455,8 @@ export class TrainingSessionComponent implements OnInit {
   }
 
 
-  openModal(content: any): void {
-    this.modalRef = this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'});
+  openModal(componentOrTemplateRef: ComponentType<any> | TemplateRef<any>, config?: NgbModalOptions): NgbModalRef {
+    return this.modalService.open(componentOrTemplateRef, config);
   }
 
 }

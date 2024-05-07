@@ -1,0 +1,119 @@
+<div class="modal-container">
+  <div class="modal-header">
+    <h2>Add Mark</h2>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="markForm" (ngSubmit)="submitMark()">
+      <div class="row">
+        <!-- Left Part -->
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="candidateName">Select Candidate:</label>
+            <select class="form-control" id="candidateName" formControlName="candidateName">
+              <option *ngFor="let candidate of candidates" [value]="candidate.candidateName">{{ candidate.candidateName }}</option>
+            </select>
+            <div *ngIf="markForm.get('candidateName')?.invalid && markForm.get('candidateName')?.touched">
+              Candidate Name is required.
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="html">HTML:</label>
+            <input type="number" class="form-control" id="html" formControlName="html" required min="0" max="5">
+            <div *ngIf="markForm.get('html')?.invalid && markForm.get('html')?.touched">
+              HTML mark is required and should be between 0 and 5.
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="python">Python:</label>
+            <input type="number" class="form-control" id="python" formControlName="python" required min="0" max="5">
+            <div *ngIf="markForm.get('python')?.invalid && markForm.get('python')?.touched">
+              Python mark is required and should be between 0 and 5.
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="java">Java:</label>
+            <input type="number" class="form-control" id="java" formControlName="java" required min="0" max="5">
+            <div *ngIf="markForm.get('java')?.invalid && markForm.get('java')?.touched">
+              Java mark is required and should be between 0 and 5.
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="c">C:</label>
+            <input type="number" class="form-control" id="c" formControlName="c" required min="0" max="5">
+            <div *ngIf="markForm.get('c')?.invalid && markForm.get('c')?.touched">
+              C mark is required and should be between 0 and 5.
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Part -->
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="javascript">JavaScript:</label>
+            <input type="number" class="form-control" id="javascript" formControlName="javascript" required min="0" max="5">
+            <div *ngIf="markForm.get('javascript')?.invalid && markForm.get('javascript')?.touched">
+              JavaScript mark is required and should be between 0 and 5.
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="kotlin">Kotlin:</label>
+            <input type="number" class="form-control" id="kotlin" formControlName="kotlin" required min="0" max="5">
+            <div *ngIf="markForm.get('kotlin')?.invalid && markForm.get('kotlin')?.touched">
+              Kotlin mark is required and should be between 0 and 5.
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="swift">Swift:</label>
+            <input type="number" class="form-control" id="swift" formControlName="swift" required min="0" max="5">
+            <div *ngIf="markForm.get('swift')?.invalid && markForm.get('swift')?.touched">
+              Swift mark is required and should be between 0 and 5.
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="react">React:</label>
+            <input type="number" class="form-control" id="react" formControlName="react" required min="0" max="5">
+            <div *ngIf="markForm.get('react')?.invalid && markForm.get('react')?.touched">
+              React mark is required and should be between 0 and 5.
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="angular">Angular:</label>
+            <input type="number" class="form-control" id="angular" formControlName="angular" required min="0" max="5">
+            <div *ngIf="markForm.get('angular')?.invalid && markForm.get('angular')?.touched">
+              Angular mark is required and should be between 0 and 5.
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="spring">Spring:</label>
+            <input type="number" class="form-control" id="spring" formControlName="spring" required min="0" max="5">
+            <div *ngIf="markForm.get('spring')?.invalid && markForm.get('spring')?.touched">
+              Spring mark is required and should be between 0 and 5.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-success">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
+          </svg> Add Mark
+        </button>
+        <button type="button" class="btn btn-danger" (click)="onCancel()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-square-fill" viewBox="0 0 16 16">
+            <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm3.354 4.646L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 1 1 .708-.708"/>
+          </svg> Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

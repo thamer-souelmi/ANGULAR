@@ -11,11 +11,15 @@ import { DatePipe } from '@angular/common';
 import {Candidacy} from "../../../../Models/candidacy";
 import {Observable} from "rxjs"; // Import the pipe
 import { forkJoin } from 'rxjs';
-import { ToastrService } from 'ngx-toastr';
+
 import {UpdateJobOfferComponent} from "../update-job-offer/update-job-offer.component";
 import {MatDialog} from "@angular/material/dialog";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
+import {StorageService} from "../../../../Services/storage.service";
+import {User} from "../../../../Models/User";
+import {UpdateInterviewComponent} from "../../Interview/update-interview/update-interview.component";
+import { ToastrService } from 'ngx-toastr';
 
 
 
@@ -26,6 +30,7 @@ import {ActivatedRoute, Router} from "@angular/router";
   providers: [DatePipe]
 })
 export class FindAllJobOffersComponent implements OnInit, AfterViewInit {
+  userId!: number;
   @ViewChild('locationSelect') locationSelect: ElementRef | undefined;
   searchtext:any;
   filteredJobOffers: JobOffer[] = [];
@@ -58,7 +63,7 @@ export class FindAllJobOffersComponent implements OnInit, AfterViewInit {
   private candidacies!: Candidacy[];
   constructor(private js: JobOfferService, private router: Router,private formBuilder: FormBuilder,private dialog: MatDialog,
               private cdr: ChangeDetectorRef,
-              private ngZone: NgZone,private route: ActivatedRoute,private candidacyService: CandidacyService,private toastr: ToastrService,) {
+              private ngZone: NgZone,private route: ActivatedRoute,private candidacyService: CandidacyService,private toastr: ToastrService,private s:StorageService) {
     this.jobOfferForm = this.formBuilder.group({
       titleJobOffer: ['', Validators.required],
       description: ['', Validators.required],
@@ -103,15 +108,15 @@ export class FindAllJobOffersComponent implements OnInit, AfterViewInit {
   //   dialogRef.afterClosed().subscribe(result => {
   //   });
   // }
-  openUpdateJobOfferDialog(jobOffer: JobOffer): void {
-    console.log('Job Offer Data:', jobOffer); // Log the jobOffer data before opening the dialog
-    const dialogRef = this.dialog.open(UpdateJobOfferComponent, {
-      data: { jobOffer: jobOffer } // Pass jobOffer data to the dialog
+  openUpdateJobOfferDialog(jobOfferId: number): void {
+    this.js.getJobOfferById(jobOfferId).subscribe(jobOffer => {
+      this.dialog.open(UpdateJobOfferComponent, {
+        data: {
+          jobOffer: jobOffer
+        }
+      });
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      // Handle dialog close event if needed
-    });
   }
 
 
@@ -131,13 +136,18 @@ export class FindAllJobOffersComponent implements OnInit, AfterViewInit {
   onJobOfferSubmit() {
     if (this.jobOfferForm.valid) {
       const jobOffer: JobOffer = this.jobOfferForm.value;
+      const id =this.s.getUser().id;
+      console.log(id)
+      console.log(jobOffer)
 
       // Call the job offer service to add the job offer
-      this.js.addJobOffer(jobOffer).subscribe(
+      this.js.addJobOffer(jobOffer,id).subscribe(
+
+
         (addedJobOffer: JobOffer) => {
           console.log('Job offer added successfully:', addedJobOffer);
           // Show success message
-          this.showModalWithMessage('Job offer added successfully!');
+          this.toastr.success('Job offer added Succesfully!', 'Success');
           // Reset the form
           this.jobOfferForm.reset();
           // Reload job offers
@@ -146,7 +156,7 @@ export class FindAllJobOffersComponent implements OnInit, AfterViewInit {
         error => {
           console.error('Error adding job offer:', error);
           // Show error message
-          this.showModalWithMessage('Error adding job offer. Please try again.');
+          this.toastr.error('Error adding Job offer!', 'Error');
         }
       );
     }
@@ -222,11 +232,14 @@ export class FindAllJobOffersComponent implements OnInit, AfterViewInit {
   confirmDeletion(): void {
     this.js.deleteJobOffer(this.jobOfferIdToDelete).subscribe({
       next: () => {
-        this.showModalWithMessage('Job offer deleted successfully!');
+        this.toastr.success('Job offer deleted successfully!', 'Success');
+
+        // this.showModalWithMessage('Job offer deleted successfully!');
         this.loadJobOffers(); // Refresh the job offers list
       },
       error: () => {
-        this.showModalWithMessage('Error deleting the job offer. Please try again.');
+        this.toastr.error('Error deleting the job offer. Please try again.', 'Error');
+        // this.showModalWithMessage('Error deleting the job offer. Please try again.');
       }
     });
 

@@ -187,15 +187,34 @@ body {
 .custom-width {
   width: 300px; /* Remplacez cette valeur par la longueur souhaitée */
 }
+
 /* Pagination Controls Container Styling */
-.pagination-container {
+.pagination-settings {
   display: flex;
   justify-content: center;
-  margin-top: 20px; /* Add margin for spacing, adjust as needed */
+  align-items: center;
+  margin-top: 20px;
 }
 
-/* Styling for the pagination itself to ensure padding and cursor appearance */
-.pagination-controls {
-  padding: 10px;
+.pagination-settings button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
   cursor: pointer;
+  margin: 0 5px;
 }
+
+.pagination-settings button:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+.pagination-settings span {
+  margin: 0 10px;
+  font-weight: bold;
+}
+
+
+

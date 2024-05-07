@@ -1,0 +1,18 @@
+<div *ngIf="inactiveProjectOffers | async as offers">
+    <h2>Inactive Project Offers</h2>
+    <ul *ngIf="offers.length > 0; else noInactiveOffers">
+      <li *ngFor="let projectOffer of offers">
+        <div class="inactive-offer">
+          <h3>{{ projectOffer.projectTitle }}</h3>
+          <p>{{ projectOffer.description }}</p>
+          <p>Posted Date: {{ projectOffer.postedDate }}</p>
+          <p>Status: {{ projectOffer.status }}</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+  
+  <ng-template #noInactiveOffers>
+    <p>No inactive project offers found.</p>
+  </ng-template>
+  

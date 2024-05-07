@@ -17,6 +17,9 @@
       // Replace '/api/location' with the actual endpoint where you send the location data
       return this.http.post('/api/location', locationData);
     }
+    getEventUsers(eventId: number): Observable<User[]> {
+      return this.http.get<User[]>(`${this.EventUrl}/${eventId}/users`);
+    }
     getUpcomingEvents(): Observable<Event[]> {
       const currentDate = new Date().toISOString();
       return this.http.get<Event[]>(`${this.EventUrl}/upcoming?currentDate=${currentDate}`);
@@ -60,6 +63,11 @@
       return this.http.post<Event>(this.EventUrl + '/addEvent', eventData);
     }
 
+    updateRegistrationStatus(eventId: number, userId: number, status: string): Observable<any> {
+      const url = `${this.EventUrl}/${eventId}/update-user-status/${userId}?status=${status}`;
+      console.log("Sending PUT request to:", url);
+      return this.http.put(url, {});
+    }
 
 
 

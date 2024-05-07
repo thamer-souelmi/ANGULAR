@@ -13,7 +13,9 @@ export class UserService {
   findAllUsers(): Observable<User[]>{
     return this.http.get<User[]>(this.baseUrl + '/retrieveAllUser');
   }
-
+  getUserStatistics() {
+    return this.http.get<any>(this.baseUrl + '/count');
+  }
   addUser(user : User): Observable<User>{
     return this.http.post<User>(this.baseUrl + '/addUser',user);
   }
@@ -41,11 +43,11 @@ export class UserService {
     return this.http.get<User[]>(this.baseUrl + '/employees');
   }
 // malekk
-getCompetentUsers(): Observable<User[]> {
-  return this.http.get<User[]>(`${this.baseUrl}/competentUsers`);
-}
+  getCompetentUsers(): Observable<User[]> {
+    return this.http.get<User[]>(`${this.baseUrl}/competentUsers`);
+  }
 
-private baseUrlf : string = 'http://localhost:8082/user';
+  private baseUrlf : string = 'http://localhost:8082/user';
 
   upload(file: File): Observable<HttpEvent<any>> {
     const formData: FormData = new FormData();
@@ -77,16 +79,23 @@ private baseUrlf : string = 'http://localhost:8082/user';
 
   resetPassword(token: string, newPassword: string): Observable<any> {
     return this.http.put(`${this.baseUrlr}/resetPassword`, { token, newPassword });
-    
+
   }
   resetPassword1(email: string, password: string) {
     return this.http.put('/resetPassword', { email, password });
   }
   resetPasswordt(token: string, password: string): Observable<any> {
-    return this.http.put(`${this.baseUrlr}/resetPassword/${token}`, { password });
-  }
+
+    return this.http.put(`${this.baseUrlr}/resetPassword/${token}`, { password });}
   getUserByEmail(email: string): Observable<User> {
     return this.http.get<User>(`${this.baseUrl}/email/${email}`);
+  }
+  private baseUrlff = 'http://localhost:5000'; // Update with your Python service URL
+
+
+
+  recognizeFace(imageData: string) {
+    return this.http.post<any>(`${this.baseUrlff}/api/face-recognition/recognize`, { imageData });
   }
 
 }

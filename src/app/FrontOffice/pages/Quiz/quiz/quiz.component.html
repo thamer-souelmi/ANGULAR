@@ -24,8 +24,8 @@
   <section *ngIf="isQuizStarted">
     <div class="que_text"><span>{{ currentQuestionNo+1 }}.{{questionsList[currentQuestionNo].question}}</span></div>
     <div class="option_list">
-      <div class="option" [ngClass]="{'disabled': isOptionSelected(questionsList[currentQuestionNo].options), 'correct' :option.isSelected && option.isCorrect,
-'incorrect':option.isSelected && !option.isCorrect}" (click)="selectOption(option)" *ngFor="let option of questionsList[currentQuestionNo].options"><span>{{ option.answer }}</span>
+      <div class="option" [ngClass]="{'disabled': isOptionSelected(questionsList[currentQuestionNo].options), 'correct' :option.isSelected && option.correct,
+'incorrect':option.isSelected && !option.correct}" (click)="selectOption(option)" *ngFor="let option of questionsList[currentQuestionNo].options"><span>{{ option.answer }}</span>
       </div>
     </div>
   </section>
@@ -46,7 +46,7 @@
 <span>and congrats! 🎉,You got <p>{{correctAnswerCount}}</p> out of <p>{{questionsList.length}}</p> </span>
   </div>
   <div class="buttons">
-    <button class="restart">Replay Quiz</button>
-    <button class="quit" (click)="start()">Quit Quiz</button>
+<!--    <button class="restart">Replay Quiz</button>-->
+    <button class="quit" (click)="EndQuiz()">Quit Quiz</button>
   </div>
 </div>

@@ -2,27 +2,28 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/Services/auth.service';
 import { StorageService } from 'src/app/Services/storage.service';
 import {ActivatedRoute, Router} from "@angular/router";
+import { AttendanceService } from 'src/app/Services/attendance.service';
 
 @Component({
-  selector: 'app-login-component',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+ selector: 'app-login-component',
+ templateUrl: './login.component.html',
+ styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  url: string = "";
-    form: any = {
+ url: string = "";
+ form: any = {
     email: null,
     password: null
   };
   isLoggedIn = false;
-  isLoginFailed = false;
+  isLoginFailed = true;
   errorMessage = '';
   roles: string[] = [];
  
 
 
   constructor(private authService: AuthService, private storageService: StorageService,
-              private router : Router, private route: ActivatedRoute) { }
+              private router : Router, private route: ActivatedRoute,private attendanceService: AttendanceService) { }
 
   ngOnInit(): void {
     
@@ -43,25 +44,26 @@ export class LoginComponent implements OnInit {
 
 
       if (isAdmin) {
-        this.router.navigate(['back/findall']);
+        this.router.navigate(['back/dashboard']);
       } else {
         this.router.navigate(['home']);
       }
     }
-  
+      
 }
   
 
-  onSubmit(): void {
-    const { email, password } = this.form;
+onSubmit(): void {
+  const { email, password } = this.form;
 
     this.authService.login(email, password).subscribe({
       next: data => {
+        if(data){
         this.storageService.saveUser(data);
 
         this.isLoginFailed = false;
         this.isLoggedIn = true;
-        this.roles = this.storageService.getUser().roles;
+        //this.roles = this.storageService.getUser().roles;
         let isAdmin = false;
         const roles = this.storageService.getUser().roles;
         for (const role of roles) {
@@ -72,15 +74,16 @@ export class LoginComponent implements OnInit {
         }
 
         if (isAdmin) {
-          this.router.navigate(['back/findall']);
+          this.router.navigate(['back/dashboard']);
         } else {
           this.router.navigate(['home']);
-        }},
+        }}},
       error: err => {
         this.errorMessage = err.error.message;
         this.isLoginFailed = true;
       }
     });
+
 
 
 
@@ -91,3 +94,5 @@ export class LoginComponent implements OnInit {
     this.router.navigate(isAdmin ? ['back/findall'] : ['home']);
   }
 }
+
+ 

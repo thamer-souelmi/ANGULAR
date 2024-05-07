@@ -6,7 +6,7 @@ export enum Equipment {
   VideoConference = "Video Conference",
   Computer = "Computers",
   SpeakerSystem = "Speaker System",
-Smartboard="Smartboard",
+  Smartboard="Smartboard",
   highSpeedInternetAccess="High Speed Internet Access",
   AirConditioningorClimateControl ="Air Conditioning or Climate Control"
 }
@@ -16,6 +16,7 @@ export class Room {
   nameRoom!: string;
   capacityRoom!: number;
   available!: boolean;
+  bookingDates!: Date[];
   equipmentR!: Equipment[];
   trainingSessions?: TrainingSession[];
 

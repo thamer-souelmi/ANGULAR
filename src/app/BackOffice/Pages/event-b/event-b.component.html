@@ -5,7 +5,7 @@
   </mat-form-field>
 </div>
 <div class="card-container">
-  <div *ngFor="let event of filteredEvents| paginate: { itemsPerPage: 10, currentPage: p }" class="card">
+  <div *ngFor="let event of filteredEvents | paginate: { itemsPerPage: size, currentPage: currentPage, totalItems: totalItems }" class="card">
 
     <div class="card-body">
       <h5 class="card-title">{{ event.event_name }}</h5>
@@ -29,43 +29,57 @@
 
 <!--modale details -->
 <ng-template #eventModal let-data>
-  <div class="modal-header">
-    <!-- Bouton de fermeture aligné à droite -->
-    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
-      <span aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
-  <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
-</svg></span>
-    </button>
-  </div>
-  <div class="modal-title">
-    <!-- Titre du modal sur une ligne différente -->
-    <h2 class="event-title">{{ data.event.event_name }}</h2>
-  </div>
-  <mat-dialog-content class="event-modal-content">
-    <!-- Contenu du modal -->
-    <p><strong>Date:</strong> {{ data.event.event_date | date:'medium' }}</p>
-    <p><strong>Place:</strong> {{ data.event.place }}</p>
-    <p><strong>Average Rating:</strong> {{ data.event.averageRating }}</p>
-    <p><strong>Description:</strong> {{ data.event.event_description }}</p>
-    <div *ngIf="selectedEventActivities.length > 0" class="activities-list">
-      <h3>Activities</h3>
-      <ul>
-        <li *ngFor="let activity of selectedEventActivities" class="activity-item">
-          <div class="activity-header">
-            <span class="activity-name">Name :  {{ activity.activity_name }}</span>
-          </div>
-          <div class="activity-description">Description :   {{ activity.description }}</div>
-        </li>
-      </ul>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 class="modal-title">{{ data.event.event_name }}</h2>
+      <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+        <span aria-hidden="true">&times;</span>
+      </button>
     </div>
-    <button (click)="generateReportPDF()" class="pdf-button">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filetype-pdf" viewBox="0 0 16 16">
-        <path fill-rule="evenodd" d="M14 4.5V14a2 2 0 0 1-2 2h-1v-1h1a1 1 0 0 0 1-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5zM1.6 11.85H0v3.999h.791v-1.342h.803q.43 0 .732-.173.305-.175.463-.474a1.4 1.4 0 0 0 .161-.677q0-.375-.158-.677a1.2 1.2 0 0 0-.46-.477q-.3-.18-.732-.179m.545 1.333a.8.8 0 0 1-.085.38.57.57 0 0 1-.238.241.8.8 0 0 1-.375.082H.788V12.48h.66q.327 0 .512.181.185.183.185.522m1.217-1.333a.8.8 0 0 1-.085.38.57.57 0 0 1-.238.241.8.8 0 0 1-.375.082H.788V12.48h.66q.327 0 .512.181.185.183.185.522m1.217-1.333v3.999h1.46q.602 0 .998-.237a1.45 1.45 0 0 0 .595-.689q.196-.45.196-1.084 0-.63-.196-1.075a1.43 1.43 0 0 0-.589-.68q-.396-.234-1.005-.234zm.791.645h.563q.371 0 .609.152a.9.9 0 0 1 .354.454q.118.302.118.753a2.3 2.3 0 0 1-.068.592 1.1 1.1 0 0 1-.196.422.8.8 0 0 1-.334.252 1.3 1.3 0 0 1-.483.082h-.563zm3.743 1.763v1.591h-.79V11.85h2.548v.653H7.896v1.117h1.606v.638z"/>
-      </svg>
-    </button>
-  </mat-dialog-content>
+    <div class="modal-body">
+      <div class="column">
+        <p><strong>Date:</strong> {{ data.event.event_date | date:'medium' }}</p>
+        <p><strong>Place:</strong> {{ data.event.place }}</p>
+        <p><strong>Average Rating:</strong> {{ data.event.averageRating }}</p>
+        <p><strong>Description:</strong> {{ data.event.event_description }}</p>
+        <ul>
+          <li *ngFor="let user of data.users">
+            {{ user.firstname }} {{ user.lastname }} ({{ user.email }})
+            <button class="btn btn-success" (click)="updateUserStatus(data.event.eventId, user.userId, 'CONFIRMED')">Accept</button>
+            <button class="btn btn-danger" (click)="updateUserStatus(data.event.eventId, user.userId, 'CANCELED')">Refuse</button>
+          </li>
+        </ul>
+      </div>
+      <div class="column">
+        <div *ngIf="selectedEventActivities.length > 0" class="activities-list">
+          <h3>Activities</h3>
+          <ul>
+            <li *ngFor="let activity of selectedEventActivities" class="activity-item">
+              <div class="activity-header"> <strong >Name: </strong> {{ activity.activity_name }}</div>
+<!--              <div class="activity-description">Description: {{ activity.description }}</div>-->
+            </li>
+          </ul>
+        </div>
+        <button (click)="generateReportForEvent(data.event)" class="pdf-button">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filetype-pdf" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M14 4.5V14a2 2 0 0 1-2 2h-1v-1h1a1 1 0 0 0 1-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5zM1.6 11.85H0v3.999h.791v-1.342h.803q.43 0 .732-.173.305-.175.463-.474a1.4 1.4 0 0 0 .161-.677q0-.375-.158-.677a1.2 1.2 0 0 0-.46-.477q-.3-.18-.732-.179m.545 1.333a.8.8 0 0 1-.085.38.57.57 0 0 1-.238.241.8.8 0 0 1-.375.082H.788V12.48h.66q.327 0 .512.181.185.183.185.522m1.217-1.333a.8.8 0 0 1-.085.38.57.57 0 0 1-.238.241.8.8 0 0 1-.375.082H.788V12.48h.66q.327 0 .512.181.185.183.185.522m1.217-1.333v3.999h1.46q.602 0 .998-.237a1.45 1.45 0 0 0 .595-.689q.196-.45.196-1.084 0-.63-.196-1.075a1.43 1.43 0 0 0-.589-.68q-.396-.234-1.005-.234zm.791.645h.563q.371 0 .609.152a.9.9 0 0 1 .354.454q.118.302.118.753a2.3 2.3 0 0 1-.068.592 1.1 1.1 0 0 1-.196.422.8.8 0 0 1-.334.252 1.3 1.3 0 0 1-.483.082h-.563zm3.743 1.763v1.591h-.79V11.85h2.548v.653H7.896v1.117h1.606v.638z"/>
+          </svg>
+          Generate PDF
+        </button>
+      </div>
+    </div>
+  </div>
 </ng-template>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
-<div class="pagination-container">
-  <pagination-controls (pageChange)="p = $event" class="pagination-controls"></pagination-controls>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">  <div class="d-flex justify-content-center align-items-center mt-3">
+  <!-- Pagination controls -->
+  <div class="pagination-settings">
+    <button (click)="previousPage()" [disabled]="currentPage === 1">Previous</button>
+    <span>Page {{ currentPage }} of {{ totalPages }}</span>
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
+  </div>
+
+
+
+
 </div>

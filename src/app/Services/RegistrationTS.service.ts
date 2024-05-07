@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import { Observable } from "rxjs";
 import { Injectable } from "@angular/core";
 import {RegistrationTS} from "../Models/RegistrationTS";
@@ -28,4 +28,17 @@ export class RegistrationTSService {
   deleteRegistrationTS(registrationTS_id:number): Observable<void>{
     return this.http.delete<void>('${this.RegistrationTSUrl}/deleteRegistrationTS/${registrationTS_id}');
   }
+  registerForTraining(tsId: number, userId: number){
+    return this.http.post(`${this.RegistrationTSUrl}addRegistrationTS/${tsId}/${userId}`,null, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    });
+
+  }
+  unregisterFromTraining(tsId: number, userId: number) {
+    // Assuming you have an API endpoint to handle unregistration
+    return this.http.post(`/api/unregister/${tsId}`, { userId });
+  }
+
 }

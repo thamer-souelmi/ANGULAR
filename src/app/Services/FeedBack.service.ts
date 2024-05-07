@@ -58,14 +58,19 @@ export class FeedBackService {
       catchError(this.handleError)
     );
   }
-  addFeedback(eventId: number, text: string, note: number): Observable<any> {
-    // Filtrer le texte pour les mots indésirables avant de l'envoyer
-    const cleanText = this.filterBadWords(text);
-    const urlWithEventId = `${this.feedBackUrl}/feedback/add/${eventId}`;
-    const body = { description: cleanText, note: note }; // Note inclus dans le corps
+  addFeedback(eventId: number, description: string, note: number, userId: number): Observable<any> {
+    console.log("addFeedback: Filtering description for bad words");
+    const cleanText = this.filterBadWords(description);
 
-    return this.http.post<any>(urlWithEventId, body).pipe(
-      catchError(this.handleError)
+    // Construct the URL with query parameters
+    const urlWithEventId = `${this.feedBackUrl}/${userId}/addWithNote/${eventId}?description=${encodeURIComponent(cleanText)}&note=${note}`;
+    console.log("addFeedback: Sending POST request to", urlWithEventId);
+
+    return this.http.post<any>(urlWithEventId, {}).pipe(
+      catchError((error) => {
+        console.error("addFeedback: Error submitting feedback", error);
+        return throwError(() => new Error('Error submitting feedback'));
+      })
     );
   }
 

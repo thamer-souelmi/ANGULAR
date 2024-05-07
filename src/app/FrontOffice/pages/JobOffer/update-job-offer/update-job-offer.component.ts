@@ -5,6 +5,7 @@ import { JobOffer } from 'src/app/Models/job-offer';
 import { JobNature } from 'src/app/Models/job-nature';
 import { JobCategory } from 'src/app/Models/job-category';
 import { JobOfferService } from 'src/app/Services/job-offer.service';
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-update-job-offer',
@@ -13,25 +14,19 @@ import { JobOfferService } from 'src/app/Services/job-offer.service';
 })
 export class UpdateJobOfferComponent implements OnInit {
   jobOffer: JobOffer;
-  jobNatureOptions: string[];
-  jobCategoryOptions: string[];
+  jobNatureOptions: JobNature[] = Object.values(JobNature) as JobNature[];
+  jobCategoryOptions: JobCategory[] = Object.values(JobCategory) as JobCategory[];
 
   constructor(
     private dialogRef: MatDialogRef<UpdateJobOfferComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private jobOfferService: JobOfferService
+    private jobOfferService: JobOfferService,private toastr: ToastrService
   ) {
-    this.jobOffer = data.jobOffer;
-    this.jobNatureOptions = this.getEnumValues(JobNature);
-    this.jobCategoryOptions = this.getEnumValues(JobCategory);
+    this.jobOffer = { ...data.jobOffer };
   }
 
   ngOnInit(): void {
-    console.log(this.jobOffer);
-  }
-
-  getEnumValues(enumType: any): string[] {
-    return Object.values(enumType).filter(value => typeof value === 'string') as string[];
+    console.log("Job offer data:", this.jobOffer);
   }
 
   onClose(): void {
@@ -39,12 +34,12 @@ export class UpdateJobOfferComponent implements OnInit {
   }
 
   onSubmit(): void {
-    this.jobOfferService.updateJobOffer(this.jobOffer.jobOffer_id, this.jobOffer).subscribe(updatedJobOffer => {
-      console.log("Job offer updated successfully");
+    console.log("Submitting job offer:", this.jobOffer);
+    const jobOfferId = this.jobOffer.jobOffer_id; // Assuming jobOffer_id is the ID property
+    this.jobOfferService.updateJobOffer(jobOfferId, this.jobOffer).subscribe(updatedJobOffer => {
+      console.log("Updated job offer:", updatedJobOffer);
+      this.toastr.success('Job Offer successfully!', 'Success');
       this.dialogRef.close(updatedJobOffer);
-    }, error => {
-      console.error("Error updating job offer:", error);
-      // Handle error appropriately, e.g., show error message to user
     });
   }
 

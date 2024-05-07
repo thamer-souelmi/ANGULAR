@@ -17,9 +17,7 @@ import { Event } from "src/app/Models/Event";
 export class ActivityBComponent implements OnInit {
   activities: Activity[] = [];
   filteredActivities: Activity[] = [];
-  totalActivities = 0;
-  currentPage = 0;
-  pageSize = 10;
+
   searchQuery = '';
   searchChanged: Subject<string> = new Subject<string>();
   startDate: Date | null = null;
@@ -35,9 +33,12 @@ export class ActivityBComponent implements OnInit {
   selectedActivity: Activity | null = null;
   @ViewChild('detailsModal') detailsModal!: TemplateRef<any>;
   isDetailsModalOpen: boolean = false;
-  p: number = 1;  // Page number
-  page: number = 0;
-  size: number = 10;
+  page = 0;  // Page number
+  size = 5; // Nombre d'items par page
+  totalActivities = 0; // Total number of activities
+  totalPages=5;
+  currentPage = 1;
+
   constructor(
     private activityService: ActivityService,
     private eventService: EventService,
@@ -68,6 +69,21 @@ export class ActivityBComponent implements OnInit {
     this.selectedActivity = null;
     this.isDetailsModalOpen = false; // Set the modal to close
   }
+  nextPage(): void {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.loadActivities(); // Load events for the next page
+    }
+  }
+
+  previousPage(): void {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.loadActivities(); // Load events for the previous page
+    }
+  }
+
+
 
   applyFilter(): void {
     let filtered = _.deburr(this.searchQuery.toLowerCase());
@@ -106,31 +122,23 @@ export class ActivityBComponent implements OnInit {
 
 
   loadActivities(): void {
-    this.activityService.findAllActivities(this.currentPage, this.pageSize).subscribe({
+    this.activityService.findAllActivities(this.currentPage - 1, this.size).subscribe({
       next: (data) => {
         this.activities = data.content;
         this.totalActivities = data.totalElements;
+        this.totalPages = Math.ceil(this.totalActivities / this.size);
         this.filteredActivities = this.activities;
-        this.applyFilter();
       },
       error: (error) => {
         console.error('Error loading activities:', error);
       }
     });
   }
-  nextPage(): void {
-    this.page++;
-    this.loadActivities();
-  }
 
-  previousPage(): void {
-    if (this.page > 0) {
-      this.page--;
-      this.loadActivities();
-    }
-  }
+
+
   loadEvents(): void {
-    this.eventService.findAllEvent(this.currentPage, this.pageSize).subscribe(response => {
+    this.eventService.findAllEvent(this.page, this.size).subscribe(response => {
       console.log('Events from DB:', response.content); // Log the received events
       this.allEvents = response.content; // Assign the events from the 'content' array to 'allEvents'
     }, (error: unknown) => {
@@ -140,4 +148,3 @@ export class ActivityBComponent implements OnInit {
 
 
 }
-
