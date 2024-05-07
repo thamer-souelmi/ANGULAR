@@ -103,7 +103,6 @@ const routes: Routes = [
     component: LoginComponent,
 
   },
-  { path: '**', component: NotFoundComponent },
 
   {
     path: "reset",
@@ -300,6 +299,8 @@ const routes: Routes = [
 
       ]
     },
+    { path: '**', component: NotFoundComponent },
+
 
 ]
 @NgModule({

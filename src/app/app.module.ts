@@ -329,7 +329,6 @@ import { NotFoundComponent } from './BackOffice/Pages/not-found/not-found.compon
     MatInputModule,
     MatPaginatorModule,
     MatIconModule,
-    MatDialogModule,
     MatTableModule,
     MatButtonModule,
     CommonModule,
@@ -396,8 +395,10 @@ import { NotFoundComponent } from './BackOffice/Pages/not-found/not-found.compon
     MatPaginatorModule,
     MatInputModule,
     MatDatepickerModule,
-    NgxPaginationModule
-
+    NgxPaginationModule,
+    CommonModule,
+    MatDialogModule,
+    
   ],
   providers: [httpInterceptorProviders, DatePipe, provideAnimations(), // required animations providers
     provideToastr(),],

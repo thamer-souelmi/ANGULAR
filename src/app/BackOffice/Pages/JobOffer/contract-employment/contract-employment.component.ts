@@ -4,8 +4,8 @@ import {ContractEmploymentService} from "../../../../Services/contract-employmen
 import {HttpEventType, HttpResponse} from "@angular/common/http";
 import {Observable} from "rxjs";
 import * as pdfMake from 'pdfmake/build/pdfmake';
-import * as pdfFonts from 'pdfmake/build/vfs_fonts';
-(pdfMake as any).vfs =pdfFonts.pdfMake.vfs;
+// import * as pdfFonts from 'pdfmake/build/vfs_fonts';
+// (pdfMake as any).vfs =pdfFonts.pdfMake.vfs;
 import {ToastrService} from "ngx-toastr"; // Adjust the path as needed
 
 @Component({

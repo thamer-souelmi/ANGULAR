@@ -1,81 +1,100 @@
-
-<!--
 <div class="modal-container">
-    <div class="modal-header">
-      <h2>Add New Task</h2>
-    </div>
-   
-      <div class="modal-body" style="max-height: 600px; overflow-y: auto;">
-      <form (ngSubmit)="onSubmit()" #taskForm="ngForm">
-        <div class="form-group">
-          <label for="taskName">Task Name:</label>
-          <input type="text" id="taskName" [(ngModel)]="newTask.taskname" name="taskName" class="form-control" required minlength="5">
-          <div *ngIf="taskForm.controls['taskName'].invalid && (taskForm.controls['taskName'].dirty || taskForm.controls['taskName'].touched)">
-            <div class="text-danger" *ngIf="taskForm.controls['taskName'].errors?.['required']">Task Name is required.</div>
-            <div class="text-danger" *ngIf="taskForm.controls['taskName'].errors?.['minlength']">Task Name must be at least 5 characters long.</div>
-          </div>
-        </div>
-        <br>
-        <div class="form-group">
-          <label for="taskDescription">Task Description:</label>
-         <textarea id="taskDescription" [(ngModel)]="newTask.taskDescription" name="taskDescription" class="form-control" required minlength="15"></textarea>
-          <div *ngIf="taskForm.controls['taskDescription'].invalid && (taskForm.controls['taskDescription'].dirty || taskForm.controls['taskDescription'].touched)">
-            <div class="text-danger" *ngIf="taskForm.controls['taskDescription'].errors?.['required']">Description is required.</div>
-            <div class="text-danger" *ngIf="taskForm.controls['taskDescription'].errors?.['minlength']">Description must be at least 15 characters long.</div>
-          </div>
-        </div>
-        <br>
-        <div class="form-group">
-          <label for="startDateTask">Start Date:</label>
-          <input type="date" id="startDateTask" [(ngModel)]="newTask.startDateTask" name="startDateTask" class="form-control" required>
-          <div *ngIf="taskForm.controls['startDateTask'].invalid && (taskForm.controls['startDateTask'].dirty || taskForm.controls['startDateTask'].touched)">
-            <div class="text-danger" *ngIf="taskForm.controls['startDateTask'].errors?.['required']">Start Date is required.</div>
-            
-          </div>
-        </div>
-        <br>
-        <div class="form-group">
-          <label for="dueDateTask">Due Date:</label>
-          <input type="date" id="dueDateTask" [(ngModel)]="newTask.dueDateTask" name="dueDateTask" class="form-control" required>
-          <div *ngIf="taskForm.controls['dueDateTask'].invalid && (taskForm.controls['dueDateTask'].dirty || taskForm.controls['dueDateTask'].touched)">
-            <div class="text-danger" *ngIf="taskForm.controls['dueDateTask'].errors?.['required']">Due Date is required.</div>
-          </div>
-        </div>
-        <br>
-        <div class="form-group">
-          <label for="priority">Priority:</label>
-          <select id="priority" [(ngModel)]="selectedPriority" name="priority" class="form-control" required>
-            <option *ngFor="let priority of PpriorityOptions" [value]="priority">{{ priority }}</option>
-          </select>
-        </div>
-        <br>
-        <div class="form-group">
-          <label for="taskStatus">Status:</label>
-          <select id="taskStatus" [(ngModel)]="selectedTaskStatus" name="taskStatus" class="form-control" required>
-            <option *ngFor="let status of statusOptions" [value]="status">{{ status }}</option>
-          </select>
-        </div>
-        <br>
-        <div class="form-group">
-          <label for="projetT">Project:</label>
-          <select id="projetT" [(ngModel)]="selectedProject" name="projetT" class="form-control" required>
-            <option *ngFor="let project of projects" [value]="project">{{ project.projectName }}</option>
-          </select>
-        </div>
-        <br>
-        <div class="form-group">
-          <label for="employeeTask">Membre:</label>
-          <select id="employeeTask" [(ngModel)]="selectedEmployee" name="employeeTask" class="form-control" required>
-            <option *ngFor="let Employee of employees" [value]="Employee">{{ Employee.firstname }} {{ Employee.lastname }} </option>
-          </select>
-        </div>
-        <br>
-        <div class="modal-footer"> 
-          <button type="submit" class="btn btn-primary" [disabled]="taskForm.invalid">Add Task</button>
-          <button type="button" class="btn btn-secondary" (click)="onClose()">Cancel</button>
-        </div>
-      </form>
-    </div>
+  <div class="modal-header">
+    <h2>Add New Task</h2>
   </div>
 
--->
+  <div class="modal-body" style="max-height: 600px; overflow-y: auto;">
+    <form (ngSubmit)="onSubmit()" #taskForm="ngForm">
+      <div class="form-group">
+        <label for="taskname">Task Name:</label>
+        <input type="text" id="taskname" [(ngModel)]="newTask.taskname" name="taskname" class="form-control" required
+          minlength="5">
+        <div
+          *ngIf="taskForm.controls['taskname'].invalid && (taskForm.controls['taskname'].dirty || taskForm.controls['taskname'].touched)">
+          <div class="text-danger" *ngIf="taskForm.controls['taskname'].errors?.['required']">Task Name is required.
+          </div>
+          <div class="text-danger" *ngIf="taskForm.controls['taskname'].errors?.['minlength']">Task Name must be at
+            least 5 characters long.</div>
+        </div>
+      </div>
+      <br>
+      <div class="form-group">
+        <label for="taskDescription">Task Description:</label>
+        <textarea id="taskDescription" [(ngModel)]="newTask.taskDescription" name="taskDescription" class="form-control"
+          required minlength="15"></textarea>
+        <div
+          *ngIf="taskForm.controls['taskDescription'].invalid && (taskForm.controls['taskDescription'].dirty || taskForm.controls['taskDescription'].touched)">
+          <div class="text-danger" *ngIf="taskForm.controls['taskDescription'].errors?.['required']">Description is
+            required.</div>
+          <div class="text-danger" *ngIf="taskForm.controls['taskDescription'].errors?.['minlength']">Description must
+            be at least 15 characters long.</div>
+        </div>
+      </div>
+      <br>
+      <div class="form-group">
+        <label for="startDateTask">Start Date:</label>
+        <input type="date" id="startDateTask" [(ngModel)]="newTask.startDateTask" name="startDateTask"
+          class="form-control" required>
+        <div
+          *ngIf="taskForm.controls['startDateTask'].invalid && (taskForm.controls['startDateTask'].dirty || taskForm.controls['startDateTask'].touched)">
+          <div class="text-danger" *ngIf="taskForm.controls['startDateTask'].errors?.['required']">Start Date is
+            required.</div>
+
+        </div>
+      </div>
+      <br>
+      <div class="form-group">
+        <label for="dueDateTask">Due Date:</label>
+        <input type="date" id="dueDateTask" [(ngModel)]="newTask.dueDateTask" name="dueDateTask" class="form-control"
+          required>
+        <div
+          *ngIf="taskForm.controls['dueDateTask'].invalid && (taskForm.controls['dueDateTask'].dirty || taskForm.controls['dueDateTask'].touched)">
+          <div class="text-danger" *ngIf="taskForm.controls['dueDateTask'].errors?.['required']">Due Date is required.
+          </div>
+        </div>
+      </div>
+      <br>
+      <div class="form-group">
+        <label for="priority">Priority:</label>
+        <select id="priority" name="priority" [(ngModel)]="newTask.priority" class="form-control" required>
+          <option value="HIGH">HIGH</option>
+          <option value="MEDUIM">MEDUIM</option>
+          <option value="LOW">LOW</option>
+        </select>
+      </div>
+      <br>
+      <div class="form-group">
+        <label for="taskStatus">Status:</label>
+        <select id="taskStatus" name="taskStatus" [(ngModel)]="newTask.taskStatus" class="form-control" required>
+          <option value="TODO">TODO</option>
+          <option value="INPROGRESS">INPROGRESS</option>
+          <option value="COMPLETED">COMPLETED</option>
+          <option value="CANCELLED">CANCELLED</option>
+
+        </select>
+      </div>
+      <br>
+
+      <div class="form-group">
+        <label for="projetT">Project:</label>
+        <select id="projetT" [(ngModel)]="selectedProject" name="projetT" class="form-control" required>
+          <option *ngFor="let project of projects" [ngValue]="project">{{ project.projectName }}</option>
+        </select>
+      </div>
+      <br>
+      <div class="form-group">
+        <label for="employeeTask">Member:</label>
+        <select id="employeeTask" [(ngModel)]="selectedEmployee" name="employeeTask" class="form-control" required>
+          <option *ngFor="let employee of employeeTask" [ngValue]="employee">{{ employee.firstname }} {{
+            employee.lastname }}</option>
+        </select>
+      </div>
+
+
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" [disabled]="taskForm.invalid">Add Task</button>
+        <button type="button" class="btn btn-secondary" (click)="onClose()">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
