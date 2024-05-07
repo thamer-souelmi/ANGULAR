@@ -93,7 +93,7 @@ import { ProjectChartComponent } from './BackOffice/Pages/Project/project-chart/
 
 import { EventComponent } from './FrontOffice/pages/event/event.component';
 import { TaskbackComponent } from './BackOffice/Pages/Task/taskback/taskback.component';
-import { KanbanboardbackComponent } from './BackOffice/Pages/Task/kanbanboardback/kanbanboardback.component';
+// import { KanbanboardbackComponent } from './BackOffice/Pages/Task/kanbanboardback/kanbanboardback.component';
 import { AppGanttChartComponent } from './BackOffice/Pages/Task/app-gantt-chart/app-gantt-chart.component';
 import { TodolistComponent } from './BackOffice/Pages/Task/todolist/todolist.component';
 import { MatSortModule } from '@angular/material/sort';
@@ -251,7 +251,7 @@ import { NotFoundComponent } from './BackOffice/Pages/not-found/not-found.compon
     FindAllProjectsComponent,
     ProjectChartComponent,
     TaskbackComponent,
-    KanbanboardbackComponent,
+    // KanbanboardbackComponent,
     AppGanttChartComponent,
     TodolistComponent,
     DetailprojectbackComponent,

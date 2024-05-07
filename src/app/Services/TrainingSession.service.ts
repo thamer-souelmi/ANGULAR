@@ -1,5 +1,5 @@
 import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams} from "@angular/common/http";
-import {Observable, throwError} from "rxjs";
+import {forkJoin, Observable, throwError} from "rxjs";
 import { Injectable } from "@angular/core";
 import {TrainingSession} from "../Models/TrainingSession";
 import {catchError, map, tap} from "rxjs/operators";
@@ -7,6 +7,7 @@ import {Room} from "../Models/Room";
 import {TS_Status} from "../Models/TS_Status";
 import {RegistrationTS} from "../Models/RegistrationTS";
 import {User} from "../Models/User";
+import {RoomService} from "./Room.service";
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,7 @@ export class TrainingSessionService {
     })
   };
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private  room :RoomService) { }
 
   findAllRegistrationTS(page: number, size: number): Observable<any> {
     console.log(`Requesting page ${page} with size ${size}`);
@@ -59,17 +60,53 @@ export class TrainingSessionService {
   //   return this.http.post<TrainingSession>(url, sessionData);
   // }
 
-  addTrainingSessionWithRoom(trainingSession: TrainingSession, roomId: number, trainerId: number): Observable<TrainingSession> {
-    const url = `${this.TrainingSessionUrl}with-room/${roomId}/${trainerId}`;
-    return this.http.post<TrainingSession>(url, trainingSession, this.httpOptions)
-      .pipe(
-        catchError(error => {
-          console.error('Failed to add training session with room:', error);
-          return throwError(() => new Error('Failed to send request'));
-        })
-      );
-  }
+  // addTrainingSessionWithRoom(trainingSession: any, roomId: number, trainerId: number): Observable<any> {
+  //   const url = `${this.TrainingSessionUrl}with-room/${roomId}/${trainerId}`;
+  //   return this.http.post(url, trainingSession).pipe(
+  //     catchError((error) => {
+  //       console.log("Full error response:", error);  // Log the full error response for debugging
+  //       let errorMessage = 'An unexpected error occurred. Please try again.';
+  //       if (error.status === 409 && error.error && Array.isArray(error.error.unavailableDates)) {
+  //         const unavailableDates = error.error.unavailableDates.join(', ');
+  //         errorMessage = `${error.error.message} Unavailable dates: ${unavailableDates}`;
+  //       } else if (error.status === 409 && error.error) {
+  //         // Handle cases where unavailableDates might be missing or malformed
+  //         errorMessage = error.error.message || 'Room booking conflict, but no dates provided.';
+  //       }
+  //       return throwError(() => new Error(errorMessage));
+  //     })
+  //   )
+  // }
 
+
+  addTrainingSessionWithRoom(trainingSession: any, roomId: number, trainerId: number): Observable<any> {
+    const url = `${this.TrainingSessionUrl}with-room/${roomId}/${trainerId}`;
+    return this.http.post(url, trainingSession).pipe(
+      catchError((error) => {
+        console.error('Error when trying to add session with room:', error);
+        let errorMessage = 'An unexpected error occurred. Please try again.';
+        if (error.status === 409 && error.error && Array.isArray(error.error.unavailableDates)) {
+          // Call getUnavailableDates service to fetch unavailable dates
+          const unavailableDates$ = this.room.getUnavailableDates(roomId);
+          return forkJoin([unavailableDates$]).pipe(
+            catchError((unavailableDatesError) => {
+              console.error('Error fetching unavailable dates:', unavailableDatesError);
+              return throwError(unavailableDatesError);
+            }),
+            // Combine original error message with unavailable dates
+            map(([unavailableDates]) => {
+              const formattedUnavailableDates = unavailableDates.join(', ');
+              return `${error.error.message}. Unavailable dates: ${formattedUnavailableDates}`;
+            })
+          );
+        } else if (error.status === 409 && error.error) {
+          // Handle cases where unavailableDates might be missing or malformed
+          errorMessage = error.error.message || 'Room is already booked .';
+        }
+        return throwError(() => new Error(errorMessage));
+      })
+    );
+  }
   addTrainingSessionWithoutRoom(trainingSession: TrainingSession, trainerId: number): Observable<TrainingSession> {
     const url = `${this.TrainingSessionUrl}without-room/${trainerId}`;
     console.log('Sending data:', JSON.stringify(trainingSession));

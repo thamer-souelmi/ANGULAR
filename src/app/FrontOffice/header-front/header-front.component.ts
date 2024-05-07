@@ -9,7 +9,9 @@ import { FormBuilder } from '@angular/forms';
 import { AttendanceService } from 'src/app/Services/attendance.service';
 import { LocalStorageService } from 'src/app/Services/local-storage.service';
 import { ScreenshotService } from 'src/app/Services/Screenshot.service';
+import {  OnInit, AfterViewInit } from '@angular/core';
 
+declare const $: any; // Declare $ as any to access jQuery
 @Component({
   selector: 'app-header-front',
   templateUrl: './header-front.component.html',
@@ -49,6 +51,12 @@ export class HeaderFrontComponent {
         }
       );
     }
+}
+ngAfterViewInit(): void {
+  // Initialize Bootstrap dropdown after the view has been initialized
+  $(document).ready(() => {
+    $('.dropdown-toggle').dropdown();
+  });
 }
   stopAttendance(): void {
     // Arrêter l'attendance uniquement si l'ID de l'attendance est présent dans le local storage

@@ -25,4 +25,5 @@ export interface TrainingSession {
   feedbacks?: FeedBack[];       // Adjust naming to be consistent in pluralization
   room?: Room;
   placeType: PlaceType;
+  registeredCount : number ;
 }

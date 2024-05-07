@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component,OnInit } from '@angular/core';
 import {Observable, Subscription} from "rxjs";
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { map, shareReplay } from 'rxjs/operators';
@@ -18,7 +18,7 @@ interface sidebarMenu {
   templateUrl: './sidebar-back.component.html',
   styleUrls: ['./sidebar-back.component.css']
 })
-export class SidebarBackComponent {
+export class SidebarBackComponent implements OnInit{
   routerActive: string = "activelink";
   search: boolean = false;
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
@@ -41,7 +41,97 @@ export class SidebarBackComponent {
           console.error('Error fetching user:', error);
         }
       );
-
+      const roles = this.storageService.getUser().roles;
+      const isAdminHR = this.isAdminHR();
+      const isAdminCRM = this.isAdminCRM();
+      console.log('Is Employee HR:', isAdminHR);
+      console.log('User ID:', this.storageService.getUser().id);
+      if (!isAdminCRM) {
+        this.sidebarMenu = [
+          {
+            link: "/",
+            icon: "home",
+            menu: "Dashboard",
+          },
+          {
+            link: "/back/dataflow",
+            icon: "disc",
+            menu: "Data Flow",
+          },
+          {
+            link: "/back/projectofferflow",
+            icon: "layout",
+            menu: "Project Offer Flow",
+          },
+          {
+            link: "/back/inactiveprojectoffer",
+            icon: "info",
+            menu: "Inactive P.O",
+          },
+          {
+            link: "/back/screenshots",
+            icon: "eye",
+            menu: "Activity Tracking",
+          },
+          {
+            link: "/back/atte",
+            icon: "clock",
+            menu: "Attendance",
+          },
+        ];
+      }
+      // Adjust the sidebar menu based on the user's role
+      if (!isAdminHR) {
+        this.sidebarMenu = [
+          {
+            link: "/",
+            icon: "home",
+            menu: "Dashboard",
+          },
+          {
+            link: "/back/findAllJobOffersback",
+            icon: "slack",
+            menu: "HR",
+          },
+          {
+            link: "/back/findQuiz",
+            icon: "award",
+            menu: "Quiz",
+          },
+          {
+            link: "/back/contractEmployment",
+            icon: "file-text",
+            menu: "Contracts",
+          },{
+            link:"/back/activityB",
+            icon:"home",
+             menu:"Activity",
+           },
+           {
+             link:"/back/EventBack",
+             icon:"cap",
+             menu:"Event",
+           },
+           {
+             link:"/back/trainingSessionB",
+             icon:"home",
+             menu:"Training Session",
+           },
+          
+        ];
+      }
+    }
+    isAdminHR(): boolean {
+      const roles = this.storageService.getUser()?.roles;
+      return roles && roles.includes('adminHR');
+    }
+    isAdminCRM(): boolean {
+      const roles = this.storageService.getUser()?.roles;
+      return roles && roles.includes('adminCRM');
+    }
+    isAdminProject(): boolean {
+      const roles = this.storageService.getUser()?.roles;
+      return roles && roles.includes('adminProject');
     }
 
   constructor(private breakpointObserver: BreakpointObserver,
@@ -111,6 +201,26 @@ export class SidebarBackComponent {
       link: "/back/contractEmployment",
       icon: "file-text",
       menu: "Contracts",
+    },
+    {
+      link: "/Projectback/testt",
+      icon: "slack",
+      menu: "Projects",
+    },
+    {
+      link: "/Projectback/kanbanback",
+      icon: "list",
+      menu: "Kanban Board",
+    },
+    {
+      link: "/Projectback/gantt",
+      icon: "layers",
+      menu: "Gantt",
+    },
+    {
+      link: "/Projectback/Todolist",
+      icon: "layout",
+      menu: "To Do List",
     },
   //link
 
