@@ -28,6 +28,7 @@ import {
 import {Router} from "@angular/router";
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { ExportExcelService } from 'src/app/Services/ExportExcel.service';
+import {ToastrService} from "ngx-toastr";
 
 export const dateRangeValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
   const group = control as FormGroup;
@@ -39,6 +40,31 @@ export const dateRangeValidator: ValidatorFn = (control: AbstractControl): Valid
   }
   return null; // No error if one or both fields are empty
 };
+export function eventDateRangeValidator(eventControlName: string, startControlName: string, finishControlName: string): ValidatorFn {
+  return (formGroup: AbstractControl): ValidationErrors | null => {
+    const event = formGroup.get(eventControlName)?.value as Event;
+    const start = new Date(formGroup.get(startControlName)?.value);
+    const finish = new Date(formGroup.get(finishControlName)?.value);
+
+    if (event && start && finish) {
+      const eventStart = new Date(event.event_date);
+      const eventEnd = new Date(event.finishevent_date);
+      if (start >= eventStart && finish <= eventEnd) {
+        return null;
+      } else {
+        return {
+          eventDateRange: {
+            valid: false,
+            message: `The activity must be within the event period: ${eventStart.toLocaleDateString()} to ${eventEnd.toLocaleDateString()}`
+          }
+        };
+      }
+    }
+    return null;
+  };
+}
+
+
 @Component({
   selector: 'app-activity',
   templateUrl: './activity.component.html',
@@ -50,6 +76,8 @@ export class ActivityComponentF implements OnInit {
   activities: Activity[] = [];
   activity: Activity = new Activity();
   events: Event[] = [];
+  events1: Event[] = [];
+
   totalActivities = 0;
   currentPage = 0;
   pageSize = 9;
@@ -89,6 +117,7 @@ export class ActivityComponentF implements OnInit {
     private modalService: NgbModal,
     private renderer: Renderer2,
     private exportExcelService: ExportExcelService,
+    private toaster : ToastrService,
 
   )
   {
@@ -98,14 +127,14 @@ export class ActivityComponentF implements OnInit {
       startTime: ['', Validators.required],
       finishTime: ['', Validators.required],
       event: ['', Validators.required]
-    }, { validators: dateRangeValidator });
+    }, { validators: [dateRangeValidator, eventDateRangeValidator('event', 'startTime', 'finishTime')] });
     this.updateActivityForm = this.formBuilder.group({
       activity_name: ['', Validators.required],
       description: ['', Validators.required],
       startTime: ['', Validators.required],
       finishTime: ['', Validators.required],
       event: ['', Validators.required]
-    }, { validators: dateRangeValidator });
+    }, { validators: [dateRangeValidator, eventDateRangeValidator('event', 'startTime', 'finishTime')] });
   }
   ngOnInit(): void {
     this.loadActivitiesFront(this.currentPage, this.pageSize);
@@ -128,7 +157,7 @@ export class ActivityComponentF implements OnInit {
     this.activityServiceF.findAllActivitiesWithoutPagination().subscribe(activities => {
       if (activities && activities.length > 0) {
         this.exportExcelService.exportToExcel(activities, 'ToutesLesActivites');
-        this.showModalWithMessage('Le téléchargement est en cours.....');
+        this.toaster.success('Le téléchargement est en cours.....');
       } else {
         console.log("Aucune activité à exporter.");
         // Afficher une notification à l'utilisateur si nécessaire
@@ -226,11 +255,11 @@ export class ActivityComponentF implements OnInit {
   confirmDeletion(): void {
     this.activityServiceF.deleteActivity(this.activityIdToDelete).subscribe({
       next: () => {
-        this.showModalWithMessage('Activity deleted successfully!');
+        this.toaster.success('Activity deleted successfully!');
         this.loadActivitiesFront(this.currentPage, this.pageSize); // Refresh the activities list
       },
       error: () => {
-        this.showModalWithMessage('Error deleting the activity. Please try again.');
+        this.toaster.error('Error deleting the activity. Please try again.');
       }
     });
 
@@ -280,6 +309,8 @@ export class ActivityComponentF implements OnInit {
   loadEvents(): void {
     this.activityServiceF.getAllEventsWithName().subscribe(
       events => {
+        console.log('Loaded events:', events);  // Inspectez ceci pour voir les données chargées
+
         this.events = events;
         console.log('Events:', this.events);
       },
@@ -296,12 +327,7 @@ export class ActivityComponentF implements OnInit {
     this.loadActivitiesFront(this.currentPage, this.pageSize);
   }
 
-  goBack() {
-    this.location.back();
-  }
-  updateActivity(activity_id: number): void {
-    this.router.navigate([`/ActivityF/updateActivityF/${activity_id}`]);
-  }
+
 
   // deleteActivity(activity_id : number): void {
   //   console.log('Activity ID:', activity_id );
@@ -321,9 +347,20 @@ export class ActivityComponentF implements OnInit {
 
 
 
-  getEventName(activity: Activity): string {
-    return activity.event ? activity.event.event_name : 'No Event';
-  }
+//   getEventName(activity: Activity): string {
+// console.log("vv",activity);
+// if (activity && activity.event) {
+//       // Check if 'event' object has 'event_name' property
+//       if ('event_name' in activity.event) {
+//         return activity.event.event_name;
+//       } else {
+//         return 'Event name not available';
+//       }
+//     } else {
+//       return 'No Event';
+//     }
+//   }
+
   get formErrors() {
     return this.activityForm.errors || {};
   }
@@ -347,20 +384,20 @@ export class ActivityComponentF implements OnInit {
 
       if (activity.event && activity.event.eventId) {
         console.log('Activity to add:', activity);
-        this.showModalWithMessage('Activity added successfully!');
+        this.toaster.success('Activity added successfully!');
 
         this.activityServiceF.addActivity(activity, activity.event.eventId).subscribe(
           (addedActivity: Activity) => {
             console.log('Activity added successfully:', addedActivity);
             this.activityForm.reset();
             this.loadActivitiesFront(this.currentPage, this.pageSize);
-            this.cdr.detectChanges();
+            // this.modalRef?.close(); // Assuming this.modalRef is the reference to your update modal
 
             // this.router.navigate(['/ActivityF/allactivitiesF']);
           },
           error => {
             console.error('Error adding activity:', error);
-            this.showModalWithMessage('Error adding activity. Please try again.');
+            this.toaster.error('Error adding activity. Please try again.');
 
           }
         );
@@ -376,7 +413,7 @@ export class ActivityComponentF implements OnInit {
 
         this.activityServiceF.updateActivity(updatedActivity, formValues.event).subscribe(
           () => {
-            alert('Activity updated successfully.');
+            this.toaster.success('Activity updated successfully.');
             this.router.navigate(['/ActivityF/getActivityF']);
           });
       } else {
@@ -384,6 +421,8 @@ export class ActivityComponentF implements OnInit {
       }
     }
   }
+
+
   onSubmitUpdate(): void {
     if (this.updateActivityForm.valid && this.selectedActivity) {
       const formValues = this.updateActivityForm.value;
@@ -403,17 +442,28 @@ export class ActivityComponentF implements OnInit {
 
           // Rechargez les activités et affichez le message de succès
           this.loadActivitiesFront(this.currentPage, this.pageSize);
-          this.showModalWithMessage('Activity updated successfully!');
+          this.toaster.success('Activity updated successfully!');
         },
         error: (error) => {
           console.error('Error updating activity', error);
-          this.showModalWithMessage('Error updating activity. Please try again.');
+          this.toaster.error('Error updating activity. Please try again.');
         }
       });
     } else {
       console.error('Update form is invalid:', this.updateActivityForm.errors);
     }
   }
+
+  getEventName(activity: Activity): string {
+    // Assurez-vous que l'objet event et eventId existent
+    if (activity.event && typeof activity.event === 'object' && 'eventId' in activity.event) {
+      const event = this.events1.find(e => e.eventId === activity.event.eventId);
+      return event ? event.event_name : 'No event found';
+    } else {
+      return 'No Event Associated';
+    }
+  }
+
 
 
 

@@ -17,6 +17,9 @@
       // Replace '/api/location' with the actual endpoint where you send the location data
       return this.http.post('/api/location', locationData);
     }
+    getEventUsers(eventId: number): Observable<User[]> {
+      return this.http.get<User[]>(`${this.EventUrl}/${eventId}/users`);
+    }
     getUpcomingEvents(): Observable<Event[]> {
       const currentDate = new Date().toISOString();
       return this.http.get<Event[]>(`${this.EventUrl}/upcoming?currentDate=${currentDate}`);
@@ -33,7 +36,9 @@
         params = params.set('end', end.toISOString());
       }      return this.http.get<any>(`${this.EventUrl}/events?page=${page}&size=${size}`);
     }
-
+    findAllEvent2(): Observable<Event[]> {
+      return this.http.get<Event[]>(`${this.EventUrl}/eventssss`);
+    }
 
     getEventsByDateRange(start: Date, end: Date): Observable<Event[]> {
       const params = new HttpParams()
@@ -60,8 +65,16 @@
       return this.http.post<Event>(this.EventUrl + '/addEvent', eventData);
     }
 
+    updateRegistrationStatus(eventId: number, userId: number, status: string): Observable<any> {
+      const url = `${this.EventUrl}/${eventId}/update-user-status/${userId}?status=${status}`;
+      console.log("Sending PUT request to:", url);
+      return this.http.put(url, {});
+    }
 
 
+    getUpcomingEvents2(): Observable<Event[]> {
+      return this.http.get<Event[]>(`${this.EventUrl}/upcoming2`);
+    }
 
     deleteEvent(event_id: number): Observable<void> {
       return this.http.delete<void>(`${this.EventUrl}/deleteEvent/${event_id}`);

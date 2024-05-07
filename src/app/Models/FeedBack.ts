@@ -6,7 +6,7 @@ export class FeedBack {
   description!: string;
   FeedBack_date!: Date;
   note!: number;
-
+  // sentiment!: string;  // 'positive', 'neutral', 'negative'
   user!: User;
   event!: Event;
   trainingsession!: TrainingSession;

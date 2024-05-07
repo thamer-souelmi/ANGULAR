@@ -1,9 +1,13 @@
 import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams} from "@angular/common/http";
-import {Observable, throwError} from "rxjs";
+import {forkJoin, Observable, throwError} from "rxjs";
 import { Injectable } from "@angular/core";
 import {TrainingSession} from "../Models/TrainingSession";
 import {catchError, map, tap} from "rxjs/operators";
 import {Room} from "../Models/Room";
+import {TS_Status} from "../Models/TS_Status";
+import {RegistrationTS} from "../Models/RegistrationTS";
+import {User} from "../Models/User";
+import {RoomService} from "./Room.service";
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +20,7 @@ export class TrainingSessionService {
     })
   };
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private  room :RoomService) { }
 
   findAllRegistrationTS(page: number, size: number): Observable<any> {
     console.log(`Requesting page ${page} with size ${size}`);
@@ -56,20 +60,57 @@ export class TrainingSessionService {
   //   return this.http.post<TrainingSession>(url, sessionData);
   // }
 
-  addTrainingSessionWithRoom(trainingSession: any, roomId: number): Observable<any> {
-    const url = `${this.TrainingSessionUrl}with-room/${roomId}`;
-    return this.http.post<any>(url, trainingSession, this.httpOptions)
-      .pipe(
-        catchError(error => {
-          console.error('Failed to add training session with room:', error);
-          return throwError(() => new Error('Failed to send request'));
-        })
-      );
-  }
+  // addTrainingSessionWithRoom(trainingSession: any, roomId: number, trainerId: number): Observable<any> {
+  //   const url = `${this.TrainingSessionUrl}with-room/${roomId}/${trainerId}`;
+  //   return this.http.post(url, trainingSession).pipe(
+  //     catchError((error) => {
+  //       console.log("Full error response:", error);  // Log the full error response for debugging
+  //       let errorMessage = 'An unexpected error occurred. Please try again.';
+  //       if (error.status === 409 && error.error && Array.isArray(error.error.unavailableDates)) {
+  //         const unavailableDates = error.error.unavailableDates.join(', ');
+  //         errorMessage = `${error.error.message} Unavailable dates: ${unavailableDates}`;
+  //       } else if (error.status === 409 && error.error) {
+  //         // Handle cases where unavailableDates might be missing or malformed
+  //         errorMessage = error.error.message || 'Room booking conflict, but no dates provided.';
+  //       }
+  //       return throwError(() => new Error(errorMessage));
+  //     })
+  //   )
+  // }
 
-  addTrainingSessionWithoutRoom(sessionData: any) {
-    console.log('Sending data:', JSON.stringify(sessionData));
-    return this.http.post(`${this.TrainingSessionUrl}without-room`, sessionData, this.httpOptions)
+
+  addTrainingSessionWithRoom(trainingSession: any, roomId: number, trainerId: number): Observable<any> {
+    const url = `${this.TrainingSessionUrl}with-room/${roomId}/${trainerId}`;
+    return this.http.post(url, trainingSession).pipe(
+      catchError((error) => {
+        console.error('Error when trying to add session with room:', error);
+        let errorMessage = 'An unexpected error occurred. Please try again.';
+        if (error.status === 409 && error.error && Array.isArray(error.error.unavailableDates)) {
+          // Call getUnavailableDates service to fetch unavailable dates
+          const unavailableDates$ = this.room.getUnavailableDates(roomId);
+          return forkJoin([unavailableDates$]).pipe(
+            catchError((unavailableDatesError) => {
+              console.error('Error fetching unavailable dates:', unavailableDatesError);
+              return throwError(unavailableDatesError);
+            }),
+            // Combine original error message with unavailable dates
+            map(([unavailableDates]) => {
+              const formattedUnavailableDates = unavailableDates.join(', ');
+              return `${error.error.message}. Unavailable dates: ${formattedUnavailableDates}`;
+            })
+          );
+        } else if (error.status === 409 && error.error) {
+          // Handle cases where unavailableDates might be missing or malformed
+          errorMessage = error.error.message || 'Room is already booked .';
+        }
+        return throwError(() => new Error(errorMessage));
+      })
+    );
+  }
+  addTrainingSessionWithoutRoom(trainingSession: TrainingSession, trainerId: number): Observable<TrainingSession> {
+    const url = `${this.TrainingSessionUrl}without-room/${trainerId}`;
+    console.log('Sending data:', JSON.stringify(trainingSession));
+    return this.http.post<TrainingSession>(url, trainingSession, this.httpOptions)
       .pipe(
         catchError(this.handleError)
       );
@@ -82,7 +123,7 @@ export class TrainingSessionService {
       console.error('A client-side or network error occurred:', error.error.message);
     } else {
       console.error(`Backend returned code ${error.status}, body was: `, error.error);
-      errorMessage = `Error: ${error.status}, ${error.message}`;
+      errorMessage = `Error: ${error.status}, ${error.message}, ${error.error}`;
     }
     console.error(errorMessage);
     return throwError(() => new Error(errorMessage));
@@ -98,4 +139,23 @@ export class TrainingSessionService {
   getAvailableRooms(): Observable<Room[]> {
     return this.http.get<Room[]>(`${this.TrainingSessionUrl}rooms/available`);
   }
+  updateTrainingSessionStatus(sessionId: number, status: TS_Status): Observable<any> {
+    const payload = status; // Send status as a plain string
+    return this.http.patch(`${this.TrainingSessionUrl}${sessionId}/status`, payload, this.httpOptions)
+      .pipe(
+        catchError(this.handleError)
+      );
+
+  }
+
+  getUsersByTrainingSession(sessionId: number): Observable<User[]> {
+    return this.http.get<User[]>(`${this.TrainingSessionUrl}${sessionId}/users`);
+  }
+  registerUserToSession(sessionId: number, userId: number): Observable<RegistrationTS> {
+    return this.http.post<RegistrationTS>(`${this.TrainingSessionUrl}/${sessionId}/register/${userId}`, {});
+  }
+
+
+
+
 }

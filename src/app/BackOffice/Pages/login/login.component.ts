@@ -2,16 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/Services/auth.service';
 import { StorageService } from 'src/app/Services/storage.service';
 import {ActivatedRoute, Router} from "@angular/router";
+import { AttendanceService } from 'src/app/Services/attendance.service';
 import { WebsocketServiceService } from 'src/app/Services/websocket-service.service';
 
 @Component({
-  selector: 'app-login-component',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+ selector: 'app-login-component',
+ templateUrl: './login.component.html',
+ styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  url: string = "";
-    form: any = {
+ url: string = "";
+ form: any = {
     email: null,
     password: null
   };
@@ -50,7 +51,7 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['home']);
       }
     }
-  
+      
 }
   
 
@@ -103,6 +104,7 @@ export class LoginComponent implements OnInit {
 
 
 
+
   }
 
   navigateToCorrectPage(): void {
@@ -110,3 +112,5 @@ export class LoginComponent implements OnInit {
     this.router.navigate(isAdmin ? ['back/findall'] : ['home']);
   }
 }
+
+ 

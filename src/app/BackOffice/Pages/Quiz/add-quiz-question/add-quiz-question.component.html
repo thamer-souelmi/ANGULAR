@@ -12,7 +12,7 @@
       <input matInput placeholder="Enter the option" [(ngModel)]="option.answer" required>
       <mat-error *ngIf="isOptionEmpty(option)">Option is required</mat-error>
     </mat-form-field>
-    <mat-checkbox class="option-correct" [(ngModel)]="option.isCorrect">Is Correct</mat-checkbox>
+    <mat-checkbox class="option-correct" [(ngModel)]="option.correct">Is Correct</mat-checkbox>
   </div>
 </div>
 <div mat-dialog-actions>

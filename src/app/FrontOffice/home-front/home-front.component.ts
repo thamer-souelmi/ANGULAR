@@ -6,5 +6,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./home-front.component.css']
 })
 export class HomeFrontComponent {
+  Tunis!: "France";
 
 }

@@ -11,11 +11,15 @@ import { DatePipe } from '@angular/common';
 import {Candidacy} from "../../../../Models/candidacy";
 import {Observable} from "rxjs"; // Import the pipe
 import { forkJoin } from 'rxjs';
-import { ToastrService } from 'ngx-toastr';
+
 import {UpdateJobOfferComponent} from "../update-job-offer/update-job-offer.component";
 import {MatDialog} from "@angular/material/dialog";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
+import {StorageService} from "../../../../Services/storage.service";
+import {User} from "../../../../Models/User";
+import {UpdateInterviewComponent} from "../../Interview/update-interview/update-interview.component";
+import { ToastrService } from 'ngx-toastr';
 
 
 
@@ -26,6 +30,7 @@ import {ActivatedRoute, Router} from "@angular/router";
   providers: [DatePipe]
 })
 export class FindAllJobOffersComponent implements OnInit, AfterViewInit {
+  userId!: number;
   @ViewChild('locationSelect') locationSelect: ElementRef | undefined;
   searchtext:any;
   filteredJobOffers: JobOffer[] = [];
@@ -58,7 +63,7 @@ export class FindAllJobOffersComponent implements OnInit, AfterViewInit {
   private candidacies!: Candidacy[];
   constructor(private js: JobOfferService, private router: Router,private formBuilder: FormBuilder,private dialog: MatDialog,
               private cdr: ChangeDetectorRef,
-              private ngZone: NgZone,private route: ActivatedRoute,private candidacyService: CandidacyService,private toastr: ToastrService,) {
+              private ngZone: NgZone,private route: ActivatedRoute,private candidacyService: CandidacyService,private toastr: ToastrService,private s:StorageService,private storageService:StorageService) {
     this.jobOfferForm = this.formBuilder.group({
       titleJobOffer: ['', Validators.required],
       description: ['', Validators.required],
@@ -72,20 +77,6 @@ export class FindAllJobOffersComponent implements OnInit, AfterViewInit {
       jobNature: [0, Validators.required],
       jobCategory: [0, Validators.required]
     }, { validators: this.salaryRangeValidator });
-    // this.updateJobOfferForm = this.formBuilder.group({
-    //   jobOffer_id: [''], // Ensure this field is included
-    //   titleJobOffer: ['', Validators.required],
-    //   description: ['', Validators.required],
-    //   requiredSkills: ['', Validators.required],
-    //   experience: ['', Validators.required],
-    //   jobLocation: ['', Validators.required],
-    //   // applicationDeadLine: ['', Validators.required],
-    //   vacancy: ['', [Validators.required, Validators.min(1)]],
-    //   minsalary: ['', [Validators.required, Validators.min(1)]],
-    //   maxsalary: ['', [Validators.required, Validators.min(1)]],
-    //   // jobNature: ['', Validators.required],
-    //   // jobCategory: ['', Validators.required],
-    // }, { validators: this.salaryRangeValidator });
   }
   ngAfterViewInit() {
     // Access the nativeElement property inside ngAfterViewInit
@@ -94,27 +85,16 @@ export class FindAllJobOffersComponent implements OnInit, AfterViewInit {
     }
     // Repeat for other select elements if needed
   }
-  // openUpdateModal(): void {
-  //   const dialogRef = this.dialog.open(UpdateJobOfferComponent, {
-  //     width: '600px',
-  //     data: { jobOffer: this.jobOffer }
-  //   });
-  //
-  //   dialogRef.afterClosed().subscribe(result => {
-  //   });
-  // }
-  openUpdateJobOfferDialog(jobOffer: JobOffer): void {
-    console.log('Job Offer Data:', jobOffer); // Log the jobOffer data before opening the dialog
-    const dialogRef = this.dialog.open(UpdateJobOfferComponent, {
-      data: { jobOffer: jobOffer } // Pass jobOffer data to the dialog
+  openUpdateJobOfferDialog(jobOfferId: number): void {
+    this.js.getJobOfferById(jobOfferId).subscribe(jobOffer => {
+      this.dialog.open(UpdateJobOfferComponent, {
+        data: {
+          jobOffer: jobOffer
+        }
+      });
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      // Handle dialog close event if needed
-    });
   }
-
-
   loadJobOffers() {
     this.js.findAllJobOffers().subscribe(jobOffers => {
       this.jobOffers = jobOffers;
@@ -131,13 +111,16 @@ export class FindAllJobOffersComponent implements OnInit, AfterViewInit {
   onJobOfferSubmit() {
     if (this.jobOfferForm.valid) {
       const jobOffer: JobOffer = this.jobOfferForm.value;
+      const id =this.s.getUser().id;
+      console.log(id)
+      console.log(jobOffer)
 
       // Call the job offer service to add the job offer
-      this.js.addJobOffer(jobOffer).subscribe(
+      this.js.addJobOffer(jobOffer,id).subscribe(
         (addedJobOffer: JobOffer) => {
           console.log('Job offer added successfully:', addedJobOffer);
           // Show success message
-          this.showModalWithMessage('Job offer added successfully!');
+          this.toastr.success('Job offer added Succesfully!', 'Success');
           // Reset the form
           this.jobOfferForm.reset();
           // Reload job offers
@@ -146,7 +129,7 @@ export class FindAllJobOffersComponent implements OnInit, AfterViewInit {
         error => {
           console.error('Error adding job offer:', error);
           // Show error message
-          this.showModalWithMessage('Error adding job offer. Please try again.');
+          this.toastr.error('Error adding Job offer!', 'Error');
         }
       );
     }
@@ -161,10 +144,12 @@ export class FindAllJobOffersComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.loadJobOffers();
     this.loadWishlist();
+    const roles = this.storageService.getUser().roles;
+    const isEmployeeHR = this.isEmployeeHR();
+    console.log('Is Employee HR:', isEmployeeHR);
+    console.log('Uuuuser', this.storageService.getUser().id);
 
   }
-
-
   addToWishlist(jobOffer: JobOffer) {
     if (!this.isInWishlist(jobOffer)) {
       this.wishlist.push(jobOffer);
@@ -174,8 +159,6 @@ export class FindAllJobOffersComponent implements OnInit, AfterViewInit {
       this.toastr.info('Job offer is already in the wishlist!', 'Info');
     }
   }
-
-
   isInWishlist(jobOffer: JobOffer): boolean {
     return this.wishlist.some(item => item.jobOffer_id === jobOffer.jobOffer_id);
   }
@@ -188,8 +171,6 @@ export class FindAllJobOffersComponent implements OnInit, AfterViewInit {
     const storedWishlist = localStorage.getItem('wishlist');
     this.wishlist = storedWishlist ? JSON.parse(storedWishlist) : [];
   }
-
-
   navigateToWishlist() {
     // Navigate to the WishlistComponent or any route you have for the wishlist
     this.router.navigate(['/JobOffer/wishlist']);
@@ -222,11 +203,14 @@ export class FindAllJobOffersComponent implements OnInit, AfterViewInit {
   confirmDeletion(): void {
     this.js.deleteJobOffer(this.jobOfferIdToDelete).subscribe({
       next: () => {
-        this.showModalWithMessage('Job offer deleted successfully!');
+        this.toastr.success('Job offer deleted successfully!', 'Success');
+
+        // this.showModalWithMessage('Job offer deleted successfully!');
         this.loadJobOffers(); // Refresh the job offers list
       },
       error: () => {
-        this.showModalWithMessage('Error deleting the job offer. Please try again.');
+        this.toastr.error('Error deleting the job offer. Please try again.', 'Error');
+        // this.showModalWithMessage('Error deleting the job offer. Please try again.');
       }
     });
 
@@ -236,11 +220,6 @@ export class FindAllJobOffersComponent implements OnInit, AfterViewInit {
       modalInstance.hide();
     }
   }
-
-
-
-
-
   onSortChange(event: any): void {
     const selectedValue = event.target.value;
     console.log('Selected value:', selectedValue);
@@ -265,16 +244,10 @@ export class FindAllJobOffersComponent implements OnInit, AfterViewInit {
       formGroup.get('maxsalary')!.setErrors(null);
     }
   }
-
-
-
-
   sortByMostRecent() {
     // Sort the jobOffers array by descending postedDate
     this.jobOffers.sort((a, b) => new Date(b.postedDate).getTime() - new Date(a.postedDate).getTime());
   }
-
-
   sortByMostApplied(): void {
     console.log('Sorting by most applied...');
 
@@ -304,9 +277,11 @@ export class FindAllJobOffersComponent implements OnInit, AfterViewInit {
       console.log('Sorted job offers by most applied:', this.jobOffers);
     });
   }
-
-
   countCandidacies(jobOffer: JobOffer): Observable<number> {
     return this.candidacyService.countCandidaciesByJobOfferId(jobOffer.jobOffer_id);
+  }
+  isEmployeeHR(): boolean {
+    const roles = this.storageService.getUser()?.roles;
+    return roles && roles.includes('employeeHR');
   }
 }

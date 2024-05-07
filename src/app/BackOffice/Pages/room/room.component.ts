@@ -68,25 +68,25 @@ export class RoomComponent implements OnInit {
       // Do not toggle the emoji picker here
     }
   }
-  checkAvailability(): void {
-    const roomId = this.roomForm.get('roomId')!.value;
-    const startDate = new Date(this.roomForm.get('startDate')!.value);
-    const endDate = new Date(this.roomForm.get('endDate')!.value);
-
-    if (roomId && startDate && endDate && startDate < endDate) {
-      this.roomService.checkRoomAvailability(roomId, startDate, endDate).subscribe({
-        next: (available) => {
-          this.isAvailable = available;
-          if (!available) {
-            this.snackBar.open('Room is not available for the selected dates.', 'Close', { duration: 3000 });
-          }
-        },
-        error: () => {
-          this.snackBar.open('Failed to check availability.', 'Close', { duration: 3000 });
-        }
-      });
-    }
-  }
+  // checkAvailability(): void {
+  //   const roomId = this.roomForm.get('roomId')!.value;
+  //   const startDate = new Date(this.roomForm.get('startDate')!.value);
+  //   const endDate = new Date(this.roomForm.get('endDate')!.value);
+  //
+  //   if (roomId && startDate && endDate && startDate < endDate) {
+  //     this.roomService.checkRoomAvailability(roomId, startDate, endDate).subscribe({
+  //       next: (available) => {
+  //         this.isAvailable = available;
+  //         if (!available) {
+  //           this.snackBar.open('Room is not available for the selected dates.', 'Close', { duration: 3000 });
+  //         }
+  //       },
+  //       error: () => {
+  //         this.snackBar.open('Failed to check availability.', 'Close', { duration: 3000 });
+  //       }
+  //     });
+  //   }
+  // }
   ngOnInit(): void {
     this.loadRooms();
     this.setupSearch();
@@ -101,8 +101,8 @@ export class RoomComponent implements OnInit {
       equipment: [[]],
     });
 
-    this.roomForm.get('startDate')!.valueChanges.subscribe(() => this.checkAvailability());
-    this.roomForm.get('endDate')!.valueChanges.subscribe(() => this.checkAvailability());
+    // this.roomForm.get('startDate')!.valueChanges.subscribe(() => this.checkAvailability());
+    // this.roomForm.get('endDate')!.valueChanges.subscribe(() => this.checkAvailability());
   }
 
   setupSearch(): void {
@@ -191,6 +191,7 @@ export class RoomComponent implements OnInit {
     if (this.roomForm.valid) {
       const formData = this.roomForm.value;
       const roomData: Room = {
+        bookingDates: [],
         nameRoom: formData.name,
         capacityRoom: formData.capacity,
         available: formData.available,
