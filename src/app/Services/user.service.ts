@@ -85,6 +85,7 @@ export class UserService {
     return this.http.put('/resetPassword', { email, password });
   }
   resetPasswordt(token: string, password: string): Observable<any> {
+
     return this.http.put(`${this.baseUrlr}/resetPassword/${token}`, { password });}
   getUserByEmail(email: string): Observable<User> {
     return this.http.get<User>(`${this.baseUrl}/email/${email}`);
@@ -96,4 +97,5 @@ export class UserService {
   recognizeFace(imageData: string) {
     return this.http.post<any>(`${this.baseUrlff}/api/face-recognition/recognize`, { imageData });
   }
+
 }
