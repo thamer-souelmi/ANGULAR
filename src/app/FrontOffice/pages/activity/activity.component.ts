@@ -76,6 +76,8 @@ export class ActivityComponentF implements OnInit {
   activities: Activity[] = [];
   activity: Activity = new Activity();
   events: Event[] = [];
+  events1: Event[] = [];
+
   totalActivities = 0;
   currentPage = 0;
   pageSize = 9;
@@ -307,6 +309,8 @@ export class ActivityComponentF implements OnInit {
   loadEvents(): void {
     this.activityServiceF.getAllEventsWithName().subscribe(
       events => {
+        console.log('Loaded events:', events);  // Inspectez ceci pour voir les données chargées
+
         this.events = events;
         console.log('Events:', this.events);
       },
@@ -343,9 +347,20 @@ export class ActivityComponentF implements OnInit {
 
 
 
-  getEventName(activity: Activity): string {
-    return activity.event ? activity.event.event_name : 'No Event';
-  }
+//   getEventName(activity: Activity): string {
+// console.log("vv",activity);
+// if (activity && activity.event) {
+//       // Check if 'event' object has 'event_name' property
+//       if ('event_name' in activity.event) {
+//         return activity.event.event_name;
+//       } else {
+//         return 'Event name not available';
+//       }
+//     } else {
+//       return 'No Event';
+//     }
+//   }
+
   get formErrors() {
     return this.activityForm.errors || {};
   }
@@ -376,7 +391,7 @@ export class ActivityComponentF implements OnInit {
             console.log('Activity added successfully:', addedActivity);
             this.activityForm.reset();
             this.loadActivitiesFront(this.currentPage, this.pageSize);
-            this.cdr.detectChanges();
+            // this.modalRef?.close(); // Assuming this.modalRef is the reference to your update modal
 
             // this.router.navigate(['/ActivityF/allactivitiesF']);
           },
@@ -438,6 +453,17 @@ export class ActivityComponentF implements OnInit {
       console.error('Update form is invalid:', this.updateActivityForm.errors);
     }
   }
+
+  getEventName(activity: Activity): string {
+    // Assurez-vous que l'objet event et eventId existent
+    if (activity.event && typeof activity.event === 'object' && 'eventId' in activity.event) {
+      const event = this.events1.find(e => e.eventId === activity.event.eventId);
+      return event ? event.event_name : 'No event found';
+    } else {
+      return 'No Event Associated';
+    }
+  }
+
 
 
 

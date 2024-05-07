@@ -36,7 +36,9 @@
         params = params.set('end', end.toISOString());
       }      return this.http.get<any>(`${this.EventUrl}/events?page=${page}&size=${size}`);
     }
-
+    findAllEvent2(): Observable<Event[]> {
+      return this.http.get<Event[]>(`${this.EventUrl}/eventssss`);
+    }
 
     getEventsByDateRange(start: Date, end: Date): Observable<Event[]> {
       const params = new HttpParams()
@@ -70,6 +72,9 @@
     }
 
 
+    getUpcomingEvents2(): Observable<Event[]> {
+      return this.http.get<Event[]>(`${this.EventUrl}/upcoming2`);
+    }
 
     deleteEvent(event_id: number): Observable<void> {
       return this.http.delete<void>(`${this.EventUrl}/deleteEvent/${event_id}`);

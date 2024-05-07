@@ -12,6 +12,11 @@ import * as _ from 'lodash';
 import { icon, Marker } from "leaflet";
 import { formatDate } from "@fullcalendar/core";
 import {User} from "../../../Models/User";
+import {RegistrationEvent} from "../../../Models/RegistrationEvent";
+import {Status} from "../../../Models/Status";
+import { Chart } from 'angular-highcharts';
+import * as Highcharts from 'highcharts';
+
 function removeEmojis(text: string): string {
   // This regex matches most common emojis
   const emojiRegex = /[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F700}-\u{1F77F}\u{1F780}-\u{1F7FF}\u{1F800}-\u{1F8FF}\u{1F900}-\u{1F9FF}\u{1FA00}-\u{1FA6F}\u{1FA70}-\u{1FAFF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu;
@@ -24,6 +29,10 @@ function removeEmojis(text: string): string {
 })
 export class EventBComponent implements OnInit {
   events: Event[] = [];
+  Highcharts: typeof Highcharts = Highcharts;
+  @ViewChild('chartModal') chartModal!: TemplateRef<any>;
+  public chart!: Chart;  // Use the Chart type provided by angular-highcharts
+  chartOptions: Highcharts.Options = {};
   currentPage = 1;
   @ViewChild('activities') activitiesElement!: ElementRef;
   @ViewChild('eventModal') eventModal!: TemplateRef<any>;
@@ -41,12 +50,13 @@ export class EventBComponent implements OnInit {
   totalPages = 5;
   totalItems: number = 0;
   feedbackData!: number[];
-  registeredUsers: User[] = [];
+  registeredUsers: RegistrationEvent[] = [];
 
   constructor(
     private eventService: EventService,
     private dialog: MatDialog,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+
   ) {
     this.searchChanged.pipe(
       debounceTime(300),
@@ -62,7 +72,11 @@ export class EventBComponent implements OnInit {
     this.feedbackData = [10, 5, 3]; // Exemple de données des feedbacks (positifs, neutres, négatifs)
 
   }
-
+  openChartModal(): void {
+    this.dialog.open(this.chartModal, {
+      width: '600px'
+    });
+  }
   onPageSizeChange(): void {
     this.currentPage = 1;
     this.loadEvents();
@@ -104,10 +118,121 @@ export class EventBComponent implements OnInit {
         this.totalItems = response.totalElements;
         this.totalPages = Math.ceil(this.totalItems / this.size);
         this.filteredEvents = this.events;
+        this.prepareChartData();
         this.cdr.detectChanges();
       },
       error: (error) => console.error('Error loading events:', error)
     });
+  }
+  groupEventsByYear(): { [key: string]: Event[] } {
+    return this.events.reduce((acc, event) => {
+      // Ensure event.event_date is a Date object
+      const date = new Date(event.event_date);
+      const year = date.getFullYear().toString();  // Now it should be safe to call getFullYear()
+
+      if (!acc[year]) {
+        acc[year] = [];
+      }
+      acc[year].push(event);
+      return acc;
+    }, {} as { [key: string]: Event[] });
+  }
+
+  updateChart(categories: string[], data: any[]): void {
+      this.chart = new Chart({
+        chart: {
+          type: 'column', // Use column type for visual representation
+          backgroundColor: '#f8f9fa', // Optional: Set a background color for the chart area
+          height: (9 / 16 * 100) + '%' // Optional: Maintain a 16:9 ratio
+        },
+        title: {
+          text: 'Event Average Ratings'
+        },
+        xAxis: {
+          categories: categories,
+          title: {
+            text: 'Events'
+          },
+          labels: {
+            rotation: -45, // Rotate labels to improve visibility
+            align: 'right',
+            style: {
+              fontSize: '13px' // Optional: Adjust font size for better readability
+            }
+          }
+        },
+        yAxis: {
+          min: 0,
+          title: {
+            text: 'Average Rating'
+          },
+          allowDecimals: false, // Display whole numbers only on the yAxis for clarity
+          labels: {
+            format: '{value}' // Optional: Add a format if needed for labels
+          }
+        },
+        plotOptions: {
+          column: {
+            pointPadding: 0.2,
+            borderWidth: 0,
+            groupPadding: 0.1, // Reduce the padding between columns for tighter grouping
+            dataLabels: {
+              enabled: true, // Enable data labels to display the value on top of each column
+              format: '{point.y:.1f}' // One decimal place
+            }
+          }
+        },
+        legend: {
+          layout: 'vertical',
+          align: 'right',
+          verticalAlign: 'middle' // Position legend to the right middle for better space usage
+        },
+        tooltip: {
+          headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+          pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+            '<td style="padding:0"><b>{point.y:.2f}</b></td></tr>',
+          footerFormat: '</table>',
+          shared: true,
+          useHTML: true
+        },
+        series: [{
+          name: 'Average Rating',
+          data: data,
+          type: 'column'
+        }],
+        responsive: {
+          rules: [{
+            condition: {
+              maxWidth: 500
+            },
+            chartOptions: {
+              legend: {
+                layout: 'horizontal',
+                align: 'center',
+                verticalAlign: 'bottom'
+              }
+            }
+          }]
+        },
+        credits: {
+          enabled: false // Disable the Highcharts.com credits
+        }
+      });
+    }
+
+
+
+    prepareChartData(): void {
+    // Map events to chart data points
+    const categories = this.events.map(event => event.event_name);
+    const data = this.events.map(event => {
+      return {
+        name: event.event_name,
+        y: event.averageRating || 0 // Use 0 or another default value if averageRating is undefined
+      };
+    });
+
+    this.updateChart(categories, data);
   }
 
   generateReportForEvent(event: Event): void {
@@ -310,24 +435,78 @@ export class EventBComponent implements OnInit {
     });
   }
 
+  // openModal(event: Event): void {
+  //   this.eventService.getRelatedActivities(event.eventId).subscribe({
+  //     next: (activities) => {
+  //       this.selectedEventActivities = activities;
+  //       this.eventService.getEventUsers(event.eventId).subscribe({
+  //         next: (users) => {
+  //           console.log("Users data:", JSON.stringify(users)); // Log to inspect structure
+  //           this.registeredUsers = users;
+  //           this.dialogRef = this.dialog.open(this.eventModal, {
+  //             width: '600px',
+  //             data: { event: event, users: this.registeredUsers }
+  //           });
+  //         },
+  //         error: (error) => console.error('Error retrieving users:', error)
+  //       });
+  //     },
+  //     error: (error) => console.error('Error retrieving activities:', error)
+  //   });
+  // }
+
   openModal(event: Event): void {
-    this.eventService.getRelatedActivities(event.eventId).subscribe({
-      next: (activities) => {
-        this.selectedEventActivities = activities;
-        this.eventService.getEventUsers(event.eventId).subscribe({
-          next: (users) => {
-            console.log("Users data:", JSON.stringify(users)); // Log to inspect structure
-            this.registeredUsers = users;
-            this.dialogRef = this.dialog.open(this.eventModal, {
-              width: '600px',
-              data: { event: event, users: this.registeredUsers }
-            });
-          },
-          error: (error) => console.error('Error retrieving users:', error)
+    forkJoin({
+      activities: this.eventService.getRelatedActivities(event.eventId),
+      users: this.eventService.getEventUsers(event.eventId),
+      registrations: this.eventService.getRelatedRegistrations(event.eventId)
+    }).subscribe({
+      next: ({activities, users, registrations}) => {
+        this.selectedEventActivities = activities || [];
+        const userStatusMap = new Map<number, RegistrationEvent>();
+
+        // Check if registrations is not null before processing
+        if (registrations) {
+          registrations.forEach(reg => {
+            userStatusMap.set(reg.user.userId, reg);
+          });
+        }
+
+        const confirmedUsers: User[] = [];
+        const pendingOrCanceledUsers: User[] = [];
+
+        // Check if users is not null before processing
+        if (users) {
+          users.forEach(user => {
+            const regEvent = userStatusMap.get(user.userId);
+            if (regEvent) {
+              if (regEvent.registrationEvent_status === Status.CONFIRMED) {
+                confirmedUsers.push(user);
+              } else {
+                pendingOrCanceledUsers.push(user);
+              }
+            }
+          });
+        }
+
+        this.dialogRef = this.dialog.open(this.eventModal, {
+          width: '600px',
+          data: {
+            event: event,
+            confirmedUsers: confirmedUsers,
+            pendingOrCanceledUsers: pendingOrCanceledUsers
+          }
         });
       },
-      error: (error) => console.error('Error retrieving activities:', error)
+      error: (error) => {
+        console.error('Error retrieving event details:', error);
+        // Consider adding error handling feedback to the user here
+      }
     });
+  }
+  getUserStatus(userId: number): Status | undefined {
+    const registration = this.registeredUsers.find(reg => reg.user.userId === userId);
+    return registration?.registrationEvent_status;
   }
 
   updateUserStatus(eventId: number, userId: number, status: string): void {

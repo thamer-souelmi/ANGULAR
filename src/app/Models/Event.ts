@@ -14,7 +14,7 @@ export class Event{
   finishevent_date!:Date;
   users!: User [];
   RegistationEvents!:RegistrationEvent[];
-  Activitys!: Activity[];
+  Activitys!  : Activity[];
   feedbacks!: FeedBack[];
   averageRating?: number;
 

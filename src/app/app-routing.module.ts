@@ -175,6 +175,9 @@ const routes: Routes = [
     path: "home",
     component: AllTemplateFrontComponent,
     children:[
+      {path:"home", component:HomeFrontComponent },
+      {path:"leave", component:LeaveComponent},
+
       {path:"", component:HomeFrontComponent },
       {path:"leave", component:LeavesComponent},
       { path: 'addquote', component: AddQuoteComponent },
@@ -183,25 +186,28 @@ const routes: Routes = [
       { path: 'getprojectoffers', component:GetProjectofferComponent },
       { path: 'update-project-offer/:id', component: UpdateProjectofferComponent }, // New route for updating job offers
       { path: 'add-project-offer', component: AddProjectofferComponent }, // New route for updating job offers
-
       { path: 'att', component: AttendanceComponent },
-
-
-    ]
-  },
-  {
-
-    path: "ActivityF", component: AllTemplateFrontComponent,children:[
       { path: 'getActivityF', component:ActivityComponentF },
-    ]
-  },
-  {
-
-    path: "EventF",
-    component: AllTemplateFrontComponent,children:[
       { path: 'EventF', component:EventComponent },
+      { path: 'trainingseesion', component:TrainingSessionComponent },
+
+
+
     ]
   },
+  // {
+  //
+  //   path: "ActivityF", component: AllTemplateFrontComponent,children:[
+  //     { path: 'getActivityF', component:ActivityComponentF },
+  //   ]
+  // },
+  // {
+  //
+  //   path: "EventF",
+  //   component: AllTemplateFrontComponent,children:[
+  //     { path: 'EventF', component:EventComponent },
+  //   ]
+  // },
 
   {
     path: "JobOffer",
