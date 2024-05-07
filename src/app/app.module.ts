@@ -399,6 +399,9 @@ import { NotFoundComponent } from './BackOffice/Pages/not-found/not-found.compon
     CommonModule,
     MatDialogModule,
     
+
+
+    
   ],
   providers: [httpInterceptorProviders, DatePipe, provideAnimations(), // required animations providers
     provideToastr(),],
