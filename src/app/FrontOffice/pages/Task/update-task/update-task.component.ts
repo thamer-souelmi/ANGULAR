@@ -34,9 +34,9 @@ export class UpdateTaskComponent implements OnInit {
   onSubmit(): void {
     
 
-    this.taskService.UpdateTask(this.task).subscribe(updatedTask => {
-      this.dialogRef.close(updatedTask);
-    });
+    // this.taskService.UpdateTask(this.task).subscribe(updatedTask => {
+    //   this.dialogRef.close(updatedTask);
+    // });
   }
 
   isValidStartDate(): boolean {

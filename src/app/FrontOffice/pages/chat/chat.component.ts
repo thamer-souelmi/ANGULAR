@@ -9,8 +9,8 @@ import { User } from 'src/app/Models/User';
 import { UserService } from 'src/app/Services/user.service';
 import { Message } from 'src/app/Models/Message';
 import { StorageService } from 'src/app/Services/storage.service';
-import { StompService } from '@stomp/ng2-stompjs';
-import { RxStompService } from '@stomp/ng2-stompjs'; // Import RxStompService
+// import { StompService } from '@stomp/ng2-stompjs';
+// import { RxStompService } from '@stomp/ng2-stompjs'; // Import RxStompService
 import { tap } from 'rxjs/operators';
 
 
@@ -36,7 +36,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     private userService: UserService,
     private http: HttpClient,
     private el: ElementRef,
-    private rxStompService: RxStompService
+    // private rxStompService: RxStompService
   ) {}
 
   ngOnInit(): void {
@@ -63,10 +63,10 @@ export class ChatComponent implements OnInit, AfterViewChecked {
         console.log("Sending static test message:", testMessage);
     
         // Publish the test message using RxStompService
-        this.rxStompService.publish({
-          destination: '/app/chat/test-channel', // Change 'test-channel' to your desired channel name
-          body: JSON.stringify(testMessage)
-        });
+        // this.rxStompService.publish({
+        //   destination: '/app/chat/test-channel', // Change 'test-channel' to your desired channel name
+        //   body: JSON.stringify(testMessage)
+        // });
     
         // Log a confirmation message
         console.log("Static test message sent successfully");
@@ -74,10 +74,10 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     console.log('Attempting WebSocket connection...');
 
     // Subscribe to the WebSocket topic
-    this.rxStompService.watch('/topic/messages').subscribe((message) => {
-      console.log('Received message:', message);
-      // Process the received message
-    });
+    // this.rxStompService.watch('/topic/messages').subscribe((message) => {
+    //   console.log('Received message:', message);
+    //   // Process the received message
+    // });
     
     // Fetch user data using the obtained ID
     this.id = this.storageService.getUser().id;
@@ -126,10 +126,10 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   }
 
   sendMsg12(channelName: string, message: Message) {
-    this.rxStompService.publish({
-      destination: `/app/chat/${channelName}`,
-      body: JSON.stringify(message)
-    });
+    // this.rxStompService.publish({
+    //   destination: `/app/chat/${channelName}`,
+    //   body: JSON.stringify(message)
+    // });
   }
 
   sendMsg1() {
@@ -159,10 +159,10 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     console.log("Sending test message:", testMessage);
   
     // Publish the test message using RxStompService
-    this.rxStompService.publish({
-      destination: '/app/chat/' + this.channelName,
-      body: JSON.stringify(testMessage)
-    });
+    // this.rxStompService.publish({
+    //   destination: '/app/chat/' + this.channelName,
+    //   body: JSON.stringify(testMessage)
+    // });
   
     // Log a confirmation message
     console.log("Test message sent successfully");

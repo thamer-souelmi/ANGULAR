@@ -40,6 +40,7 @@ export class SidebarBackComponent implements OnInit{
         (user: User) => {
           this.user = user;
           this.name= this.user.firstname ;
+          this.getImage(this.user.image);
         },
         error => {
           console.error('Error fetching user:', error);
@@ -143,13 +144,19 @@ export class SidebarBackComponent implements OnInit{
               private authService: AuthService, 
               private router : Router, 
               private localStorageService:LocalStorageService,
-            private attendanceService:AttendanceService) { }
+            private attendanceService:AttendanceService,
+          private  userService:UserService ) { }
 
   sidebarMenu: sidebarMenu[] = [
     {
       link: "/",
       icon: "home",
       menu: "Dashboard",
+    },
+    {
+      link: "/back/leave",
+      icon: "disc",
+      menu: "Leaves",
     },
     {
       link: "/back/dataflow",

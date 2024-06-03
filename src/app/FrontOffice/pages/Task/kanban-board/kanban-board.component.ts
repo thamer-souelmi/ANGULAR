@@ -85,14 +85,14 @@ export class KanbanBoardComponent implements OnInit {
     droppedTask.taskStatus = newStatus;
 
     // Mettre à jour la tâche dans la base de données
-    this.taskService.UpdateTask(droppedTask).subscribe(updatedTask => {
-      console.log('Tâche déplacée avec succès :', updatedTask);
-      // Rafraîchir les données après le déplacement de la carte
-      this.loadTasks();
-    }, error => {
-      console.error('Erreur lors du déplacement de la tâche :', error);
-      // Gérer les erreurs éventuelles
-    });
+    // this.taskService.UpdateTask(droppedTask).subscribe(updatedTask => {
+    //   console.log('Tâche déplacée avec succès :', updatedTask);
+    //   // Rafraîchir les données après le déplacement de la carte
+    //   this.loadTasks();
+    // }, error => {
+    //   console.error('Erreur lors du déplacement de la tâche :', error);
+    //   // Gérer les erreurs éventuelles
+    // });
   }
   
   

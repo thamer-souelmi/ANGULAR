@@ -62,9 +62,9 @@ export class AddTaskComponent implements OnInit {
     this.newTask.employeeTask=this.selectedEmployee;
 
 
-    this.taskService.AddTask(this.newTask).subscribe(() => {
-      this.dialogRef.close(true); 
-    });
+    // this.taskService.AddTask(this.newTask).subscribe(() => {
+    //   this.dialogRef.close(true); 
+    // });
   }
 
   onClose(): void {

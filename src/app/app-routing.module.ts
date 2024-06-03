@@ -103,7 +103,7 @@ const routes: Routes = [
     component: LoginComponent,
 
   },
-  { path: '**', component: NotFoundComponent },
+
 
   {
     path: "reset",
@@ -162,7 +162,6 @@ const routes: Routes = [
       {path:'room',component: RoomComponent},
       { path: 'taskback', component: TaskbackComponent},
 
-      {path:"msg", component:ChatComponent},
 
       {path:"EventBack", component:EventBComponent},
       {path:"activityB",component:ActivityBComponent},
@@ -215,7 +214,7 @@ const routes: Routes = [
       { path: 'update-task/:id', component: UpdateTaskComponent },
       { path: 'kanban-task', component: KanbanBoardComponent},
 
-
+      { path: '**', component: NotFoundComponent },
 
     ]
   },

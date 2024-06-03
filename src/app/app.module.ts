@@ -18,7 +18,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { HttpClientModule } from '@angular/common/http';
 import { FindAllJobOffersComponent } from './FrontOffice/pages/JobOffer/find-all-job-offers/find-all-job-offers.component';
 import { WishlistComponent } from './FrontOffice/pages/JobOffer/wishlist/wishlist.component';
-
 import { CommonModule, DatePipe } from "@angular/common";
 import { NgbDatepickerModule, NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatSidenavModule } from "@angular/material/sidenav";
@@ -31,7 +30,6 @@ import { allIcons } from 'angular-feather/icons';
 import { httpInterceptorProviders } from './Helpers/http-request-interceptor';
 import { LoginComponent } from './BackOffice/Pages/login/login.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-
 import { SidebarBackComponent } from "./BackOffice/sidebar-back/sidebar-back.component";
 import { NavbarBackComponent } from "./BackOffice/navbar-back/navbar-back.component";
 import { FooterBackComponent } from "./BackOffice/footer-back/footer-back.component";
@@ -79,21 +77,16 @@ import { JobOfferDetailsBackComponent } from './BackOffice/Pages/JobOffer/job-of
 import { CandidateLinkedInDetailsBackComponent } from './BackOffice/Pages/JobOffer/candidate-linked-in-details-back/candidate-linked-in-details-back.component';
 import { FindAllUsersComponent } from "./BackOffice/Pages/find-all-users/find-all-users.component";
 import { FilterJobPipe } from './FrontOffice/pages/JobOffer/filter-job.pipe';
-
 import { NgxCaptchaModule } from "ngx-captcha";
-
-
 import { AvatarModule } from 'ngx-avatars';
 import { FormsuggestComponent } from './FrontOffice/pages/Task/formsuggest/formsuggest.component';
 import { UsersuggestinfoComponent } from './FrontOffice/pages/Task/usersuggestinfo/usersuggestinfo.component';
 import { FindAllProjectsComponent } from './BackOffice/Pages/Project/find-all-projects/find-all-projects.component';
 import { ChartModule } from 'angular-highcharts';
 import { ProjectChartComponent } from './BackOffice/Pages/Project/project-chart/project-chart.component';
-
-
 import { EventComponent } from './FrontOffice/pages/event/event.component';
 import { TaskbackComponent } from './BackOffice/Pages/Task/taskback/taskback.component';
-// import { KanbanboardbackComponent } from './BackOffice/Pages/Task/kanbanboardback/kanbanboardback.component';
+ import { KanbanboardbackComponent } from './BackOffice/Pages/Task/kanbanboardback/kanbanboardback.component';
 import { AppGanttChartComponent } from './BackOffice/Pages/Task/app-gantt-chart/app-gantt-chart.component';
 import { TodolistComponent } from './BackOffice/Pages/Task/todolist/todolist.component';
 import { MatSortModule } from '@angular/material/sort';
@@ -125,7 +118,6 @@ import { BsDropdownModule } from "ngx-bootstrap/dropdown";
 import { AddMarkComponent } from './FrontOffice/pages/JobOffer/add-mark/add-mark.component';
 import { MatMenu } from '@angular/material/menu';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-
 import { JoinPipe } from "./join.pipe";
 import { CustomizerComponent } from './customizer/customizer.component';
 import { PickerComponent, PickerModule } from "@ctrl/ngx-emoji-mart";
@@ -138,8 +130,8 @@ import { JitsiComponent } from "./FrontOffice/pages/Interview/jitsi/jitsi.compon
 import { InterviewCalendarComponent } from './FrontOffice/pages/Interview/interview-calendar/interview-calendar.component';
 import { LeaveComponent } from './FrontOffice/pages/leave/leave.component';
 import { ChatComponent } from './FrontOffice/pages/chat/chat.component';
-import { RxStompService, StompConfig } from '@stomp/ng2-stompjs';
-import { StompService } from '@stomp/ng2-stompjs';
+// import { RxStompService, StompConfig } from '@stomp/ng2-stompjs';
+// import { StompService } from '@stomp/ng2-stompjs';
 
 const socketConfig: SocketIoConfig = { url: 'http://localhost:5000', options: {} };
 
@@ -257,7 +249,7 @@ import { NotFoundComponent } from './BackOffice/Pages/not-found/not-found.compon
     FindAllProjectsComponent,
     ProjectChartComponent,
     TaskbackComponent,
-    // KanbanboardbackComponent,
+     KanbanboardbackComponent,
     AppGanttChartComponent,
     TodolistComponent,
     DetailprojectbackComponent,
@@ -325,6 +317,8 @@ import { NotFoundComponent } from './BackOffice/Pages/not-found/not-found.compon
 
   ],
   imports: [
+
+
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
@@ -345,29 +339,13 @@ import { NotFoundComponent } from './BackOffice/Pages/not-found/not-found.compon
     MatToolbarModule,
     MatRippleModule,
     MatMenuModule,
-    MatSnackBarModule,
-    MatButtonModule,
     FeatherModule.pick(allIcons),
-    ToastrModule.forRoot({
-      timeOut: 2000,
-      progressBar: true,
-      progressAnimation: "increasing",
-      preventDuplicates: true
-    }), // ToastrModule added
-    MatCardModule,
+    ToastrModule.forRoot({ timeOut: 2000,  progressBar: true,  progressAnimation: "increasing",  preventDuplicates: true }), // ToastrModule added
     NgxChartsModule,
     MatTooltipModule,
-    ToastrModule.forRoot({
-      timeOut: 2000,
-      progressBar: true,
-      progressAnimation: "increasing",
-      preventDuplicates: true
-    }),
     FeatherModule.pick(allIcons),
-  // ToastrModule added
     MatCardModule,
-    NgxChartsModule,
-    MatTooltipModule,
+    
     FullCalendarModule,
     HttpClientModule,
     NgxCaptchaModule,
@@ -382,31 +360,24 @@ import { NotFoundComponent } from './BackOffice/Pages/not-found/not-found.compon
     SocketIoModule.forRoot(socketConfig),
     MatSortModule,
     MatCheckboxModule,
-
-    MatGridListModule,
-
     NgxPaginationModule,
     EmojiModule,
     PickerComponent,
 
-    MatBadgeModule,
-    CKEditorModule,
-
+  
 
     MatGridListModule,
     MatNativeDateModule,
     MatBadgeModule,
     EmojiModule,
-    PickerComponent,
     CKEditorModule,
-    MatPaginatorModule,
     MatInputModule,
     MatDatepickerModule,
     NgxPaginationModule
 
   ],
   providers: [httpInterceptorProviders,DatePipe,    provideAnimations(),
-    RxStompService, // required animations providers
+   // RxStompService, // required animations providers
   provideToastr(),],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
