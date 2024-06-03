@@ -1,4 +1,5 @@
- import { Component,OnInit } from '@angular/core';
+
+import { Component,OnInit } from '@angular/core';
 import {Observable, Subscription} from "rxjs";
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { map, shareReplay } from 'rxjs/operators';
@@ -50,7 +51,7 @@ export class SidebarBackComponent implements OnInit{
   }
 
 
-
+  
   constructor(private breakpointObserver: BreakpointObserver,
               private storageService: StorageService,
               private authService: AuthService,
@@ -136,16 +137,19 @@ export class SidebarBackComponent implements OnInit{
     },
     {
       link: "/back/testt",
+
       icon: "slack",
       menu: "Projects",
     },
     {
       link: "/back/kanbanback",
+
       icon: "list",
       menu: "Kanban Board",
     },
     {
       link: "/back/gantt",
+
       icon: "layers",
       menu: "Gantt",
     },
@@ -155,6 +159,7 @@ export class SidebarBackComponent implements OnInit{
       menu: "To Do List",
     },
     //link
+
 
   ]
 

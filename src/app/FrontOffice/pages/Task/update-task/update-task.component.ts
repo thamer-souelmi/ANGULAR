@@ -21,6 +21,7 @@ export class UpdateTaskComponent implements OnInit {
 
   //priorityOptions: string[] = ['HIGH', 'MEDIUM', 'LOW'];
   //statuses: string[] = ['TODO', 'INPROGRESS', 'COMPLETED', 'CANCELED'];
+
   task: Task;
   priorityOptions: Priority[] = Object.values(Priority) as Priority[];
   statuses: TaskStatus[] = Object.values(TaskStatus) as TaskStatus[];
@@ -47,7 +48,7 @@ export class UpdateTaskComponent implements OnInit {
       console.log("Loaded projects:", this.projects); // Vérifiez les projets chargés depuis le service
     });
   }
-
+  
   onSubmit(): void {
     this.task.projetT = this.selectedProject;
     console.log("Submitting task:!!!!!!!!!!!!!!!!!!!!!!", this.task); // Vérifiez les données de la tâche soumise avant l'envoi au service
@@ -76,6 +77,7 @@ export class UpdateTaskComponent implements OnInit {
   isValidPositiveValue(value: number): boolean {
     return value > 0;
   }
+
 }
 
 

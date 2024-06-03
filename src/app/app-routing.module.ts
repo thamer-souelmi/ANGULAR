@@ -140,6 +140,7 @@ const routes: Routes = [
       { path: 'invoice/:projectId', component: GetInvoicebyProjectComponent},
       { path: 'testt', component: ProjectsbackComponent},
       { path: '00', component: ChatComponent},
+
       {path:"findall", component:FindAllUsersComponent},
 
       { path: 'dataflow', component: DataFlowLineageComponent },
@@ -200,6 +201,7 @@ const routes: Routes = [
       { path: 'getActivityF', component:ActivityComponentF },
       { path: 'att', component: AttendanceComponent },
       { path: 'findAllJobOffersfront', component: FindAllJobOffersComponent },
+
       { path: 'job-offer-details/:id', component: JobOfferDetailsComponent },
       { path: 'wishlist', component: WishlistComponent },
       { path: 'findAllJobCandidacies/:id', component: FindAllJobCandidaciesComponent },
@@ -256,6 +258,7 @@ const routes: Routes = [
 
 
 
+
   // {
   //   path: "JobOffer",
   //   component: AllTemplateFrontComponent,children:[
@@ -265,6 +268,7 @@ const routes: Routes = [
   //     { path: 'findAllJobCandidacies/:id', component: FindAllJobCandidaciesComponent },
   //   ]},
 
+  { path: '**', component: NotFoundComponent },
 
   // {
 
@@ -339,14 +343,12 @@ const routes: Routes = [
   //     { path: 'taskpiechart/:projectId', component: PiecharttaskComponent},
   //     { path: 'invoice/:projectId', component: GetInvoicebyProjectComponent},
   //     { path: 'testt', component: ProjectsbackComponent},
-
-
-
-
-  //   ]
-  // },
+    { path: '**', component: NotFoundComponent },
 
 ]
+
+
+
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]

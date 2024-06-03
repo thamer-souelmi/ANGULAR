@@ -27,6 +27,7 @@ export class AddTaskComponent implements OnInit {
 
   taskStatusOptions: string[] = ['TODO', 'INPROGRESS', 'COMPLETED', 'CANCELLED'];
   selectedTaskStatus: TaskStatus = TaskStatus.TODO;
+
   priorityOptions: string[] = ['HIGH', 'MEDIUM', 'LOW'];
   selectedPriority: Priority = Priority.MEDUIM;
   statusOptions = Object.keys(TaskStatus).map(key => TaskStatus[key as keyof typeof TaskStatus]) ;
@@ -36,6 +37,7 @@ export class AddTaskComponent implements OnInit {
 
   constructor(private taskService: TaskService,private projectService: ProjectService, private dialogRef: MatDialogRef<AddTaskComponent>,private userService: UserService,private toastr: ToastrService) { }
   @ViewChild('taskForm') taskForm!: NgForm;
+
   newTask: Task  = {} as Task;
 
   ngOnInit(): void {

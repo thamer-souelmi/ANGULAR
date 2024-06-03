@@ -93,7 +93,7 @@ import { ProjectChartComponent } from './BackOffice/Pages/Project/project-chart/
 
 import { EventComponent } from './FrontOffice/pages/event/event.component';
 import { TaskbackComponent } from './BackOffice/Pages/Task/taskback/taskback.component';
-import { KanbanboardbackComponent } from './BackOffice/Pages/Task/kanbanboardback/kanbanboardback.component';
+// import { KanbanboardbackComponent } from './BackOffice/Pages/Task/kanbanboardback/kanbanboardback.component';
 import { AppGanttChartComponent } from './BackOffice/Pages/Task/app-gantt-chart/app-gantt-chart.component';
 import { TodolistComponent } from './BackOffice/Pages/Task/todolist/todolist.component';
 import { MatSortModule } from '@angular/material/sort';
@@ -254,7 +254,7 @@ import {ChatComponent} from "./BackOffice/Pages/chat/chat.component";
     FindAllProjectsComponent,
     ProjectChartComponent,
     TaskbackComponent,
-    KanbanboardbackComponent,
+    // KanbanboardbackComponent,
     AppGanttChartComponent,
     TodolistComponent,
     DetailprojectbackComponent,
@@ -335,7 +335,6 @@ import {ChatComponent} from "./BackOffice/Pages/chat/chat.component";
     MatInputModule,
     MatPaginatorModule,
     MatIconModule,
-    MatDialogModule,
     MatTableModule,
     MatButtonModule,
     CommonModule,
@@ -402,8 +401,13 @@ import {ChatComponent} from "./BackOffice/Pages/chat/chat.component";
     MatPaginatorModule,
     MatInputModule,
     MatDatepickerModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    CommonModule,
+    MatDialogModule,
+    
 
+
+    
   ],
   providers: [httpInterceptorProviders, DatePipe, provideAnimations(), // required animations providers
     provideToastr(),],

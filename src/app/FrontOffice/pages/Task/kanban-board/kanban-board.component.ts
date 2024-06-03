@@ -35,6 +35,7 @@ export class KanbanBoardComponent implements OnInit {
   cancelled!: Task[];
   TaskStatus = TaskStatus;
   constructor(private taskService: TaskService) {
+
   }
   ngOnInit() {
     this.taskService.getAllTasks().subscribe(tasks => {
@@ -125,6 +126,7 @@ handleDrop(event: CdkDragDrop<Task[]>, newStatus: TaskStatus) {
     console.error('Failed to update task status:', error);
   });
 }
+
 
  */
 

@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class TaskService {
 
-  urlTaskCrud:string="http://localhost:8082"
+  urlTaskCrud: string = "http://localhost:8082"
 
   constructor(private myHttp:HttpClient) { }
   getAllTasks():Observable<Task[]>{
@@ -22,14 +22,15 @@ export class TaskService {
     return this.myHttp.get<Task[]>(`${this.urlTaskCrud}/tasksbythree`, { params });
   }
 
-  getTaskById(id:number):Observable<Task>{
-    return this.myHttp.get<Task>(this.urlTaskCrud +"/Task/GetTaskbyid?Taskid="+id);
+  getTaskById(id: number): Observable<Task> {
+    return this.myHttp.get<Task>(this.urlTaskCrud + "/Task/GetTaskbyid?Taskid=" + id);
   }
 
   AddTask(projectId: number, userId: number, task: Task): Observable<Task> {
     console.log("*******************************",task);
     console.log("***************user****************",userId);
     console.log("**************project*****************",projectId);
+
     return this.myHttp.post<Task>(`${this.urlTaskCrud}/Task/AddTask/${projectId}/${userId}`, task);
   }
 
@@ -41,10 +42,11 @@ export class TaskService {
 
   deleteTask(id:number):Observable<void>{
     return this.myHttp.delete<void>(this.urlTaskCrud +'/Task/DeleteTaskbyid?Taskid='+id);
+
   }
 
-  getTasksByProjectId( projectId:number):Observable<Task[]>{
-    return this.myHttp.get<Task[]>(this.urlTaskCrud +"/Task/getTasksbyproject?projectId="+projectId);
+  getTasksByProjectId(projectId: number): Observable<Task[]> {
+    return this.myHttp.get<Task[]>(this.urlTaskCrud + "/Task/getTasksbyproject?projectId=" + projectId);
   }
 
   addTaskWithProject(task: Task, projectName: string): Observable<void> {
@@ -53,6 +55,7 @@ export class TaskService {
 
 
   getAllProjectNames():Observable<string[]>{
+
     return this.myHttp.get<string[]>(this.urlTaskCrud + '/Task/getprojectNames');
   }
   getTasksByStatus(status: string): Observable<Task[]> {
@@ -68,6 +71,6 @@ export class TaskService {
   }
 
   searchTasks(keyword: string): Observable<Task[]> {
-    return this.myHttp.get<Task[]>(`${this.urlTaskCrud }/Task/searchTasks?keyword=${keyword}`);
+    return this.myHttp.get<Task[]>(`${this.urlTaskCrud}/Task/searchTasks?keyword=${keyword}`);
   }
 }
