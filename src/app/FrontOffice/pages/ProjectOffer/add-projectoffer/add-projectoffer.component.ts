@@ -25,7 +25,7 @@ export class AddProjectofferComponent {
 
 
   constructor(      public dialogRef: MatDialogRef<AddProjectofferComponent> // Inject MatDialogRef
-,  @Inject(MAT_DIALOG_DATA) public data: any, private formBuilder: FormBuilder, private projectOfferService: ProjectOfferService, private location: Location, private router: Router) {
+    ,  @Inject(MAT_DIALOG_DATA) public data: any, private formBuilder: FormBuilder, private projectOfferService: ProjectOfferService, private location: Location, private router: Router) {
     this.ProjectOfferForm = this.formBuilder.group({
       projectTitle: ['', Validators.required],
       description: ['', Validators.required],
@@ -69,10 +69,10 @@ export class AddProjectofferComponent {
 
       this.projectOfferService.addProjectOffer(projectOffer).subscribe(
         (addedProjectOffer: ProjectOffer) => {
-          
+
           console.log('Project offer added successfully:', addedProjectOffer);
           alert('Project offer added successfully!' + addedProjectOffer);
-          
+
           this.dialogRef.close(); // Close the dialog
 
         },

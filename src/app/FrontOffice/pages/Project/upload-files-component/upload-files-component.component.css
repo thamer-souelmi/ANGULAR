@@ -1,0 +1,19 @@
+.card.file-list {
+    max-width: 400px; /* Définir une largeur maximale pour limiter la taille */
+  }
+  .card.file-list .card-header {
+    padding: 0.5rem 1rem; /* Réduire le rembourrage de l'en-tête */
+  }
+  
+  .card.file-list .list-group-item {
+    padding: 0.5rem 1rem; /* Réduire le rembourrage des éléments de la liste */
+  }
+  
+  .card.file-list .btn-link {
+    padding: 0; /* Réduire le rembourrage des boutons */
+  }
+  
+  .card.file-list .list-group-item a {
+    margin-left: 10px; /* Réduire la marge gauche des liens */
+  }
+  

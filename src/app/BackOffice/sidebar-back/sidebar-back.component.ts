@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+ import { Component,OnInit } from '@angular/core';
 import {Observable, Subscription} from "rxjs";
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { map, shareReplay } from 'rxjs/operators';
@@ -18,7 +18,7 @@ interface sidebarMenu {
   templateUrl: './sidebar-back.component.html',
   styleUrls: ['./sidebar-back.component.css']
 })
-export class SidebarBackComponent {
+export class SidebarBackComponent implements OnInit{
   routerActive: string = "activelink";
   search: boolean = false;
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
@@ -26,36 +26,53 @@ export class SidebarBackComponent {
       map(result => result.matches),
       shareReplay()
     );
-    user : User = new User;
-    name : String = "";
-    id : number = 0;
-    userId1 : number = 10;
-    ngOnInit(): void {
-      this.id = this.storageService.getUser().id ;
-      this.storageService.getUserById(this.id).subscribe(
-        (user: User) => {
-          this.user = user;
-          this.name= this.user.firstname ;
-        },
-        error => {
-          console.error('Error fetching user:', error);
-        }
-      );
+  user : User = new User;
+  name : String = "";
+  id : number = 0;
+  userId1 : number = 10;
+  ngOnInit(): void {
+    this.id = this.storageService.getUser().id ;
+    this.storageService.getUserById(this.id).subscribe(
+      (user: User) => {
+        this.user = user;
+        this.name= this.user.firstname ;
+      },
+      error => {
+        console.error('Error fetching user:', error);
+      }
+    );
+    const roles = this.storageService.getUser().roles;
 
-    }
+    console.log('User ID:', this.storageService.getUser().id);
+
+    // Adjust the sidebar menu based on the user's role
+
+  }
+
+
 
   constructor(private breakpointObserver: BreakpointObserver,
-    private storageService: StorageService,
-              private authService: AuthService, 
-              private router : Router, 
+              private storageService: StorageService,
+              private authService: AuthService,
+              private router : Router,
               private localStorageService:LocalStorageService,
-            private attendanceService:AttendanceService) { }
+              private attendanceService:AttendanceService) { }
 
   sidebarMenu: sidebarMenu[] = [
     {
       link: "/",
       icon: "home",
       menu: "Dashboard",
+    },
+    {
+      link: "/back/findall",
+      icon: "home",
+      menu: "USERS",
+    },
+    {
+      link: "/back/leaves",
+      icon: "home",
+      menu: "leaves",
     },
     {
       link: "/back/dataflow",
@@ -83,18 +100,23 @@ export class SidebarBackComponent {
       menu: "Attendance",
     },
     {
-     link:"/back/activityB",
-     icon:"home",
+      link:"/back/activityB",
+      icon:"slack",
       menu:"Activity",
     },
     {
+      link:"/back/room",
+      icon:"home",
+      menu:"Rooms",
+    },
+    {
       link:"/back/EventBack",
-      icon:"cap",
+      icon:"slack",
       menu:"Event",
     },
     {
       link:"/back/trainingSessionB",
-      icon:"home",
+      icon:"award",
       menu:"Training Session",
     },
     {
@@ -112,7 +134,27 @@ export class SidebarBackComponent {
       icon: "file-text",
       menu: "Contracts",
     },
-  //link
+    {
+      link: "/back/testt",
+      icon: "slack",
+      menu: "Projects",
+    },
+    {
+      link: "/back/kanbanback",
+      icon: "list",
+      menu: "Kanban Board",
+    },
+    {
+      link: "/back/gantt",
+      icon: "layers",
+      menu: "Gantt",
+    },
+    {
+      link: "/back/Todolist",
+      icon: "layout",
+      menu: "To Do List",
+    },
+    //link
 
   ]
 
@@ -145,9 +187,9 @@ export class SidebarBackComponent {
         }
       );
     }
-}
-editUser(userId: number) {
-  // Navigate to the Edit User route with the user ID as a parameter
-  this.router.navigate(['/back/updateuser', userId]);
-}
+  }
+  editUser(userId: number) {
+    // Navigate to the Edit User route with the user ID as a parameter
+    this.router.navigate(['/back/updateuser', userId]);
+  }
 }

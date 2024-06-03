@@ -267,16 +267,16 @@
           <!-- Buttons -->
           <div class="d-flex justify-content-end mb-3 btn-inter">
             <div class="d-flex flex-column">
-              <button mat-raised-button matTooltip="Add new Job offer" class="btn btn-success" style="background-color: #fb6d1c; color: white;" data-bs-toggle="modal" data-bs-target="#addJobOfferModal">
+              <button  mat-raised-button matTooltip="Add new Job offer" class="btn btn-success" style="background-color: #fb6d1c; color: white;" data-bs-toggle="modal" data-bs-target="#addJobOfferModal">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
                   <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
                 </svg>
               </button>
-              <button mat-raised-button matTooltip="Consult Wishlist" class="btn btn-primary mt-2" style="background-color: #08718e; color: white;" (click)="navigateToWishlist()">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-bookmark-heart-fill" viewBox="0 0 16 16">
-                  <path d="M2 15.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2zM8 4.41c1.387-1.425 4.854 1.07 0 4.277C3.146 5.48 6.613 2.986 8 4.412z"/>
-                </svg>
-              </button>
+<!--              <button   mat-raised-button matTooltip="Consult Wishlist" class="btn btn-primary mt-2" style="background-color: #08718e; color: white;" (click)="navigateToWishlist()">-->
+<!--                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-bookmark-heart-fill" viewBox="0 0 16 16">-->
+<!--                  <path d="M2 15.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2zM8 4.41c1.387-1.425 4.854 1.07 0 4.277C3.146 5.48 6.613 2.986 8 4.412z"/>-->
+<!--                </svg>-->
+<!--              </button>-->
             </div>
           </div>
           <br>
@@ -302,7 +302,7 @@
                     <img src="/assets/FrontOffice/JobOffer/img/svg_icon/1.svg" alt="">
                   </div>
                   <div class="jobs_conetent">
-                    <a [routerLink]="['/JobOffer/job-offer-details', j.jobOffer_id]"><h4>{{ j.titleJobOffer }}</h4><h6>{{ j.jobCategory }}</h6></a>
+                    <a [routerLink]="['/home/job-offer-details', j.jobOffer_id]"><h4>{{ j.titleJobOffer }}</h4><h6>{{ j.jobCategory }}</h6></a>
                     <div class="links_locat d-flex align-items-center">
                       <div class="location">
                         <p> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-fill" viewBox="0 0 16 16">
@@ -323,15 +323,21 @@
                 <div class="jobs_right">
                   <div class="apply_now">
                     <!-- Inside the ngFor loop -->
-                    <a mat-raised-button
-                       matTooltip="Edit Job offer" (click)="openUpdateJobOfferDialog(j.jobOffer_id)" class="heart_mark"> <i class="fa fa-pencil blue"></i> </a>
-                    <a mat-raised-button
-                       matTooltip="Delete Job offer" (click)="askDeleteConfirmation(j.jobOffer_id)" class="heart_mark"><i class="fa fa-trash red"></i></a>
-                    <a mat-raised-button
-                       matTooltip="Related Candidacies" [routerLink]="['/JobOffer/findAllJobCandidacies', j.jobOffer_id]" class="heart_mark"><i class="fas fa-users"></i></a>
-                    <a mat-raised-button
-                       matTooltip="Add to wish list"  (click)="addToWishlist(j)" class="heart_mark"> <i class="fa fa-heart"></i> </a>
-                    <a [routerLink]="['/JobOffer/job-offer-details', j.jobOffer_id]" class="boxed-btn3">Apply Now</a>
+                    <a  mat-raised-button matTooltip="Edit Job offer" (click)="openUpdateJobOfferDialog(j.jobOffer_id)" class="heart_mark">
+                      <i class="fa fa-pencil blue"></i>
+                    </a>
+
+                    <a  mat-raised-button matTooltip="Delete Job offer" (click)="askDeleteConfirmation(j.jobOffer_id)" class="heart_mark">
+                      <i class="fa fa-trash red"></i>
+                    </a>
+
+                    <a  mat-raised-button matTooltip="Related Candidacies" [routerLink]="['/home/findAllJobCandidacies', j.jobOffer_id]" class="heart_mark">
+                      <i class="fas fa-users"></i>
+                    </a>
+
+<!--                    <a  mat-raised-button-->
+<!--                       matTooltip="Add to wish list"  (click)="addToWishlist(j)" class="heart_mark"> <i class="fa fa-heart"></i> </a>-->
+<!--                    <a  [routerLink]="['/home/job-offer-details', j.jobOffer_id]" class="boxed-btn3">Apply Now</a>-->
                   </div>
                   <div class="date">
                     <p>Date line: {{ j.applicationDeadLine | date:"medium" }}</p>

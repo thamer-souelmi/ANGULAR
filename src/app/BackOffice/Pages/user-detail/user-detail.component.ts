@@ -42,12 +42,15 @@ export class UserDetailComponent {
     );
   }
   getImage(filename: string): void {
+    console.log("!!!!");
     if (!filename) return; // Skip if filename is not provided
+    console.log("!!!!");
 
     this.userService.getFile(filename).subscribe(
       (response: HttpResponse<Blob>) => {
         if (response && response.body) {
           this.createImageFromBlob(response.body);
+          console.log("............")
         } else {
           console.error('Error: Response body is null.');
         }

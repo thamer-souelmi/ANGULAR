@@ -16,13 +16,13 @@ import { ScreenshotService } from 'src/app/Services/Screenshot.service';
   styleUrls: ['./header-front.component.css']
 })
 export class HeaderFrontComponent {
-  constructor( private screenshotService : ScreenshotService, private localStorageService: LocalStorageService,private attendanceService: AttendanceService,private authService: AuthService,private storageService : StorageService,private router : Router,private userService: LeavesService, 
+  constructor( private screenshotService : ScreenshotService, private localStorageService: LocalStorageService,private attendanceService: AttendanceService,private authService: AuthService,private storageService : StorageService,private router : Router,private userService: LeavesService,
 ) {
   }
   logout(): void {
-    this.removeAttendance();
+    // this.removeAttendance();
     this.stopAttendance(); // Arrêter l'attendance lors de la déconnexion
-    
+
     this.authService.logout().subscribe({
       next: res => {
         console.log(res);

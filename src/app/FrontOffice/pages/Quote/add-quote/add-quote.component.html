@@ -10,7 +10,7 @@
            Project Offer is required.
         </div>
        </div>
-       
+
       <div class="form-group">
         <label for="totalamount">totalamount:</label>
         <input type="number" class="form-control" id="totalamount" formControlName="totalamount" required>
@@ -25,7 +25,7 @@
           issuanceDate is required.
         </div>
       </div>
-  
+
       <div class="form-group">
         <label for="unitprice">unitprice:</label>
         <input type="number" class="form-control" id="unitprice" formControlName="unitprice" required>
@@ -33,7 +33,7 @@
           unitprice is required.
         </div>
       </div>
-  
+
       <div class="form-group">
         <label for="quantity">ressources:</label>
         <input  type="number" class="form-control" id="quantity" formControlName="quantity" required>
@@ -41,20 +41,19 @@
           quantity is required.
         </div>
       </div>
-  
+
       <div class="form-group">
-        <label for="description">Description:</label>
+        <label for="description">Location:</label>
         <textarea class="form-control" id="description" formControlName="description" required></textarea>
         <div *ngIf="QuoteForm.get('description')?.hasError('required') && QuoteForm.get('description')?.touched">
           Description is required.
         </div>
       </div>
       <!-- <app-map [quoteDescription]="QuoteForm.get('description')?.value"></app-map> -->
-  
+
       <!-- <ngx-recaptcha2 #captchaElem [siteKey]="siteKey" formControlName="recaptcha">
       </ngx-recaptcha2> -->
       <button type="submit" class="btn btn-primary" [disabled]="!QuoteForm.valid">Add</button>
       <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
     </form>
   </div>
-  

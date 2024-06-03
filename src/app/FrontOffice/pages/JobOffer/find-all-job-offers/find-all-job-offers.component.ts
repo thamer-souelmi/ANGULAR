@@ -63,7 +63,7 @@ export class FindAllJobOffersComponent implements OnInit, AfterViewInit {
   private candidacies!: Candidacy[];
   constructor(private js: JobOfferService, private router: Router,private formBuilder: FormBuilder,private dialog: MatDialog,
               private cdr: ChangeDetectorRef,
-              private ngZone: NgZone,private route: ActivatedRoute,private candidacyService: CandidacyService,private toastr: ToastrService,private s:StorageService) {
+              private ngZone: NgZone,private route: ActivatedRoute,private candidacyService: CandidacyService,private toastr: ToastrService,private s:StorageService,private storageService:StorageService) {
     this.jobOfferForm = this.formBuilder.group({
       titleJobOffer: ['', Validators.required],
       description: ['', Validators.required],
@@ -144,6 +144,10 @@ export class FindAllJobOffersComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.loadJobOffers();
     this.loadWishlist();
+    const roles = this.storageService.getUser().roles;
+    const isEmployeeHR = this.isEmployeeHR();
+    console.log('Is Employee HR:', isEmployeeHR);
+    console.log('Uuuuser', this.storageService.getUser().id);
 
   }
   addToWishlist(jobOffer: JobOffer) {
@@ -169,7 +173,7 @@ export class FindAllJobOffersComponent implements OnInit, AfterViewInit {
   }
   navigateToWishlist() {
     // Navigate to the WishlistComponent or any route you have for the wishlist
-    this.router.navigate(['/JobOffer/wishlist']);
+    this.router.navigate(['/home/wishlist']);
   }
   onPageChange(pageNumber: number) {
     this.currentPage = pageNumber;
@@ -228,7 +232,7 @@ export class FindAllJobOffersComponent implements OnInit, AfterViewInit {
       });
       this.cdr.detectChanges();
     } else {
-      this.router.navigate(['/JobOffer/job-offer-details', selectedValue]);
+      this.router.navigate(['/home/job-offer-details', selectedValue]);
     }
   }
   salaryRangeValidator(formGroup: FormGroup) {
@@ -275,5 +279,9 @@ export class FindAllJobOffersComponent implements OnInit, AfterViewInit {
   }
   countCandidacies(jobOffer: JobOffer): Observable<number> {
     return this.candidacyService.countCandidaciesByJobOfferId(jobOffer.jobOffer_id);
+  }
+  isEmployeeHR(): boolean {
+    const roles = this.storageService.getUser()?.roles;
+    return roles && roles.includes('employeeHR');
   }
 }

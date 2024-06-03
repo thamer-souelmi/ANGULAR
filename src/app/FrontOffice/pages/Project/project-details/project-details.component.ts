@@ -13,12 +13,12 @@ import { TeamsmodalComponent } from 'src/app/BackOffice/Pages/Project/teamsmodal
   styleUrls: ['./project-details.component.css']
 })
 export class ProjectDetailsComponent implements OnInit  {
-  project: Project; 
+  project: Project;
 
 
   constructor(private dialogRef: MatDialogRef<ProjectDetailsComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any, private dialog: MatDialog, private router: Router) {
-    this.project = data.project; 
+    this.project = data.project;
   }
 
   ngOnInit(): void {
@@ -31,7 +31,7 @@ export class ProjectDetailsComponent implements OnInit  {
     } else {
       console.log('No tasks found for the project.');
     }
-}
+  }
 
   onClose(): void {
     this.dialogRef.close();
@@ -46,24 +46,24 @@ export class ProjectDetailsComponent implements OnInit  {
     });
   }
   viewAssociatedTasks(): void {
-    this.router.navigate(['/Project/task', this.project.projectId]); 
-}
-uploadFiles(): void {
-  this.router.navigate(['/Project/uploadfile']); 
-}
-viewAssociatedInvoices(): void {
-  this.router.navigate(['/Project/invoicefront', this.project.projectId]); 
-}
-viewAssociatedContract(): void {
-  this.router.navigate(['/Project/Contract', this.project.projectId]); 
-}
-openteamModal(project: Project): void {
-  const dialogRef = this.dialog.open(TeamsmodalComponent, {
-    width: '400px',
-    data: { project: project }  });
+    this.router.navigate(['/Project/task', this.project.projectId]);
+  }
+  uploadFiles(): void {
+    this.router.navigate(['/Project/uploadfile']);
+  }
+  viewAssociatedInvoices(): void {
+    this.router.navigate(['/Project/invoicefront', this.project.projectId]);
+  }
+  viewAssociatedContract(): void {
+    this.router.navigate(['/Project/Contract', this.project.projectId]);
+  }
+  openteamModal(project: Project): void {
+    const dialogRef = this.dialog.open(TeamsmodalComponent, {
+      width: '400px',
+      data: { project: project }  });
 
-  dialogRef.afterClosed().subscribe(result => {
-    // Traitez le résultat après la fermeture du modal si nécessaire
-  });
-}
+    dialogRef.afterClosed().subscribe(result => {
+      // Traitez le résultat après la fermeture du modal si nécessaire
+    });
+  }
 }

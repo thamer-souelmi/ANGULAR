@@ -12,7 +12,7 @@ export class TaskService {
 
   constructor(private myHttp:HttpClient) { }
   getAllTasks():Observable<Task[]>{
-    return this.myHttp.get<Task[]>(this.urlTaskCrud + '/Task/GetAllTasks'); 
+    return this.myHttp.get<Task[]>(this.urlTaskCrud + '/Task/GetAllTasks');
   }
 
   getPaginatedTasks(page: number = 0, pageSize: number = 10): Observable<Task[]> {
@@ -26,13 +26,18 @@ export class TaskService {
     return this.myHttp.get<Task>(this.urlTaskCrud +"/Task/GetTaskbyid?Taskid="+id);
   }
 
-  AddTask(t:Task):Observable<Task>{
-    return this.myHttp.post<Task>(this.urlTaskCrud +'/Task/AddTask' ,t);
+  AddTask(projectId: number, userId: number, task: Task): Observable<Task> {
+    console.log("*******************************",task);
+    console.log("***************user****************",userId);
+    console.log("**************project*****************",projectId);
+    return this.myHttp.post<Task>(`${this.urlTaskCrud}/Task/AddTask/${projectId}/${userId}`, task);
   }
 
-  UpdateTask(t:Task):Observable<Task>{
-    return this.myHttp.put<Task>(`${this.urlTaskCrud}/Task/UpdateTask`,t);
+
+  UpdateTask(taskId: number, task: Task): Observable<Task> {
+    return this.myHttp.put<Task>(`${this.urlTaskCrud}/Task/UpdateTask/${taskId}`, task);
   }
+
 
   deleteTask(id:number):Observable<void>{
     return this.myHttp.delete<void>(this.urlTaskCrud +'/Task/DeleteTaskbyid?Taskid='+id);
@@ -48,7 +53,7 @@ export class TaskService {
 
 
   getAllProjectNames():Observable<string[]>{
-    return this.myHttp.get<string[]>(this.urlTaskCrud + '/Task/getprojectNames'); 
+    return this.myHttp.get<string[]>(this.urlTaskCrud + '/Task/getprojectNames');
   }
   getTasksByStatus(status: string): Observable<Task[]> {
     return this.myHttp.get<Task[]>(`${this.urlTaskCrud}/Task/tasks?status=${status}`);
