@@ -8,6 +8,9 @@ import { Role } from 'src/app/Models/role';
 import { RoleService } from 'src/app/Services/role.service';
 import { Observable } from 'rxjs';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
+import { ToastrService } from 'ngx-toastr';
+import * as XLSX from 'xlsx'
+
 
 @Component({
   selector: 'app-add-user',
@@ -29,7 +32,7 @@ export class AddUserComponent implements OnInit {
  
 
 
-  constructor(private roleservice: RoleService, private dialogRef: MatDialogRef<AddUserComponent>,private userService: UserService) { }
+  constructor(private roleservice: RoleService, private dialogRef: MatDialogRef<AddUserComponent>,private userService: UserService,private toastr: ToastrService) { }
 
   ngOnInit(): void {
    
@@ -63,7 +66,68 @@ export class AddUserComponent implements OnInit {
     this.dialogRef.close(); 
   }
 
+  readExcel(event: any): void {
+    const file = event.target.files[0];
+    
+    // Check if a file is selected
+    if (!file) {
+      console.error('No file selected.');
+      return;
+    }
   
+    // Check if the selected file is an Excel file
+    const allowedFileTypes = ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.ms-excel'];
+    if (!allowedFileTypes.includes(file.type)) {
+      console.error('Invalid file type. Please select an Excel file.');
+      return;
+    }
+  
+    // Proceed with reading the Excel file
+    const fileReader = new FileReader();
+    this.toastr.success('Hello world!', 'Toastr fun!');
+  
+    fileReader.onload = (e) => {
+      const workBook = XLSX.read(fileReader.result, { type: 'binary' });
+      const sheetNames = workBook.SheetNames;
+      const excelData = XLSX.utils.sheet_to_json(workBook.Sheets[sheetNames[0]]);
+      console.log(excelData);
+  
+      // Check if the Excel data contains user objects
+      if (this.isUserDataValid(excelData)) {
+        // Send Excel data to backend to save users
+        this.userService.saveUsers(excelData).subscribe(
+          response => {
+            console.log('Users saved successfully:', response);
+          },
+          error => {
+            console.error('Error saving users:', error);
+          }
+        );
+      } else {
+        console.error('Invalid data format. Please make sure the Excel file contains user objects.');
+      }
+    };
+  
+    fileReader.readAsBinaryString(file);
+  }
+  
+  isUserDataValid(data: any[]): boolean {
+    // Check if the data array contains at least one object with properties expected for a user object
+    if (data.length === 0) {
+      return false;
+    }
+    
+    const firstItem = data[0];
+    // Assuming a user object has properties like 'name', 'email', 'username', etc.
+    return Object.keys(firstItem).includes('email') && 
+         Object.keys(firstItem).includes('firstname') && 
+         Object.keys(firstItem).includes('lastname') && 
+         Object.keys(firstItem).includes('password') && 
+         Object.keys(firstItem).includes('adresse') && 
+         Object.keys(firstItem).includes('birthdate') && 
+         Object.keys(firstItem).includes('phonenumber') && 
+         Object.keys(firstItem).includes('gender')   /* Add more properties as needed */;
+  }
 
   
 

@@ -1,8 +1,8 @@
 .dropdown-menu {
-    display: none; /* Hide the dropdown menu by default */
-  }
-  
-  .nav-item.dropdown:hover .dropdown-menu {
-    display: block; /* Display the dropdown menu when the parent is hovered */
-  }
-  
+  display: none; /* Hide the dropdown menu by default */
+}
+
+.nav-item.dropdown:hover .dropdown-menu {
+  display: block; /* Display the dropdown menu when the parent is hovered */
+}
+

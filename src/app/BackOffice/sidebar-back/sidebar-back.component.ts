@@ -1,3 +1,4 @@
+
 import { Component,OnInit } from '@angular/core';
 import {Observable, Subscription} from "rxjs";
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
@@ -26,126 +27,53 @@ export class SidebarBackComponent implements OnInit{
       map(result => result.matches),
       shareReplay()
     );
-    user : User = new User;
-    name : String = "";
-    id : number = 0;
-    userId1 : number = 10;
-    ngOnInit(): void {
-      this.id = this.storageService.getUser().id ;
-      this.storageService.getUserById(this.id).subscribe(
-        (user: User) => {
-          this.user = user;
-          this.name= this.user.firstname ;
-        },
-        error => {
-          console.error('Error fetching user:', error);
-        }
-      );
-      const roles = this.storageService.getUser().roles;
-      const isAdminHR = this.isAdminHR();
-      const isAdminCRM = this.isAdminCRM();
-      console.log('Is Employee HR:', isAdminHR);
-      console.log('User ID:', this.storageService.getUser().id);
-      if (!isAdminCRM) {
-        this.sidebarMenu = [
-          {
-            link: "/",
-            icon: "home",
-            menu: "Dashboard",
-          },
-          {
-            link: "/back/dataflow",
-            icon: "disc",
-            menu: "Data Flow",
-          },
-          {
-            link: "/back/projectofferflow",
-            icon: "layout",
-            menu: "Project Offer Flow",
-          },
-          {
-            link: "/back/inactiveprojectoffer",
-            icon: "info",
-            menu: "Inactive P.O",
-          },
-          {
-            link: "/back/screenshots",
-            icon: "eye",
-            menu: "Activity Tracking",
-          },
-          {
-            link: "/back/atte",
-            icon: "clock",
-            menu: "Attendance",
-          },
-        ];
+  user : User = new User;
+  name : String = "";
+  id : number = 0;
+  userId1 : number = 10;
+  ngOnInit(): void {
+    this.id = this.storageService.getUser().id ;
+    this.storageService.getUserById(this.id).subscribe(
+      (user: User) => {
+        this.user = user;
+        this.name= this.user.firstname ;
+      },
+      error => {
+        console.error('Error fetching user:', error);
       }
-      // Adjust the sidebar menu based on the user's role
-      if (!isAdminHR) {
-        this.sidebarMenu = [
-          {
-            link: "/",
-            icon: "home",
-            menu: "Dashboard",
-          },
-          {
-            link: "/back/findAllJobOffersback",
-            icon: "slack",
-            menu: "HR",
-          },
-          {
-            link: "/back/findQuiz",
-            icon: "award",
-            menu: "Quiz",
-          },
-          {
-            link: "/back/contractEmployment",
-            icon: "file-text",
-            menu: "Contracts",
-          },{
-            link:"/back/activityB",
-            icon:"home",
-             menu:"Activity",
-           },
-           {
-             link:"/back/EventBack",
-             icon:"cap",
-             menu:"Event",
-           },
-           {
-             link:"/back/trainingSessionB",
-             icon:"home",
-             menu:"Training Session",
-           },
-          
-        ];
-      }
-    }
-    isAdminHR(): boolean {
-      const roles = this.storageService.getUser()?.roles;
-      return roles && roles.includes('adminHR');
-    }
-    isAdminCRM(): boolean {
-      const roles = this.storageService.getUser()?.roles;
-      return roles && roles.includes('adminCRM');
-    }
-    isAdminProject(): boolean {
-      const roles = this.storageService.getUser()?.roles;
-      return roles && roles.includes('adminProject');
-    }
+    );
+    const roles = this.storageService.getUser().roles;
 
+    console.log('User ID:', this.storageService.getUser().id);
+
+    // Adjust the sidebar menu based on the user's role
+
+  }
+
+
+  
   constructor(private breakpointObserver: BreakpointObserver,
-    private storageService: StorageService,
-              private authService: AuthService, 
-              private router : Router, 
+              private storageService: StorageService,
+              private authService: AuthService,
+              private router : Router,
               private localStorageService:LocalStorageService,
-            private attendanceService:AttendanceService) { }
+              private attendanceService:AttendanceService) { }
 
   sidebarMenu: sidebarMenu[] = [
     {
       link: "/",
       icon: "home",
       menu: "Dashboard",
+    },
+    {
+      link: "/back/findall",
+      icon: "home",
+      menu: "USERS",
+    },
+    {
+      link: "/back/leaves",
+      icon: "home",
+      menu: "leaves",
     },
     {
       link: "/back/dataflow",
@@ -173,18 +101,23 @@ export class SidebarBackComponent implements OnInit{
       menu: "Attendance",
     },
     {
-     link:"/back/activityB",
-     icon:"home",
+      link:"/back/activityB",
+      icon:"slack",
       menu:"Activity",
     },
     {
+      link:"/back/room",
+      icon:"home",
+      menu:"Rooms",
+    },
+    {
       link:"/back/EventBack",
-      icon:"cap",
+      icon:"slack",
       menu:"Event",
     },
     {
       link:"/back/trainingSessionB",
-      icon:"home",
+      icon:"award",
       menu:"Training Session",
     },
     {
@@ -203,26 +136,30 @@ export class SidebarBackComponent implements OnInit{
       menu: "Contracts",
     },
     {
-      link: "/Projectback/testt",
+      link: "/back/testt",
+
       icon: "slack",
       menu: "Projects",
     },
     {
-      link: "/Projectback/kanbanback",
+      link: "/back/kanbanback",
+
       icon: "list",
       menu: "Kanban Board",
     },
     {
-      link: "/Projectback/gantt",
+      link: "/back/gantt",
+
       icon: "layers",
       menu: "Gantt",
     },
     {
-      link: "/Projectback/Todolist",
+      link: "/back/Todolist",
       icon: "layout",
       menu: "To Do List",
     },
-  //link
+    //link
+
 
   ]
 
@@ -255,9 +192,9 @@ export class SidebarBackComponent implements OnInit{
         }
       );
     }
-}
-editUser(userId: number) {
-  // Navigate to the Edit User route with the user ID as a parameter
-  this.router.navigate(['/back/updateuser', userId]);
-}
+  }
+  editUser(userId: number) {
+    // Navigate to the Edit User route with the user ID as a parameter
+    this.router.navigate(['/back/updateuser', userId]);
+  }
 }

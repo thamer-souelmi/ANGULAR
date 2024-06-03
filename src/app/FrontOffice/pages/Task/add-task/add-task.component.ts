@@ -17,31 +17,33 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./add-task.component.css']
 })
 export class AddTaskComponent implements OnInit {
-  
-  projects: Project[] = []; 
-  selectedProject!: Project; 
+
+  projects: Project[] = [];
+  selectedProject!: Project;
 
   employeeTask:User[]=[];
-  selectedEmployee!: User; 
+  selectedEmployee!: User;
 
 
-  taskStatusOptions: string[] = ['TODO', 'INPROGRESS', 'COMPLETED', 'CANCELLED']; 
-  selectedTaskStatus: TaskStatus = TaskStatus.TODO; 
+  taskStatusOptions: string[] = ['TODO', 'INPROGRESS', 'COMPLETED', 'CANCELLED'];
+  selectedTaskStatus: TaskStatus = TaskStatus.TODO;
+
   priorityOptions: string[] = ['HIGH', 'MEDIUM', 'LOW'];
-  selectedPriority: Priority = Priority.MEDUIM; 
-  statusOptions = Object.keys(TaskStatus).map(key => TaskStatus[key as keyof typeof TaskStatus]) ; 
-  PpriorityOptions = Object.keys(Priority).map(key => Priority[key as keyof typeof Priority]) ; 
+  selectedPriority: Priority = Priority.MEDUIM;
+  statusOptions = Object.keys(TaskStatus).map(key => TaskStatus[key as keyof typeof TaskStatus]) ;
+  PpriorityOptions = Object.keys(Priority).map(key => Priority[key as keyof typeof Priority]) ;
 
-    statuses: string[] = ['TODO', 'INPROGRESS', 'COMPLETED', 'CANCELED'];
+  statuses: string[] = ['TODO', 'INPROGRESS', 'COMPLETED', 'CANCELED'];
 
   constructor(private taskService: TaskService,private projectService: ProjectService, private dialogRef: MatDialogRef<AddTaskComponent>,private userService: UserService,private toastr: ToastrService) { }
-  @ViewChild('taskForm') taskForm!: NgForm;   
+  @ViewChild('taskForm') taskForm!: NgForm;
+
   newTask: Task  = {} as Task;
 
   ngOnInit(): void {
     this.loadProjects();
     this.loadEmployees();
-    
+
   }
   loadEmployees(): void {
     this.userService.getEmployeesForTASKS().subscribe(employees =>{
@@ -51,7 +53,7 @@ export class AddTaskComponent implements OnInit {
 
   }
   loadProjects(): void {
-    
+
     this.projectService.getAllProjects().subscribe(projects => {
       this.projects = projects;
     });
@@ -85,7 +87,7 @@ export class AddTaskComponent implements OnInit {
     });
   }
   onClose(): void {
-    this.dialogRef.close(); 
+    this.dialogRef.close();
   }
 
   isValidStartDate(): boolean {

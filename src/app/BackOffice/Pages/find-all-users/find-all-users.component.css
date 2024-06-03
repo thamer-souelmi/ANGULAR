@@ -1,0 +1,89 @@
+h2 {
+    animation: fadeInDown 1s ease-out forwards;
+    text-align: center;
+    font-size: 2.5rem;
+    color: #08718e;
+    font-weight: 500; /* Adjust weight as necessary */
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 2px; /* Slightly more spaced */
+    position: relative;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1); /* Subtle text-shadow for depth */
+    transition: text-shadow 0.3s ease; /* Smooth transition for shadow */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Example font */
+  }
+  h2::after {
+    content: '';
+    display: block;
+    margin: 0 auto;
+    height: 3px;
+    width: 100px;
+    background: #08718e;
+    border-radius: 2px;
+    margin-top: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: width 0.3s ease; /* Transition for hover effect */
+  }
+  
+  /* Hover effect for the underline */
+  h2:hover::after {
+    width: 150px; /* Underline grows on hover */
+  }
+  
+  .custom-btn {
+    font-size: 2rem; /* Adjust the font size as needed */
+    padding: 3px 8px; /* Adjust the padding as needed */
+  }
+  .buttons-wrapper {
+    position: fixed;
+    top: 50%;
+    right: 20px; /* Adjust the distance from the right side as needed */
+    display: flex;
+    flex-direction: column;
+    z-index: 1000; /* Ensure the buttons appear on top of other content */
+  }
+  
+  .buttons-wrapper button {
+    padding: 20px 20px; /* Adjust the padding to increase the button size */
+    font-size: 18px; /* Adjust the font size to increase the button text size */
+    border-radius: 10px; /* Adjust the border-radius for rounded corners */
+    margin-bottom: 10px; /* Adjust the spacing between buttons as needed */
+  }
+  .icon-margin {
+    margin-right: 8px; /* Adjust the margin as needed */
+  }
+  /*.card-footer {*/
+  /*  display: flex;*/
+  /*  justify-content: space-between;*/
+  /*  align-items: center;*/
+  /*  padding: 10px;*/
+  /*}*/
+  .card-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+  }
+  
+  .card-footer a {
+    margin: 0 5px; /* Adjust as needed */
+  }
+  
+  .pagination .btn {
+    border-radius: 50%; /* Make the buttons circular */
+    padding: 10px 15px; /* Adjust padding to ensure numbers are centered */
+    font-size: 14px; /* Adjust font size as needed */
+    background-color: #0a8bae; /* Set the background color */
+    border-color: #ffffff; /* Set the border color */
+    color: white; /* Set the text color */
+  }
+  
+  .pagination .btn.active {
+    background-color: #086d88; /* Change the background color of the active page number */
+    color: white; /* Change the text color of the active page number */
+  }
+  
+  .pagination .btn:not(.active):hover {
+    background-color: #0a8bae; /* Change the background color on hover */
+    border-color: #086d88; /* Change the border color on hover */
+  }

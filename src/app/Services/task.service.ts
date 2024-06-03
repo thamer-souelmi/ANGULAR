@@ -10,8 +10,8 @@ export class TaskService {
 
   urlTaskCrud: string = "http://localhost:8082"
 
-  constructor(private myHttp: HttpClient) { }
-  getAllTasks(): Observable<Task[]> {
+  constructor(private myHttp:HttpClient) { }
+  getAllTasks():Observable<Task[]>{
     return this.myHttp.get<Task[]>(this.urlTaskCrud + '/Task/GetAllTasks');
   }
 
@@ -27,9 +27,10 @@ export class TaskService {
   }
 
   AddTask(projectId: number, userId: number, task: Task): Observable<Task> {
-    console.log("*******************************", task);
-    console.log("***************user****************", userId);
-    console.log("**************project*****************", projectId);
+    console.log("*******************************",task);
+    console.log("***************user****************",userId);
+    console.log("**************project*****************",projectId);
+
     return this.myHttp.post<Task>(`${this.urlTaskCrud}/Task/AddTask/${projectId}/${userId}`, task);
   }
 
@@ -39,8 +40,9 @@ export class TaskService {
   }
 
 
-  deleteTask(id: number): Observable<void> {
-    return this.myHttp.delete<void>(this.urlTaskCrud + '/Task/DeleteTaskbyid?Taskid=' + id);
+  deleteTask(id:number):Observable<void>{
+    return this.myHttp.delete<void>(this.urlTaskCrud +'/Task/DeleteTaskbyid?Taskid='+id);
+
   }
 
   getTasksByProjectId(projectId: number): Observable<Task[]> {
@@ -52,7 +54,8 @@ export class TaskService {
   }
 
 
-  getAllProjectNames(): Observable<string[]> {
+  getAllProjectNames():Observable<string[]>{
+
     return this.myHttp.get<string[]>(this.urlTaskCrud + '/Task/getprojectNames');
   }
   getTasksByStatus(status: string): Observable<Task[]> {

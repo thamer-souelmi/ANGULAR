@@ -14,11 +14,7 @@
             </div>
             <br>
 
-            <div class="form-group">
-                <label for="approved">Approved:</label>
-                <input type="checkbox" id="approved" [(ngModel)]="newLeave.approved" name="approved" class="form-check-input">
-            </div>
-            <br>
+           
             <div class="form-group">
                 <label for="reason">Reason:</label>
                 <input type="text" id="reason" [(ngModel)]="newLeave.reason" name="reason" class="form-control" required minlength="5">
@@ -31,7 +27,15 @@
 
             <div class="form-group">
                 <label for="date">Date:</label>
-                <input type="date" id="date" [(ngModel)]="newLeave.date" name="date" class="form-control" required>
+                <input type="date" id="date" [(ngModel)]="newLeave.startdate" name="date" class="form-control" required>
+                <div *ngIf="taskForm.controls['date'].invalid && (taskForm.controls['date'].dirty || taskForm.controls['date'].touched)">
+                    <div class="text-danger" *ngIf="taskForm.controls['date'].errors?.['required']">Date is required.</div>
+                </div>
+            </div>
+            <br>
+            <div class="form-group">
+                <label for="date">Date:</label>
+                <input type="date" id="date" [(ngModel)]="newLeave.enddate" name="date" class="form-control" required>
                 <div *ngIf="taskForm.controls['date'].invalid && (taskForm.controls['date'].dirty || taskForm.controls['date'].touched)">
                     <div class="text-danger" *ngIf="taskForm.controls['date'].errors?.['required']">Date is required.</div>
                 </div>

@@ -15,5 +15,7 @@ export class WebsocketServiceService {
   // Listen for recognition results from the server
   onRecognitionResults() {
     return this.socket.fromEvent<any>('login_process_completed');
-  
-  }}
+
+  }
+
+}

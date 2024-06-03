@@ -1,30 +1,26 @@
-<div class="row">
-
-    <div class="col-lg-6 col-xl-4" *ngFor="let users of leaves1 ">
-      <div class="card card-default p-4">
-        <a href="javascript:0" class="media text-secondary" data-toggle="modal" data-target="#modal-contact">
-          <!-- Assuming you have a profile picture for each user -->
-
-             <div class="media-body">
-               <h5 class="mt-0 mb-2 text-dark">{{ users.duration }} {{ users.date }}</h5>
-               <ul class="list-unstyled text-smoke text-smoke">
-                 <li class="d-flex">
-                   <i class="mdi mdi-map mr-1"></i>
-                   <span>{{ users.duration }}</span>
-                 </li>
-                 <li class="d-flex">
-                   <i class="mdi mdi-email mr-1"></i>
-                   <span>{{ users.approved }}</span>
-                 </li>
-                 <!-- Assuming you have a phone property in the user object -->
-             
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6" *ngFor="let user of leaves1">
+      <div class="card card-default p-4 mb-4">
+        <div class="media text-secondary">
+          <div class="media-body">
+            <h5 class="mt-0 mb-2 text-dark">{{ user.duration }} - From {{ user.startdate | date: 'dd/MM/yyyy' }} to {{ user.enddate | date: 'dd/MM/yyyy' }}</h5>
+            <ul class="list-unstyled text-muted">
+              <li class="d-flex align-items-center mb-2">
+                <i class="mdi mdi-clock-outline mr-2"></i>
+                <span>Duration : {{ user.duration }}</span>
+              </li>
+              <li class="d-flex align-items-center mb-2">
+                <i class="mdi mdi-check-circle-outline mr-2"></i>
+                <span>Status: {{ user.approved ? 'Approuved' : 'Pending ' }}</span>
+              </li>
             </ul>
-            <button class="mb-1 btn btn-sm btn-primary" (click)="approuveLeave(users)">Approuve</button>
-       <!--     <button class="mb-1 btn btn-sm btn-info" (click)="delete(users.userId)">delete</button> -->
-
+            <div class="button-group mt-3">
+              <button class="mb-1 btn btn-sm btn-primary" (click)="details(user .leaveId)">Details</button>              <!-- <button class="btn btn-sm btn-danger" (click)="delete(user.userId)">Supprimer</button> -->
+            </div>
           </div>
-        </a>
-
+        </div>
       </div>
     </div>
   </div>
+</div>

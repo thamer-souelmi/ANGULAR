@@ -1,46 +1,24 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Leaves } from 'src/app/Models/leaves';
 import { LeavesService } from 'src/app/Services/leaves.service';
+import {LeaveRequestDTO} from "../../../Models/LeaveRequestDTO";
 
 @Component({
   selector: 'app-leaves-details',
   templateUrl: './leaves-details.component.html',
   styleUrls: ['./leaves-details.component.css']
 })
-export class LeavesDetailsComponent {
+export class LeavesDetailsComponent implements OnInit {
+  leaveDetails!: LeaveRequestDTO;
 
-  leaveId: number = 0;
-  leave: Leaves = {} as Leaves;
-
-  constructor(
-    private route: ActivatedRoute,
-    private leaveService: LeavesService
-  ) {}
+  constructor(private leaveService: LeavesService) { }
 
   ngOnInit(): void {
-    this.route.params.subscribe((params) => {
-      this.leaveId = +params['id'];
-      console.log('leave Id:', this.leaveId);
-      this.loadJobOfferDetails();
+    // Example IDs and dates, replace with actual values as needed
+    this.leaveService.getLeaveRequestDetails(1, '2024-01-01', '2024-12-12').subscribe({
+      next: (data) => this.leaveDetails = data,
+      error: (error) => console.error('Failed to fetch leave details', error)
     });
   }
-
-
-  loadJobOfferDetails(): void {
-    // Fetch the job offer details using the service
-    this.leaveService.getLeaveById(this.leaveId).subscribe(
-      (result) => {
-        this.leave = result;
-      },
-      (error) => {
-        console.error('Error loading job offer details', error);
-      }
-    );
-  }
-
-
-
 }
-
-

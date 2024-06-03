@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Leaves } from 'src/app/Models/leaves';
 import { AuthService } from 'src/app/Services/auth.service';
 import { LeavesService } from 'src/app/Services/leaves.service';
+import { StorageService } from 'src/app/Services/storage.service';
 
 @Component({
   selector: 'app-leaves',
@@ -24,7 +25,8 @@ export class LeavesComponent {
   warningMessage: string = '';
   @ViewChild('addUserModal') addUserModal!: ElementRef;
   ExcelData : any ;
-  constructor(private leaveService: LeavesService, private router: Router) {
+  id!:number;
+  constructor(private leaveService: LeavesService, private router: Router,private storageService : StorageService) {
 
 
   }
@@ -33,6 +35,7 @@ export class LeavesComponent {
 
   ngOnInit(){
     this.loadLeaves();
+    this.id = this.storageService.getUser().id;
 
   }
   loadLeaves(){
@@ -70,8 +73,9 @@ export class LeavesComponent {
     }
   }
   approuveLeave(leave : Leaves){
-  this.leaveService.approuveLeave(leave).subscribe({ next: (response) => {
+  this.leaveService.approuveLeave(leave,this.id).subscribe({ next: (response) => {
     // Handle the response if needed
+    
     console.log('Leave approved successfully:', response);
   },
   error: (error) => {

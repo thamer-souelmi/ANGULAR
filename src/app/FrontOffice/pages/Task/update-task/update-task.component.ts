@@ -17,10 +17,11 @@ import { TaskService } from 'src/app/Services/task.service';
 export class UpdateTaskComponent implements OnInit {
   projects: Project[] = [];
   employees: User[] = [];
-  selectedProject!: Project; 
+  selectedProject!: Project;
 
   //priorityOptions: string[] = ['HIGH', 'MEDIUM', 'LOW'];
-    //statuses: string[] = ['TODO', 'INPROGRESS', 'COMPLETED', 'CANCELED'];
+  //statuses: string[] = ['TODO', 'INPROGRESS', 'COMPLETED', 'CANCELED'];
+
   task: Task;
   priorityOptions: Priority[] = Object.values(Priority) as Priority[];
   statuses: TaskStatus[] = Object.values(TaskStatus) as TaskStatus[];
@@ -40,7 +41,7 @@ export class UpdateTaskComponent implements OnInit {
     console.log("Initial task data:", this.task); // Vérifiez les données de la tâche initiale
     this.loadProjects();
   }
-  
+
   loadProjects(): void {
     this.projectService.getAllProjects().subscribe(projects => {
       this.projects = projects;
@@ -52,7 +53,7 @@ export class UpdateTaskComponent implements OnInit {
     this.task.projetT = this.selectedProject;
     console.log("Submitting task:!!!!!!!!!!!!!!!!!!!!!!", this.task); // Vérifiez les données de la tâche soumise avant l'envoi au service
     const taskId = this.task.taskid;
-   
+
     this.taskService.UpdateTask(taskId, this.task).subscribe(updatedTask => {
       console.log("Updated task response:", updatedTask); // Vérifiez la réponse du service après la mise à jour de la tâche
       this.toastr.success('Task successfully updated!', 'Success');
@@ -64,7 +65,7 @@ export class UpdateTaskComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  
+
   isValidStartDate(): boolean {
     const today = new Date();
     return new Date(this.task.startDateTask) >= today;
@@ -75,7 +76,8 @@ export class UpdateTaskComponent implements OnInit {
   }
   isValidPositiveValue(value: number): boolean {
     return value > 0;
-}
+  }
+
 }
 
 

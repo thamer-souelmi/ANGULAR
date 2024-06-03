@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import {CookieService} from "ngx-cookie-service";
 import { Observable } from 'rxjs';
 import { User } from '../Models/User';
-const USER_KEY = 'CoConsult';
+const USER_KEY = 'auth-user';
 
 @Injectable({
   providedIn: 'root'
@@ -11,26 +11,36 @@ const USER_KEY = 'CoConsult';
 export class StorageService {
   constructor(private cookieService: CookieService,private http: HttpClient) {}
 
+
+
+
+
+
   clean(): void {
-    this.cookieService.delete(USER_KEY);
-    this.cookieService.deleteAll();
     window.sessionStorage.clear();
-    
   }
 
   public saveUser(user: any): void {
     window.sessionStorage.removeItem(USER_KEY);
     window.sessionStorage.setItem(USER_KEY, JSON.stringify(user));
-    this.cookieService.delete(USER_KEY);
-    this.cookieService.set(USER_KEY, JSON.stringify(user));
   }
 
   public getUser(): any {
-    const user = this.cookieService.get("CoConsult");
+    const user = window.sessionStorage.getItem(USER_KEY);
     if (user) {
       return JSON.parse(user);
     }
+
     return {};
+  }
+
+  public isLoggedIn(): boolean {
+    const user = window.sessionStorage.getItem(USER_KEY);
+    if (user) {
+      return true;
+    }
+
+    return false;
   }
 
   private baseUrl : string = 'http://localhost:8082/user';
@@ -42,10 +52,7 @@ export class StorageService {
     return userString ? JSON.parse(userString) : null;
   }
 
-  public isLoggedIn(): boolean {
-    return this.cookieService.check(USER_KEY);
 
-  }
   public saveGoogleUser(token: string): void {
     this.http.get<UserProfile>('https://www.googleapis.com/oauth2/v3/userinfo', {
       headers: { 'Authorization': `Bearer ${token}` }

@@ -21,20 +21,21 @@ import {
 export class KanbanBoardComponent implements OnInit {
   tasks: Task[] = [];
   selectedTask: Task | null = null;
- selectedSection: string = '';
- Priority = Priority;
-   selectedStory: any;
-   todoTasks: Task[] = [];
-   doneTasks: Task[] = [];
-   taskstat!:TaskStatus;
+  selectedSection: string = '';
+  Priority = Priority;
+  selectedStory: any;
+  todoTasks: Task[] = [];
+  doneTasks: Task[] = [];
+  taskstat!:TaskStatus;
 
-   /// chat4
-   //todo!: Task[];
-   inProgress!: Task[];
-   completed!: Task[];
-   cancelled!: Task[];
-   TaskStatus = TaskStatus; 
-   constructor(private taskService: TaskService) {
+  /// chat4
+  //todo!: Task[];
+  inProgress!: Task[];
+  completed!: Task[];
+  cancelled!: Task[];
+  TaskStatus = TaskStatus;
+  constructor(private taskService: TaskService) {
+
   }
   ngOnInit() {
     this.taskService.getAllTasks().subscribe(tasks => {
@@ -43,20 +44,46 @@ export class KanbanBoardComponent implements OnInit {
       this.tasks.forEach(task => console.log(task.taskStatus));  // Vérifier les valeurs de taskStatus
     });
   }
-     /*
-  }
-  filterTasks() {
-    this.todo = this.tasks.filter(t => t.taskStatus === TaskStatus.TODO);
-    console.log('TODO Tasks:', this.todo);
-    this.inProgress = this.tasks.filter(t => t.taskStatus === TaskStatus.INPROGRESS);
-    console.log('InProgress Tasks:', this.inProgress);
-    this.completed = this.tasks.filter(t => t.taskStatus === TaskStatus.COMPLETED);
-    console.log('Completed Tasks:', this.completed);
-    this.cancelled = this.tasks.filter(t => t.taskStatus === TaskStatus.CANCELLED);
-    console.log('Cancelled Tasks:', this.cancelled);
-  }
- 
-  drop(event: CdkDragDrop<Task[]>) {
+  /*
+}
+filterTasks() {
+ this.todo = this.tasks.filter(t => t.taskStatus === TaskStatus.TODO);
+ console.log('TODO Tasks:', this.todo);
+ this.inProgress = this.tasks.filter(t => t.taskStatus === TaskStatus.INPROGRESS);
+ console.log('InProgress Tasks:', this.inProgress);
+ this.completed = this.tasks.filter(t => t.taskStatus === TaskStatus.COMPLETED);
+ console.log('Completed Tasks:', this.completed);
+ this.cancelled = this.tasks.filter(t => t.taskStatus === TaskStatus.CANCELLED);
+ console.log('Cancelled Tasks:', this.cancelled);
+}
+
+drop(event: CdkDragDrop<Task[]>) {
+ if (event.previousContainer === event.container) {
+   moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+ } else {
+   transferArrayItem(
+     event.previousContainer.data,
+     event.container.data,
+     event.previousIndex,
+     event.currentIndex
+   );
+   this.updateTaskStatus(event.container.data[event.currentIndex]);
+ }
+}
+
+updateTaskStatus(task: Task) {
+ this.taskService.UpdateTask(task).subscribe({
+   error: (err) => console.error('Failed to update task', err),
+   complete: () => console.log('Task updated successfully')
+ });
+}
+///
+*/
+  todo = ['Get to work', 'Pick up groceries', 'Go home', 'Fall asleep'];
+
+  done = ['Get up', 'Brush teeth', 'Take a shower', 'Check e-mail', 'Walk dog'];
+
+  drop(event: CdkDragDrop<string[]>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
@@ -64,36 +91,10 @@ export class KanbanBoardComponent implements OnInit {
         event.previousContainer.data,
         event.container.data,
         event.previousIndex,
-        event.currentIndex
+        event.currentIndex,
       );
-      this.updateTaskStatus(event.container.data[event.currentIndex]);
     }
   }
-
-  updateTaskStatus(task: Task) {
-    this.taskService.UpdateTask(task).subscribe({
-      error: (err) => console.error('Failed to update task', err),
-      complete: () => console.log('Task updated successfully')
-    });
-  }
-///
-*/
-todo = ['Get to work', 'Pick up groceries', 'Go home', 'Fall asleep'];
-
-done = ['Get up', 'Brush teeth', 'Take a shower', 'Check e-mail', 'Walk dog'];
-
-drop(event: CdkDragDrop<string[]>) {
-  if (event.previousContainer === event.container) {
-    moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-  } else {
-    transferArrayItem(
-      event.previousContainer.data,
-      event.container.data,
-      event.previousIndex,
-      event.currentIndex,
-    );
-  }
-}
 
 
 }
@@ -126,11 +127,12 @@ handleDrop(event: CdkDragDrop<Task[]>, newStatus: TaskStatus) {
   });
 }
 
- */ 
-  
-  
-  
-  
+
+ */
+
+
+
+
 
 
 

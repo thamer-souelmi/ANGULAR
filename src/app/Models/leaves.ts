@@ -5,7 +5,9 @@ export class Leaves {
     duration!: string;
     approved!: boolean;
     reason!: string;
-    date!: Date;
-  
-  
+    startdate!: Date;
+    enddate!: Date;
+
+
 }
+
