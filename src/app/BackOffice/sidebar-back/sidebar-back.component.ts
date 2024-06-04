@@ -199,4 +199,8 @@ export class SidebarBackComponent implements OnInit{
     // Navigate to the Edit User route with the user ID as a parameter
     this.router.navigate(['/back/updateprofile', userId]);
   }
+  chat() {
+    // Navigate to the Edit User route with the user ID as a parameter
+    this.router.navigate(['/back/chat']);
+  }
 }

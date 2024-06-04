@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
               private router: Router, private route: ActivatedRoute, private localStorageService: LocalStorageService,private websocketService: WebsocketServiceService,private toastr: ToastrService) { }
 
   ngOnInit(): void {
-    // const attendanceId = this.localStorageService.getItem('attendanceId');
+      // const attendanceId = this.localStorageService.getItem('attendanceId');
 
     this.authService.get().subscribe((data: any) => this.url = data.authURL);
     if (this.storageService.isLoggedIn()) {

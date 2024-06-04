@@ -94,6 +94,7 @@ import { ScreenshotDisplayComponent } from './BackOffice/Pages/screenshot-displa
 import { AddProjectofferComponent } from './FrontOffice/pages/ProjectOffer/add-projectoffer/add-projectoffer.component';
 import { NotFoundComponent } from './BackOffice/Pages/not-found/not-found.component';
 import { ChatComponent } from './FrontOffice/pages/chat/chat.component';
+import { KanbanboardbackComponent } from './BackOffice/Pages/Task/kanbanboardback/kanbanboardback.component';
 
 
 
@@ -130,7 +131,7 @@ const routes: Routes = [
       { path: 'kanban-task', component: KanbanBoardComponent},
 
 
-      // { path: 'kanbanback', component: KanbanboardbackComponent},
+       { path: 'kanbanback', component: KanbanboardbackComponent},
       { path: 'taskback/:projectId', component: TaskbackComponent},
       { path: 'gantt', component: AppGanttChartComponent},
       { path: 'Todolist', component: TodolistComponent},
@@ -139,7 +140,7 @@ const routes: Routes = [
       { path: 'taskpiechart/:projectId', component: PiecharttaskComponent},
       { path: 'invoice/:projectId', component: GetInvoicebyProjectComponent},
       { path: 'testt', component: ProjectsbackComponent},
-      { path: '00', component: ChatComponent},
+      { path: 'chat', component: ChatComponent},
 
       {path:"findall", component:FindAllUsersComponent},
 
@@ -188,6 +189,7 @@ const routes: Routes = [
 
 
       {path:"", component:HomeFrontComponent },
+      { path: 'chat', component: ChatComponent},
       {path:"leave", component:LeaveComponent},
       { path: 'addquote', component: AddQuoteComponent },
       { path: 'getquote', component: GetQuotesComponent },
