@@ -93,7 +93,7 @@ import { UpdateProjectofferComponent } from './FrontOffice/pages/ProjectOffer/up
 import { ScreenshotDisplayComponent } from './BackOffice/Pages/screenshot-display/screenshot-display.component';
 import { AddProjectofferComponent } from './FrontOffice/pages/ProjectOffer/add-projectoffer/add-projectoffer.component';
 import { NotFoundComponent } from './BackOffice/Pages/not-found/not-found.component';
-import {ChatComponent} from "./BackOffice/Pages/chat/chat.component";
+import { ChatComponent } from './FrontOffice/pages/chat/chat.component';
 
 
 
@@ -163,7 +163,6 @@ const routes: Routes = [
       {path:'room',component: RoomComponent},
       { path: 'taskback', component: TaskbackComponent},
 
-      //{path:"findall", component:FindAllUsersComponent},
 
       {path:"EventBack", component:EventBComponent},
       {path:"activityB",component:ActivityBComponent},
@@ -217,7 +216,7 @@ const routes: Routes = [
       { path: 'update-task/:id', component: UpdateTaskComponent },
       { path: 'kanban-task', component: KanbanBoardComponent},
 
-
+      { path: '**', component: NotFoundComponent },
 
     ]
   },

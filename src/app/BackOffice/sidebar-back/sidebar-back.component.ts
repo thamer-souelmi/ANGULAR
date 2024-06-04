@@ -9,6 +9,8 @@ import {Router} from "@angular/router";
 import { User } from 'src/app/Models/User';
 import { LocalStorageService } from 'src/app/Services/local-storage.service';
 import { AttendanceService } from 'src/app/Services/attendance.service';
+import { UserService } from 'src/app/Services/user.service';
+import { HttpResponse } from '@angular/common/http';
 interface sidebarMenu {
   link: string;
   icon: string;
@@ -195,6 +197,6 @@ export class SidebarBackComponent implements OnInit{
   }
   editUser(userId: number) {
     // Navigate to the Edit User route with the user ID as a parameter
-    this.router.navigate(['/back/updateuser', userId]);
+    this.router.navigate(['/back/updateprofile', userId]);
   }
 }

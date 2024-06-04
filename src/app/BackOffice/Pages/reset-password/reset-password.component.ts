@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/Services/auth.service';
 import { UserService } from 'src/app/Services/user.service';
+import { ToastrService } from 'ngx-toastr';
+
 
 @Component({
   selector: 'app-reset-password',
@@ -17,6 +19,7 @@ export class ResetPasswordComponent  implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private authService: UserService
+    ,private toastr: ToastrService
   )  {
     const tokenParam = this.route.snapshot.paramMap.get('token');
     this.token = tokenParam ? tokenParam : ''; // Provide a default value if tokenParam is null
@@ -35,6 +38,11 @@ export class ResetPasswordComponent  implements OnInit {
         // Handle error
         console.error(error);
       }
+      
     );
+    this.router.navigateByUrl('');
+    this.toastr.success('Password reset successfully.');
+
+
   }
 }

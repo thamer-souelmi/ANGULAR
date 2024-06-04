@@ -11,18 +11,16 @@ const USER_KEY = 'auth-user';
 export class StorageService {
   constructor(private cookieService: CookieService,private http: HttpClient) {}
 
-
-
-
-
-
   clean(): void {
     window.sessionStorage.clear();
+    this.cookieService.delete(USER_KEY);
   }
 
   public saveUser(user: any): void {
     window.sessionStorage.removeItem(USER_KEY);
     window.sessionStorage.setItem(USER_KEY, JSON.stringify(user));
+    this.cookieService.delete(USER_KEY);
+    this.cookieService.set(USER_KEY, JSON.stringify(user));
   }
 
   public getUser(): any {
@@ -35,12 +33,8 @@ export class StorageService {
   }
 
   public isLoggedIn(): boolean {
-    const user = window.sessionStorage.getItem(USER_KEY);
-    if (user) {
-      return true;
-    }
+    return this.cookieService.check(USER_KEY);
 
-    return false;
   }
 
   private baseUrl : string = 'http://localhost:8082/user';

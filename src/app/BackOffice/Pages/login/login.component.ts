@@ -4,6 +4,8 @@ import { StorageService } from 'src/app/Services/storage.service';
 import { ActivatedRoute, Router } from "@angular/router";
 import { LocalStorageService } from 'src/app/Services/local-storage.service';
 import { AttendanceService } from 'src/app/Services/attendance.service';
+import { WebsocketServiceService } from 'src/app/Services/websocket-service.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login-component',
@@ -22,7 +24,7 @@ export class LoginComponent implements OnInit {
   roles: string[] = [];
 
   constructor(private authService: AuthService, private storageService: StorageService, private attendance: AttendanceService,
-              private router: Router, private route: ActivatedRoute, private localStorageService: LocalStorageService) { }
+              private router: Router, private route: ActivatedRoute, private localStorageService: LocalStorageService,private websocketService: WebsocketServiceService,private toastr: ToastrService) { }
 
   ngOnInit(): void {
     // const attendanceId = this.localStorageService.getItem('attendanceId');
@@ -54,6 +56,7 @@ export class LoginComponent implements OnInit {
 
     this.authService.login(email, password).subscribe({
       next: data => {
+        if (data){
         this.storageService.saveUser(data);
         this.isLoginFailed = false;
         this.isLoggedIn = true;
@@ -61,7 +64,7 @@ export class LoginComponent implements OnInit {
 
 
         // Assuming the attendance ID is obtained from the login response or another source
-        this.startAttendance(); // Adjust this line based on how you obtain the attendance ID
+        this.recognizeFaceAndStartAttendance(); // Adjust this line based on how you obtain the attendance ID
 
 
         // Call startAttendance only after setting the attendance ID
@@ -69,7 +72,7 @@ export class LoginComponent implements OnInit {
 
         // Navigation logic based on roles
         let isAdmin = this.roles.includes('admin');
-        this.router.navigate(isAdmin ? ['back/findall'] : ['home']);
+        this.router.navigate(isAdmin ? ['back/findall'] : ['home']);}
       },
       error: err => {
         this.errorMessage = err.error.message;
@@ -99,6 +102,38 @@ export class LoginComponent implements OnInit {
       }
     }
   }
+  recognizeFaceAndStartAttendance(): void {
+    console.log("tessssssssssssssssst")
+    // Trigger face recognition process
+    this.websocketService.startRecognition();
+    console.log("///////////////////////")
+  
+    // Listen for recognition results asynchronously
+    this.websocketService.onRecognitionResults().subscribe((data: any) => {
+      // Extract the user ID from the recognition results data
+      const recognitionUserId = data;
+      console.log(recognitionUserId)
+    
+      // Get the ID of the logged-in user from the storage service
+      const loggedInUserId = this.storageService.getUser().id;
+    
+      // Compare the recognition user ID with the logged-in user ID
+      if (recognitionUserId === loggedInUserId) {
+        // Face recognition successful, start attendance
+        this.startAttendance();
+        this.toastr.success('Face recognition success');
+      } else {
+        console.log('Face recognition failed for the current user.');
+        this.toastr.error('Face recognition failed for the current user.');
+        // Handle failed face recognition, e.g., display an error message
+      }
+    }, (error) => {
+      console.error('Error occurred during login process:', error);
+      // Perform actions indicating an error, e.g., display an error message to the user
+    });
+    
+  }
+  
 
   navigateToCorrectPage(): void {
     let isAdmin = this.roles.includes('admin');

@@ -21,6 +21,13 @@ export class AddUserComponent implements OnInit {
   user: User[] = []; 
   role!: Role; 
   roles: Role[] = []; 
+  selectedFiles?: FileList;
+  progressInfos: any[] = [];
+  message: string[] = [];
+
+  previews: string[] = [];
+  imageInfos?: Observable<any>;
+  imageSrcs: (string | ArrayBuffer | null)[] = [];
 
   genderOptions = [
     { value: '1', label: 'Female' },
@@ -84,7 +91,7 @@ export class AddUserComponent implements OnInit {
   
     // Proceed with reading the Excel file
     const fileReader = new FileReader();
-    this.toastr.success('Hello world!', 'Toastr fun!');
+    this.toastr.success('Users saved successfully');
   
     fileReader.onload = (e) => {
       const workBook = XLSX.read(fileReader.result, { type: 'binary' });
@@ -129,7 +136,67 @@ export class AddUserComponent implements OnInit {
          Object.keys(firstItem).includes('gender')   /* Add more properties as needed */;
   }
 
-  
+  selectFiles(event: any): void {
+    this.message = [];
+    this.progressInfos = [];
+    this.selectedFiles = event.target.files;
+
+    this.previews = [];
+    if (this.selectedFiles && this.selectedFiles[0]) {
+      const numberOfFiles = this.selectedFiles.length;
+      for (let i = 0; i < numberOfFiles; i++) {
+        const reader = new FileReader();
+
+        reader.onload = (e: any) => {
+          console.log(e.target.result);
+          this.previews.push(e.target.result);
+        };
+
+        reader.readAsDataURL(this.selectedFiles[i]);
+      }
+    }
+
+  }
+  uploadFiles(): void {
+    this.message = [];
+
+    if (this.selectedFiles) {
+      for (let i = 0; i < this.selectedFiles.length; i++) {
+        this.upload(i, this.selectedFiles[i]);
+      }
+    }
+  }
+  upload(idx: number, file: File): void {
+    this.progressInfos[idx] = { value: 0, fileName: file.name };
+
+    if (file) {
+      this.userService.upload(file).subscribe({
+        next: (event: any) => {
+          if (event.type === HttpEventType.UploadProgress) {
+            this.progressInfos[idx].value = Math.round(100 * event.loaded / event.total);
+          } else if (event instanceof HttpResponse) {
+            const msg = 'Uploaded the file successfully: ' + file.name;
+            this.message.push(msg);
+            this.imageInfos = this.userService.getFiles();
+          }
+        },
+        error: (err: any) => {
+          this.progressInfos[idx].value = 0;
+          const msg = 'Could not upload the file: ' + file.name;
+          this.message.push(msg);
+        }});
+    }
+  }
+  createImageFromBlob(image: Blob): void {
+    const reader = new FileReader();
+    reader.addEventListener('load', () => {
+      this.imageSrcs.push(reader.result);
+    }, false);
+
+    if (image) {
+      reader.readAsDataURL(image);
+    }
+  }
 
 }
 

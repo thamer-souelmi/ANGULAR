@@ -30,16 +30,19 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha384-..." crossorigin="anonymous">
 
 </head>
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha384-..." crossorigin="anonymous">
+<h2>Users</h2>
+<div style="display: flex; align-items: center; margin-bottom: 20px;">
 <button class="btn btn-primary " (click)="createNewTask()" >
-  <i class="bi bi-plus">Add User</i> 
+  <i >Add User</i> 
 </button>
 <div class="row">
  
   <div class="single_field" style="flex: 1; margin-left: 10px;">
-    <input type="search" [(ngModel)]="searchtext" name="search" id="form1" class="form-control" placeholder="Search keyword" style="width: 100%; height: 40px; padding: 8px 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px;">
+    <input type="search" [(ngModel)]="searchtext" name="search" id="form1" class="form-control" placeholder="Search User" style="width: 100%; height: 40px; padding: 8px 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px;">
   </div>
 
+</div>
 </div>
 <br>
   <div class="row">
@@ -48,7 +51,7 @@
       <div class="card card-default p-4">
         <a href="javascript:0" class="media text-secondary" data-toggle="modal" data-target="#modal-contact">
           <!-- Assuming you have a profile picture for each user -->
-          <img *ngIf="imageSrcs[i]" [src]="imageSrcs[i]" class="mr-2 rounded" width="60" height="60" alt="Avatar Image">
+          <img src="assets/FrontOffice/img/{{users.image}}" class="mr-2 rounded" width="60" height="60" alt="Avatar Image">
 
              <div class="media-body">
                <h5 class="mt-0 mb-2 text-dark">{{ users.firstname }} {{ users.lastname }}</h5>
