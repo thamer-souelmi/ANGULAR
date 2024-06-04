@@ -12,10 +12,8 @@ export class StorageService {
   constructor(private cookieService: CookieService,private http: HttpClient) {}
 
   clean(): void {
-    this.cookieService.delete(USER_KEY);
-    this.cookieService.deleteAll();
     window.sessionStorage.clear();
-    
+    this.cookieService.delete(USER_KEY);
   }
 
   public saveUser(user: any): void {
@@ -26,11 +24,17 @@ export class StorageService {
   }
 
   public getUser(): any {
-    const user = this.cookieService.get(USER_KEY);
+    const user = window.sessionStorage.getItem(USER_KEY);
     if (user) {
       return JSON.parse(user);
     }
+
     return {};
+  }
+
+  public isLoggedIn(): boolean {
+    return this.cookieService.check(USER_KEY);
+
   }
 
   private baseUrl : string = 'http://localhost:8082/user';
@@ -42,10 +46,7 @@ export class StorageService {
     return userString ? JSON.parse(userString) : null;
   }
 
-  public isLoggedIn(): boolean {
-    return this.cookieService.check(USER_KEY);
 
-  }
   public saveGoogleUser(token: string): void {
     this.http.get<UserProfile>('https://www.googleapis.com/oauth2/v3/userinfo', {
       headers: { 'Authorization': `Bearer ${token}` }

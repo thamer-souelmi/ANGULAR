@@ -1,66 +1,66 @@
 <style>
-    .preview {
-      max-width: 200px;
-    }
-  </style>
-  <head>
-    
-    <!-- Favicon -->
-    <link href="/assets/FrontOffice/img/favicon.ico" rel="icon">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-  
-    <!-- Google Web Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet">
-  
-    <!-- Icon Font Stylesheet -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
-  
-    <!-- Libraries Stylesheet -->
-    <link href="/assets/FrontOffice/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-    <link href="/assets/FrontOffice/lib/animate/animate.min.css" rel="stylesheet">
-  
-    <!-- Customized Bootstrap Stylesheet -->
-    <link href="/assets/FrontOffice/css/bootstrap.min.css" rel="stylesheet">
-  
-    <!-- Template Stylesheet -->
-    <link href="/assets/FrontOffice/css/style.css" rel="stylesheet">
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha384-..." crossorigin="anonymous">
-  
-  </head>
-  <button class="btn btn-primary " (click)="createNewTask()" >
-    <i class="bi bi-plus">Add Leave</i> 
-  </button>
-  <div class="row">
+  .preview {
+    max-width: 200px;
+  }
+</style>
+<head>
 
-    <div class="col-lg-6 col-xl-4" *ngFor="let users of leaves1 ">
-      <div class="card card-default p-4">
-        <a href="javascript:0" class="media text-secondary" data-toggle="modal" data-target="#modal-contact">
-          <!-- Assuming you have a profile picture for each user -->
+  <!-- Favicon -->
+  <link href="/assets/FrontOffice/img/favicon.ico" rel="icon">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
 
-             <div class="media-body">
-               <h5 class="mt-0 mb-2 text-dark">{{ users.duration }} {{ users.startdate }} {{ users.enddate }}</h5>
-               
-               <ul class="list-unstyled text-smoke text-smoke">
-                 <li class="d-flex">
-                   <i class="mdi mdi-map mr-1"></i>
-                   <span>{{ users.duration }}</span>
-                 </li>
-                 <li class="d-flex">
-                   <i class="mdi mdi-email mr-1"></i>
-                   <span>{{ users.approved }}</span>
-                 </li>
-                 <!-- Assuming you have a phone property in the user object -->
-             
-            </ul>
-         <!--   <button class="mb-1 btn btn-sm btn-primary" (click)="details(users.leaveId)">Details</button>-->
-            <button class="mb-1 btn btn-sm btn-primary" (click)="delete(users.leaveId)">delete</button> 
+  <!-- Google Web Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-          </div>
-        </a>
+  <!-- Icon Font Stylesheet -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
-      </div>
+  <!-- Libraries Stylesheet -->
+  <link href="/assets/FrontOffice/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+  <link href="/assets/FrontOffice/lib/animate/animate.min.css" rel="stylesheet">
+
+  <!-- Customized Bootstrap Stylesheet -->
+  <link href="/assets/FrontOffice/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Template Stylesheet -->
+  <link href="/assets/FrontOffice/css/style.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha384-..." crossorigin="anonymous">
+
+</head>
+<button class="btn btn-primary " (click)="createNewTask()" >
+  <i class="bi bi-plus">Add Leave</i>
+</button>
+<div class="row">
+
+  <div class="col-lg-6 col-xl-4" *ngFor="let users of leaves1 ">
+    <div class="card card-default p-4">
+      <a href="javascript:0" class="media text-secondary" data-toggle="modal" data-target="#modal-contact">
+        <!-- Assuming you have a profile picture for each user -->
+
+        <div class="media-body">
+          <h5 class="mt-0 mb-2 text-dark">{{ users.duration }} {{ users.startdate }} {{ users.enddate }}</h5>
+
+          <ul class="list-unstyled text-smoke text-smoke">
+            <li class="d-flex">
+              <i class="mdi mdi-map mr-1"></i>
+              <span>{{ users.duration }}</span>
+            </li>
+            <li class="d-flex">
+              <i class="mdi mdi-email mr-1"></i>
+              <span>{{ users.approved }}</span>
+            </li>
+            <!-- Assuming you have a phone property in the user object -->
+
+          </ul>
+          <!--   <button class="mb-1 btn btn-sm btn-primary" (click)="details(users.leaveId)">Details</button>-->
+          <button class="mb-1 btn btn-sm btn-primary" (click)="delete(users.leaveId)">delete</button>
+
+        </div>
+      </a>
+
     </div>
   </div>
+</div>

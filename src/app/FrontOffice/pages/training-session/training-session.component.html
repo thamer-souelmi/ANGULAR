@@ -14,12 +14,13 @@
   <button class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#addTrainingSessionModal">Add New Training Session</button>
   <div class="row">
     <div class="col">
-      <button class="btn-add-activity" data-bs-toggle="modal" data-bs-target="#addTrainingSessionModal">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
-          <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
-        </svg>
-      </button>
+<!--      <button class="btn-add-activity" data-bs-toggle="modal" data-bs-target="#addTrainingSessionModal">-->
+<!--        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">-->
+<!--          <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>-->
+<!--        </svg>-->
+<!--      </button>-->
     </div>
+
 <!--    <div class="col">-->
 <!--      <button  class=" btn-calender" data-bs-toggle="modal" data-bs-target="#calendarModal">-->
 <!--        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar-heart" viewBox="0 0 16 16">-->
@@ -49,10 +50,10 @@
             </div>
             <!-- Footer with Edit and Delete Buttons -->
             <div class="card-footer">
-              <button class="btn btn-delete" data-bs-toggle="modal" data-bs-target="#deleteTrainingSessionModal"
-                      (click)="openDeleteModal(session, selectedTrainingSession?.ts_id)">
-                <i class="bi bi-trash"></i> Delete
-              </button>
+<!--              <button class="btn btn-delete" data-bs-toggle="modal" data-bs-target="#deleteTrainingSessionModal"-->
+<!--                      (click)="openDeleteModal(session, selectedTrainingSession?.ts_id)">-->
+<!--                <i class="bi bi-trash"></i> Delete-->
+<!--              </button>-->
               <button class="btn btn-info btn-icon" aria-label="View details" data-bs-toggle="modal" data-bs-target="#sessionDetailsModal"
                       (click)="openDetails(session)">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
@@ -293,11 +294,18 @@
             </div>
             <div class="mb-3" *ngIf="showAvailableRooms">
               <label for="Room" class="form-label">Room</label>
-              <select class="form-control" id="Room" formControlName="room">
-                <option *ngFor="let room of availableRooms" [ngValue]="room">
-                  {{ room.nameRoom }}
-                </option>
-              </select>
+              <div class="input-group">
+                <select class="form-control" id="Room" formControlName="room">
+                  <option *ngFor="let room of availableRooms" [ngValue]="room">
+                    {{ room.nameRoom }}
+                  </option>
+                </select>
+                <button type="button" class="btn btn-info btn-icon" data-bs-toggle="tooltip" title="View Room Details"
+                        [disabled]="!newTrainingSessionForm.get('room')?.value"
+                        (click)="openRoomDetails(newTrainingSessionForm.get('room')?.value)">
+                  <i class="bi bi-info-circle"></i>
+                </button>
+              </div>
             </div>
             <div class="mb-3" *ngIf="!showAvailableRooms && showPlaceField">
               <label for="place" class="form-label">Place</label>

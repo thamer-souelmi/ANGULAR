@@ -173,6 +173,8 @@ import { AttendancePageComponent } from './BackOffice/Pages/attendance-page/atte
 // import {UpdateJobOfferComponent} from "./FrontOffice/pages/JobOffer/update-job-offer/update-job-offer.component";
 import { NgxPaginationModule } from 'ngx-pagination';
 import { NotFoundComponent } from './BackOffice/Pages/not-found/not-found.component';
+//import {DialogContentComponent} from "./BackOffice/Pages/Task/dialog-content/dialog-content.component";
+import { LeavesdetailsComponent } from './src/app/BackOffice/Pages/leavesdetails/leavesdetails.component';
 
 
 @NgModule({
@@ -313,7 +315,10 @@ import { NotFoundComponent } from './BackOffice/Pages/not-found/not-found.compon
     ScreenshotDisplayComponent,
     FilterByDatePipe,
     AttendancePageComponent,
-    NotFoundComponent // Add the pipe to the declarations array
+    NotFoundComponent,
+  //  DialogContentComponent,
+    LeavesdetailsComponent,
+    ChatComponent// Add the pipe to the declarations array
 
   ],
   imports: [
@@ -329,7 +334,6 @@ import { NotFoundComponent } from './BackOffice/Pages/not-found/not-found.compon
     MatInputModule,
     MatPaginatorModule,
     MatIconModule,
-    MatDialogModule,
     MatTableModule,
     MatButtonModule,
     CommonModule,
@@ -363,9 +367,6 @@ import { NotFoundComponent } from './BackOffice/Pages/not-found/not-found.compon
     NgxPaginationModule,
     EmojiModule,
     PickerComponent,
-
-  
-
     MatGridListModule,
     MatNativeDateModule,
     MatBadgeModule,
@@ -373,8 +374,13 @@ import { NotFoundComponent } from './BackOffice/Pages/not-found/not-found.compon
     CKEditorModule,
     MatInputModule,
     MatDatepickerModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    CommonModule,
+    MatDialogModule,
+    
 
+
+    
   ],
   providers: [httpInterceptorProviders,DatePipe,    provideAnimations(),
    // RxStompService, // required animations providers

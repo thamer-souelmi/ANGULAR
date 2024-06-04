@@ -1,32 +1,53 @@
-<div class="accordion-body"><table class="table table-bordered">
-    <thead>
-  
- 
-  
-    <tr>
-      <th scope="col">Start Date</th>
-      <th scope="col">{{leave.startdate}}</th>
-    </tr>
-    <tr>
-      <th scope="col">End date</th>
-      <th scope="col">{{leave.enddate}}</th>
-    </tr>
-    <tr>
-      
-      <th scope="col">Duration</th>
-      <th scope="col">{{leave.duration}}</th>
-    </tr>
-    <tr>
-      <th scope="col">Reason</th>
-      <th scope="col">{{leave.reason}}</th>
-    </tr>
-    <tr>
-      <th scope="col">Adresse</th>
-      <th scope="col">{{leave.approved}}</th>
-    </tr>
-
-    </thead>
-  
-  </table>
+<div class="container mt-5" *ngIf="leaveDetails; else loading">
+  <div class="card mb-4">
+    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+      <h1 class="h3 mb-0">Leave Request Details</h1>
+      <i class="mdi mdi-information-outline mdi-24px"></i>
+    </div>
+    <div class="card-body">
+      <h2 class="h4">{{ leaveDetails.firstname }} {{ leaveDetails.lastname }}</h2>
+      <div class="info">
+        <p><strong>Leave Credits:</strong> 11 </p>
+        <p><strong>Absence this Month:</strong> 2 </p>
+        <p><strong>Absence this Year:</strong> 5 </p>
+      </div>
+    </div>
   </div>
-  
+
+  <div class="card mb-4">
+    <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+      <h3 class="h5 mb-0">Training Sessions During Leave Period</h3>
+      <i class="mdi mdi-school-outline mdi-24px"></i>
+    </div>
+    <div class="card-body">
+      <ul *ngIf="leaveDetails.trainingSession.length; else noTraining">
+        <li *ngFor="let session of leaveDetails.trainingSession">
+          <strong>{{ session.title }}:</strong> {{ session.start_date | date }} to {{ session.finish_date | date }}
+        </li>
+      </ul>
+      <ng-template #noTraining><p>No training sessions during this period.</p></ng-template>
+    </div>
+  </div>
+
+  <div class="card mb-4">
+    <div class="card-header bg-warning text-dark d-flex justify-content-between align-items-center">
+      <h3 class="h5 mb-0">Events During Leave Period</h3>
+      <i class="mdi mdi-calendar-outline mdi-24px"></i>
+    </div>
+    <div class="card-body">
+      <ul *ngIf="leaveDetails.event.length; else noEvents">
+        <li *ngFor="let event of leaveDetails.event">
+          <strong>{{ event.event_name }}:</strong> {{ event.event_date | date }} to {{ event.finishevent_date | date }}
+          <p>{{ event.event_description }}</p>
+          <p><strong>Location:</strong> {{ event.place }}</p>
+        </li>
+      </ul>
+      <ng-template #noEvents><p>No events during this period.</p></ng-template>
+    </div>
+  </div>
+  <div class="button-group text-center mb-4">
+    <button class="btn btn-lg btn-primary mr-3" >Approve Leave</button>
+    <button class="btn btn-lg btn-danger">Reject Leave</button>
+  </div>
+</div>
+<ng-template #loading><p>Loading...</p></ng-template>

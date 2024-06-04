@@ -84,7 +84,7 @@ export class UserService {
     return this.http.put('/resetPassword', { email, password });
   }
   resetPasswordt(token: string, password: string): Observable<any> {
-    return this.http.put(`${this.baseUrl}/resetPassword/${token}`, { password });}
+    return this.http.put(`${this.baseUrlr}/resetPassword/${token}`, { password });}
     resetPassword5(token: string, password: string): Observable<any> {
       return this.http.put(`${this.baseUrlr}/resetPassword/${token}`, { password });
     }

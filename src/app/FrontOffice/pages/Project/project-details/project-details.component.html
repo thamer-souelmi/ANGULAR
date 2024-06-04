@@ -1,100 +1,103 @@
 <div class="modal-container  ">
-    <div class="modal-header">
-      
-      <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
-          <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0"/>
-        </svg>
+  <div class="modal-header">
+
+    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
+        <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0"/>
+      </svg>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="viewAssociatedTasks()">
+
+        <span>Task</span>
       </button>
-      <mat-menu #menu="matMenu">
-        <button mat-menu-item (click)="viewAssociatedTasks()">
-          
-          <span>Task</span>
-        </button>
-        <button mat-menu-item (click)="viewAssociatedInvoices()">
-          <span>Invoice</span>
-        </button>
-        <button mat-menu-item (click)="viewAssociatedContract()">
-          <span>Contract</span>
-        </button>
-      </mat-menu>
-      </div>
+      <button mat-menu-item (click)="viewAssociatedInvoices()">
+        <span>Invoice</span>
+      </button>
+      <button mat-menu-item (click)="viewAssociatedContract()">
+        <span>Contract</span>
+      </button>
+    </mat-menu>
+  </div>
 
-      <div class="modal-body"  style="max-height: 600px; overflow-y: auto;">
-       
-        <div class="container-fluid py-5 wow fadeInUp" data-wow-delay="0.1s">
-          <div class="container py-5">
-              <div class="row g-5">
-                  <div class="col-lg-7">
-                      <div class="section-title position-relative pb-3 mb-5">
-                          <h5 class="fw-bold  text-uppercase" style="color: #049565;">About Project</h5>
-                          <h1 class="mb-0">{{ project.projectName }}</h1>
-                      </div>
-                      <p class="mb-4"> {{ project.projectDescription}}</p>
-                      <div class="row g-0 mb-3">
-                          <div class="col-sm-6 wow zoomIn" data-wow-delay="0.2s">
-                              <h5 class="mb-3"><i class="fa fa-check  me-3" style="color: #049565;"></i>{{ project.startdateProject | date }}</h5>
-                              <h5 class="mb-3"><i class="fa fa-check  me-3"style="color: #049565;"></i>{{ project.enddateProject | date  }}</h5>
-                          </div>
-                    
-                      </div>
-                  </div>
+  <div class="modal-body"  style="max-height: 600px; overflow-y: auto;">
 
-      <p class="status" class=" badge badge-dark rounded-pill" style="background-color: #fb6d1c !important;"><b>Status:</b> {{ project.projectStatus }}</p>
-            
-      <!--<button type="button" class="btn btn-primary" (click)="uploadFiles()"> Files</button>--->
-      <br>
-        <div class="project-members m-b-15">
-          <div><strong>Team :</strong></div>
-          <ul class="team-members">
-        <ngx-avatars class="avatar-icon" 
-                     [name]="project.projectManager.firstname + ' ' + project.projectManager.lastname" 
-                     size="30" 
-                     bgColor="#049565" 
-                     [round]="true"
-                     title="{{ project.projectManager.firstname + ' ' + project.projectManager.lastname }}">
-        </ngx-avatars>
-    
+    <div class="container-fluid py-5 wow fadeInUp" data-wow-delay="0.1s">
+      <div class="container py-5">
+        <div class="row g-5">
+          <div class="col-lg-7">
+            <div class="section-title position-relative pb-3 mb-5">
+              <h5 class="fw-bold  text-uppercase" style="color: #049565;">About Project</h5>
+              <h1 class="mb-0">{{ project.projectName }}</h1>
+            </div>
+            <p class="mb-4"> {{ project.projectDescription}}</p>
+            <div class="row g-0 mb-3">
+              <div class="col-sm-6 wow zoomIn" data-wow-delay="0.2s">
+                <h5 class="mb-3"><i class="fa fa-check  me-3" style="color: #049565;"></i>{{ project.startdateProject | date }}</h5>
+                <h5 class="mb-3"><i class="fa fa-check  me-3"style="color: #049565;"></i>{{ project.enddateProject | date  }}</h5>
+              </div>
+
+            </div>
+          </div>
+          <div class="project-members m-b-15">
+            <div><strong>Team :</strong></div>
+            <ul class="team-members">
+              <ngx-avatars class="avatar-icon"
+                           [name]="project.projectManager.firstname + ' ' + project.projectManager.lastname"
+                           size="30"
+                           bgColor="#049565"
+                           [round]="true"
+                           title="{{ project.projectManager.firstname + ' ' + project.projectManager.lastname }}">
+              </ngx-avatars>
+
               <li>
-                  <a  data-bs-toggle="tooltip" aria-label="John Doe" data-bs-original-title="John Doe"><img src="assets/BackOffice/profiles/avatar-02.jpg" alt="User Image"></a>
-                  </li>
-                  <li>
-                  <a  data-bs-toggle="tooltip" aria-label="Richard Miles" data-bs-original-title="Richard Miles"><img src="assets/BackOffice/profiles/avatar-09.jpg" alt="User Image"></a>
-                  </li>
-                  <li>
-                  <a  data-bs-toggle="tooltip" aria-label="John Smith" data-bs-original-title="John Smith"><img src="assets/BackOffice/profiles/avatar-10.jpg" alt="User Image"></a>
-                  </li>
-                  <li>
-                  <a  data-bs-toggle="tooltip" aria-label="Mike Litorus" data-bs-original-title="Mike Litorus"><img src="assets/BackOffice/profiles/avatar-05.jpg" alt="User Image"></a>
-                  </li>
-          <li class="dropdown avatar-dropdown">
-          <a class="all-users dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style="cursor: pointer;" (click)="openteamModal(project)">+</a>
-        
-          </li>
-          </ul>
-          </div>
-      <!--  <div *ngIf="project.tasks && project.tasks.length > 0" class="d-flex align-items-center">
-          <ng-container *ngFor="let task of project.tasks">
-            <ngx-avatars class="avatar-icon ms-2" 
-                         [name]="task.employeeTask?.firstname + ' ' + task.employeeTask?.lastname" 
-                         size="30" 
-                         bgColor="#08718e" 
-                         [round]="true"
-                         title="{{ task.employeeTask?.firstname + ' ' + task.employeeTask?.lastname }}">
-            </ngx-avatars>
-          </ng-container>
-        </div>
-        -->
-        <div class="modal-footer d-flex justify-content-between align-items-center">
+                <a  data-bs-toggle="tooltip" aria-label="John Doe" data-bs-original-title="John Doe"><img src="assets/BackOffice/profiles/avatar-02.jpg" alt="User Image"></a>
+              </li>
+              <li>
+                <a  data-bs-toggle="tooltip" aria-label="Richard Miles" data-bs-original-title="Richard Miles"><img src="assets/BackOffice/profiles/avatar-09.jpg" alt="User Image"></a>
+              </li>
+              <li>
+                <a  data-bs-toggle="tooltip" aria-label="John Smith" data-bs-original-title="John Smith"><img src="assets/BackOffice/profiles/avatar-10.jpg" alt="User Image"></a>
+              </li>
+              <li>
+                <a  data-bs-toggle="tooltip" aria-label="Mike Litorus" data-bs-original-title="Mike Litorus"><img src="assets/BackOffice/profiles/avatar-05.jpg" alt="User Image"></a>
+              </li>
+              <li class="dropdown avatar-dropdown">
+                <a class="all-users dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style="cursor: pointer;" (click)="openteamModal(project)">+</a>
 
-        <div>
-          <button type="button" class="btn btn-primary" style="background-color: #fb6d1c; border-color: #fb6d1c;" (click)="openUpdateModal()">
-            <i class="fas fa-pencil-alt"></i>Edit
-          </button>
-          <button type="button" class="btn btn-secondary" (click)="onClose()">Cancel</button>
+              </li>
+            </ul>
+          </div>
+          <br>
+          <p class="status" class=" badge badge-dark rounded-pill" style="background-color: #fb6d1c !important;"><b>Status:</b> {{ project.projectStatus }}</p>
+
+          <!--<button type="button" class="btn btn-primary" (click)="uploadFiles()"> Files</button>--->
+          <br>
+
+          <br>
+<!--          <app-upload-files-component></app-upload-files-component>-->
+          <!--  <div *ngIf="project.tasks && project.tasks.length > 0" class="d-flex align-items-center">
+              <ng-container *ngFor="let task of project.tasks">
+                <ngx-avatars class="avatar-icon ms-2"
+                             [name]="task.employeeTask?.firstname + ' ' + task.employeeTask?.lastname"
+                             size="30"
+                             bgColor="#08718e"
+                             [round]="true"
+                             title="{{ task.employeeTask?.firstname + ' ' + task.employeeTask?.lastname }}">
+                </ngx-avatars>
+              </ng-container>
+            </div>
+            -->
+          <div class="modal-footer d-flex justify-content-between align-items-center">
+
+            <div>
+              <button type="button" class="btn btn-primary" style="background-color: #fb6d1c; border-color: #fb6d1c;" (click)="openUpdateModal()">
+                <i class="fas fa-pencil-alt"></i>Edit
+              </button>
+              <button type="button" class="btn btn-secondary" (click)="onClose()">Cancel</button>
+            </div>
+          </div>
+
+
         </div>
       </div>
-      
-    
-      </div>
-          </div>

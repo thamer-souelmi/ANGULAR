@@ -40,7 +40,7 @@
                       <img src="/assets/FrontOffice/JobOffer/img/svg_icon/1.svg" alt="">
                     </div>
                     <div class="jobs_conetent">
-                      <a [routerLink]="['/JobOffer/job-offer-details', jobOffer.jobOffer_id]"><h4>{{ jobOffer.titleJobOffer }}</h4><h6>{{ jobOffer.jobCategory }}</h6></a>
+                      <a [routerLink]="['/home/job-offer-details', jobOffer.jobOffer_id]"><h4>{{ jobOffer.titleJobOffer }}</h4><h6>{{ jobOffer.jobCategory }}</h6></a>
                       <div class="links_locat d-flex align-items-center">
                         <div class="location">
                           <p> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-hourglass-split" viewBox="0 0 16 16">
@@ -60,7 +60,7 @@
                       <button mat-raised-button
                               matTooltip="Remove from wishlist"(click)="removeFromWishlist(jobOffer)" class="btn heart_mark remove-from-wishlist btn-danger"> <i class="fa fa-trash"></i> </button>
                       <!-- Add a button/link to view the job offer details -->
-                      <a [routerLink]="['/JobOffer/job-offer-details', jobOffer.jobOffer_id]" class="boxed-btn3">Apply Now</a>
+                      <a [routerLink]="['/home/job-offer-details', jobOffer.jobOffer_id]" class="boxed-btn3">Apply Now</a>
                     </div>
                     <div class="date">
                       <p>Date line: {{ jobOffer.applicationDeadLine }}</p>

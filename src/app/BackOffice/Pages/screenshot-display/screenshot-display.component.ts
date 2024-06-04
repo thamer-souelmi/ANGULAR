@@ -159,6 +159,7 @@ export class ScreenshotDisplayComponent implements OnInit {
 
   selectedUserId: number | null = null; // Initialize as null
   screenshots: string[] = [];
+  
   attandances: Attendance[]= [];
   workedMinutesemployee: number | null= null;
   workedHoursemployee: number | null= null;

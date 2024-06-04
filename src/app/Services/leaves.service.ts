@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Leaves } from '../Models/leaves';
 import { Observable } from 'rxjs';
+import {LeaveRequestDTO} from "../Models/LeaveRequestDTO";
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +26,9 @@ export class LeavesService {
   }
   getLeaveById(leaveId: number): Observable<Leaves> {
     return this.http.get<Leaves>(`${this.baseUrl}/retrieve-leave/${leaveId}`);
+  }
+  getLeaveRequestDetails(userId: number, startDate: string, endDate: string): Observable<LeaveRequestDTO> {
+    return this.http.get<LeaveRequestDTO>(`${this.baseUrl}/leaves/${userId}/${startDate}/${endDate}`);
   }
 
   deleteLeave(leaveId: number): Observable<void> {
