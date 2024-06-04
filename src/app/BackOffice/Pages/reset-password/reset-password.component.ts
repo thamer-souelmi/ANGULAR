@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/Services/auth.service';
 import { UserService } from 'src/app/Services/user.service';
 import { ToastrService } from 'ngx-toastr';
+import { StorageService } from 'src/app/Services/storage.service';
 
 
 @Component({
@@ -19,7 +20,8 @@ export class ResetPasswordComponent  implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private authService: UserService
-    ,private toastr: ToastrService
+    ,private toastr: ToastrService,
+    private storageService : StorageService
   )  {
     const tokenParam = this.route.snapshot.paramMap.get('token');
     this.token = tokenParam ? tokenParam : ''; // Provide a default value if tokenParam is null
@@ -27,6 +29,25 @@ export class ResetPasswordComponent  implements OnInit {
   ngOnInit() {
     const tokenParam = this.route.snapshot.paramMap.get('token');
     this.token = tokenParam ? tokenParam : '';
+    if (this.storageService.isLoggedIn()) {
+      
+      // const attendanceId=this.startAttendance(); // Corrected: Removed unnecessary condition
+      // this.localStorageService.setItem('attendanceId',attendanceId);
+      const roles = this.storageService.getUser().roles;
+      let isAdmin = false;
+      for (const role of roles) {
+        if (role === "admin") {
+          isAdmin = true;
+          break;
+        }
+      }
+
+      if (isAdmin) {
+        this.router.navigate(['back/findall']);
+      } else {
+        this.router.navigate(['home']);
+      }
+    }
   }
   resetPassword() {
     this.authService.resetPasswordt(this.token, this.password).subscribe(
